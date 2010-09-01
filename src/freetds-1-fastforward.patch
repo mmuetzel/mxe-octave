@@ -153667,3 +153667,272 @@ index 1db1154..c2fe121 100644
  SOURCE=..\..\src\replacements\strlcpy.c
  # End Source File
  # Begin Source File
+
+commit 5582558982e31d1495324b72fbdfce981fd79073
+Author: freddy77 <freddy77>
+Date:   Wed Aug 18 11:27:46 2010 +0000
+
+    add missing declaration
+
+diff --git a/ChangeLog b/ChangeLog
+index 00f64f4..b1cddaf 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Wed Aug 18 13:27:30 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* include/replacements.h: add missing declaration
++
+ Tue Aug 17 15:15:57 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/tdsodbc.h win32/FreeTDS_w.def win32/Makefile.am:
+ 	* win32/msvc6/FreeTDS.dsp win32/msvc6/libTDS.dsp:
+@@ -2834,4 +2837,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3113 2010/08/17 13:16:05 freddy77 Exp $
++$Id: ChangeLog,v 1.3114 2010/08/18 11:27:46 freddy77 Exp $
+diff --git a/include/replacements.h b/include/replacements.h
+index 175e3e4..37913fe 100644
+--- a/include/replacements.h
++++ b/include/replacements.h
+@@ -20,7 +20,7 @@
+ #ifndef _replacements_h_
+ #define _replacements_h_
+ 
+-/* $Id: replacements.h,v 1.27 2010/08/05 08:58:36 freddy77 Exp $ */
++/* $Id: replacements.h,v 1.28 2010/08/18 11:27:47 freddy77 Exp $ */
+ 
+ #include <stdarg.h>
+ #include "tds_sysdep_public.h"
+@@ -119,7 +119,7 @@ char *tds_basename(char *path);
+ int gettimeofday (struct timeval *tv, void *tz);
+ int getopt(int argc, char * const argv[], const char *optstring);
+ extern char *optarg;
+-extern int optind, offset, opterr;
++extern int optind, offset, opterr, optreset;
+ #endif
+ 
+ #ifdef __cplusplus
+
+commit 44111f1b2b43c0151dd10c95a1f759ff354088fe
+Author: freddy77 <freddy77>
+Date:   Wed Aug 18 11:37:36 2010 +0000
+
+    search correct host
+
+diff --git a/ChangeLog b/ChangeLog
+index b1cddaf..7a5621d 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Wed Aug 18 13:37:35 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* misc/prepare_win32.sh: search correct host
++
+ Wed Aug 18 13:27:30 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/replacements.h: add missing declaration
+ 
+@@ -2837,4 +2840,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3114 2010/08/18 11:27:46 freddy77 Exp $
++$Id: ChangeLog,v 1.3115 2010/08/18 11:37:36 freddy77 Exp $
+diff --git a/misc/prepare_win32.sh b/misc/prepare_win32.sh
+index 595c4a9..14156c1 100755
+--- a/misc/prepare_win32.sh
++++ b/misc/prepare_win32.sh
+@@ -14,13 +14,15 @@ errore() {
+ 
+ NTWDBLIB=no
+ TYPE=win32
++HOSTS='i386-mingw32 i586-mingw32msvc'
+ ARCHIVE='tar jcvf "freetds-$PACKAGE_VERSION.$TYPE.tar.bz2" "freetds-$PACKAGE_VERSION"'
+ PACK=yes
++
+ for param
+ do
+ 	case $param in
+ 	--win64)
+-		HOST=x86_64-pc-mingw32
++		HOSTS='x86_64-w64-mingw32 x86_64-pc-mingw32'
+ 		TYPE=win64
+ 		;;
+ 	--zip)
+@@ -52,11 +54,17 @@ do
+ 	esac
+ done
+ 
+-if test "$TYPE" = "win32"; then
+-	HOST=i386-mingw32
+-	if ! $HOST-gcc --help > /dev/null 2> /dev/null; then
+-		HOST=i586-mingw32msvc
++# search valid HOST
++HOST=
++for h in $HOSTS; do
++	if $h-gcc --help > /dev/null 2> /dev/null; then
++		HOST=$h
++		break
+ 	fi
++done
++if test x$HOST = x; then
++	echo "Valid host not found in $HOSTS" 1>&2
++	exit 1
+ fi
+ 
+ PACKAGE_VERSION=
+
+commit 3f70b636c27489b53c9cdad5ded356cf03b89e52
+Author: freddy77 <freddy77>
+Date:   Wed Sep 1 08:39:38 2010 +0000
+
+    Remove warnings for MingW64
+
+diff --git a/ChangeLog b/ChangeLog
+index 7a5621d..5f1fcf6 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,8 @@
++Wed Sep  1 10:39:43 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* include/tds_sysdep_public.h.in src/odbc/unittests/common.h:
++	* src/odbc/unittests/freeclose.c win32/winlogin.c win32/winsetup.c:
++	- Remove warnings for MingW64
++
+ Wed Aug 18 13:37:35 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* misc/prepare_win32.sh: search correct host
+ 
+@@ -2840,4 +2845,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3115 2010/08/18 11:37:36 freddy77 Exp $
++$Id: ChangeLog,v 1.3116 2010/09/01 08:39:38 freddy77 Exp $
+diff --git a/include/tds_sysdep_public.h.in b/include/tds_sysdep_public.h.in
+index 7e50ac0..45ed644 100644
+--- a/include/tds_sysdep_public.h.in
++++ b/include/tds_sysdep_public.h.in
+@@ -20,7 +20,7 @@
+ #ifndef _tds_sysdep_public_h_
+ #define _tds_sysdep_public_h_
+ 
+-/* $Id: tds_sysdep_public.h.in,v 1.13 2009/02/27 10:46:24 freddy77 Exp $ */
++/* $Id: tds_sysdep_public.h.in,v 1.14 2010/09/01 08:39:38 freddy77 Exp $ */
+ 
+ #ifdef __cplusplus
+ extern "C"
+@@ -31,6 +31,7 @@ extern "C"
+ ** This is where platform-specific changes need to be made.
+ */
+ #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
++#include <winsock2.h>
+ #include <windows.h>
+ #define tds_sysdep_int16_type short	/* 16-bit int */
+ #define tds_sysdep_int32_type int	/* 32-bit int */
+diff --git a/src/odbc/unittests/common.h b/src/odbc/unittests/common.h
+index b55a3b3..aee37cb 100644
+--- a/src/odbc/unittests/common.h
++++ b/src/odbc/unittests/common.h
+@@ -1,4 +1,5 @@
+ #ifdef _WIN32
++#include <winsock2.h>
+ #include <windows.h>
+ #include <direct.h>
+ #endif
+@@ -21,7 +22,7 @@
+ #include <sql.h>
+ #include <sqlext.h>
+ 
+-static char rcsid_common_h[] = "$Id: common.h,v 1.34 2010/07/05 09:20:32 freddy77 Exp $";
++static char rcsid_common_h[] = "$Id: common.h,v 1.35 2010/09/01 08:39:38 freddy77 Exp $";
+ static void *no_unused_common_h_warn[] = { rcsid_common_h, no_unused_common_h_warn };
+ 
+ #ifndef HAVE_SQLLEN
+diff --git a/src/odbc/unittests/freeclose.c b/src/odbc/unittests/freeclose.c
+index f092f08..8f0df93 100644
+--- a/src/odbc/unittests/freeclose.c
++++ b/src/odbc/unittests/freeclose.c
+@@ -52,7 +52,7 @@
+ 
+ #include "tds.h"
+ 
+-static char software_version[] = "$Id: freeclose.c,v 1.13 2010/07/05 09:20:33 freddy77 Exp $";
++static char software_version[] = "$Id: freeclose.c,v 1.14 2010/09/01 08:39:38 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ /* this crazy test test that we do not send too much prepare ... */
+@@ -100,13 +100,15 @@ static TDS_SYS_SOCKET fake_sock;
+ #ifndef _WIN32
+ static pthread_t      fake_thread;
+ #define THREADAPI
++#define THREADRET void*
+ #else
+ static HANDLE fake_thread;
+ #define THREADAPI WINAPI
++#define THREADRET DWORD
+ #define pthread_join(th,fl) WaitForSingleObject(th,INFINITE)
+ #define alarm(n) do { ; } while(0)
+ #endif
+-static void* THREADAPI fake_thread_proc(void *arg);
++static THREADRET THREADAPI fake_thread_proc(void *arg);
+ 
+ static int
+ init_fake_server(int ip_port)
+@@ -211,7 +213,7 @@ count_insert(const char* buf, size_t len)
+ static unsigned int round_trips = 0;
+ static enum { sending, receiving } flow = sending;
+ 
+-static void *THREADAPI
++static THREADRET THREADAPI
+ fake_thread_proc(void * arg)
+ {
+ 	TDS_SYS_SOCKET s = ptr2int(arg), server_sock;
+@@ -302,7 +304,7 @@ fake_thread_proc(void * arg)
+ 	}
+ 	CLOSESOCKET(fake_sock);
+ 	CLOSESOCKET(server_sock);
+-	return NULL;
++	return (THREADRET) 0;
+ }
+ 
+ int
+diff --git a/win32/winlogin.c b/win32/winlogin.c
+index 540a48a..b67f7d7 100644
+--- a/win32/winlogin.c
++++ b/win32/winlogin.c
+@@ -49,7 +49,6 @@
+ #include <assert.h>
+ #include <ctype.h>
+ #include <assert.h>
+-#include <shlobj.h>
+ 
+ #include "resource.h"
+ 
+@@ -59,6 +58,8 @@
+ #include "tdsconvert.h"
+ #include "replacements.h"
+ 
++#include <shlobj.h>
++
+ #ifdef DMALLOC
+ #include <dmalloc.h>
+ #endif
+diff --git a/win32/winsetup.c b/win32/winsetup.c
+index ac8ec3b..6c72b5d 100644
+--- a/win32/winsetup.c
++++ b/win32/winsetup.c
+@@ -50,7 +50,6 @@
+ #include <assert.h>
+ #include <ctype.h>
+ #include <assert.h>
+-#include <olectl.h>
+ 
+ #include "resource.h"
+ 
+@@ -60,6 +59,8 @@
+ #include "tdsconvert.h"
+ #include "replacements.h"
+ 
++#include <olectl.h>
++
+ #ifdef DMALLOC
+ #include <dmalloc.h>
+ #endif
