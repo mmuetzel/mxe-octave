@@ -154125,3 +154125,273 @@ index 7cf1887..7539648 100644
  		return SUCCEED;
  	}
    
+
+commit 5debbeb03267103fd22809e8df341d1387334f52
+Author: jklowden <jklowden>
+Date:   Tue Sep 14 00:56:18 2010 +0000
+
+    fix error-handler recursion
+
+diff --git a/ChangeLog b/ChangeLog
+index aafacb7..eae08ad 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Mon Sep 13 20:53:12 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* src/dblib/dblib.c fix error-handler recursion
++	* src/apps/tsql.c format errors better
++
+ Mon Sep 13 18:32:55 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/sybdb.h src/dblib/dblib.c:
+ 	- patch from LacaK
+@@ -2857,4 +2861,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3118 2010/09/13 16:38:21 freddy77 Exp $
++$Id: ChangeLog,v 1.3119 2010/09/14 00:56:18 jklowden Exp $
+diff --git a/src/dblib/dblib.c b/src/dblib/dblib.c
+index 7539648..ce5ce4a 100644
+--- a/src/dblib/dblib.c
++++ b/src/dblib/dblib.c
+@@ -75,7 +75,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: dblib.c,v 1.367 2010/09/13 16:39:28 freddy77 Exp $");
++TDS_RCSID(var, "$Id: dblib.c,v 1.368 2010/09/14 00:56:18 jklowden Exp $");
+ 
+ static RETCODE _dbresults(DBPROCESS * dbproc);
+ static int _db_get_server_type(int bindtype);
+@@ -4841,7 +4841,9 @@ DBBOOL
+ dbdead(DBPROCESS * dbproc)
+ {
+ 	tdsdump_log(TDS_DBG_FUNC, "dbdead(%p) [%s]\n", dbproc, dbproc? IS_TDSDEAD(dbproc->tds_socket)? "dead":"alive" : "quite dead");
+-	CHECK_PARAMETER(dbproc, SYBENULL, TRUE);
++
++	if( NULL == dbproc ) 
++		return TRUE;
+ 
+ 	if (IS_TDSDEAD(dbproc->tds_socket))
+ 		return TRUE;
+@@ -4872,8 +4874,6 @@ dbdead(DBPROCESS * dbproc)
+ static int
+ default_err_handler(DBPROCESS * dbproc, int severity, int dberr, int oserr, char *dberrstr, char *oserrstr)
+ {
+-	assert( ! (dbproc == NULL && DBDEAD(dbproc)) );  /* a non-process can't be a dead process */
+-	
+ 	tdsdump_log(TDS_DBG_FUNC, "default_err_handler %p, %d, %d, %d, %p, %p", dbproc, severity, dberr, oserr, dberrstr, oserrstr);
+ 
+ 	if (DBDEAD(dbproc) && (!dbproc || !dbproc->msdblib)) {
+@@ -7873,8 +7873,7 @@ dbperror (DBPROCESS *dbproc, DBINT msgno, long errnum, ...)
+ 	const DBLIB_ERROR_MESSAGE *msg = &default_message;
+ 	
+ 	int i, rc = INT_CANCEL;
+-	char *os_msgtext = strerror(errnum), *rc_name;
+-	char db_msgtext[32] = "INT_CANCEL"; 
++	char *os_msgtext = strerror(errnum), *rc_name = "logic error";
+ 
+ 	tdsdump_log(TDS_DBG_FUNC, "dbperror(%p, %d, %ld)\n", dbproc, msgno, errnum);	/* dbproc can be NULL */
+ 
+@@ -7988,7 +7987,7 @@ dbperror (DBPROCESS *dbproc, DBINT msgno, long errnum, ...)
+ 		return rc;	/* normal case */
+ 		break;
+ 	default:
+-		sprintf(db_msgtext, "%d", rc);
++		sprintf(rc_name, "%d", rc);
+ 		tdsdump_log(TDS_DBG_SEVERE, int_invalid_text, "Invalid return code", rc, msgno);
+ 		/* fall through */
+ 	case INT_EXIT:
+@@ -7996,8 +7995,8 @@ dbperror (DBPROCESS *dbproc, DBINT msgno, long errnum, ...)
+ 			/* Microsoft behavior */
+ 			return INT_CANCEL;
+ 		}
+-		fprintf(stderr, int_exit_text, db_msgtext, msgno);
+-		tdsdump_log(TDS_DBG_SEVERE, int_exit_text, db_msgtext, msgno);
++		fprintf(stderr, int_exit_text, rc_name, msgno);
++		tdsdump_log(TDS_DBG_SEVERE, int_exit_text, rc_name, msgno);
+ 		break;
+ 	}
+ 	exit(EXIT_FAILURE);
+
+commit 6f4a4bae53f08307f2c6203baabcd6b9209fb52a
+Author: jklowden <jklowden>
+Date:   Tue Sep 14 00:56:22 2010 +0000
+
+    format errors better
+
+diff --git a/src/apps/tsql.c b/src/apps/tsql.c
+index b48640c..615edd5 100644
+--- a/src/apps/tsql.c
++++ b/src/apps/tsql.c
+@@ -87,7 +87,7 @@
+ #include "tdsconvert.h"
+ #include "replacements.h"
+ 
+-TDS_RCSID(var, "$Id: tsql.c,v 1.136 2010/07/21 20:12:18 freddy77 Exp $");
++TDS_RCSID(var, "$Id: tsql.c,v 1.137 2010/09/14 00:56:22 jklowden Exp $");
+ 
+ #define TDS_ISSPACE(c) isspace((unsigned char) (c))
+ 
+@@ -117,6 +117,7 @@ static void tsql_print_usage(const char *progname);
+ static int get_opt_flags(char *s, int *opt_flags);
+ static void populate_login(TDSLOGIN * login, int argc, char **argv);
+ static int tsql_handle_message(const TDSCONTEXT * context, TDSSOCKET * tds, TDSMESSAGE * msg);
++static int tsql_handle_error  (const TDSCONTEXT * context, TDSSOCKET * tds, TDSMESSAGE * msg);
+ static void slurp_input_file(char *fname, char **mybuf, size_t *bufsz, size_t *buflen, int *line);
+ 
+ static char *
+@@ -602,10 +603,25 @@ tsql_handle_message(const TDSCONTEXT * context, TDSSOCKET * tds, TDSMESSAGE * ms
+ 
+ 	if (msg->msgno != 5701 && msg->msgno != 5703
+ 	    && msg->msgno != 20018) {
+-		fprintf(stderr, "Msg %d, Level %d, State %d, Server %s, Line %d\n%s\n",
+-			msg->msgno, msg->severity, msg->state, msg->server, msg->line_number, msg->message);
++		fprintf(stderr, "Msg %d (severity %d, state %d) from %s", 
++			msg->msgno, msg->severity, msg->state, msg->server);
++		if (msg->proc_name && strlen(msg->proc_name))
++			fprintf(stderr, ", Procedure %s", msg->proc_name);
++		if (msg->line_number > 0)
++			fprintf(stderr, " Line %d", msg->line_number);
++		fprintf(stderr, ":\n\t\"%s\"\n", msg->message);
+ 	}
+ 
++	return 0;
++}
++
++static int	/* error from library, not message from server */
++tsql_handle_error(const TDSCONTEXT * context, TDSSOCKET * tds, TDSMESSAGE * msg)
++{
++	fprintf(stderr, "Error %d (severity %d):\n\t%s\n", msg->msgno, msg->severity, msg->message);
++	if (0 != msg->oserr) {
++		fprintf(stderr, "\tOS error %d, \"%s\"\n", msg->oserr, strerror(msg->oserr));
++	}
+ 	return TDS_INT_CANCEL;
+ }
+ 
+@@ -687,7 +703,7 @@ main(int argc, char **argv)
+ 	}
+ 
+ 	context->msg_handler = tsql_handle_message;
+-	context->err_handler = tsql_handle_message;
++	context->err_handler = tsql_handle_error;
+ 
+ 	/* process all the command line args into the login structure */
+ 	populate_login(login, argc, argv);
+
+commit 4b181c95b9e95d37f0d7ecdaad99fb288d985e72
+Author: jklowden <jklowden>
+Date:   Tue Sep 14 02:12:37 2010 +0000
+
+    use printf, not echo -n
+
+diff --git a/ChangeLog b/ChangeLog
+index eae08ad..74f4b0a 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Mon Sep 13 22:09:46 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* configure.ac use printf, not echo -n
++	* include/sybdb.h src/dblib/dblib.c mark dbpoll as unimplemented 
++
+ Mon Sep 13 20:53:12 EDT 2010	JK Lowden <jklowden@freetds.org>
+ 	* src/dblib/dblib.c fix error-handler recursion
+ 	* src/apps/tsql.c format errors better
+@@ -2861,4 +2865,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3119 2010/09/14 00:56:18 jklowden Exp $
++$Id: ChangeLog,v 1.3120 2010/09/14 02:12:37 jklowden Exp $
+diff --git a/configure.ac b/configure.ac
+index eae3aa0..2f2f923 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1,7 +1,7 @@
+ dnl Process this file with autoconf to produce a configure script.
+ 
+ dnl ------------------------------------------------------------
+-dnl $Id: configure.ac,v 1.55 2010/08/10 07:40:09 freddy77 Exp $
++dnl $Id: configure.ac,v 1.56 2010/09/14 02:12:37 jklowden Exp $
+ dnl If you're trying to create a new configure test, try
+ dnl
+ dnl 	http://autogen.sourceforge.net/conftest.html
+@@ -12,10 +12,10 @@ dnl ------------------------------------------------------------
+ # ------------------------------------------------------------
+ # Initialization
+ # ------------------------------------------------------------
+-AC_INIT(FreeTDS, 0.83.dev.esyscmd(echo -n $(date +"%Y%m%d")))
++AC_INIT(FreeTDS, 0.83.dev.esyscmd(printf $(date +"%Y%m%d")))
+ AC_CONFIG_SRCDIR(src/dblib/dblib.c)
+ AC_PREREQ(2.53)
+-AC_REVISION($Revision: 1.55 $)
++AC_REVISION($Revision: 1.56 $)
+ 
+ AM_INIT_AUTOMAKE([dist-bzip2])
+ AC_CONFIG_HEADERS(include/config.h)
+
+commit 28c5fda12af73a7b6f7e801e455985b1da66972c
+Author: jklowden <jklowden>
+Date:   Tue Sep 14 02:12:47 2010 +0000
+
+    mark dbpoll as unimplemented
+
+diff --git a/include/sybdb.h b/include/sybdb.h
+index 96aa97e..03805dc 100644
+--- a/include/sybdb.h
++++ b/include/sybdb.h
+@@ -41,7 +41,7 @@ extern "C"
+ #define TDS_STATIC_CAST(type, a) ((type)(a))
+ #endif
+ 
+-static const char rcsid_sybdb_h[] = "$Id: sybdb.h,v 1.94 2010/09/13 16:39:28 freddy77 Exp $";
++static const char rcsid_sybdb_h[] = "$Id: sybdb.h,v 1.95 2010/09/14 02:12:47 jklowden Exp $";
+ static const void *const no_unused_sybdb_h_warn[] = { rcsid_sybdb_h, no_unused_sybdb_h_warn };
+ 
+ #ifdef FALSE
+@@ -530,6 +530,7 @@ RETCODE dbnpdefine(DBPROCESS * dbprocess, DBCHAR * procedure_name, DBSMALLINT na
+ 
+ int DBNUMORDERS(DBPROCESS * dbprocess);
+ 
++RETCODE dbpoll(DBPROCESS * dbproc, long milliseconds, DBPROCESS ** ready_dbproc, int *return_reason);
+ int dbordercol(DBPROCESS * dbprocess, int order);
+ 
+ RETCODE dbregdrop(DBPROCESS * dbprocess, DBCHAR * procnm, DBSMALLINT namelen);
+@@ -725,7 +726,6 @@ DBPROCESS *dbopen(LOGINREC * login, const char *server);
+ #define PHP_SYBASE_DBOPEN dbopen
+ #endif
+ 
+-RETCODE dbpoll(DBPROCESS * dbproc, long milliseconds, DBPROCESS ** ready_dbproc, int *return_reason);
+ void dbprhead(DBPROCESS * dbproc);
+ RETCODE dbprrow(DBPROCESS * dbproc);
+ const char *dbprtype(int token);
+diff --git a/src/dblib/dblib.c b/src/dblib/dblib.c
+index ce5ce4a..284efcf 100644
+--- a/src/dblib/dblib.c
++++ b/src/dblib/dblib.c
+@@ -75,7 +75,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: dblib.c,v 1.368 2010/09/14 00:56:18 jklowden Exp $");
++TDS_RCSID(var, "$Id: dblib.c,v 1.369 2010/09/14 02:12:47 jklowden Exp $");
+ 
+ static RETCODE _dbresults(DBPROCESS * dbproc);
+ static int _db_get_server_type(int bindtype);
+@@ -6945,6 +6945,7 @@ dbaltlen(DBPROCESS * dbproc, int computeid, int column)
+  * \sa  DBIORDESC(), DBRBUF(), dbresults(), dbreghandle(), dbsqlok(). 
+  * \todo Unimplemented.
+  */
++#if defined(DBLIB_UNIMPLEMENTED)
+ RETCODE
+ dbpoll(DBPROCESS * dbproc, long milliseconds, DBPROCESS ** ready_dbproc, int *return_reason)
+ {
+@@ -6956,7 +6957,7 @@ dbpoll(DBPROCESS * dbproc, long milliseconds, DBPROCESS ** ready_dbproc, int *re
+ 	tdsdump_log(TDS_DBG_FUNC, "UNIMPLEMENTED dbpoll()\n");
+ 	return SUCCEED;
+ }
+-
++#endif
+ 
+ /** \internal
+  * \ingroup dblib_internal
