@@ -154395,3 +154395,186 @@ index ce5ce4a..284efcf 100644
  
  /** \internal
   * \ingroup dblib_internal
+
+commit 68ec88b9805104ea415af090f604c0a27b28c6bc
+Author: jklowden <jklowden>
+Date:   Tue Sep 14 14:40:42 2010 +0000
+
+    marked dbiscount OK
+
+diff --git a/ChangeLog b/ChangeLog
+index 74f4b0a..d3a1069 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Sep 14 10:39:31 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* doc/api_status.txt marked dbiscount OK
++
+ Mon Sep 13 22:09:46 EDT 2010	JK Lowden <jklowden@freetds.org>
+ 	* configure.ac use printf, not echo -n
+ 	* include/sybdb.h src/dblib/dblib.c mark dbpoll as unimplemented 
+@@ -2865,4 +2868,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3120 2010/09/14 02:12:37 jklowden Exp $
++$Id: ChangeLog,v 1.3121 2010/09/14 14:40:42 jklowden Exp $
+diff --git a/doc/api_status.txt b/doc/api_status.txt
+index 395c278..f3584dd 100644
+--- a/doc/api_status.txt
++++ b/doc/api_status.txt
+@@ -1,7 +1,7 @@
+ #!/usr/pkg/bin/perl
+ # API status document
+ #
+-# $Id: api_status.txt,v 1.63 2009/06/04 05:39:56 freddy77 Exp $s
++# $Id: api_status.txt,v 1.64 2010/09/14 14:40:43 jklowden Exp $s
+ #
+ # This tab-delimited file is a database of the "readiness" of the various
+ # APIs.  Please feel free to modify it if you notice something is missing or 
+@@ -329,7 +329,7 @@ dblib	core     	dbgettime			DBGETTIME	OK
+ dblib	core     	dbgetuserdata			(same)		OK
+ dblib	core     	dbinit				(same)		OK
+ dblib	core     	dbisavail			DBISAVAIL	OK
+-dblib	core     	dbiscount			n/a		never
++dblib	core     	dbiscount			n/a		OK
+ dblib	core     	dbisopt				(same)		partial
+ dblib	core     	dblastrow			DBLASTROW	OK
+ dblib	core     	dblogin				(same)		OK
+
+commit 45da78ef80deb9344a244bd66362c3a719f0b36a
+Author: jklowden <jklowden>
+Date:   Wed Sep 15 03:55:44 2010 +0000
+
+    add VARYBINBIND and BINARYBIND testing (seem broken)
+
+diff --git a/ChangeLog b/ChangeLog
+index d3a1069..3f81e90 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,8 @@
++Tue Sep 14 23:49:49 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* src/dblib/dblib.c
++	* src/dblib/unittests/t0007.c src/dblib/unittests/t0007.sql
++	- add VARYBINBIND and BINARYBIND testing (seem broken)
++
+ Tue Sep 14 10:39:31 EDT 2010	JK Lowden <jklowden@freetds.org>
+ 	* doc/api_status.txt marked dbiscount OK
+ 
+@@ -2868,4 +2873,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3121 2010/09/14 14:40:42 jklowden Exp $
++$Id: ChangeLog,v 1.3122 2010/09/15 03:55:44 jklowden Exp $
+diff --git a/src/dblib/dblib.c b/src/dblib/dblib.c
+index 284efcf..52fe917 100644
+--- a/src/dblib/dblib.c
++++ b/src/dblib/dblib.c
+@@ -75,7 +75,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: dblib.c,v 1.369 2010/09/14 02:12:47 jklowden Exp $");
++TDS_RCSID(var, "$Id: dblib.c,v 1.370 2010/09/15 03:55:44 jklowden Exp $");
+ 
+ static RETCODE _dbresults(DBPROCESS * dbproc);
+ static int _db_get_server_type(int bindtype);
+@@ -2116,6 +2116,7 @@ _db_get_server_type(int bindtype)
+ 		return SYBMONEY4;
+ 		break;
+ 	case BINARYBIND:
++	case VARYBINBIND:
+ 		return SYBBINARY;
+ 		break;
+ 	case VARYCHARBIND:
+diff --git a/src/dblib/unittests/t0007.c b/src/dblib/unittests/t0007.c
+index 444486c..e2cdb07 100644
+--- a/src/dblib/unittests/t0007.c
++++ b/src/dblib/unittests/t0007.c
+@@ -5,7 +5,7 @@
+ 
+ #include "common.h"
+ 
+-static char software_version[] = "$Id: t0007.c,v 1.20 2009/02/27 15:52:48 freddy77 Exp $";
++static char software_version[] = "$Id: t0007.c,v 1.21 2010/09/15 03:55:44 jklowden Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ static void
+@@ -52,7 +52,7 @@ start_query(DBPROCESS * dbproc)
+ 
+ 	for (i = 1; i <= dbnumcols(dbproc); i++) {
+ 		add_bread_crumb();
+-		printf("col %d is %s\n", i, dbcolname(dbproc, i));
++		printf("col %d is named \"%s\"\n", i, dbcolname(dbproc, i));
+ 		add_bread_crumb();
+ 	}
+ 	return 1;
+@@ -118,7 +118,7 @@ main(int argc, char **argv)
+ 	add_bread_crumb();
+ 
+ 	for (i = 1; i <= 2; i++) {
+-	char expected[1024];
++		char expected[1024];
+ 
+ 		sprintf(expected, "row %07d", i);
+ 
+@@ -160,6 +160,45 @@ main(int argc, char **argv)
+ 	}
+ 
+ 	add_bread_crumb();
++	dbcancel(dbproc);
++	
++	/* 
++	 * Test Binary binding
++	 */
++	if (!start_query(dbproc)) {
++		fprintf(stderr, "%s:%d: start_query failed\n", __FILE__, __LINE__);
++		failed = 1;
++	}
++
++ 	dbbind(dbproc, 1, VARYBINBIND, sizeof(testint), (BYTE *) &testint);
++	dbbind(dbproc, 2, BINARYBIND, sizeof(teststr), (BYTE *) teststr);
++
++	for (i = 1; i <= 2; i++) {
++		char expected[1024];
++
++		sprintf(expected, "row %07d", i);
++
++		testint = -1;
++		strcpy(teststr, "bogus");
++
++		if (REG_ROW != dbnextrow(dbproc)) {
++			fprintf(stderr, "Failed.  Expected a row\n");
++			abort();
++		}
++		if (testint != i) {
++			fprintf(stderr, "Failed, line %d.  Expected i to be %d, was %d\n", __LINE__, i, (int) testint);
++			abort();
++		}
++		if (0 != strncmp(teststr, expected, strlen(expected))) {
++			fprintf(stdout, "Failed, line %d.  Expected s to be |%s|, was |%s|\n", __LINE__, expected, teststr);
++			abort();
++		}
++		printf("Read a row of data -> %d %s\n", (int) testint, teststr);
++	}
++
++
++
++	add_bread_crumb();
+ 	dbexit();
+ 	add_bread_crumb();
+ 
+diff --git a/src/dblib/unittests/t0007.sql b/src/dblib/unittests/t0007.sql
+index 8101406..d78d390 100644
+--- a/src/dblib/unittests/t0007.sql
++++ b/src/dblib/unittests/t0007.sql
+@@ -25,3 +25,8 @@ go
+  */
+ select * from #dblib0007 where i>=5 order by i
+ go
++/*
++ * Third select for binary bindings
++ */
++select * from #dblib0007 where i<=5 order by i
++go
