@@ -154578,3 +154578,174 @@ index 8101406..d78d390 100644
 + */
 +select * from #dblib0007 where i<=5 order by i
 +go
+
+commit 2848cf2a543ab7355dcd416eaf233d1889f62b3e
+Author: freddy77 <freddy77>
+Date:   Wed Sep 15 09:27:37 2010 +0000
+
+    small note
+
+diff --git a/ChangeLog b/ChangeLog
+index 3f81e90..057e223 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Wed Sep 15 11:27:16 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* TODO: small note
++
+ Tue Sep 14 23:49:49 EDT 2010	JK Lowden <jklowden@freetds.org>
+ 	* src/dblib/dblib.c
+ 	* src/dblib/unittests/t0007.c src/dblib/unittests/t0007.sql
+@@ -2873,4 +2876,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3122 2010/09/15 03:55:44 jklowden Exp $
++$Id: ChangeLog,v 1.3123 2010/09/15 09:27:37 freddy77 Exp $
+diff --git a/TODO b/TODO
+index ae78851..afb68c9 100644
+--- a/TODO
++++ b/TODO
+@@ -8,7 +8,7 @@ anyone else can post a patch to SourceForge.
+ In this way we can communicate with each
+ other about the project's priorities and needs.  
+ 
+-To Do List	$Id: TODO,v 1.175 2010/07/23 13:07:56 freddy77 Exp $
++To Do List	$Id: TODO,v 1.176 2010/09/15 09:27:37 freddy77 Exp $
+ ------------
+ 
+ Bug? ML 2007-05-30 "dbsqlexec() never returns" 
+@@ -115,6 +115,7 @@ For future versions (in priority order within library):
+ . SQLNativeSql and fill SQLGetInfo according (mssql7+ handle odbc escapes 
+   directly)
+ . SQLDescribeParam (Sybase seems to require it)
++  A 100% success for DBD::ODBC require this
+ . change ODBC_RETURN to return errs.lastrc (not to set) and use errs.lastrc
+   to store error, cache some errors (truncated output)
+   optimize ODBC_RETURN (remove useless)
+
+commit 182da71dda78b437059d058ef805617d8f1a5f76
+Author: freddy77 <freddy77>
+Date:   Thu Sep 16 07:37:23 2010 +0000
+
+    add delegate option for Kerberos (patch from Peter C. Norton)
+
+diff --git a/ChangeLog b/ChangeLog
+index 057e223..cae3676 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Thu Sep 16 09:36:57 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* include/tds.h src/tds/config.c src/tds/gssapi.c:
++	- add delegate option for Kerberos (patch from Peter C. Norton)
++
+ Wed Sep 15 11:27:16 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* TODO: small note
+ 
+@@ -2876,4 +2880,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3123 2010/09/15 09:27:37 freddy77 Exp $
++$Id: ChangeLog,v 1.3124 2010/09/16 07:37:23 freddy77 Exp $
+diff --git a/include/tds.h b/include/tds.h
+index 577b732..cd929b9 100644
+--- a/include/tds.h
++++ b/include/tds.h
+@@ -21,7 +21,7 @@
+ #ifndef _tds_h_
+ #define _tds_h_
+ 
+-/* $Id: tds.h,v 1.342 2010/07/30 07:29:48 freddy77 Exp $ */
++/* $Id: tds.h,v 1.343 2010/09/16 07:37:23 freddy77 Exp $ */
+ 
+ #include <stdarg.h>
+ #include <stdio.h>
+@@ -808,6 +808,8 @@ typedef enum tds_encryption_level {
+ #define TDS_STR_ENCRYPTION_OFF	 "off"
+ #define TDS_STR_ENCRYPTION_REQUEST "request"
+ #define TDS_STR_ENCRYPTION_REQUIRE "require"
++/* Defines to enable optional GSSAPI delegation */
++#define TDS_GSSAPI_DELEGATION "enable gssapi delegation"
+ 
+ 
+ /* TODO do a better check for alignment than this */
+@@ -877,6 +879,7 @@ typedef struct tds_connection
+ 	unsigned int emul_little_endian:1;
+ 	unsigned int bulk_copy:1;
+ 	unsigned int suppress_language:1;
++	unsigned int gssapi_use_delegation:1;
+ } TDSCONNECTION;
+ 
+ typedef struct tds_locale
+diff --git a/src/tds/config.c b/src/tds/config.c
+index 4b81e64..357f958 100644
+--- a/src/tds/config.c
++++ b/src/tds/config.c
+@@ -80,7 +80,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: config.c,v 1.159 2010/02/08 09:48:09 freddy77 Exp $");
++TDS_RCSID(var, "$Id: config.c,v 1.160 2010/09/16 07:37:23 freddy77 Exp $");
+ 
+ static void tds_config_login(TDSCONNECTION * connection, TDSLOGIN * login);
+ static void tds_config_env_tdsdump(TDSCONNECTION * connection);
+@@ -564,6 +564,9 @@ tds_parse_conf_section(const char *option, const char *value, void *param)
+ 			connection->block_size = val;
+ 	} else if (!strcmp(option, TDS_STR_SWAPDT)) {
+ 		connection->broken_dates = tds_config_boolean(value);
++	} else if (!strcmp(option, TDS_GSSAPI_DELEGATION)) {
++		/* gssapi flag addition */
++		connection->gssapi_use_delegation = tds_config_boolean(value);
+ 	} else if (!strcmp(option, TDS_STR_DUMPFILE)) {
+ 		tds_dstr_copy(&connection->dump_file, value);
+ 	} else if (!strcmp(option, TDS_STR_DEBUGFLAGS)) {
+diff --git a/src/tds/gssapi.c b/src/tds/gssapi.c
+index 7c3b12d..c6f33be 100644
+--- a/src/tds/gssapi.c
++++ b/src/tds/gssapi.c
+@@ -57,7 +57,6 @@
+ 
+ #ifdef ENABLE_KRB5
+ 
+-#include <gssapi/gssapi_generic.h>
+ #include <gssapi/gssapi_krb5.h>
+ 
+ #include "tds.h"
+@@ -68,7 +67,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: gssapi.c,v 1.10 2007/11/13 09:14:57 freddy77 Exp $");
++TDS_RCSID(var, "$Id: gssapi.c,v 1.11 2010/09/16 07:37:23 freddy77 Exp $");
+ 
+ /**
+  * \ingroup libtds
+@@ -146,6 +145,7 @@ tds_gss_get_auth(TDSSOCKET * tds)
+ 	const char *server_name;
+ 	/* Storage for reentrant getaddrby* calls */
+ 	char buffer[4096];
++	int gssapi_flags;
+ 
+ 	struct tds_gss_auth *auth = (struct tds_gss_auth *) calloc(1, sizeof(struct tds_gss_auth));
+ 
+@@ -205,9 +205,17 @@ tds_gss_get_auth(TDSSOCKET * tds)
+ 	token_ptr = GSS_C_NO_BUFFER;
+ 	auth->gss_context = GSS_C_NO_CONTEXT;
+ 
++	/* We may ask for delegation based on config in the tds.conf and other conf files */
++	/* We always want to ask for the mutual, replay, and integ flags */
++	gssapi_flags = GSS_C_MUTUAL_FLAG | GSS_C_REPLAY_FLAG | GSS_C_INTEG_FLAG;
++	if (tds->connection->gssapi_use_delegation)
++		gssapi_flags |= GSS_C_DELEG_FLAG;
++
+ 	maj_stat = gss_init_sec_context(&min_stat, GSS_C_NO_CREDENTIAL, &auth->gss_context, auth->target_name, 
+ 					/* GSS_C_DELEG_FLAG GSS_C_MUTUAL_FLAG ?? */
+-					GSS_C_NULL_OID, GSS_C_REPLAY_FLAG, 0, NULL,	/* no channel bindings */
++					GSS_C_NULL_OID,
++					gssapi_flags,
++					0, NULL,	/* no channel bindings */
+ 					token_ptr, NULL,	/* ignore mech type */
+ 					&send_tok, &ret_flags, NULL);	/* ignore time_rec */
+ 
