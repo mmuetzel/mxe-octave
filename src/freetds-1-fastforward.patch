@@ -155308,3 +155308,81 @@ index 9b24677..bc3b903 100644
  #define TDS_MUTEX_FREE(mtx) do { if ((mtx)->done) { DeleteCriticalSection(&(mtx)->crit); (mtx)->done = 0; } } while(0)
  
  #define TDS_HAVE_MUTEX 1
+
+commit e410d326f7236df5a69dcc99a4c7897859ed09a1
+Author: freddy77 <freddy77>
+Date:   Thu Sep 16 12:30:43 2010 +0000
+
+    update inline documentation for dbiscount (patch from LacaK)
+
+diff --git a/ChangeLog b/ChangeLog
+index 512adb0..39a80d9 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Thu Sep 16 14:30:15 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/dblib/dblib.c:
++	- update inline documentation for dbiscount (patch from LacaK)
++
+ Thu Sep 16 13:11:46 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/tdsthread.h: init mutex fixes
+ 
+@@ -2892,4 +2896,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3127 2010/09/16 11:12:08 freddy77 Exp $
++$Id: ChangeLog,v 1.3128 2010/09/16 12:30:43 freddy77 Exp $
+diff --git a/src/dblib/dblib.c b/src/dblib/dblib.c
+index 52fe917..7ae8d3b 100644
+--- a/src/dblib/dblib.c
++++ b/src/dblib/dblib.c
+@@ -75,7 +75,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: dblib.c,v 1.370 2010/09/15 03:55:44 jklowden Exp $");
++TDS_RCSID(var, "$Id: dblib.c,v 1.371 2010/09/16 12:30:43 freddy77 Exp $");
+ 
+ static RETCODE _dbresults(DBPROCESS * dbproc);
+ static int _db_get_server_type(int bindtype);
+@@ -2699,16 +2699,13 @@ dbanullbind(DBPROCESS * dbproc, int computeid, int column, DBINT * indicator)
+ 	return SUCCEED;
+ }
+ 
+-/** \internal
+- * \ingroup dblib_internal
+- * \brief Get count of rows processed
+- * 
++/**
++ * \ingroup dblib_core
++ * \brief Indicates whether or not the count returned by dbcount is real (Microsoft-compatibility feature).
+  * 
+  * \param dbproc contains all information needed by db-lib to manage communications with the server.
+- * \returns 
+- * 	- for insert/update/delete, count of rows affected.
+- * 	- for select, count of rows returned, after all rows have been fetched.  
+- * \sa DBCOUNT(), dbnextrow(), dbresults().
++ * \returns TRUE if the count returned by dbcount is real or FALSE if the count returned by dbcount is not real.
++ * \sa DBCOUNT(), dbcount().
+  */
+ BOOL
+ dbiscount(DBPROCESS * dbproc)
+@@ -2719,6 +2716,17 @@ dbiscount(DBPROCESS * dbproc)
+ 	return dbproc->tds_socket && dbproc->tds_socket->rows_affected != TDS_NO_COUNT;
+ }
+ 
++/**
++ * \ingroup dblib_core
++ * \brief Get count of rows processed
++ *
++ *
++ * \param dbproc contains all information needed by db-lib to manage communications with the server.
++ * \returns
++ * 	- for insert/update/delete, count of rows affected.
++ * 	- for select, count of rows returned, after all rows have been fetched.
++ * \sa DBCOUNT(), dbnextrow(), dbresults().
++ */
+ DBINT
+ dbcount(DBPROCESS * dbproc)
+ {
