@@ -155386,3 +155386,96 @@ index 52fe917..7ae8d3b 100644
  DBINT
  dbcount(DBPROCESS * dbproc)
  {
+
+commit 24d5a7fef7f96eff373a9cf0d1bf63b421411241
+Author: jklowden <jklowden>
+Date:   Thu Sep 16 20:33:28 2010 +0000
+
+    add -H hostname to override hostname sent to server
+
+diff --git a/ChangeLog b/ChangeLog
+index 39a80d9..5086e39 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Thu Sep 16 16:32:02 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* doc/bsqldb.txt src/apps/bsqldb.c
++	- add -H hostname to override hostname sent to server
++
+ Thu Sep 16 14:30:15 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/dblib/dblib.c:
+ 	- update inline documentation for dbiscount (patch from LacaK)
+@@ -2896,4 +2900,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3128 2010/09/16 12:30:43 freddy77 Exp $
++$Id: ChangeLog,v 1.3129 2010/09/16 20:33:28 jklowden Exp $
+diff --git a/doc/bsqldb.txt b/doc/bsqldb.txt
+index 7211836..bfac1d0 100644
+--- a/doc/bsqldb.txt
++++ b/doc/bsqldb.txt
+@@ -38,6 +38,8 @@ OPTIONS
+ 
+   -h  Print column headers with the data to the same file. 
+   
++  -H  Override hostname sent to server. 
++  
+   -q  Do not print column metadata, return status, or rowcount. Overrides -h. 
+ 
+   -v  Verbose mode, for more information about the db-lib interaction.
+diff --git a/src/apps/bsqldb.c b/src/apps/bsqldb.c
+index e9ab043..833bc1a 100644
+--- a/src/apps/bsqldb.c
++++ b/src/apps/bsqldb.c
+@@ -53,7 +53,7 @@
+ #include <sybdb.h>
+ #include "replacements.h"
+ 
+-static char software_version[] = "$Id: bsqldb.c,v 1.45 2010/07/22 09:55:37 freddy77 Exp $";
++static char software_version[] = "$Id: bsqldb.c,v 1.46 2010/09/16 20:33:28 jklowden Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ #ifdef _WIN32
+@@ -819,13 +819,7 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 	
+ 	DBSETLAPP(login, options->appname);
+ 	
+-	if (-1 == gethostname(options->hostname, sizeof(options->hostname))) {
+-		perror("unable to get hostname");
+-	} else {
+-		DBSETLHOST(login, options->hostname);
+-	}
+-
+-	while ((ch = getopt(argc, argv, "U:P:S:dD:i:o:e:t:hqv")) != -1) {
++	while ((ch = getopt(argc, argv, "U:P:S:dD:i:o:e:t:H:hqv")) != -1) {
+ 		switch (ch) {
+ 		case 'U':
+ 			DBSETLUSER(login, optarg);
+@@ -858,6 +852,9 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 		case 'h':
+ 			options->headers = stdout;
+ 			break;
++		case 'H':
++			strcpy(options->hostname, optarg);
++			break;
+ 		case 'q':
+ 			options->fquiet = 1;
+ 			break;
+@@ -871,6 +868,16 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 		}
+ 	}
+ 
++	if( !options->hostname[0] ) {
++		if (-1 == gethostname(options->hostname, sizeof(options->hostname))) {
++			perror("unable to get hostname");
++		}
++	}
++
++	if( options->hostname[0] ) {
++		DBSETLHOST(login, options->hostname);
++	}
++
+ 	if (!got_password) {
+ 		char password[128];
+ 
