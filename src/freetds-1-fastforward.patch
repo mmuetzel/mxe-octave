@@ -155479,3 +155479,188 @@ index e9ab043..833bc1a 100644
  	if (!got_password) {
  		char password[128];
  
+
+commit ed1e159c72ccefe7fccc239717357b4ada038fb8
+Author: freddy77 <freddy77>
+Date:   Wed Sep 22 07:03:59 2010 +0000
+
+    fix some portability issues with Solaris/SPARC (thanks to Peter C. Norton)
+
+diff --git a/ChangeLog b/ChangeLog
+index 5086e39..fecd018 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,9 @@
++Wed Sep 22 09:03:37 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/ctlib/unittests/cancel.c src/dblib/unittests/done_handling.c:
++	* src/odbc/unittests/array_out.c:
++	- fix some portability issues with Solaris/SPARC (thanks to Peter
++	  C. Norton)
++
+ Thu Sep 16 16:32:02 EDT 2010	JK Lowden <jklowden@freetds.org>
+ 	* doc/bsqldb.txt src/apps/bsqldb.c
+ 	- add -H hostname to override hostname sent to server
+@@ -2900,4 +2906,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3129 2010/09/16 20:33:28 jklowden Exp $
++$Id: ChangeLog,v 1.3130 2010/09/22 07:03:59 freddy77 Exp $
+diff --git a/src/ctlib/unittests/cancel.c b/src/ctlib/unittests/cancel.c
+index 74e4da9..a0510cb 100644
+--- a/src/ctlib/unittests/cancel.c
++++ b/src/ctlib/unittests/cancel.c
+@@ -10,7 +10,7 @@
+ #include <ctpublic.h>
+ #include "common.h"
+ 
+-static char software_version[] = "$Id: cancel.c,v 1.12 2008/01/20 14:23:59 freddy77 Exp $";
++static char software_version[] = "$Id: cancel.c,v 1.13 2010/09/22 07:03:59 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ #if defined(HAVE_ALARM) && defined(HAVE_SETITIMER)
+@@ -51,6 +51,8 @@ main(int argc, char **argv)
+ 	struct itimerval timer;
+ 	char query[1024];
+ 
++	unsigned clock = 200000;
++
+ 	fprintf(stdout, "%s: Check asynchronous called ct_cancel()\n", __FILE__);
+ 	if (verbose) {
+ 		fprintf(stdout, "Trying login\n");
+@@ -77,49 +79,56 @@ main(int argc, char **argv)
+ 	/* Set SIGALRM signal handler */
+ 	signal(SIGALRM, catch_alrm);
+ 
+-	/* TODO better to use alarm AFTER ct_send ?? */
+-	/* Set timer */
+-	timer.it_interval.tv_sec = 0;
+-	timer.it_interval.tv_usec = 100000;
+-	timer.it_value.tv_sec = 0;
+-	timer.it_value.tv_usec = 100000;
+-	if (0 != setitimer(ITIMER_REAL, &timer, NULL)) {
+-		fprintf(stderr, "Could not set realtime timer.\n");
+-		return 1;
+-	}
++	for (;;) {
++		/* TODO better to use alarm AFTER ct_send ?? */
++		/* Set timer */
++		timer.it_interval.tv_sec = 0;
++		timer.it_interval.tv_usec = clock;
++		timer.it_value.tv_sec = 0;
++		timer.it_value.tv_usec = clock;
++		if (0 != setitimer(ITIMER_REAL, &timer, NULL)) {
++			fprintf(stderr, "Could not set realtime timer.\n");
++			return 1;
++		}
+ 
+-	/* Issue a command returning many rows */
+-	ret = ct_command(cmd, CS_LANG_CMD, "SELECT * FROM #t0010 t1, #t0010 t2, #t0010 t3, #t0010 t4", CS_NULLTERM, CS_UNUSED);
+-	if (ret != CS_SUCCEED) {
+-		fprintf(stderr, "ct_command() failed.\n");
+-		return 1;
+-	}
++		/* Issue a command returning many rows */
++		ret = ct_command(cmd, CS_LANG_CMD, "SELECT * FROM #t0010 t1, #t0010 t2, #t0010 t3, #t0010 t4", CS_NULLTERM, CS_UNUSED);
++		if (ret != CS_SUCCEED) {
++			fprintf(stderr, "ct_command() failed.\n");
++			return 1;
++		}
+ 
+-	ret = ct_send(cmd);
+-	if (ret != CS_SUCCEED) {
+-		fprintf(stderr, "first ct_send() failed.\n");
+-		return 1;
+-	}
++		ret = ct_send(cmd);
++		if (ret != CS_SUCCEED) {
++			fprintf(stderr, "first ct_send() failed.\n");
++			return 1;
++		}
+ 
+-	/* Save a global reference for the interrupt handler */
+-	g_cmd = cmd;
++		/* Save a global reference for the interrupt handler */
++		g_cmd = cmd;
+ 
+-	while ((ret = ct_results(cmd, &result_type)) == CS_SUCCEED) {
+-		printf("More results?...\n");
+-		if (result_type == CS_STATUS_RESULT)
+-			continue;
++		while ((ret = ct_results(cmd, &result_type)) == CS_SUCCEED) {
++			printf("More results?...\n");
++			if (result_type == CS_STATUS_RESULT)
++				continue;
+ 
+-		switch ((int) result_type) {
+-		case CS_ROW_RESULT:
+-			printf("do_fetch() returned: %d\n", do_fetch(cmd, &cnt));
+-			break;
++			switch ((int) result_type) {
++			case CS_ROW_RESULT:
++				printf("do_fetch() returned: %d\n", do_fetch(cmd, &cnt));
++				break;
++			}
+ 		}
+-	}
+ 
+-	/* We should not have received all rows, as the alarm signal cancelled it... */
+-	if (10000 <= cnt) {
+-		fprintf(stderr, "All rows read, this may not occur.\n");
+-		return 1;
++		/* We should not have received all rows, as the alarm signal cancelled it... */
++		if (cnt < 10000)
++			break;
++
++		if (clock <= 5000) {
++			fprintf(stderr, "All rows read, this may not occur.\n");
++			return 1;
++		}
++		g_cmd = NULL;
++		clock /= 2;
+ 	}
+ 
+ 	/* Remove timer */
+diff --git a/src/dblib/unittests/done_handling.c b/src/dblib/unittests/done_handling.c
+index ff843c5..3384674 100644
+--- a/src/dblib/unittests/done_handling.c
++++ b/src/dblib/unittests/done_handling.c
+@@ -1,6 +1,6 @@
+ #include "common.h"
+ 
+-static char software_version[] = "$Id: done_handling.c,v 1.10 2009/02/27 15:52:48 freddy77 Exp $";
++static char software_version[] = "$Id: done_handling.c,v 1.11 2010/09/22 07:03:59 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ /*
+@@ -222,7 +222,7 @@ err_handler(DBPROCESS * dbproc, int severity, int dberr, int oserr, char *dberrs
+ 	fprintf(stderr, "DB-Library error (severity %d):\n\t%s\n", severity, dberrstr);
+ 
+ 	if (oserr != DBNOERR)
+-		fprintf(stderr, "Operating-system error:\n\t%s\n", oserrstr);
++		fprintf(stderr, "Operating-system error:\n\t%s\n", oserrstr ? oserrstr : "(null)");
+ 	fflush(stderr);
+ 
+ 	return INT_CANCEL;
+diff --git a/src/odbc/unittests/array_out.c b/src/odbc/unittests/array_out.c
+index 4b8dc1b..5472e26 100644
+--- a/src/odbc/unittests/array_out.c
++++ b/src/odbc/unittests/array_out.c
+@@ -3,7 +3,7 @@
+ 
+ /* Test using array binding */
+ 
+-static char software_version[] = "$Id: array_out.c,v 1.16 2010/07/05 09:20:32 freddy77 Exp $";
++static char software_version[] = "$Id: array_out.c,v 1.17 2010/09/22 07:03:59 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ static const char *test_query = NULL;
+@@ -47,7 +47,7 @@ query_test(const char* expected, const char *expected_status)
+ 		id_lens = (SQLLEN *) malloc(sizeof(SQLLEN) * ARRAY_SIZE);
+ 		assert(descs && ids && desc_lens && id_lens);
+ 	} else {
+-		rec_size = sizeof(Record) + ((sizeof(SQLCHAR) * desc_len + sizeof(SQLINTEGER) - 1) & ~(sizeof(SQLINTEGER) - 1));
++		rec_size = (sizeof(Record) + (sizeof(SQLCHAR) * desc_len + sizeof(SQLLEN) - 1)) & ~(sizeof(SQLLEN) - 1);
+ 		SQLSetStmtAttr(odbc_stmt, SQL_ATTR_ROW_BIND_TYPE, int2ptr(rec_size), 0);
+ 		rec = (Record *) malloc(rec_size * ARRAY_SIZE);
+ 		ids = &rec->id;
