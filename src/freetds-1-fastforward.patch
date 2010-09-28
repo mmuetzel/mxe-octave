@@ -155983,3 +155983,220 @@ index 9ad97cb..dbd6414 100644
  				lc_all = encoding = p;
  			}
  		}
+
+commit e8c1a9b824996273a6d81a251817ec2b20ff9814
+Author: freddy77 <freddy77>
+Date:   Tue Sep 28 08:14:17 2010 +0000
+
+    fix problem for UNI(VAR)CHAR encoding
+
+diff --git a/ChangeLog b/ChangeLog
+index 1e2c386..5123d89 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Sep 28 10:13:57 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/token.c: fix problem for UNI(VAR)CHAR encoding
++
+ Mon Sep 27 17:53:10 EDT 2010	JK Lowden <jklowden@freetds.org>
+ 	* Nmakefile src/tds/config.c src/tds/mem.c
+ 	- fix Win32 problems 
+@@ -2913,4 +2916,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3132 2010/09/27 21:53:48 jklowden Exp $
++$Id: ChangeLog,v 1.3133 2010/09/28 08:14:17 freddy77 Exp $
+diff --git a/src/tds/token.c b/src/tds/token.c
+index 502da71..7c496b6 100644
+--- a/src/tds/token.c
++++ b/src/tds/token.c
+@@ -43,7 +43,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: token.c,v 1.388 2010/07/25 08:40:19 freddy77 Exp $");
++TDS_RCSID(var, "$Id: token.c,v 1.389 2010/09/28 08:14:17 freddy77 Exp $");
+ 
+ #define USE_ICONV tds->use_iconv
+ 
+@@ -3541,13 +3541,22 @@ adjust_character_column_size(const TDSSOCKET * tds, TDSCOLUMN * curcol)
+ 	if (is_unicode_type(curcol->on_server.column_type))
+ 		curcol->char_conv = tds->char_convs[client2ucs2];
+ 
+-	/* Sybase UNI(VAR)CHAR fields are transmitted via SYBLONGBINARY and in UTF-16*/
++	/* Sybase UNI(VAR)CHAR fields are transmitted via SYBLONGBINARY and in UTF-16 */
+ 	if (curcol->on_server.column_type == SYBLONGBINARY && (
+ 		curcol->column_usertype == USER_UNICHAR_TYPE ||
+ 		curcol->column_usertype == USER_UNIVARCHAR_TYPE)) {
+-		/* FIXME ucs2 is not UTF-16... */
+-		/* FIXME what happen if client is big endian ?? */
+-		curcol->char_conv = tds->char_convs[client2ucs2];
++#ifdef WORDS_BIGENDIAN
++		static const char sybase_utf[] = "UTF-16BE";
++#else
++		static const char sybase_utf[] = "UTF-16LE";
++#endif
++
++		curcol->char_conv = tds_iconv_get(tds, tds->char_convs[client2ucs2]->client_charset.name, sybase_utf);
++
++		/* fallback to UCS-2LE */
++		/* FIXME should be useless. Does not works always */
++		if (!curcol->char_conv)
++			curcol->char_conv = tds->char_convs[client2ucs2];
+ 	}
+ 
+ 	/* FIXME: and sybase ?? */
+
+commit 1e52a517fd4ce2dbc23de5016288e5283fcc53c0
+Author: freddy77 <freddy77>
+Date:   Tue Sep 28 08:20:11 2010 +0000
+
+    fix memory leak
+
+diff --git a/ChangeLog b/ChangeLog
+index 5123d89..bfa7514 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Sep 28 10:19:51 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/mem.c: fix memory leak
++
+ Tue Sep 28 10:13:57 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/token.c: fix problem for UNI(VAR)CHAR encoding
+ 
+@@ -2916,4 +2919,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3133 2010/09/28 08:14:17 freddy77 Exp $
++$Id: ChangeLog,v 1.3134 2010/09/28 08:20:11 freddy77 Exp $
+diff --git a/src/tds/mem.c b/src/tds/mem.c
+index dbd6414..d1da84e 100644
+--- a/src/tds/mem.c
++++ b/src/tds/mem.c
+@@ -53,7 +53,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: mem.c,v 1.207 2010/09/27 21:53:48 jklowden Exp $");
++TDS_RCSID(var, "$Id: mem.c,v 1.208 2010/09/28 08:20:11 freddy77 Exp $");
+ 
+ static void tds_free_env(TDSSOCKET * tds);
+ static void tds_free_compute_results(TDSSOCKET * tds);
+@@ -860,6 +860,7 @@ tds_alloc_connection(TDSLOCALE * locale)
+ 		if (encoding && atoi(encoding) > 0) {
+ 			char *p;
+ 			if (asprintf(&p, "CP%s", encoding) >= 0) {
++				free(lc_all);
+ 				lc_all = encoding = p;
+ 			}
+ 		}
+
+commit c195d4306ccaddb7be59d9028768bd6a08337454
+Author: freddy77 <freddy77>
+Date:   Tue Sep 28 09:01:19 2010 +0000
+
+    add missing exports
+
+diff --git a/ChangeLog b/ChangeLog
+index bfa7514..cf8e8d8 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Sep 28 11:00:33 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* win32/FreeTDS_w.def: add missing exports
++
+ Tue Sep 28 10:19:51 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/mem.c: fix memory leak
+ 
+@@ -2919,4 +2922,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3134 2010/09/28 08:20:11 freddy77 Exp $
++$Id: ChangeLog,v 1.3135 2010/09/28 09:01:19 freddy77 Exp $
+diff --git a/win32/FreeTDS_w.def b/win32/FreeTDS_w.def
+index 0a61e01..fe56b14 100644
+--- a/win32/FreeTDS_w.def
++++ b/win32/FreeTDS_w.def
+@@ -89,20 +89,24 @@ EXPORTS
+ 	SQLExecDirectW
+ 	SQLForeignKeysW
+ 	SQLGetConnectAttrW
++	SQLGetConnectOptionW
+ 	SQLGetCursorNameW
+ 	SQLGetDescFieldW
+ 	SQLGetDescRecW
+ 	SQLGetDiagFieldW
+ 	SQLGetDiagRecW
+ 	SQLGetInfoW
++	SQLGetStmtAttrW
+ 	SQLNativeSqlW
+ 	SQLPrepareW
+ 	SQLPrimaryKeysW
+ 	SQLProcedureColumnsW
+ 	SQLProceduresW
+ 	SQLSetConnectAttrW
++	SQLSetConnectOptionW
+ 	SQLSetCursorNameW
+ 	SQLSetDescFieldW
++	SQLSetStmtAttrW
+ 	SQLSpecialColumnsW
+ 	SQLStatisticsW
+ 	SQLTablePrivilegesW
+
+commit a5458e39f8429dc7193526f45356ae2c2f664627
+Author: freddy77 <freddy77>
+Date:   Tue Sep 28 09:55:26 2010 +0000
+
+    remove warning
+
+diff --git a/ChangeLog b/ChangeLog
+index cf8e8d8..ba85348 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Sep 28 11:55:05 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/token.c: remove warning
++
+ Tue Sep 28 11:00:33 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* win32/FreeTDS_w.def: add missing exports
+ 
+@@ -2922,4 +2925,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3135 2010/09/28 09:01:19 freddy77 Exp $
++$Id: ChangeLog,v 1.3136 2010/09/28 09:55:26 freddy77 Exp $
+diff --git a/src/tds/token.c b/src/tds/token.c
+index 7c496b6..ba50fd7 100644
+--- a/src/tds/token.c
++++ b/src/tds/token.c
+@@ -43,7 +43,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: token.c,v 1.389 2010/09/28 08:14:17 freddy77 Exp $");
++TDS_RCSID(var, "$Id: token.c,v 1.390 2010/09/28 09:55:26 freddy77 Exp $");
+ 
+ #define USE_ICONV tds->use_iconv
+ 
+@@ -76,7 +76,7 @@ static int tds_process_end(TDSSOCKET * tds, int marker, /*@out@*/ int *flags_par
+ static int tds_get_data(TDSSOCKET * tds, TDSCOLUMN * curcol);
+ static int tds_get_data_info(TDSSOCKET * tds, TDSCOLUMN * curcol, int is_param);
+ static /*@observer@*/ const char *tds_token_name(unsigned char marker);
+-static void adjust_character_column_size(const TDSSOCKET * tds, TDSCOLUMN * curcol);
++static void adjust_character_column_size(TDSSOCKET * tds, TDSCOLUMN * curcol);
+ static int determine_adjusted_size(const TDSICONV * char_conv, int size);
+ static /*@observer@*/ const char *tds_pr_op(int op);
+ static int tds_alloc_get_string(TDSSOCKET * tds, /*@special@*/ char **string, int len) /*allocates *string*/;
+@@ -3533,7 +3533,7 @@ tds_token_name(unsigned char marker)
+  * Adjust column size according to client's encoding 
+  */
+ static void
+-adjust_character_column_size(const TDSSOCKET * tds, TDSCOLUMN * curcol)
++adjust_character_column_size(TDSSOCKET * tds, TDSCOLUMN * curcol)
+ {
+ 	CHECK_TDS_EXTRA(tds);
+ 	CHECK_COLUMN_EXTRA(curcol);
