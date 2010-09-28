@@ -155871,3 +155871,115 @@ index b6d79e2..8d6a1f7 100644
  			encoding = 3;
  		else if (strcmp(enc_name, "UCS-4LE") == 0)
  			encoding = 4;
+
+commit 19ec31900bd23e3320284bd9b65b6942d471d93b
+Author: jklowden <jklowden>
+Date:   Mon Sep 27 21:53:48 2010 +0000
+
+    fix Win32 problems
+
+diff --git a/ChangeLog b/ChangeLog
+index 0c54ccd..1e2c386 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Mon Sep 27 17:53:10 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* Nmakefile src/tds/config.c src/tds/mem.c
++	- fix Win32 problems 
++
+ Mon Sep 27 09:25:08 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/replacements/iconv.c: add utf16 support to iconv replacement
+ 
+@@ -2909,4 +2913,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3131 2010/09/27 07:25:24 freddy77 Exp $
++$Id: ChangeLog,v 1.3132 2010/09/27 21:53:48 jklowden Exp $
+diff --git a/Nmakefile b/Nmakefile
+index bc360ed..fbac636 100755
+--- a/Nmakefile
++++ b/Nmakefile
+@@ -1,4 +1,4 @@
+-# $Id: Nmakefile,v 1.4 2010/01/26 18:15:39 jklowden Exp $
++# $Id: Nmakefile,v 1.5 2010/09/27 21:53:48 jklowden Exp $
+ # Build FreeTDS and assorted utilities for Win32/Win64 without an IDE. 
+ # Makefiles, unlike Visual Studio project files, are stable over time.  
+ # Contributed to the public domain by James K. Lowden, February 2009
+@@ -90,6 +90,7 @@ TDS_SRC =	$(TDS_DIR)\bulk.c \
+ 		$(TDS_DIR)\token.c \
+ 		$(TDS_DIR)\util.c \
+ 		$(TDS_DIR)\vstrbuild.c \
++		$(TDS_DIR)\win_mutex.c \
+ 		$(TDS_DIR)\write.c 
+ 
+ TDS_OBJ =	$(TDS_OUT)\bulk.obj \
+@@ -119,6 +120,7 @@ TDS_OBJ =	$(TDS_OUT)\bulk.obj \
+ 		$(TDS_OUT)\token.obj \
+ 		$(TDS_OUT)\util.obj \
+ 		$(TDS_OUT)\vstrbuild.obj \
++		$(TDS_OUT)\win_mutex.obj \
+ 		$(TDS_OUT)\write.obj 
+ 
+ # not yet:	$(APPS_DIR)\bsqlodbc.c 
+@@ -250,7 +252,7 @@ REL = -MT  -O2 -D "_NDEBUG" -Zi
+ 
+ MSLIBS = Ws2_32.lib shell32.lib	
+ 
+-CC = cl $(FLG) $(DEF) $(INC)
++CC = cl $(CFLAGS) $(FLG) $(DEF) $(INC)
+ CC32 = $(CC)
+ CC64 = $(CC)
+ 
+@@ -329,6 +331,8 @@ CC64 = $(CC)
+ #
+ # Utilities
+ #
++$(APPS_EXE): $(DBLIB_OUT)\db-lib.lib
++
+ {$(APPS_DIR)}.c{$(APPS_DIR)\win32\debug}.exe:
+ 	@if not exist $(APPS_OUT) $(MKDIR) $(APPS_OUT)
+ 	$(CC32) $(DBG) 	-Fd"$(APPS_OUT)\vc80.pdb" -Fe$@ \
+diff --git a/src/tds/config.c b/src/tds/config.c
+index 357f958..b079351 100644
+--- a/src/tds/config.c
++++ b/src/tds/config.c
+@@ -80,7 +80,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: config.c,v 1.160 2010/09/16 07:37:23 freddy77 Exp $");
++TDS_RCSID(var, "$Id: config.c,v 1.161 2010/09/27 21:53:48 jklowden Exp $");
+ 
+ static void tds_config_login(TDSCONNECTION * connection, TDSLOGIN * login);
+ static void tds_config_env_tdsdump(TDSCONNECTION * connection);
+@@ -768,6 +768,8 @@ tds_config_verstr(const char *tdsver, TDSCONNECTION * connection)
+ 	if (connection)
+ 		connection->tds_version = version;
+ 
++	tdsdump_log(TDS_DBG_INFO1, "Setting tds version to %s (0x%0x) from $TDSVER.\n", tdsver, version);
++
+ 	return version;
+ }
+ 
+diff --git a/src/tds/mem.c b/src/tds/mem.c
+index 9ad97cb..dbd6414 100644
+--- a/src/tds/mem.c
++++ b/src/tds/mem.c
+@@ -53,7 +53,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: mem.c,v 1.206 2010/07/27 08:53:12 freddy77 Exp $");
++TDS_RCSID(var, "$Id: mem.c,v 1.207 2010/09/27 21:53:48 jklowden Exp $");
+ 
+ static void tds_free_env(TDSSOCKET * tds);
+ static void tds_free_compute_results(TDSSOCKET * tds);
+@@ -860,7 +860,6 @@ tds_alloc_connection(TDSLOCALE * locale)
+ 		if (encoding && atoi(encoding) > 0) {
+ 			char *p;
+ 			if (asprintf(&p, "CP%s", encoding) >= 0) {
+-				free(encoding);
+ 				lc_all = encoding = p;
+ 			}
+ 		}
