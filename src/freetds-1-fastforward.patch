@@ -156246,3 +156246,77 @@ index d048a90..7822810 100644
  #endif
  	prefix->timestamp = nttime;
  	generate_random_buffer(prefix->challenge, sizeof(prefix->challenge));
+
+commit beb544b075f3fc51c72652494647e3686cd087e8
+Author: freddy77 <freddy77>
+Date:   Fri Oct 1 08:28:54 2010 +0000
+
+    cleanup
+
+diff --git a/ChangeLog b/ChangeLog
+index 31a9694..a2d50e2 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Fri Oct  1 10:28:46 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/ctlib/ct.c: cleanup
++
+ Tue Sep 28 17:09:28 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/challenge.c: removed a warning compiling for big endian
+ 
+@@ -2928,4 +2931,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3137 2010/09/28 15:09:39 freddy77 Exp $
++$Id: ChangeLog,v 1.3138 2010/10/01 08:28:54 freddy77 Exp $
+diff --git a/src/ctlib/ct.c b/src/ctlib/ct.c
+index df16d6d..7d99eb9 100644
+--- a/src/ctlib/ct.c
++++ b/src/ctlib/ct.c
+@@ -39,7 +39,7 @@
+ #include "tdsstring.h"
+ #include "replacements.h"
+ 
+-TDS_RCSID(var, "$Id: ct.c,v 1.205 2010/07/25 07:49:01 freddy77 Exp $");
++TDS_RCSID(var, "$Id: ct.c,v 1.206 2010/10/01 08:28:54 freddy77 Exp $");
+ 
+ 
+ static char * ct_describe_cmd_state(CS_INT state);
+@@ -1722,7 +1722,6 @@ _ct_bind_data(CS_CONTEXT *ctx, TDSRESULTINFO * resinfo, TDSRESULTINFO *bindinfo,
+ 	TDSCOLUMN *curcol, *bindcol;
+ 	unsigned char *src, *dest, *temp_add;
+ 	int i, result = 0;
+-	TDS_INT srctype, srclen, desttype;
+ 	CS_DATAFMT srcfmt, destfmt;
+ 	TDS_INT datalen_dummy, *pdatalen = &datalen_dummy;
+ 	TDS_SMALLINT nullind_dummy, *nullind = &nullind_dummy;
+@@ -1740,10 +1739,6 @@ _ct_bind_data(CS_CONTEXT *ctx, TDSRESULTINFO * resinfo, TDSRESULTINFO *bindinfo,
+ 		if (curcol->column_hidden)
+ 			continue;
+ 
+-
+-		srctype = curcol->column_type;
+-		desttype = _ct_get_server_type(bindcol->column_bindtype);
+-
+ 		/* 
+ 		 * Retrieve the initial bound column_varaddress and increment it if offset specified         
+ 		 */
+@@ -1768,15 +1763,12 @@ _ct_bind_data(CS_CONTEXT *ctx, TDSRESULTINFO * resinfo, TDSRESULTINFO *bindinfo,
+ 				*pdatalen = 0;
+ 			} else {
+ 
+-				srctype = _ct_get_client_type(curcol);
+-
+ 				src = curcol->column_data;
+ 				if (is_blob_col(curcol))
+ 					src = (unsigned char *) ((TDSBLOB *) src)->textvalue;
+ 
+-				srclen = curcol->column_cur_size;
+-				srcfmt.datatype = srctype;
+-				srcfmt.maxlength = srclen;
++				srcfmt.datatype = _ct_get_client_type(curcol);
++				srcfmt.maxlength = curcol->column_cur_size;
+ 
+ 				destfmt.datatype = bindcol->column_bindtype;
+ 				destfmt.maxlength = bindcol->column_bindlen;
