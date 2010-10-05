@@ -156368,3 +156368,416 @@ index 8b94d41..b6b5734 100644
  		connection->port = tds7_get_instance_port(tds_dstr_cstr(&connection->ip_addr), tds_dstr_cstr(&connection->instance_name));
  
  	if (connection->port < 1) {
+
+commit f448807e70dfadd9a45bbe95a761fbef9316c118
+Author: freddy77 <freddy77>
+Date:   Tue Oct 5 08:36:36 2010 +0000
+
+    fix CS_VARCHAR_TYPE/CS_VARBINARY_TYPE on ctlib
+
+diff --git a/ChangeLog b/ChangeLog
+index 233e97a..85a39ba 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,8 @@
++Tue Oct  5 10:36:23 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* include/ctlib.h src/ctlib/cs.c src/ctlib/ct.c:
++	* src/ctlib/unittests/t0006.c:
++	- fix CS_VARCHAR_TYPE/CS_VARBINARY_TYPE on ctlib
++
+ Sat Oct  2 09:07:11 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/login.c:
+ 	- avoid udp 1434 probe if port specified (patch from SF case
+@@ -2936,4 +2941,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3139 2010/10/02 07:07:16 freddy77 Exp $
++$Id: ChangeLog,v 1.3140 2010/10/05 08:36:36 freddy77 Exp $
+diff --git a/include/ctlib.h b/include/ctlib.h
+index 0d35b98..77ec264 100644
+--- a/include/ctlib.h
++++ b/include/ctlib.h
+@@ -36,7 +36,7 @@ extern "C"
+ #endif
+ #endif
+ 
+-static const char rcsid_ctlib_h[] = "$Id: ctlib.h,v 1.29 2010/01/25 23:05:58 freddy77 Exp $";
++static const char rcsid_ctlib_h[] = "$Id: ctlib.h,v 1.30 2010/10/05 08:36:36 freddy77 Exp $";
+ static const void *const no_unused_ctlib_h_warn[] = { rcsid_ctlib_h, no_unused_ctlib_h_warn };
+ 
+ #include <tds.h>
+@@ -140,7 +140,7 @@ typedef struct _cs_param
+ 	struct _cs_param *next;
+ 	char *name;
+ 	int status;
+-	int type;
++	int datatype;
+ 	CS_INT maxlen;
+ 	CS_INT scale;
+ 	CS_INT precision;
+diff --git a/src/ctlib/cs.c b/src/ctlib/cs.c
+index 7a9a515..038c1da 100644
+--- a/src/ctlib/cs.c
++++ b/src/ctlib/cs.c
+@@ -50,7 +50,7 @@
+ #include "tdsconvert.h"
+ #include "replacements.h"
+ 
+-TDS_RCSID(var, "$Id: cs.c,v 1.75 2010/08/04 07:09:19 freddy77 Exp $");
++TDS_RCSID(var, "$Id: cs.c,v 1.76 2010/10/05 08:36:36 freddy77 Exp $");
+ 
+ static int _cs_datatype_length(int dtype);
+ static CS_INT cs_diag_storemsg(CS_CONTEXT *context, CS_CLIENTMSG *message);
+@@ -518,6 +518,7 @@ cs_convert(CS_CONTEXT * ctx, CS_DATAFMT * srcfmt, CS_VOID * srcdata, CS_DATAFMT
+ 	unsigned char *dest;
+ 	CS_RETCODE ret;
+ 	CS_INT dummy;
++	CS_VARCHAR *destvc = NULL;
+ 
+ 	tdsdump_log(TDS_DBG_FUNC, "cs_convert(%p, %p, %p, %p, %p, %p)\n", ctx, srcfmt, srcdata, destfmt, destdata, resultlen);
+ 
+@@ -552,8 +553,18 @@ cs_convert(CS_CONTEXT * ctx, CS_DATAFMT * srcfmt, CS_VOID * srcdata, CS_DATAFMT
+ 
+ 	src_type = _ct_get_server_type(srcfmt->datatype);
+ 	src_len = srcfmt->maxlength;
++	if (srcfmt->datatype == CS_VARCHAR_TYPE || srcfmt->datatype == CS_VARBINARY_TYPE) {
++		CS_VARCHAR *vc = (CS_VARCHAR *) srcdata;
++		src_len = vc->len;
++		srcdata = vc->str;
++	}
+ 	desttype = _ct_get_server_type(destfmt->datatype);
+ 	destlen = destfmt->maxlength;
++	if (destfmt->datatype == CS_VARCHAR_TYPE || destfmt->datatype == CS_VARBINARY_TYPE) {
++		destvc = (CS_VARCHAR *) destdata;
++		destlen  = sizeof(destvc->str);
++		destdata = destvc->str;
++	}
+ 
+ 	tdsdump_log(TDS_DBG_FUNC, "converting type %d (%d bytes) to type = %d (%d bytes)\n",
+ 		    src_type, src_len, desttype, destlen);
+@@ -596,6 +607,10 @@ cs_convert(CS_CONTEXT * ctx, CS_DATAFMT * srcfmt, CS_VOID * srcdata, CS_DATAFMT
+ 					break;
+ 				}
+ 			}
++			if (destvc) {
++				destvc->len = minlen;
++				*resultlen = sizeof(*destvc);
++			}
+ 			break;
+ 
+ 		case SYBCHAR:
+@@ -642,6 +657,10 @@ cs_convert(CS_CONTEXT * ctx, CS_DATAFMT * srcfmt, CS_VOID * srcdata, CS_DATAFMT
+ 					break;
+ 				}
+ 			}
++			if (destvc) {
++				destvc->len = minlen;
++				*resultlen = sizeof(*destvc);
++			}
+ 			break;
+ 		case SYBINT1:
+ 		case SYBINT2:
+@@ -741,9 +760,13 @@ cs_convert(CS_CONTEXT * ctx, CS_DATAFMT * srcfmt, CS_VOID * srcdata, CS_DATAFMT
+ 		}
+ 		memcpy(dest, cres.ib, len);
+ 		free(cres.ib);
++		*resultlen = destlen;
++		if (destvc) {
++			destvc->len = len;
++			*resultlen = sizeof(*destvc);
++		}
+ 		for (i = len; i < destlen; i++)
+ 			dest[i] = '\0';
+-		*resultlen = destlen;
+ 		break;
+ 	case SYBBIT:
+ 	case SYBBITN:
+@@ -856,6 +879,10 @@ cs_convert(CS_CONTEXT * ctx, CS_DATAFMT * srcfmt, CS_VOID * srcdata, CS_DATAFMT
+ 			ret = CS_FAIL;
+ 			break;
+ 		}
++		if (destvc) {
++			destvc->len = len;
++			*resultlen = sizeof(*destvc);
++		}
+ 		free(cres.c);
+ 		break;
+ 	default:
+diff --git a/src/ctlib/ct.c b/src/ctlib/ct.c
+index 7d99eb9..0eff2d6 100644
+--- a/src/ctlib/ct.c
++++ b/src/ctlib/ct.c
+@@ -39,7 +39,7 @@
+ #include "tdsstring.h"
+ #include "replacements.h"
+ 
+-TDS_RCSID(var, "$Id: ct.c,v 1.206 2010/10/01 08:28:54 freddy77 Exp $");
++TDS_RCSID(var, "$Id: ct.c,v 1.207 2010/10/05 08:36:36 freddy77 Exp $");
+ 
+ 
+ static char * ct_describe_cmd_state(CS_INT state);
+@@ -1990,14 +1990,12 @@ _ct_get_client_type(TDSCOLUMN *col)
+ 		return CS_DECIMAL_TYPE;
+ 		break;
+ 	case SYBBINARY:
++	case SYBVARBINARY:
+ 		return CS_BINARY_TYPE;
+ 		break;
+ 	case SYBIMAGE:
+ 		return CS_IMAGE_TYPE;
+ 		break;
+-	case SYBVARBINARY:
+-		return CS_VARBINARY_TYPE;
+-		break;
+ 	case SYBTEXT:
+ 		return CS_TEXT_TYPE;
+ 		break;
+@@ -3914,10 +3912,9 @@ paraminfoalloc(TDSSOCKET * tds, CS_PARAM * first_param)
+ 	TDSCOLUMN *pcol;
+ 	TDSPARAMINFO *params = NULL;
+ 
+-	int temp_type;
++	int temp_type, tds_type;
+ 	CS_BYTE *temp_value;
+ 	CS_INT temp_datalen;
+-	int param_is_null;
+ 
+ 	tdsdump_log(TDS_DBG_FUNC, "paraminfoalloc(%p, %p)\n", tds, first_param);
+ 
+@@ -3937,32 +3934,30 @@ paraminfoalloc(TDSSOCKET * tds, CS_PARAM * first_param)
+ 		 * The parameteter data has been passed by reference
+ 		 * i.e. using ct_setparam rather than ct_param
+ 		 */
++		temp_type = p->datatype;
++		tds_type = _ct_get_server_type(p->datatype);
+ 		if (p->param_by_value == 0) {
+ 
+-			param_is_null = 0;
+ 			temp_datalen = 0;
+ 			temp_value = NULL;
+-			temp_type = p->type;
+ 
+ 			/* here's one way of passing a null parameter */
+ 
+ 			if (*(p->ind) == -1) {
+ 				temp_value = NULL;
+ 				temp_datalen = 0;
+-				param_is_null = 1;
+ 			} else {
+ 
+ 				/* and here's another... */
+ 				if ((*(p->datalen) == 0 || *(p->datalen) == CS_UNUSED) && p->value == NULL) {
+ 					temp_value = NULL;
+ 					temp_datalen = 0;
+-					param_is_null = 1;
+ 				} else {
+ 
+ 					/* datafmt.datalen is ignored for fixed length types */
+ 
+-					if (is_fixed_type(temp_type)) {
+-						temp_datalen = tds_get_size_by_type(temp_type);
++					if (is_fixed_type(tds_type)) {
++						temp_datalen = tds_get_size_by_type(tds_type);
+ 					} else {
+ 						temp_datalen = (*(p->datalen) == CS_UNUSED) ? 0 : *(p->datalen);
+ 					}
+@@ -3972,44 +3967,23 @@ paraminfoalloc(TDSSOCKET * tds, CS_PARAM * first_param)
+ 					} else {
+ 						temp_value = NULL;
+ 						temp_datalen = 0;
+-						param_is_null = 1;
+ 					}
+ 				}
+ 			}
+-
+-			if (param_is_null) {
+-				switch (temp_type) {
+-				case SYBINT1:
+-				case SYBINT2:
+-				case SYBINT4:
+-				/* TODO check if supported ?? */
+-				case SYBINT8:
+-					temp_type = SYBINTN;
+-					break;
+-				case SYBDATETIME:
+-				case SYBDATETIME4:
+-					temp_type = SYBDATETIMN;
+-					break;
+-				case SYBFLT8:
+-					temp_type = SYBFLTN;
+-					break;
+-				case SYBBIT:
+-					temp_type = SYBBITN;
+-					break;
+-				case SYBMONEY:
+-				case SYBMONEY4:
+-					temp_type = SYBMONEYN;
+-					break;
+-				default:
+-					break;
+-				}
+-			}
+ 		} else {
+-			temp_type = p->type;
+ 			temp_value = p->value;
+ 			temp_datalen = *(p->datalen);
+ 		}
+ 
++		if (temp_type == CS_VARCHAR_TYPE || temp_type == CS_VARBINARY_TYPE) {
++			CS_VARCHAR *vc = (CS_VARCHAR *) temp_value;
++
++			if (vc) {
++				temp_datalen = vc->len;
++				temp_value   = (CS_BYTE *) vc->str;
++			}
++		}
++
+ 		pcol = params->columns[i];
+ 
+ 		/* meta data */
+@@ -4019,7 +3993,7 @@ paraminfoalloc(TDSSOCKET * tds, CS_PARAM * first_param)
+ 			pcol->column_namelen = strlen(pcol->column_name);
+ 		}
+ 
+-		tds_set_param_type(tds, pcol, temp_type);
++		tds_set_param_type(tds, pcol, tds_type);
+ 
+ 		if (temp_datalen == CS_NULLTERM && temp_value)
+ 			temp_datalen = strlen((const char*) temp_value);
+@@ -4030,7 +4004,7 @@ paraminfoalloc(TDSSOCKET * tds, CS_PARAM * first_param)
+ 			if (p->maxlen < 0)
+ 				return NULL;
+ 			pcol->on_server.column_size = pcol->column_size = p->maxlen;
+-			pcol->column_cur_size = temp_datalen;
++			pcol->column_cur_size = temp_value ? temp_datalen : -1;
+ 			if (temp_datalen > 0 && temp_datalen > p->maxlen)
+ 				pcol->on_server.column_size = pcol->column_size = temp_datalen;
+ 		} else {
+@@ -4113,7 +4087,7 @@ static int
+ _ct_fill_param(CS_INT cmd_type, CS_PARAM *param, CS_DATAFMT *datafmt, CS_VOID *data, CS_INT *datalen, 
+ 	       CS_SMALLINT *indicator, CS_BYTE byvalue)
+ {
+-	int param_is_null = 0;
++	int param_is_null = 0, desttype;
+ 
+ 	tdsdump_log(TDS_DBG_FUNC, "_ct_fill_param(%d, %p, %p, %p, %p, %p, %x)\n", 
+ 				cmd_type, param, datafmt, data, datalen, indicator, byvalue);
+@@ -4142,9 +4116,10 @@ _ct_fill_param(CS_INT cmd_type, CS_PARAM *param, CS_DATAFMT *datafmt, CS_VOID *d
+ 	 * translate datafmt.datatype, e.g. CS_SMALLINT_TYPE
+ 	 * to Server type, e.g. SYBINT2
+ 	 */
+-	param->type = _ct_get_server_type(datafmt->datatype);
++	desttype = _ct_get_server_type(datafmt->datatype);
++	param->datatype = datafmt->datatype;
+ 
+-	if (is_numeric_type(param->type)) {
++	if (is_numeric_type(desttype)) {
+ 		param->scale = datafmt->scale;
+ 		param->precision = datafmt->precision;
+ 		if (param->scale < 0 || param->precision < 0
+@@ -4154,8 +4129,8 @@ _ct_fill_param(CS_INT cmd_type, CS_PARAM *param, CS_DATAFMT *datafmt, CS_VOID *d
+ 
+ 	param->maxlen = datafmt->maxlength;
+ 
+-	if (is_fixed_type(param->type)) {
+-		param->maxlen = tds_get_size_by_type(param->type);
++	if (is_fixed_type(desttype)) {
++		param->maxlen = tds_get_size_by_type(desttype);
+ 	}
+ 
+ 	param->param_by_value = byvalue;
+@@ -4179,8 +4154,8 @@ _ct_fill_param(CS_INT cmd_type, CS_PARAM *param, CS_DATAFMT *datafmt, CS_VOID *d
+ 		} else {
+ 			/* datafmt.datalen is ignored for fixed length types */
+ 
+-			if (is_fixed_type(param->type)) {
+-				*(param->datalen) = tds_get_size_by_type(param->type);
++			if (is_fixed_type(desttype)) {
++				*(param->datalen) = tds_get_size_by_type(desttype);
+ 			} else {
+ 				*(param->datalen) = (*datalen == CS_UNUSED) ? 0 : *datalen;
+ 			}
+@@ -4205,34 +4180,6 @@ _ct_fill_param(CS_INT cmd_type, CS_PARAM *param, CS_DATAFMT *datafmt, CS_VOID *d
+ 				param_is_null = 1;
+ 			}
+ 		}
+-
+-		if (param_is_null) {
+-			switch (param->type) {
+-			case SYBINT1:
+-			case SYBINT2:
+-			case SYBINT4:
+-			/* TODO check if supported ?? */
+-			case SYBINT8:
+-				param->type = SYBINTN;
+-				break;
+-			case SYBDATETIME:
+-			case SYBDATETIME4:
+-				param->type = SYBDATETIMN;
+-				break;
+-			case SYBFLT8:
+-				param->type = SYBFLTN;
+-				break;
+-			case SYBBIT:
+-				param->type = SYBBITN;
+-				break;
+-			case SYBMONEY:
+-			case SYBMONEY4:
+-				param->type = SYBMONEYN;
+-				break;
+-			default:
+-				break;
+-			}
+-		}
+ 	} else {		/* not by value, i.e. by reference */
+ 		param->datalen = datalen;
+ 		param->ind = indicator;
+diff --git a/src/ctlib/unittests/t0006.c b/src/ctlib/unittests/t0006.c
+index 23f5929..aa34262 100644
+--- a/src/ctlib/unittests/t0006.c
++++ b/src/ctlib/unittests/t0006.c
+@@ -9,7 +9,7 @@
+ #include <stdio.h>
+ #include <ctpublic.h>
+ 
+-static char software_version[] = "$Id: t0006.c,v 1.13 2010/04/13 13:19:12 freddy77 Exp $";
++static char software_version[] = "$Id: t0006.c,v 1.14 2010/10/05 08:36:36 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ CS_CONTEXT *ctx;
+@@ -75,6 +75,14 @@ DoTest(
+ 
+ 	/* test buffer */
+ 	if (todata && memcmp(todata, buffer, tolen) != 0) {
++		unsigned n;
++		for (n = 0; n < tolen; ++n)
++			printf("%02x ", ((unsigned char*)todata)[n]);
++		printf("\n");
++		for (n = 0; n < tolen; ++n)
++			printf("%02x ", ((unsigned char*)buffer)[n]);
++		printf("\n");
++
+ 		err = "result data";
+ 		goto Failed;
+ 	}
+@@ -254,12 +262,13 @@ main(int argc, char **argv)
+ 		CS_CHAR test2[] = "12345",
+ 		CS_INT_TYPE, &test, sizeof(test), CS_CHAR_TYPE, sizeof(test2), CS_SUCCEED, test2, sizeof(test2) - 1);
+ 
+-/*
+-   DO_TEST(CS_INT test = 12345; CS_CHAR test2[] = "\005" "12345",
+-	   CS_INT_TYPE,&test,sizeof(test),
+-	   CS_VARBINARY_TYPE,sizeof(test2),
+-	   CS_SUCCEED,test2,sizeof(test2)-1);
+-*/
++	{ CS_VARCHAR test2 = { 5, "12345"};
++	memset(test2.str+5, 23, 251);
++	DO_TEST(CS_INT test = 12345,
++		CS_INT_TYPE,&test,sizeof(test),
++		CS_VARCHAR_TYPE,sizeof(test2),
++		CS_SUCCEED,&test2,sizeof(test2));
++	}
+ 
+ 	DO_TEST(CS_CHAR test[] = "12345";
+ 		CS_INT test2 = 12345, CS_CHAR_TYPE, test, 5, CS_INT_TYPE, sizeof(test2), CS_SUCCEED, &test2, sizeof(test2));
