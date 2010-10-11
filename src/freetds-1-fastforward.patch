@@ -156781,3 +156781,98 @@ index 23f5929..aa34262 100644
  
  	DO_TEST(CS_CHAR test[] = "12345";
  		CS_INT test2 = 12345, CS_CHAR_TYPE, test, 5, CS_INT_TYPE, sizeof(test2), CS_SUCCEED, &test2, sizeof(test2));
+
+commit 8c67bec4ef749857e73b60312442bd3aac751c6f
+Author: freddy77 <freddy77>
+Date:   Wed Oct 6 08:03:00 2010 +0000
+
+    fix typo
+
+diff --git a/ChangeLog b/ChangeLog
+index 85a39ba..968d4c8 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Wed Oct  6 10:02:53 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/net.c: fix typo
++
+ Tue Oct  5 10:36:23 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/ctlib.h src/ctlib/cs.c src/ctlib/ct.c:
+ 	* src/ctlib/unittests/t0006.c:
+@@ -2941,4 +2944,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3140 2010/10/05 08:36:36 freddy77 Exp $
++$Id: ChangeLog,v 1.3141 2010/10/06 08:03:00 freddy77 Exp $
+diff --git a/src/tds/net.c b/src/tds/net.c
+index 76de351..ab0581d 100644
+--- a/src/tds/net.c
++++ b/src/tds/net.c
+@@ -107,7 +107,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: net.c,v 1.106 2010/08/05 09:25:00 freddy77 Exp $");
++TDS_RCSID(var, "$Id: net.c,v 1.107 2010/10/06 08:03:00 freddy77 Exp $");
+ 
+ #define TDSSELREAD  POLLIN
+ #define TDSSELWRITE POLLOUT
+@@ -1230,7 +1230,7 @@ tds_ssl_write(BIO *b, const char* data, int len)
+ 
+ 	if (tds->tls_session) {
+ 		/* write to socket directly */
+-		/* TODO use cork if available here to fluch only on last chunk of packet ?? */
++		/* TODO use cork if available here to flush only on last chunk of packet ?? */
+ 		return tds_goodwrite(tds, data, len, tds->out_buf[1]);
+ 	}
+ 	/* write crypted data inside normal TDS packets */
+
+commit 705c48c97d095a3966c152ba29362c3e78d445ee
+Author: freddy77 <freddy77>
+Date:   Mon Oct 11 12:57:41 2010 +0000
+
+    fix for OpenSSL
+
+diff --git a/ChangeLog b/ChangeLog
+index 968d4c8..8ecf92b 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Mon Oct 11 14:57:13 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/net.c: fix for OpenSSL
++
+ Wed Oct  6 10:02:53 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/net.c: fix typo
+ 
+@@ -2944,4 +2947,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3141 2010/10/06 08:03:00 freddy77 Exp $
++$Id: ChangeLog,v 1.3142 2010/10/11 12:57:41 freddy77 Exp $
+diff --git a/src/tds/net.c b/src/tds/net.c
+index ab0581d..06b4c11 100644
+--- a/src/tds/net.c
++++ b/src/tds/net.c
+@@ -107,7 +107,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: net.c,v 1.107 2010/10/06 08:03:00 freddy77 Exp $");
++TDS_RCSID(var, "$Id: net.c,v 1.108 2010/10/11 12:57:41 freddy77 Exp $");
+ 
+ #define TDSSELREAD  POLLIN
+ #define TDSSELWRITE POLLOUT
+@@ -1483,6 +1483,11 @@ tds_ssl_init(TDSSOCKET *tds)
+ 		/* use priorities... */
+ 		SSL_set_cipher_list(con, OPENSSL_CIPHERS);
+ 
++#ifdef SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS
++		/* this disable a security improvement but allow connection... */
++		SSL_set_options(con, SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS);
++#endif
++
+ 		/* Perform the TLS handshake */
+ 		tls_msg = "handshake";
+ 		SSL_set_connect_state(con);
