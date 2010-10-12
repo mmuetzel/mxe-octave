@@ -156876,3 +156876,149 @@ index ab0581d..06b4c11 100644
  		/* Perform the TLS handshake */
  		tls_msg = "handshake";
  		SSL_set_connect_state(con);
+
+commit c716eb9c227c7481dd0637bf28a807a3e742a9b3
+Author: freddy77 <freddy77>
+Date:   Tue Oct 12 11:48:27 2010 +0000
+
+    change OpenSSL ciphers
+
+diff --git a/ChangeLog b/ChangeLog
+index 8ecf92b..14de419 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Oct 12 13:48:14 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/net.c: change OpenSSL ciphers
++
+ Mon Oct 11 14:57:13 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/net.c: fix for OpenSSL
+ 
+@@ -2947,4 +2950,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3142 2010/10/11 12:57:41 freddy77 Exp $
++$Id: ChangeLog,v 1.3143 2010/10/12 11:48:27 freddy77 Exp $
+diff --git a/src/tds/net.c b/src/tds/net.c
+index 06b4c11..6940895 100644
+--- a/src/tds/net.c
++++ b/src/tds/net.c
+@@ -107,7 +107,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: net.c,v 1.108 2010/10/11 12:57:41 freddy77 Exp $");
++TDS_RCSID(var, "$Id: net.c,v 1.109 2010/10/12 11:48:27 freddy77 Exp $");
+ 
+ #define TDSSELREAD  POLLIN
+ #define TDSSELWRITE POLLOUT
+@@ -1438,13 +1438,11 @@ int
+ tds_ssl_init(TDSSOCKET *tds)
+ {
+ #define OPENSSL_CIPHERS \
+-	SSL3_TXT_RSA_DES_64_CBC_SHA " " \
+-	TLS1_TXT_RSA_EXPORT1024_WITH_RC4_56_SHA " " \
+-	TLS1_TXT_RSA_EXPORT1024_WITH_DES_CBC_SHA " " \
+-	SSL3_TXT_RSA_RC4_40_MD5 " " \
+-	SSL3_TXT_RSA_RC2_40_MD5 " " \
+-	SSL3_TXT_EDH_DSS_DES_64_CBC_SHA " " \
+-	TLS1_TXT_DHE_DSS_EXPORT1024_WITH_DES_CBC_SHA
++	"DHE-RSA-AES256-SHA DHE-DSS-AES256-SHA " \
++	"AES256-SHA EDH-RSA-DES-CBC3-SHA " \
++	"EDH-DSS-DES-CBC3-SHA DES-CBC3-SHA " \
++	"DES-CBC3-MD5 DHE-RSA-AES128-SHA " \
++	"DHE-DSS-AES128-SHA AES128-SHA RC2-CBC-MD5 RC4-SHA RC4-MD5"
+ 
+ 	SSL *con;
+ 	BIO *b;
+
+commit 9330c2f28ef38821940fa03f2579e31e079c1385
+Author: jklowden <jklowden>
+Date:   Tue Oct 12 15:36:24 2010 +0000
+
+    works with tarball if FROM_TARBALL defined
+
+diff --git a/ChangeLog b/ChangeLog
+index 14de419..e3f5299 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Tue Oct 12 11:29:23 EDT 2010	JK Lowden <jklowden@freetds.org>
++	* Nmakefile src/replacements/Makefile.am
++	- works with tarball if FROM_TARBALL defined 
++
+ Tue Oct 12 13:48:14 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/net.c: change OpenSSL ciphers
+ 
+@@ -2950,4 +2954,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3143 2010/10/12 11:48:27 freddy77 Exp $
++$Id: ChangeLog,v 1.3144 2010/10/12 15:36:24 jklowden Exp $
+diff --git a/Nmakefile b/Nmakefile
+index fbac636..cd9e927 100755
+--- a/Nmakefile
++++ b/Nmakefile
+@@ -1,4 +1,4 @@
+-# $Id: Nmakefile,v 1.5 2010/09/27 21:53:48 jklowden Exp $
++# $Id: Nmakefile,v 1.6 2010/10/12 15:36:24 jklowden Exp $
+ # Build FreeTDS and assorted utilities for Win32/Win64 without an IDE. 
+ # Makefiles, unlike Visual Studio project files, are stable over time.  
+ # Contributed to the public domain by James K. Lowden, February 2009
+@@ -10,6 +10,8 @@
+ #
+ # Example invocation:
+ #	nmake.exe -f Nmakefile -nologo PLATFORM=win32 CONFIGURATION=debug
++# If using with tarball distribution (not CVS):
++#	nmake.exe -f Nmakefile PLATFORM=win32 CONFIGURATION=debug FROM_TARBALL=
+ #	
+ 
+ MKDIR = MD
+@@ -201,6 +203,7 @@ $(DBLIB_OUT) $(REPLACEMENTS_OUT) $(TDS_OUT) $(APPS_OUT):
+ 	@if "" equ "$(CONFIGURATION)" 	CONFIGURATION not defined, see comments in Nmakefile >&2 && exit 1
+ 	$(MKDIR) $@
+ 
++!IFNDEF FROM_TARBALL
+ #
+ # Generate distributed header files
+ #
+@@ -209,7 +212,7 @@ include\tdsver.h:
+ 	> $@.err 
+ 	move /Y $@.err $@
+ 
+-include\types.h:
++src\tds\types.h:
+ 	perl src\tds\types.pl misc\types.txt > $@.err
+ 	move /Y $@.err $@
+ 
+@@ -224,8 +227,9 @@ src\tds\encodings.h: src\tds\encodings.pl src\tds\alternative_character_sets.h
+ src\tds\num_limits.h: src\tds\num_limits.pl
+ 	perl src\tds\num_limits.pl > $@.tmp
+ 	$(MV) $@.tmp $@
++!ENDIF
+ 
+-GENERATED_FILES = include\tdsver.h include\types.h \
++GENERATED_FILES = include\tdsver.h src\tds\types.h \
+ 	src\tds\tds_willconvert.h src\tds\encodings.h src\tds\num_limits.h
+ 
+ $(DBLIB_OUT)\db-lib.lib: $(GENERATED_FILES) $(DBLIB_OUT) $(DBLIB_OBJ) $(REPLACEMENTS_OUT)\replacements.lib $(TDS_OUT)\tds.lib
+diff --git a/src/replacements/Makefile.am b/src/replacements/Makefile.am
+index 6ce28ca..55075fa 100644
+--- a/src/replacements/Makefile.am
++++ b/src/replacements/Makefile.am
+@@ -1,4 +1,4 @@
+-# $Id: Makefile.am,v 1.16 2010/01/21 08:34:04 freddy77 Exp $
++# $Id: Makefile.am,v 1.17 2010/10/12 15:36:24 jklowden Exp $
+ AM_CPPFLAGS=			-I$(top_srcdir)/include -I$(top_srcdir)/src/replacements
+ noinst_LTLIBRARIES=		libreplacements.la
+ libreplacements_la_SOURCES=	iconv.c gettimeofday.c fakepoll.c
+@@ -7,6 +7,7 @@ libreplacements_la_LIBADD=	@LTLIBOBJS@
+ EXTRA_DIST=	asprintf.c \
+ 		atoll.c \
+ 		basename.c \
++		getopt.c \
+ 		readpassphrase.c \
+ 		strlcat.c \
+ 		strlcpy.c \
