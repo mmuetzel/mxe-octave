@@ -157292,3 +157292,272 @@ index 6433147..62f0207 100644
  static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
  
  static DBPROCESS *dbproc = NULL;
+
+commit 795a0a2b063875f0b459bdac53bbcd273117efe5
+Author: freddy77 <freddy77>
+Date:   Fri Oct 29 08:49:30 2010 +0000
+
+    fix SYB5INT8 type
+
+diff --git a/ChangeLog b/ChangeLog
+index 352bebc..153fe74 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,8 @@
++Fri Oct 29 10:49:12 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* misc/types.txt src/odbc/unittests/genparams.c src/tds/data.c:
++	* src/tds/types.pl:
++	- fix SYB5INT8 type
++
+ Tue Oct 26 10:12:21 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* configure.ac misc/prepare_win32.sh src/ctlib/unittests/cancel.c:
+ 	* src/dblib/unittests/null.c src/dblib/unittests/null2.c:
+@@ -2967,4 +2972,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3147 2010/10/26 08:12:48 freddy77 Exp $
++$Id: ChangeLog,v 1.3148 2010/10/29 08:49:30 freddy77 Exp $
+diff --git a/misc/types.txt b/misc/types.txt
+index 537f385..e7137af 100644
+--- a/misc/types.txt
++++ b/misc/types.txt
+@@ -1,5 +1,5 @@
+ Name	vendor	varint	fixed	nullable	variable	blob	numeric	unicode	ascii	size	nullable type
+-SYB5INT8	SYB	0	0	0	0	0	0	0	0	8	SYBINTN
++SYB5INT8	SYB	0	1	0	0	0	0	0	0	8	SYBINTN
+ SYBBINARY	ALL	1	0	1	1	0	0	0	0	-1	0
+ SYBBIT	ALL	0	1	0	0	0	0	0	0	1	SYBBITN
+ SYBBITN	MS	1	0	1	0	0	0	0	0	1	0	# Sybase bit is not nullable
+@@ -63,5 +63,5 @@ XSYBVARCHAR	MS	2	0	1	1	0	0	0	1	-1	0
+ # tds_get_conversion_type from nullable to not nullable
+ # tds_get_cardinal_type ??
+ 
+-# $Id: types.txt,v 1.3 2009/08/18 15:11:12 freddy77 Exp $
++# $Id: types.txt,v 1.4 2010/10/29 08:49:30 freddy77 Exp $
+ 
+diff --git a/src/odbc/unittests/genparams.c b/src/odbc/unittests/genparams.c
+index f40cb36..6df0ae9 100644
+--- a/src/odbc/unittests/genparams.c
++++ b/src/odbc/unittests/genparams.c
+@@ -18,7 +18,7 @@
+  * Also we have to check normal char and wide char
+  */
+ 
+-static char software_version[] = "$Id: genparams.c,v 1.46 2010/07/05 09:20:33 freddy77 Exp $";
++static char software_version[] = "$Id: genparams.c,v 1.47 2010/10/29 08:49:30 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ #ifdef TDS_NO_DM
+@@ -386,10 +386,12 @@ AllTests(void)
+ 	/* TODO use collate in sintax if available */
+ 	TestOutput("VARCHAR(20)", "0xf8f9", SQL_C_CHAR, SQL_VARCHAR, "2 \xf8\xf9");
+ 
+-	/* TODO some Sybase versions */
+-	if (odbc_db_is_microsoft() && odbc_db_version_int() >= 0x08000000u) {
++	if ((odbc_db_is_microsoft() && odbc_db_version_int() >= 0x08000000u)
++	    || (!odbc_db_is_microsoft() && strncmp(odbc_db_version(), "15.00.", 6) >= 0)) {
+ 		TestOutput("BIGINT", "-987654321065432", SQL_C_BINARY, SQL_BIGINT, big_endian ? "FFFC7DBBCF083228" : "283208CFBB7DFCFF");
+ 		TestInput(SQL_C_SBIGINT, "BIGINT", SQL_BIGINT, "BIGINT", "-12345678901234");
++	}
++	if (odbc_db_is_microsoft() && odbc_db_version_int() >= 0x08000000u) {
+ 		TestInput(SQL_C_CHAR, "NVARCHAR(100)", SQL_WCHAR, "NVARCHAR(100)", "test");
+ 		TestInput(SQL_C_CHAR, "NVARCHAR(100)", SQL_WLONGVARCHAR, "NTEXT", "test");
+ 		/* test for invalid stream due to truncation*/
+diff --git a/src/tds/data.c b/src/tds/data.c
+index 475a733..b7d6e89 100644
+--- a/src/tds/data.c
++++ b/src/tds/data.c
+@@ -35,7 +35,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: data.c,v 1.25 2009/11/26 09:07:28 freddy77 Exp $");
++TDS_RCSID(var, "$Id: data.c,v 1.26 2010/10/29 08:49:30 freddy77 Exp $");
+ 
+ /**
+  * Set type of column initializing all dependency 
+@@ -84,6 +84,9 @@ tds_set_param_type(TDSSOCKET * tds, TDSCOLUMN * curcol, TDS_SERVER_TYPE type)
+ 		default:
+ 			break;
+ 		}
++	} else if (IS_TDS50(tds)) {
++		if (type == SYBINT8)
++			type = SYB5INT8;
+ 	}
+ 	tds_set_column_type(tds, curcol, type);
+ 
+diff --git a/src/tds/types.pl b/src/tds/types.pl
+index bcdf973..731e002 100755
+--- a/src/tds/types.pl
++++ b/src/tds/types.pl
+@@ -31,7 +31,7 @@ while ($line = readLine()) {
+ 	$types{$type{'name'}} = \%type;
+ }
+ 
+-my $id = '$Id: types.pl,v 1.2 2009/08/20 17:49:07 freddy77 Exp $';
++my $id = '$Id: types.pl,v 1.3 2010/10/29 08:49:30 freddy77 Exp $';
+ $id =~ s/\$Id/CVS Id/;
+ $id =~ s/\$\s*$//;
+ print qq|/*
+@@ -141,7 +141,9 @@ foreach my $type (sort &unique(map { $_->{nullable_type} } @list)) {
+ 		break;\n|;
+ 	}
+ }
+-print q|	}
++print q|	case SYB5INT8:
++		return SYBINT8;
++	}
+ 	return srctype;
+ }
+ 
+
+commit f660a03de8c76e9d4daee2fc39c79d02e5d0648b
+Author: freddy77 <freddy77>
+Date:   Fri Oct 29 14:52:40 2010 +0000
+
+    Sybase does not need to prepare again changing parameters
+
+diff --git a/ChangeLog b/ChangeLog
+index 153fe74..849923b 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,9 @@
++Fri Oct 29 16:52:15 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/odbc/odbc.c src/odbc/unittests/.cvsignore:
++	* src/odbc/unittests/Makefile.am:
++	- src/odbc/unittests/peter.c
++	- Sybase does not need to prepare again changing parameters
++
+ Fri Oct 29 10:49:12 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* misc/types.txt src/odbc/unittests/genparams.c src/tds/data.c:
+ 	* src/tds/types.pl:
+@@ -2972,4 +2978,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3148 2010/10/29 08:49:30 freddy77 Exp $
++$Id: ChangeLog,v 1.3149 2010/10/29 14:52:40 freddy77 Exp $
+diff --git a/src/odbc/odbc.c b/src/odbc/odbc.c
+index 9c0fb75..dde82f5 100644
+--- a/src/odbc/odbc.c
++++ b/src/odbc/odbc.c
+@@ -61,7 +61,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: odbc.c,v 1.551 2010/08/04 11:01:34 freddy77 Exp $");
++TDS_RCSID(var, "$Id: odbc.c,v 1.552 2010/10/29 14:52:40 freddy77 Exp $");
+ 
+ static SQLRETURN _SQLAllocConnect(SQLHENV henv, SQLHDBC FAR * phdbc);
+ static SQLRETURN _SQLAllocEnv(SQLHENV FAR * phenv, SQLINTEGER odbc_version);
+@@ -424,8 +424,11 @@ odbc_update_ird(TDS_STMT *stmt, TDS_ERRS *errs)
+ 	int save_param_num = stmt->param_num;
+ 	SQLRETURN res;
+ 
+-	if (!stmt->need_reprepare || stmt->prepared_query_is_rpc)
++	if (!stmt->need_reprepare || stmt->prepared_query_is_rpc
++	    || !stmt->dbc || !IS_TDS7_PLUS(stmt->dbc->tds_socket)) {
++		stmt->need_reprepare = 0;
+ 		return SQL_SUCCESS;
++	}
+ 
+ 	stmt->params = NULL;
+ 	stmt->param_num = 0;
+diff --git a/src/odbc/unittests/.cvsignore b/src/odbc/unittests/.cvsignore
+index 6fcba10..5496fc6 100644
+--- a/src/odbc/unittests/.cvsignore
++++ b/src/odbc/unittests/.cvsignore
+@@ -75,3 +75,5 @@ utf8
+ utf8_2
+ stats
+ descrec
++peter
++
+diff --git a/src/odbc/unittests/Makefile.am b/src/odbc/unittests/Makefile.am
+index f38b57b..c4b96ba 100644
+--- a/src/odbc/unittests/Makefile.am
++++ b/src/odbc/unittests/Makefile.am
+@@ -1,4 +1,4 @@
+-# $Id: Makefile.am,v 1.83 2010/07/19 11:52:15 freddy77 Exp $
++# $Id: Makefile.am,v 1.84 2010/10/29 14:52:41 freddy77 Exp $
+ TESTS		=	\
+ 			t0001$(EXEEXT) t0002$(EXEEXT) t0003$(EXEEXT)\
+ 			t0004$(EXEEXT) connect$(EXEEXT) print$(EXEEXT)\
+@@ -23,7 +23,7 @@ TESTS		=	\
+ 			attributes$(EXEEXT) hidden$(EXEEXT) blob1$(EXEEXT) \
+ 			cancel$(EXEEXT) wchar$(EXEEXT) rowset$(EXEEXT) transaction2$(EXEEXT) \
+ 			cursor6$(EXEEXT) cursor7$(EXEEXT) utf8$(EXEEXT) utf8_2$(EXEEXT) \
+-			stats$(EXEEXT) descrec$(EXEEXT)
++			stats$(EXEEXT) descrec$(EXEEXT) peter$(EXEEXT)
+ 
+ check_PROGRAMS	=	$(TESTS)
+ 
+@@ -93,6 +93,7 @@ utf8_SOURCES	= utf8.c common.c common.h
+ utf8_2_SOURCES	= utf8_2.c common.c common.h
+ stats_SOURCES	= stats.c common.c common.h
+ descrec_SOURCES	= descrec.c common.c common.h
++peter_SOURCES	= peter.c common.c common.h
+ 
+ AM_CPPFLAGS	=	-I$(top_srcdir)/include $(ODBC_INC) -DFREETDS_SRCDIR=\"$(srcdir)\"
+ if MINGW32
+
+commit 5eebee1cded0053a3ddccff9a9eac92879f84a1d
+Author: freddy77 <freddy77>
+Date:   Fri Oct 29 14:54:10 2010 +0000
+
+    *** empty log message ***
+
+diff --git a/src/odbc/unittests/peter.c b/src/odbc/unittests/peter.c
+new file mode 100644
+index 0000000..76c4066
+--- /dev/null
++++ b/src/odbc/unittests/peter.c
+@@ -0,0 +1,47 @@
++#undef NDEBUG
++#include "common.h"
++#include <assert.h>
++
++/*
++	Test SQLNumResultCols after SQLFreeStmt
++	This test on Sybase should not raise an error
++*/
++
++static char software_version[] = "$Id: peter.c,v 1.1 2010/10/29 14:54:10 freddy77 Exp $";
++static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
++
++int
++main(int argc, char *argv[])
++{
++	SQLSMALLINT num_params, cols;
++	SQLLEN count;
++	SQLINTEGER id;
++
++	odbc_use_version3 = 1;
++	odbc_connect();
++
++	odbc_command("create table #tester (id int not null, name varchar(20) not null)");
++	odbc_command("insert into #tester(id, name) values(1, 'abc')");
++	odbc_command("insert into #tester(id, name) values(2, 'duck')");
++
++	CHKPrepare((SQLCHAR*) "SELECT * FROM #tester WHERE id = ?", SQL_NTS, "S");
++
++	CHKR(SQLNumParams, (odbc_stmt, &num_params), "S");
++	assert(num_params == 1);
++
++	id = 1;
++	CHKBindParameter(1, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &id, sizeof(id), NULL, "S");
++
++	CHKExecute("S");
++
++	CHKR(SQLFreeStmt, (odbc_stmt, SQL_RESET_PARAMS), "S");
++
++	CHKRowCount(&count, "S");
++
++	CHKNumResultCols(&cols, "S");
++	assert(cols == 2);
++
++	odbc_disconnect();
++	return 0;
++}
++
