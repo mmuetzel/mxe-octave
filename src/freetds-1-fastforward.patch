@@ -157561,3 +157561,603 @@ index 0000000..76c4066
 +	return 0;
 +}
 +
+
+commit 0720c32343c06852e55bcd2f399860c259ac4660
+Author: freddy77 <freddy77>
+Date:   Thu Nov 4 19:38:33 2010 +0000
+
+    allow to specify library options with --enable-krb5
+
+diff --git a/ChangeLog b/ChangeLog
+index 849923b..75b3e80 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Thu Nov  4 20:38:16 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* configure.ac: allow to specify library options with --enable-krb5
++
+ Fri Oct 29 16:52:15 CEST 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/odbc/odbc.c src/odbc/unittests/.cvsignore:
+ 	* src/odbc/unittests/Makefile.am:
+@@ -2978,4 +2981,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3149 2010/10/29 14:52:40 freddy77 Exp $
++$Id: ChangeLog,v 1.3150 2010/11/04 19:38:33 freddy77 Exp $
+diff --git a/configure.ac b/configure.ac
+index 960c834..b3b2633 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1,7 +1,7 @@
+ dnl Process this file with autoconf to produce a configure script.
+ 
+ dnl ------------------------------------------------------------
+-dnl $Id: configure.ac,v 1.57 2010/10/26 08:12:48 freddy77 Exp $
++dnl $Id: configure.ac,v 1.58 2010/11/04 19:38:33 freddy77 Exp $
+ dnl If you're trying to create a new configure test, try
+ dnl
+ dnl 	http://autogen.sourceforge.net/conftest.html
+@@ -15,7 +15,7 @@ dnl ------------------------------------------------------------
+ AC_INIT(FreeTDS, 0.83.dev.esyscmd(printf $(date +"%Y%m%d")))
+ AC_CONFIG_SRCDIR(src/dblib/dblib.c)
+ AC_PREREQ(2.53)
+-AC_REVISION($Revision: 1.57 $)
++AC_REVISION($Revision: 1.58 $)
+ 
+ AM_INIT_AUTOMAKE([dist-bzip2])
+ AC_CONFIG_HEADERS(include/config.h)
+@@ -136,7 +136,15 @@ AC_SUBST(HAVE_PERL_SOURCES)
+ # Checks for libraries.
+ # ------------------------------------------------------------
+ AC_ARG_ENABLE(krb5,
+-  AS_HELP_STRING([--enable-krb5], [enable Kerberos support]))
++  AS_HELP_STRING([--enable-krb5@<:@=LIB@:>@], [enable Kerberos support, optionally with library]))
++
++krb5_libs=auto
++case $enable_krb5 in
++  yes) ;;
++  "" | no) krb5_libs= ;;
++  -* | */* | *.a | *.so | *.so.* | *.o) krb5_libs="$enable_krb5" ;;
++  *) krb5_libs="-l$enable_krb5" ;;
++esac
+ 
+ OLDLIBS="$LIBS"
+ LIBS=""
+@@ -151,6 +159,7 @@ case $host in
+ 	else
+ 		LIBS="-lws2_32"
+ 	fi
++	krb5_libs=
+ 	AM_CONDITIONAL(MINGW32, true)
+ 	;;
+ *-*-hpux*)
+@@ -165,12 +174,6 @@ case $host in
+ 	CPPFLAGS="$CPPFLAGS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED"
+ 	LIBS="$LIBS -lxnet"
+ 	AC_SEARCH_LIBS(gethostbyname, nsl)
+-	if test "$enable_krb5" = "yes" ; then
+-		AC_SEARCH_LIBS(gss_init_sec_context, [gssapi_krb5 gssapi])
+-		if test "$ac_cv_search_gss_init_sec_context" != no; then
+-			AC_DEFINE(ENABLE_KRB5, 1, [Defined if --enable-krb5 used and library detected])
+-		fi
+-	fi
+ 
+ 	# check for _xpg_ functions
+ 	AC_CHECK_FUNCS([_xpg_accept _xpg_getpeername _xpg_getsockname _xpg_getsockopt _xpg_recvfrom \
+@@ -180,16 +183,25 @@ case $host in
+ *)
+ 	AC_SEARCH_LIBS(socket, socket)
+ 	AC_SEARCH_LIBS(gethostbyname, nsl)
+-	if test "$enable_krb5" = "yes" ; then
+-		AC_SEARCH_LIBS(gss_init_sec_context, [gssapi_krb5 gssapi])
+-		if test "$ac_cv_search_gss_init_sec_context" != no; then
+-			AC_DEFINE(ENABLE_KRB5, 1, [Defined if --enable-krb5 used and library detected])
+-		fi
+-	fi
+ 
+ 	AM_CONDITIONAL(MINGW32, false)
+ 	;;
+ esac
++
++case "$krb5_libs" in
++"" ) ;;
++"auto")
++	AC_SEARCH_LIBS(gss_init_sec_context, [gssapi_krb5 gssapi])
++	if test "$ac_cv_search_gss_init_sec_context" != no; then
++		AC_DEFINE(ENABLE_KRB5, 1, [Defined if --enable-krb5 used and library detected])
++	fi
++	;;
++*)
++	AC_DEFINE(ENABLE_KRB5, 1, [Defined if --enable-krb5 used and library detected])
++	LIBS="$LIBS $krb5_libs"
++	;;
++esac
++
+ NETWORK_LIBS="$LIBS"
+ LIBS="$OLDLIBS"
+ AC_SUBST(NETWORK_LIBS)
+
+commit 139606f96a9b19b1d81fc16af8bc9282a3f9a9cd
+Author: freddy77 <freddy77>
+Date:   Tue Nov 9 12:36:10 2010 +0000
+
+    disable LANMAN authentication (too unsecure)
+
+diff --git a/ChangeLog b/ChangeLog
+index 75b3e80..1eb4b64 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Nov  9 13:34:50 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/challenge.c: disable LANMAN authentication (too unsecure)
++
+ Thu Nov  4 20:38:16 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* configure.ac: allow to specify library options with --enable-krb5
+ 
+@@ -2981,4 +2984,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3150 2010/11/04 19:38:33 freddy77 Exp $
++$Id: ChangeLog,v 1.3151 2010/11/09 12:36:10 freddy77 Exp $
+diff --git a/src/tds/challenge.c b/src/tds/challenge.c
+index 7822810..c006f95 100644
+--- a/src/tds/challenge.c
++++ b/src/tds/challenge.c
+@@ -1,6 +1,6 @@
+ /* FreeTDS - Library of routines accessing Sybase and Microsoft databases
+  * Copyright (C) 1998-1999  Brian Bruns
+- * Copyright (C) 2005-2009  Frediano Ziglio
++ * Copyright (C) 2005-2010  Frediano Ziglio
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -45,7 +45,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: challenge.c,v 1.42 2010/09/28 15:09:39 freddy77 Exp $");
++TDS_RCSID(var, "$Id: challenge.c,v 1.43 2010/11/09 12:36:10 freddy77 Exp $");
+ 
+ /**
+  * \ingroup libtds
+@@ -287,7 +287,8 @@ tds_answer_challenge(TDSSOCKET * tds,
+ 		challenge = ntlm2_challenge;
+ 		memset(&md5_ctx, 0, sizeof(md5_ctx));
+ 	} else if (names_blob_len <= 0) {
+-		/* NTLM */
++		/* LM */
++#if TDS_USE_LM
+ 		size_t len, i;
+ 		unsigned char passwd_buf[MAX_PW_SZ];
+ 
+@@ -311,6 +312,9 @@ tds_answer_challenge(TDSSOCKET * tds,
+ 
+ 		tds_encrypt_answer(hash, challenge, answer->lm_resp);
+ 		memset(passwd_buf, 0, sizeof(passwd_buf));
++#else
++		memset(answer->lm_resp, 0, sizeof(answer->lm_resp));
++#endif
+ 	} else {
+ 		/* NTLMv2 */
+ 		unsigned char *lm_v2_response;
+
+commit 512497a4f905387f1390820dde5265eb541ce3fe
+Author: freddy77 <freddy77>
+Date:   Tue Nov 9 12:48:37 2010 +0000
+
+    send OSversion in NTLM type 1, fix flags using NTLMv2
+
+diff --git a/ChangeLog b/ChangeLog
+index 1eb4b64..2e6a38e 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Tue Nov  9 13:48:22 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/challenge.c:
++	- send OSversion in NTLM type 1, fix flags using NTLMv2
++
+ Tue Nov  9 13:34:50 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/challenge.c: disable LANMAN authentication (too unsecure)
+ 
+@@ -2984,4 +2988,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3151 2010/11/09 12:36:10 freddy77 Exp $
++$Id: ChangeLog,v 1.3152 2010/11/09 12:48:37 freddy77 Exp $
+diff --git a/src/tds/challenge.c b/src/tds/challenge.c
+index c006f95..aab2ea1 100644
+--- a/src/tds/challenge.c
++++ b/src/tds/challenge.c
+@@ -45,7 +45,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: challenge.c,v 1.43 2010/11/09 12:36:10 freddy77 Exp $");
++TDS_RCSID(var, "$Id: challenge.c,v 1.44 2010/11/09 12:48:38 freddy77 Exp $");
+ 
+ /**
+  * \ingroup libtds
+@@ -340,8 +340,8 @@ tds_answer_challenge(TDSSOCKET * tds,
+ 		if (!*ntlm_v2_response)
+ 			return TDS_FAIL;
+ 
+-		/* local not supported */
+-		*flags &= 0x4000;
++		/* local not supported, avoid NTLM2 */
++		*flags &= ~(0x80000|0x4000);
+ 		return TDS_SUCCEED;
+ 	}
+ 	*flags = 0x8201;
+@@ -648,6 +648,11 @@ tds_ntlm_handle_next(TDSSOCKET * tds, struct tds_authentication * auth, size_t l
+ 		if (data_block_offset >= 56 && where + 8 <= length) {
+ 			/* Version 3 -- The Context, Target Information, and OS Version structure are all present. */
+ 			tds_get_n(tds, NULL, 8);	/* OS Version Structure */
++#if 0
++			/* if we have a version server handle NTLMv2 */
++			if (target_info_len > 0)
++				flags &= ~0x80000;
++#endif
+ 			where += 8;
+ 		}
+ 	}
+@@ -726,7 +731,7 @@ tds_ntlm_get_auth(TDSSOCKET * tds)
+ 	auth->tds_auth.free = tds_ntlm_free;
+ 	auth->tds_auth.handle_next = tds_ntlm_handle_next;
+ 
+-	auth->tds_auth.packet_len = auth_len = 32 + host_name_len + domain_len;
++	auth->tds_auth.packet_len = auth_len = 40 + host_name_len + domain_len;
+ 	auth->tds_auth.packet = packet = malloc(auth_len);
+ 	if (!packet) {
+ 		free(auth);
+@@ -738,27 +743,29 @@ tds_ntlm_get_auth(TDSSOCKET * tds)
+ 	/* sequence 1 client -> server */
+ 	TDS_PUT_A4(packet + 8, TDS_HOST4LE(1));
+ 	/* flags */
+-	TDS_PUT_A4(packet + 12, TDS_HOST4LE(0x08b201));
++	TDS_PUT_A4(packet + 12, TDS_HOST4LE(0x08b205));
+ 
+ 	/* domain info */
+ 	TDS_PUT_A2LE(packet + 16, domain_len);
+ 	TDS_PUT_A2LE(packet + 18, domain_len);
+-	TDS_PUT_A4LE(packet + 20, 32 + host_name_len);
++	TDS_PUT_A4LE(packet + 20, 40 + host_name_len);
+ 
+ 	/* hostname info */
+ 	TDS_PUT_A2LE(packet + 24, host_name_len);
+ 	TDS_PUT_A2LE(packet + 26, host_name_len);
+-	TDS_PUT_A4LE(packet + 28, 32);
++	TDS_PUT_A4  (packet + 28, TDS_HOST4LE(40));
+ 
+ 	/*
+ 	 * here XP put version like 05 01 28 0a (5.1.2600),
+ 	 * similar to GetVersion result
+ 	 * and some unknown bytes like 00 00 00 0f
+ 	 */
++	TDS_PUT_A4(packet + 32, TDS_HOST4LE(0x0a280105));
++	TDS_PUT_A4(packet + 36, TDS_HOST4LE(0x0f000000));
+ 
+ 	/* hostname and domain */
+-	memcpy(packet + 32, tds_dstr_cstr(&tds->connection->client_host_name), host_name_len);
+-	memcpy(packet + 32 + host_name_len, domain, domain_len);
++	memcpy(packet + 40, tds_dstr_cstr(&tds->connection->client_host_name), host_name_len);
++	memcpy(packet + 40 + host_name_len, domain, domain_len);
+ 
+ 	return (TDSAUTHENTICATION *) auth;
+ }
+
+commit 33a919be62b339b7ce91990770a9af1c12584788
+Author: freddy77 <freddy77>
+Date:   Tue Nov 9 15:42:04 2010 +0000
+
+    fix possible problem with sspi.h header
+
+diff --git a/ChangeLog b/ChangeLog
+index 2e6a38e..12544a2 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Tue Nov  9 16:41:37 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/sspi.c: fix possible problem with sspi.h header
++
+ Tue Nov  9 13:48:22 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/challenge.c:
+ 	- send OSversion in NTLM type 1, fix flags using NTLMv2
+@@ -2988,4 +2991,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3152 2010/11/09 12:48:37 freddy77 Exp $
++$Id: ChangeLog,v 1.3153 2010/11/09 15:42:04 freddy77 Exp $
+diff --git a/src/tds/sspi.c b/src/tds/sspi.c
+index d20dbfa..78a8b32 100644
+--- a/src/tds/sspi.c
++++ b/src/tds/sspi.c
+@@ -21,6 +21,9 @@
+ #include <config.h>
+ #endif
+ 
++/* fix possible bug in sspi.h header */
++#define FreeCredentialHandle FreeCredentialsHandle
++
+ #if HAVE_STDLIB_H
+ #include <stdlib.h>
+ #endif /* HAVE_STDLIB_H */
+@@ -46,7 +49,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: sspi.c,v 1.8 2010/02/12 10:16:17 freddy77 Exp $");
++TDS_RCSID(var, "$Id: sspi.c,v 1.9 2010/11/09 15:42:04 freddy77 Exp $");
+ 
+ /**
+  * \ingroup libtds
+
+commit a0217e51c9c8eb5cc7249ca518bc4c3ab2a0b74b
+Author: freddy77 <freddy77>
+Date:   Tue Nov 9 15:46:42 2010 +0000
+
+    add "use ntlmv2" option
+
+diff --git a/ChangeLog b/ChangeLog
+index 12544a2..1a87e00 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,8 @@
++Tue Nov  9 16:46:15 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* include/tds.h include/tdsodbc.h src/odbc/connectparams.c:
++	* src/tds/challenge.c src/tds/config.c:
++	- add "use ntlmv2" option
++
+ Tue Nov  9 16:41:37 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/sspi.c: fix possible problem with sspi.h header
+ 
+@@ -2991,4 +2996,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3153 2010/11/09 15:42:04 freddy77 Exp $
++$Id: ChangeLog,v 1.3154 2010/11/09 15:46:42 freddy77 Exp $
+diff --git a/include/tds.h b/include/tds.h
+index cd929b9..dba4cfa 100644
+--- a/include/tds.h
++++ b/include/tds.h
+@@ -21,7 +21,7 @@
+ #ifndef _tds_h_
+ #define _tds_h_
+ 
+-/* $Id: tds.h,v 1.343 2010/09/16 07:37:23 freddy77 Exp $ */
++/* $Id: tds.h,v 1.344 2010/11/09 15:46:42 freddy77 Exp $ */
+ 
+ #include <stdarg.h>
+ #include <stdio.h>
+@@ -804,6 +804,7 @@ typedef enum tds_encryption_level {
+ #define TDS_STR_INSTANCE "instance"
+ #define TDS_STR_ASA_DATABASE	"asa database"
+ #define TDS_STR_ENCRYPTION	 "encryption"
++#define TDS_STR_USENTLMV2	"use ntlmv2"
+ /* conf values */
+ #define TDS_STR_ENCRYPTION_OFF	 "off"
+ #define TDS_STR_ENCRYPTION_REQUEST "request"
+@@ -880,6 +881,7 @@ typedef struct tds_connection
+ 	unsigned int bulk_copy:1;
+ 	unsigned int suppress_language:1;
+ 	unsigned int gssapi_use_delegation:1;
++	unsigned int use_ntlmv2:1;
+ } TDSCONNECTION;
+ 
+ typedef struct tds_locale
+diff --git a/include/tdsodbc.h b/include/tdsodbc.h
+index 305323b..b5ca7b9 100644
+--- a/include/tdsodbc.h
++++ b/include/tdsodbc.h
+@@ -66,7 +66,7 @@ extern "C"
+ #endif
+ #endif
+ 
+-/* $Id: tdsodbc.h,v 1.126 2010/08/17 13:16:05 freddy77 Exp $ */
++/* $Id: tdsodbc.h,v 1.127 2010/11/09 15:46:42 freddy77 Exp $ */
+ 
+ #if defined(__GNUC__) && __GNUC__ >= 4 && !defined(__MINGW32__)
+ #pragma GCC visibility push(hidden)
+@@ -465,7 +465,8 @@ BOOL get_login_info(HWND hwndParent, TDSCONNECTION * connection);
+ 	ODBC_PARAM(Encryption) \
+ 	ODBC_PARAM(Trusted_Connection) \
+ 	ODBC_PARAM(APP) \
+-	ODBC_PARAM(WSID)
++	ODBC_PARAM(WSID) \
++	ODBC_PARAM(UseNTLMv2)
+ 
+ #define ODBC_PARAM(p) ODBC_PARAM_##p,
+ enum {
+diff --git a/src/odbc/connectparams.c b/src/odbc/connectparams.c
+index 0ba1417..5f11d32 100644
+--- a/src/odbc/connectparams.c
++++ b/src/odbc/connectparams.c
+@@ -37,7 +37,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: connectparams.c,v 1.87 2010/07/08 09:39:34 freddy77 Exp $");
++TDS_RCSID(var, "$Id: connectparams.c,v 1.88 2010/11/09 15:46:42 freddy77 Exp $");
+ 
+ #define ODBC_PARAM(p) static const char odbc_param_##p[] = #p;
+ ODBC_PARAM_LIST
+@@ -225,6 +225,9 @@ odbc_get_dsn_info(TDS_ERRS *errs, const char *DSN, TDSCONNECTION * connection)
+ 	if (myGetPrivateProfileString(DSN, odbc_param_Encryption, tmp) > 0)
+ 		tds_parse_conf_section(TDS_STR_ENCRYPTION, tmp, connection);
+ 
++	if (myGetPrivateProfileString(DSN, odbc_param_UseNTLMv2, tmp) > 0)
++		tds_parse_conf_section(TDS_STR_USENTLMV2, tmp, connection);
++
+ 	if (myGetPrivateProfileString(DSN, odbc_param_Trusted_Connection, tmp) > 0 && tds_config_boolean(tmp)) {
+ 		tds_dstr_copy(&connection->user_name, "");
+ 		tds_dstr_copy(&connection->password, "");
+@@ -377,6 +380,8 @@ odbc_parse_connect_string(TDS_ERRS *errs, const char *connect_string, const char
+ 			tds_parse_conf_section(TDS_STR_DEBUGFLAGS, tds_dstr_cstr(&value), connection);
+ 		} else if (CHK_PARAM(Encryption)) {
+ 			tds_parse_conf_section(TDS_STR_ENCRYPTION, tds_dstr_cstr(&value), connection);
++		} else if (CHK_PARAM(UseNTLMv2)) {
++			tds_parse_conf_section(TDS_STR_USENTLMV2, tds_dstr_cstr(&value), connection);
+ 		} else if (CHK_PARAM(Trusted_Connection)) {
+ 			trusted = tds_config_boolean(tds_dstr_cstr(&value));
+ 			tdsdump_log(TDS_DBG_INFO1, "trusted %s -> %d\n", tds_dstr_cstr(&value), trusted);
+diff --git a/src/tds/challenge.c b/src/tds/challenge.c
+index aab2ea1..cea3307 100644
+--- a/src/tds/challenge.c
++++ b/src/tds/challenge.c
+@@ -45,7 +45,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: challenge.c,v 1.44 2010/11/09 12:48:38 freddy77 Exp $");
++TDS_RCSID(var, "$Id: challenge.c,v 1.45 2010/11/09 15:46:42 freddy77 Exp $");
+ 
+ /**
+  * \ingroup libtds
+@@ -248,6 +248,44 @@ make_lm_v2_response(const unsigned char ntlm_v2_hash[16],
+ 	return mac;
+ }
+ 
++static int
++tds_answer_challenge_ntlmv2(TDSSOCKET * tds,
++		     TDSCONNECTION * connection,
++		     const unsigned char *challenge,
++		     TDS_UINT * flags,
++		     const unsigned char *names_blob, TDS_INT names_blob_len, TDSANSWER * answer, unsigned char **ntlm_v2_response)
++{
++	int res;
++	const char *passwd = tds_dstr_cstr(&connection->password);
++
++	/* NTLMv2 */
++	unsigned char *lm_v2_response;
++	unsigned char ntlm_v2_hash[16];
++	const names_blob_prefix_t *names_blob_prefix;
++
++	res = make_ntlm_v2_hash(tds, passwd, ntlm_v2_hash);
++	if (res != TDS_SUCCEED)
++		return res;
++
++	/* LMv2 response */
++	/* Take client's challenge from names_blob */
++	names_blob_prefix = (const names_blob_prefix_t *) names_blob;
++	lm_v2_response = make_lm_v2_response(ntlm_v2_hash, names_blob_prefix->challenge, 8, challenge);
++	if (!lm_v2_response)
++		return TDS_FAIL;
++	memcpy(answer->lm_resp, lm_v2_response, 24);
++	free(lm_v2_response);
++
++	/* NTLMv2 response */
++	/* Size of lm_v2_response is 16 + names_blob_len */
++	*ntlm_v2_response = make_lm_v2_response(ntlm_v2_hash, names_blob, names_blob_len, challenge);
++	if (!*ntlm_v2_response)
++		return TDS_FAIL;
++
++	/* local not supported, avoid NTLM2 */
++	*flags &= ~(0x80000|0x4000);
++	return TDS_SUCCEED;
++}
+ 
+ /**
+  * Crypt a given password using schema required for NTLMv1 or NTLM2 authentication
+@@ -265,14 +303,16 @@ tds_answer_challenge(TDSSOCKET * tds,
+ {
+ #define MAX_PW_SZ 14
+ 	const char *passwd = tds_dstr_cstr(&connection->password);
+-	static const des_cblock magic = { 0x4B, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25 };
+ 	DES_KEY ks;
+ 	unsigned char hash[24], ntlm2_challenge[16];
+ 	int res;
+ 
+ 	memset(answer, 0, sizeof(TDSANSWER));
+ 
+-	if ((*flags & 0x80000) != 0) {
++	if (connection->use_ntlmv2) {
++		return tds_answer_challenge_ntlmv2(tds, connection, challenge, flags,
++						   names_blob, names_blob_len, answer, ntlm_v2_response);
++	} else if ((*flags & 0x80000) != 0) {
+ 		/* NTLM2 */
+ 		MD5_CTX md5_ctx;
+ 
+@@ -286,11 +326,12 @@ tds_answer_challenge(TDSSOCKET * tds,
+ 		MD5Final(&md5_ctx, ntlm2_challenge);
+ 		challenge = ntlm2_challenge;
+ 		memset(&md5_ctx, 0, sizeof(md5_ctx));
+-	} else if (names_blob_len <= 0) {
++	} else {
+ 		/* LM */
+ #if TDS_USE_LM
+ 		size_t len, i;
+ 		unsigned char passwd_buf[MAX_PW_SZ];
++		static const des_cblock magic = { 0x4B, 0x47, 0x53, 0x21, 0x40, 0x23, 0x24, 0x25 };
+ 
+ 		/* convert password to upper and pad to 14 chars */
+ 		memset(passwd_buf, 0, MAX_PW_SZ);
+@@ -315,34 +356,6 @@ tds_answer_challenge(TDSSOCKET * tds,
+ #else
+ 		memset(answer->lm_resp, 0, sizeof(answer->lm_resp));
+ #endif
+-	} else {
+-		/* NTLMv2 */
+-		unsigned char *lm_v2_response;
+-		unsigned char ntlm_v2_hash[16];
+-		const names_blob_prefix_t *names_blob_prefix;
+-
+-		res = make_ntlm_v2_hash(tds, passwd, ntlm_v2_hash);
+-		if (res != TDS_SUCCEED)
+-			return res;
+-
+-		/* LMv2 response */
+-		/* Take client's challenge from names_blob */
+-		names_blob_prefix = (const names_blob_prefix_t *) names_blob;
+-		lm_v2_response = make_lm_v2_response(ntlm_v2_hash, names_blob_prefix->challenge, 8, challenge);
+-		if (!lm_v2_response)
+-			return TDS_FAIL;
+-		memcpy(answer->lm_resp, lm_v2_response, 24);
+-		free(lm_v2_response);
+-
+-		/* NTLMv2 response */
+-		/* Size of lm_v2_response is 16 + names_blob_len */
+-		*ntlm_v2_response = make_lm_v2_response(ntlm_v2_hash, names_blob, names_blob_len, challenge);
+-		if (!*ntlm_v2_response)
+-			return TDS_FAIL;
+-
+-		/* local not supported, avoid NTLM2 */
+-		*flags &= ~(0x80000|0x4000);
+-		return TDS_SUCCEED;
+ 	}
+ 	*flags = 0x8201;
+ 
+@@ -743,7 +756,7 @@ tds_ntlm_get_auth(TDSSOCKET * tds)
+ 	/* sequence 1 client -> server */
+ 	TDS_PUT_A4(packet + 8, TDS_HOST4LE(1));
+ 	/* flags */
+-	TDS_PUT_A4(packet + 12, TDS_HOST4LE(0x08b205));
++	TDS_PUT_A4(packet + 12, TDS_HOST4LE(0x08b201));
+ 
+ 	/* domain info */
+ 	TDS_PUT_A2LE(packet + 16, domain_len);
+diff --git a/src/tds/config.c b/src/tds/config.c
+index b079351..742e3d0 100644
+--- a/src/tds/config.c
++++ b/src/tds/config.c
+@@ -80,7 +80,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: config.c,v 1.161 2010/09/27 21:53:48 jklowden Exp $");
++TDS_RCSID(var, "$Id: config.c,v 1.162 2010/11/09 15:46:42 freddy77 Exp $");
+ 
+ static void tds_config_login(TDSCONNECTION * connection, TDSLOGIN * login);
+ static void tds_config_env_tdsdump(TDSCONNECTION * connection);
+@@ -613,6 +613,8 @@ tds_parse_conf_section(const char *option, const char *value, void *param)
+ 		tds_config_encryption(value, connection);
+ 	} else if (!strcmp(option, TDS_STR_ASA_DATABASE)) {
+ 		tds_dstr_copy(&connection->server_name, value);
++	} else if (!strcmp(option, TDS_STR_USENTLMV2)) {
++		connection->use_ntlmv2 = tds_config_boolean(value);
+ 	} else {
+ 		tdsdump_log(TDS_DBG_INFO1, "UNRECOGNIZED option '%s' ... ignoring.\n", option);
+ 	}
