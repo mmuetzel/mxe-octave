@@ -158374,3 +158374,107 @@ index cea3307..0951f13 100644
  		where += target_info_len;
  	} else {
  		names_blob = NULL;
+
+commit d4f86b24d404ab03c90acf245013963d2e851bcc
+Author: jklowden <jklowden>
+Date:   Fri Nov 19 03:22:42 2010 +0000
+
+    applied patch for -D database cf. ML Merle Reinhart 12 Nov 2010
+
+diff --git a/ChangeLog b/ChangeLog
+index 6e8dea1..2df17c0 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Thu Nov 18 22:19:03 EST 2010	JK Lowden <jklowden@freetds.org>
++	* doc/fisql.txt src/apps/fisql/fisql.c
++	- applied patch for -D database cf. ML Merle Reinhart 12 Nov 2010
++
+ Tue Nov 16 14:25:04 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* configure.ac src/tds/challenge.c: fix NTLMv2 on 64-bit machine
+ 
+@@ -3003,4 +3007,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3156 2010/11/16 13:25:15 freddy77 Exp $
++$Id: ChangeLog,v 1.3157 2010/11/19 03:22:42 jklowden Exp $
+diff --git a/doc/fisql.txt b/doc/fisql.txt
+index cbb9a41..a64c701 100644
+--- a/doc/fisql.txt
++++ b/doc/fisql.txt
+@@ -4,7 +4,8 @@ NAME
+ SYNOPSIS
+ 
+   fisql [-e] [-F] [-g] [-p] [-n] [-v] [-X] [-Y]
+-	\[a] [-a display_charset] [-c cmdend] [-E editor]
++	\[a] [-a display_charset] [-c cmdend] 
++	\[a] [-D database] [-E editor]
+ 	\[a] [-h headers] [-H hostname] [-i inputfile]
+ 	\[a] [-I interfaces_file] [-J client_charset]
+ 	\[a] [-l login_timeout] [-m errorlevel]
+@@ -24,6 +25,8 @@ OPTIONS
+ 	-a display_charset  The client charset name. Not implemented. 
+ 
+ 	-c cmdend  Command terminator, defaults to go. 
++        
++	-D      Database name on the server to use.
+ 
+ 	-e  Echo SQL input (usually in outputfile)
+ 
+diff --git a/src/apps/fisql/fisql.c b/src/apps/fisql/fisql.c
+index 21717a6..fb5a3ad 100644
+--- a/src/apps/fisql/fisql.c
++++ b/src/apps/fisql/fisql.c
+@@ -271,7 +271,8 @@ main(int argc, char *argv[])
+ 	int printedcompute = 0;
+ 	BYTE *bylist;
+ 	int nby;
+-	char adash;
++       char adash;
++       const char *database_name = NULL;
+ 
+ 	setlocale(LC_ALL, "");
+ 
+@@ -290,7 +291,7 @@ main(int argc, char *argv[])
+ 
+ 	opterr = 0;
+ 	optarg = NULL;
+-	while (!errflg && (c = getopt(argc, argv, "eFgpnvXYa:c:E:h:H:i:I:J:l:m:o:P:s:S:t:U:w:y:z:A:"))
++	while (!errflg && (c = getopt(argc, argv, "eFgpnvXYa:c:D:E:h:H:i:I:J:l:m:o:P:s:S:t:U:w:y:z:A:"))
+ 	       != -1) {
+ 		switch (c) {
+ 		case 'e':
+@@ -386,9 +387,12 @@ main(int argc, char *argv[])
+ 		case 'z':
+ 			language = optarg;
+ 			break;
+-		case 'A':
++               case 'A':
+ 			size = atoi(optarg);
+ 			break;
++               case 'D':
++                        database_name = optarg;
++                        break;
+ 		default:
+ 			errflg++;
+ 			break;
+@@ -397,7 +401,7 @@ main(int argc, char *argv[])
+ 
+ 	if (errflg) {
+ 		fprintf(stderr, "usage: fisql [-e] [-F] [-g] [-p] [-n] [-v] [-X] [-Y]\n");
+-		fprintf(stderr, "\t[-a display_charset] [-c cmdend] [-E editor]\n");
++		fprintf(stderr, "\t[-a display_charset] [-c cmdend] [-D database_name] [-E editor]\n");
+ 		fprintf(stderr, "\t[-h headers] [-H hostname] [-i inputfile]\n");
+ 		fprintf(stderr, "\t[-I interfaces_file] [-J client character set]\n");
+ 		fprintf(stderr, "\t[-l login_timeout] [-m errorlevel]\n");
+@@ -503,6 +507,9 @@ main(int argc, char *argv[])
+ 	if (perfstats) {
+ 		dbsetopt(dbproc, DBSTAT, "time", 0);
+ 	}
++        if (database_name) {
++                dbuse(dbproc, database_name);
++        }
+ 
+ 	while (1) {
+ 		if (sigsetjmp(restart, 1)) {
