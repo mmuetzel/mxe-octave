@@ -158478,3 +158478,80 @@ index 21717a6..fb5a3ad 100644
  
  	while (1) {
  		if (sigsetjmp(restart, 1)) {
+
+commit c677798bc6aa78a568dc2bbaeba9e37ee8168fdc
+Author: freddy77 <freddy77>
+Date:   Fri Nov 19 17:31:05 2010 +0000
+
+    spaces -> tabs
+
+diff --git a/ChangeLog b/ChangeLog
+index 2df17c0..776e2b4 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Fri Nov 19 18:30:55 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/apps/fisql/fisql.c: spaces -> tabs
++
+ Thu Nov 18 22:19:03 EST 2010	JK Lowden <jklowden@freetds.org>
+ 	* doc/fisql.txt src/apps/fisql/fisql.c
+ 	- applied patch for -D database cf. ML Merle Reinhart 12 Nov 2010
+@@ -3007,4 +3010,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3157 2010/11/19 03:22:42 jklowden Exp $
++$Id: ChangeLog,v 1.3158 2010/11/19 17:31:05 freddy77 Exp $
+diff --git a/src/apps/fisql/fisql.c b/src/apps/fisql/fisql.c
+index fb5a3ad..051e915 100644
+--- a/src/apps/fisql/fisql.c
++++ b/src/apps/fisql/fisql.c
+@@ -271,14 +271,14 @@ main(int argc, char *argv[])
+ 	int printedcompute = 0;
+ 	BYTE *bylist;
+ 	int nby;
+-       char adash;
+-       const char *database_name = NULL;
++	char adash;
++	const char *database_name = NULL;
+ 
+ 	setlocale(LC_ALL, "");
+ 
+ #ifdef __VMS
+-        /* Convert VMS-style arguments to Unix-style */
+-        parse_vms_args(&argc, &argv);
++	/* Convert VMS-style arguments to Unix-style */
++	parse_vms_args(&argc, &argv);
+ #endif
+ 
+ 	editor = getenv("EDITOR");
+@@ -387,12 +387,12 @@ main(int argc, char *argv[])
+ 		case 'z':
+ 			language = optarg;
+ 			break;
+-               case 'A':
++		case 'A':
+ 			size = atoi(optarg);
+ 			break;
+-               case 'D':
+-                        database_name = optarg;
+-                        break;
++		case 'D':
++			database_name = optarg;
++			break;
+ 		default:
+ 			errflg++;
+ 			break;
+@@ -507,9 +507,9 @@ main(int argc, char *argv[])
+ 	if (perfstats) {
+ 		dbsetopt(dbproc, DBSTAT, "time", 0);
+ 	}
+-        if (database_name) {
+-                dbuse(dbproc, database_name);
+-        }
++	if (database_name) {
++		dbuse(dbproc, database_name);
++	}
+ 
+ 	while (1) {
+ 		if (sigsetjmp(restart, 1)) {
