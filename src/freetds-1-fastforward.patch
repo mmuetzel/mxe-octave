@@ -158555,3 +158555,56 @@ index fb5a3ad..051e915 100644
  
  	while (1) {
  		if (sigsetjmp(restart, 1)) {
+
+commit 997f8e19ad952cc58bdc2a40a0fedcfac20e74a2
+Author: freddy77 <freddy77>
+Date:   Sun Nov 21 21:24:09 2010 +0000
+
+    fix encoding problem with SQL_AltDiction2_CP1253_CS_AS
+
+diff --git a/ChangeLog b/ChangeLog
+index 776e2b4..08d79aa 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Sun Nov 21 22:24:02 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/iconv.c:
++	- fix encoding problem with SQL_AltDiction2_CP1253_CS_AS
++
+ Fri Nov 19 18:30:55 CET 2010    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/apps/fisql/fisql.c: spaces -> tabs
+ 
+@@ -3010,4 +3014,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3158 2010/11/19 17:31:05 freddy77 Exp $
++$Id: ChangeLog,v 1.3159 2010/11/21 21:24:09 freddy77 Exp $
+diff --git a/src/tds/iconv.c b/src/tds/iconv.c
+index 3fb27ee..1dd40c7 100644
+--- a/src/tds/iconv.c
++++ b/src/tds/iconv.c
+@@ -1,5 +1,6 @@
+ /* FreeTDS - Library of routines accessing Sybase and Microsoft databases
+  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005  Brian Bruns
++ * Copyright (C) 2010  Frediano Ziglio
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -49,7 +50,7 @@
+ /* define this for now; remove when done testing */
+ #define HAVE_ICONV_ALWAYS 1
+ 
+-TDS_RCSID(var, "$Id: iconv.c,v 1.145 2010/07/24 12:41:03 freddy77 Exp $");
++TDS_RCSID(var, "$Id: iconv.c,v 1.146 2010/11/21 21:24:09 freddy77 Exp $");
+ 
+ #define CHARSIZE(charset) ( ((charset)->min_bytes_per_char == (charset)->max_bytes_per_char )? \
+ 				(charset)->min_bytes_per_char : 0 )
+@@ -1297,6 +1298,7 @@ collate2charset(int sql_collate, int lcid)
+ 	case 114:		/* SQL_Latin1_General_CP1253_CI_AS */
+ 	case 120:		/* SQL_MixDiction_CP1253_CS_AS */
+ 	case 121:		/* SQL_AltDiction_CP1253_CS_AS */
++	case 122:		/* SQL_AltDiction2_CP1253_CS_AS */
+ 	case 124:		/* SQL_Latin1_General_CP1253_CI_AI */
+ 		return "CP1253";
+ 	case 137:		/* SQL_Latin1_General_CP1255_CS_AS */
