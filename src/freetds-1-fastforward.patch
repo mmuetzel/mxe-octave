@@ -160852,3 +160852,237 @@ index 10b9219..f67ad36 100644
  			fprintf(stderr, "%s: unable to open %s: %s\n", "freebcp", pdata->inputfile, strerror(errno));
  			exit(1);
  		}
+
+commit c99aa4202865d601e8e31482a496584a89beaa89
+Author: jklowden <jklowden>
+Date:   Tue Dec 21 16:55:23 2010 +0000
+
+    allow Kerberos/sspi connections without username
+
+diff --git a/ChangeLog b/ChangeLog
+index df78ba0..0a57dfc 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Tue Dec 21 11:53:40 EST 2010	JK Lowden <jklowden@freetds.org>
++	* src/apps/bsqldb.c src/apps/tsql.c src/dblib/dblib.c
++	- allow Kerberos/sspi connections without username
++
+ Thu Dec 16 20:24:00 CST 2010    Craig A. Berry <craigberry@mac.com>
+         * vms/getpass.c Base VMS getpass/readline on stdin, not SYS$COMMAND.
+ 
+@@ -3063,4 +3067,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3171 2010/12/17 04:26:21 berryc Exp $
++$Id: ChangeLog,v 1.3172 2010/12/21 16:55:23 jklowden Exp $
+diff --git a/src/apps/bsqldb.c b/src/apps/bsqldb.c
+index 833bc1a..3601b36 100644
+--- a/src/apps/bsqldb.c
++++ b/src/apps/bsqldb.c
+@@ -53,7 +53,7 @@
+ #include <sybdb.h>
+ #include "replacements.h"
+ 
+-static char software_version[] = "$Id: bsqldb.c,v 1.46 2010/09/16 20:33:28 jklowden Exp $";
++static char software_version[] = "$Id: bsqldb.c,v 1.47 2010/12/21 16:55:24 jklowden Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ #ifdef _WIN32
+@@ -801,7 +801,7 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ {
+ 	LOGINREC *login;
+ 	int ch;
+-	int got_password = 0;
++	char *username = NULL, *password = NULL;
+ 
+ 	extern char *optarg;
+ 
+@@ -822,11 +822,10 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 	while ((ch = getopt(argc, argv, "U:P:S:dD:i:o:e:t:H:hqv")) != -1) {
+ 		switch (ch) {
+ 		case 'U':
+-			DBSETLUSER(login, optarg);
++			username = strdup(optarg);
+ 			break;
+ 		case 'P':
+-			got_password = 1;
+-			DBSETLPWD(login, optarg);
++			password = strdup(optarg);
+ 			memset(optarg, 0, strlen(optarg));
+ 			break;
+ 		case 'S':
+@@ -868,6 +867,10 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 		}
+ 	}
+ 
++	if (username) 
++		DBSETLUSER(login, username);
++	
++
+ 	if( !options->hostname[0] ) {
+ 		if (-1 == gethostname(options->hostname, sizeof(options->hostname))) {
+ 			perror("unable to get hostname");
+@@ -878,7 +881,11 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 		DBSETLHOST(login, options->hostname);
+ 	}
+ 
+-	if (!got_password) {
++	/* Look for a password if a username was provided, else assume domain login */
++	if (password) {
++		DBSETLPWD(login, password);
++		memset(password, 0, strlen(password));
++	} else if (username) {
+ 		char password[128];
+ 
+ 		readpassphrase("Password: ", password, sizeof(password), RPP_ECHO_OFF);
+diff --git a/src/apps/tsql.c b/src/apps/tsql.c
+index 127f00c..43c9029 100644
+--- a/src/apps/tsql.c
++++ b/src/apps/tsql.c
+@@ -87,7 +87,7 @@
+ #include "tdsconvert.h"
+ #include "replacements.h"
+ 
+-TDS_RCSID(var, "$Id: tsql.c,v 1.138 2010/12/10 20:46:22 jklowden Exp $");
++TDS_RCSID(var, "$Id: tsql.c,v 1.139 2010/12/21 16:55:24 jklowden Exp $");
+ 
+ #define TDS_ISSPACE(c) isspace((unsigned char) (c))
+ 
+@@ -113,7 +113,6 @@ static char *opt_row_term = "\n";
+ static char *opt_default_db = NULL;
+ 
+ static int do_query(TDSSOCKET * tds, char *buf, int opt_flags);
+-static void tsql_print_usage(const char *progname);
+ static int get_opt_flags(char *s, int *opt_flags);
+ static void populate_login(TDSLOGIN * login, int argc, char **argv);
+ static int tsql_handle_message(const TDSCONTEXT * context, TDSSOCKET * tds, TDSMESSAGE * msg);
+@@ -295,24 +294,6 @@ do_query(TDSSOCKET * tds, char *buf, int opt_flags)
+ }
+ 
+ static void
+-tsql_print_usage(const char *progname)
+-{
+-	fprintf(stderr,
+-		"Usage:\t%s [-S <server> | -H <hostname> -p <port>] -U <username> [-P <password>]\n"
+-		"\t\t[-I <config file>] [-J <client charset>] [-o <options>] [-t delim] [-r delim] [-D database]\n"
+-		"\t%s -C\n"
+-		"Options:\n"
+-		"\tf\tDo not print footer\n"
+-		"\th\tDo not print header\n"
+-		"\tt\tPrint time informations\n"
+-		"\tv\tPrint TDS version\n"
+-		"\tq\tQuiet\n\n"
+-		"\tDelimiters can be multi-char strings appropriately escaped for your shell.\n"
+-		"\tDefault column delimitor is <tab>; default row delimiter is <newline>\n",
+-		progname, progname);
+-}
+-
+-static void
+ reset_getopt(void)
+ {
+ #ifdef HAVE_GETOPT_OPTRESET
+@@ -408,13 +389,10 @@ static void
+ populate_login(TDSLOGIN * login, int argc, char **argv)
+ {
+ 	const TDS_COMPILETIME_SETTINGS *settings;
+-	char *hostname = NULL;
+-	char *servername = NULL;
+-	char *username = NULL;
+-	char *password = NULL;
++	char *hostname = NULL, *servername = NULL;
++	char *username = NULL, *password = NULL;
+ 	char *confile = NULL;
+-	int port = 0;
+-	int opt;
++	int opt, port=0, use_domain_login=0;
+ 	const char *charset = NULL;
+ 	char *opt_flags_str = NULL;
+ 
+@@ -485,7 +463,7 @@ populate_login(TDSLOGIN * login, int argc, char **argv)
+ 			exit(0);
+ 			break;
+ 		default:
+-			tsql_print_usage(argv[0]);
++			fprintf(stderr, "%s: error: invalid option %c\n", argv[0], (char)opt);
+ 			exit(1);
+ 			break;
+ 		}
+@@ -521,8 +499,7 @@ populate_login(TDSLOGIN * login, int argc, char **argv)
+ 
+ 	/* validate parameters */
+ 	if (!servername && !hostname) {
+-		fprintf(stderr, "Missing argument -S or -H\n");
+-		tsql_print_usage(argv[0]);
++		fprintf(stderr, "%s: error: Missing argument -S or -H\n", argv[0]);
+ 		exit(1);
+ 	}
+ 	if (hostname && !port) {
+@@ -538,35 +515,29 @@ populate_login(TDSLOGIN * login, int argc, char **argv)
+ 			printf("Missing argument -p, looking for default instance ... ");
+ 		}
+ 		if (0 == (port = get_default_instance_port(hostname))) {
+-			printf("no reply from server\n");
+-			tsql_print_usage(argv[0]);
++			fprintf(stderr, "%s: no default port provided by host %s\n", argv[0], hostname);
+ 			exit(1);
+ 		} 
+ 		if (!QUIET)
+ 			printf("found default instance, port %d\n", port);
+ 		
+ 	}
++	/* A NULL username indicates a domain (trusted) login */
+ 	if (!username) {
+-		fprintf(stderr, "Missing argument -U \n");
+-		tsql_print_usage(argv[0]);
+-		exit(1);
+-	}
+-	if (!servername && !hostname) {
+-		tsql_print_usage(argv[0]);
+-		exit(1);
++		username = calloc(1, 1);
++		use_domain_login = 1;
+ 	}
+ 	if (!password) {
+-		password = (char*) malloc(128);
+-		readpassphrase("Password: ", password, 128, RPP_ECHO_OFF);
++		password = calloc(1, 128);
++		if (!use_domain_login)
++			readpassphrase("Password: ", password, 128, RPP_ECHO_OFF);
+ 	}
+ 	if (!opt_col_term) {
+-		fprintf(stderr, "Missing delimiter for -t (check escaping)\n");
+-		tsql_print_usage(argv[0]);
++		fprintf(stderr, "%s: missing delimiter for -t (check escaping)\n", argv[0]);
+ 		exit(1);
+ 	}
+ 	if (!opt_row_term) {
+-		fprintf(stderr, "Missing delimiter for -r (check escaping)\n");
+-		tsql_print_usage(argv[0]);
++		fprintf(stderr, "%s: missing delimiter for -r (check escaping)\n", argv[0]);
+ 		exit(1);
+ 	}
+ 
+diff --git a/src/dblib/dblib.c b/src/dblib/dblib.c
+index 7ae8d3b..343cce3 100644
+--- a/src/dblib/dblib.c
++++ b/src/dblib/dblib.c
+@@ -75,7 +75,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: dblib.c,v 1.371 2010/09/16 12:30:43 freddy77 Exp $");
++TDS_RCSID(var, "$Id: dblib.c,v 1.372 2010/12/21 16:55:24 jklowden Exp $");
+ 
+ static RETCODE _dbresults(DBPROCESS * dbproc);
+ static int _db_get_server_type(int bindtype);
+@@ -7316,7 +7316,7 @@ copy_data_to_host_var(DBPROCESS * dbproc, int srctype, const BYTE * src, DBINT s
+ 			break;
+ 		}
+ 		if (indicator)
+-			*(DBINT *)(indicator) = indicator_value;
++			*indicator = indicator_value;
+ 
+ 		return;
+ 
