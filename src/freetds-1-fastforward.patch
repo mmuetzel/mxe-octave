@@ -164437,3 +164437,60 @@ index bfa23bc..e0a403e 100644
  	</font>
  <hr/>
    <p>
+
+commit 0f0f3100c3ae4b8e84fb296e6ccb4cb9f13030c4
+Author: jklowden <jklowden>
+Date:   Mon Jan 3 20:27:53 2011 +0000
+
+    TDSPORT and TDSVER override even if no configuration file found
+
+diff --git a/ChangeLog b/ChangeLog
+index 6b7ceb5..4b637bc 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Mon Jan  3 15:25:36 EST 2011	JK Lowden <jklowden@freetds.org>
++	* src/dblib/dblib.c 
++	- TDSPORT and TDSVER override even if no configuration file found
++
+ Fri Dec 31 11:33:05 EST 2010	JK Lowden <jklowden@freetds.org>
+ 	* doc/api_status.txt doc/htdoc/faq.html
+ 	- updated per Frediano and corrected validation errors
+@@ -3122,4 +3126,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3186 2010/12/31 16:34:15 jklowden Exp $
++$Id: ChangeLog,v 1.3187 2011/01/03 20:27:53 jklowden Exp $
+diff --git a/src/dblib/dblib.c b/src/dblib/dblib.c
+index 4c0cedd..f92025f 100644
+--- a/src/dblib/dblib.c
++++ b/src/dblib/dblib.c
+@@ -75,7 +75,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: dblib.c,v 1.375 2010/12/30 19:44:44 freddy77 Exp $");
++TDS_RCSID(var, "$Id: dblib.c,v 1.376 2011/01/03 20:27:54 jklowden Exp $");
+ 
+ static RETCODE _dbresults(DBPROCESS * dbproc);
+ static int _db_get_server_type(int bindtype);
+@@ -1163,8 +1163,10 @@ tdsdbopen(LOGINREC * login, const char *server, int msdblib)
+ 	
+ 
+ 	tds_set_parent(dbproc->tds_socket, dbproc);
++
+ 	dbproc->tds_socket->env_chg_func = db_env_chg;
+ 	dbproc->envchange_rcv = 0;
++
+ 	dbproc->dbcurdb[0] = '\0';
+ 	dbproc->servcharset[0] = '\0';
+ 
+@@ -1174,6 +1176,7 @@ tdsdbopen(LOGINREC * login, const char *server, int msdblib)
+ 		return NULL;
+ 	}
+ 	connection->option_flag2 &= ~0x02;	/* we're not an ODBC driver */
++	tds_fix_connection(connection);		/* initialize from Environment variables */
+ 
+ 	dbproc->chkintr = NULL;
+ 	dbproc->hndlintr = NULL;
