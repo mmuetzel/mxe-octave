@@ -164494,3 +164494,176 @@ index 4c0cedd..f92025f 100644
  
  	dbproc->chkintr = NULL;
  	dbproc->hndlintr = NULL;
+
+commit 4d2ecfe34220ccdc85093ca44afe910aa4192023
+Author: freddy77 <freddy77>
+Date:   Sat Jan 8 01:19:48 2011 +0000
+
+    fix unique inside variant
+
+diff --git a/ChangeLog b/ChangeLog
+index 4b637bc..974e493 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Sat Jan  8 02:19:38 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/odbc/unittests/data.c src/tds/token.c:
++	- fix unique inside variant
++
+ Mon Jan  3 15:25:36 EST 2011	JK Lowden <jklowden@freetds.org>
+ 	* src/dblib/dblib.c 
+ 	- TDSPORT and TDSVER override even if no configuration file found
+@@ -3126,4 +3130,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3187 2011/01/03 20:27:53 jklowden Exp $
++$Id: ChangeLog,v 1.3188 2011/01/08 01:19:48 freddy77 Exp $
+diff --git a/src/odbc/unittests/data.c b/src/odbc/unittests/data.c
+index 9899722..c5889e5 100644
+--- a/src/odbc/unittests/data.c
++++ b/src/odbc/unittests/data.c
+@@ -13,7 +13,7 @@
+  * Also we have to check normal char and wide char
+  */
+ 
+-static char software_version[] = "$Id: data.c,v 1.36 2010/12/30 19:50:21 freddy77 Exp $";
++static char software_version[] = "$Id: data.c,v 1.37 2011/01/08 01:19:48 freddy77 Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ static int result = 0;
+@@ -207,6 +207,7 @@ main(int argc, char *argv[])
+ 		/* for some reasons MS ODBC seems to convert -123.4 to -123.40000000000001 */
+ 		Test("SQL_VARIANT", "CAST('-123.5' AS FLOAT)", SQL_C_CHAR, "6 -123.5");
+ 		Test("SQL_VARIANT", "CAST('-123.4' AS NUMERIC(10,2))", SQL_C_CHAR, "7 -123.40");
++		Test("SQL_VARIANT", "CAST('0DDF3B64-E692-11D1-AB06-00AA00BDD685' AS UNIQUEIDENTIFIER)", SQL_C_CHAR, "36 0DDF3B64-E692-11D1-AB06-00AA00BDD685");
+ 	}
+ 
+ 	if (odbc_db_is_microsoft() && odbc_db_version_int() >= 0x09000000u) {
+diff --git a/src/tds/token.c b/src/tds/token.c
+index 9cddca9..6769888 100644
+--- a/src/tds/token.c
++++ b/src/tds/token.c
+@@ -1,6 +1,6 @@
+ /* FreeTDS - Library of routines accessing Sybase and Microsoft databases
+  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005  Brian Bruns
+- * Copyright (C) 2005-2010  Frediano Ziglio
++ * Copyright (C) 2005-2011  Frediano Ziglio
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -43,7 +43,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: token.c,v 1.394 2010/12/28 14:37:10 freddy77 Exp $");
++TDS_RCSID(var, "$Id: token.c,v 1.395 2011/01/08 01:19:48 freddy77 Exp $");
+ 
+ #define USE_ICONV tds->use_iconv
+ 
+@@ -2118,7 +2118,7 @@ tds7_get_variant(TDSSOCKET * tds, TDSCOLUMN * curcol)
+ 			tds_swap_numeric(num);
+ 		return TDS_SUCCEED;
+ 	}
+-	varint = tds_get_varint_size(tds, type);
++	varint = (type == SYBUNIQUE) ? 0 : tds_get_varint_size(tds, type);
+ 	if (varint != info_len)
+ 		goto error_type;
+ 	switch (varint) {
+
+commit 33b8299b83f87796d1d20805e21ce4bb5da5bcdd
+Author: freddy77 <freddy77>
+Date:   Sat Jan 8 01:36:29 2011 +0000
+
+    small optimization for darwin os
+
+diff --git a/ChangeLog b/ChangeLog
+index 974e493..e3c0138 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Sat Jan  8 02:36:23 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/net.c: small optimization for darwin os
++
+ Sat Jan  8 02:19:38 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/odbc/unittests/data.c src/tds/token.c:
+ 	- fix unique inside variant
+@@ -3130,4 +3133,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3188 2011/01/08 01:19:48 freddy77 Exp $
++$Id: ChangeLog,v 1.3189 2011/01/08 01:36:29 freddy77 Exp $
+diff --git a/src/tds/net.c b/src/tds/net.c
+index 6940895..beaaee9 100644
+--- a/src/tds/net.c
++++ b/src/tds/net.c
+@@ -1,6 +1,6 @@
+ /* FreeTDS - Library of routines accessing Sybase and Microsoft databases
+  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Brian Bruns
+- * Copyright (C) 2004-2010  Ziglio Frediano
++ * Copyright (C) 2004-2011  Ziglio Frediano
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -107,7 +107,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: net.c,v 1.109 2010/10/12 11:48:27 freddy77 Exp $");
++TDS_RCSID(var, "$Id: net.c,v 1.110 2011/01/08 01:36:29 freddy77 Exp $");
+ 
+ #define TDSSELREAD  POLLIN
+ #define TDSSELWRITE POLLOUT
+@@ -217,6 +217,15 @@ tds_open_socket(TDSSOCKET * tds, const char *ip_addr, unsigned int port, int tim
+ 	setsockopt(tds->s, SOL_SOCKET, SO_KEEPALIVE, (const void *) &len, sizeof(len));
+ #endif
+ 
++#if defined(__APPLE__) && defined(SO_NOSIGPIPE)
++	len = 1;
++	if (setsockopt(tds->s, SOL_SOCKET, SO_NOSIGPIPE, (const void *) &len, sizeof(len))) {
++		*p_oserr = sock_errno;
++		tds_close_socket(tds);
++		return TDSESOCK;
++	}
++#endif
++
+ 	len = 1;
+ #if defined(USE_NODELAY) || defined(USE_MSGMORE)
+ 	setsockopt(tds->s, SOL_TCP, TCP_NODELAY, (const void *) &len, sizeof(len));
+@@ -639,6 +648,8 @@ tds_goodwrite(TDSSOCKET * tds, const unsigned char *buffer, size_t len, unsigned
+ 			/* In case the kernel does not support MSG_MORE, try again without it */
+ 			if (nput < 0 && errno == EINVAL && !last)
+ 				nput = send(tds->s, p, remaining, MSG_NOSIGNAL);
++#elif defined(__APPLE__) && defined(SO_NOSIGPIPE)
++			ssize_t nput = send(tds->s, p, remaining, 0);
+ #else
+ 			ssize_t nput = WRITESOCKET(tds->s, p, remaining);
+ #endif
+@@ -709,7 +720,7 @@ tds_write_packet(TDSSOCKET * tds, unsigned char final)
+ 	int sent;
+ 	unsigned int left = 0;
+ 
+-#if !defined(_WIN32) && !defined(MSG_NOSIGNAL) && !defined(DOS32X)
++#if !defined(_WIN32) && !defined(MSG_NOSIGNAL) && !defined(DOS32X) && (!defined(__APPLE__) || !defined(SO_NOSIGPIPE))
+ 	void (*oldsig) (int);
+ #endif
+ 
+@@ -729,7 +740,7 @@ tds_write_packet(TDSSOCKET * tds, unsigned char final)
+ 
+ 	tdsdump_dump_buf(TDS_DBG_NETWORK, "Sending packet", tds->out_buf, tds->out_pos);
+ 
+-#if !defined(_WIN32) && !defined(MSG_NOSIGNAL) && !defined(DOS32X)
++#if !defined(_WIN32) && !defined(MSG_NOSIGNAL) && !defined(DOS32X) && (!defined(__APPLE__) || !defined(SO_NOSIGPIPE))
+ 	oldsig = signal(SIGPIPE, SIG_IGN);
+ 	if (oldsig == SIG_ERR) {
+ 		tdsdump_log(TDS_DBG_WARN, "TDS: Warning: Couldn't set SIGPIPE signal to be ignored\n");
+@@ -747,7 +758,7 @@ tds_write_packet(TDSSOCKET * tds, unsigned char final)
+ #endif
+ 		sent = tds_goodwrite(tds, tds->out_buf, tds->out_pos, final);
+ 
+-#if !defined(_WIN32) && !defined(MSG_NOSIGNAL) && !defined(DOS32X)
++#if !defined(_WIN32) && !defined(MSG_NOSIGNAL) && !defined(DOS32X) && (!defined(__APPLE__) || !defined(SO_NOSIGPIPE))
+ 	if (signal(SIGPIPE, oldsig) == SIG_ERR) {
+ 		tdsdump_log(TDS_DBG_WARN, "TDS: Warning: Couldn't reset SIGPIPE signal to previous value\n");
+ 	}
