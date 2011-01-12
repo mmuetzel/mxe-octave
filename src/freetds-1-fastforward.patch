@@ -164667,3 +164667,143 @@ index 6940895..beaaee9 100644
  	if (signal(SIGPIPE, oldsig) == SIG_ERR) {
  		tdsdump_log(TDS_DBG_WARN, "TDS: Warning: Couldn't reset SIGPIPE signal to previous value\n");
  	}
+
+commit 9ebfecd7e59ab3d5a196b929e49231f64d936ca9
+Author: freddy77 <freddy77>
+Date:   Sun Jan 9 22:32:47 2011 +0000
+
+    prevent problems if version has no argument
+
+diff --git a/misc/freetds_autobuild b/misc/freetds_autobuild
+index 46ddc76..38f0a0f 100755
+--- a/misc/freetds_autobuild
++++ b/misc/freetds_autobuild
+@@ -105,6 +105,7 @@ do
+ done
+ 
+ set -e
++trap 'echo Error at line $LINENO' ERR
+ 
+ DOMAIN_UID=
+ DOMAIN_PWD=
+@@ -119,8 +120,10 @@ cd $HOME/cpp/freetds/$FTDSDIR
+ cd ..
+ rm -rf $WORKDIR
+ trap handle_exit EXIT
+-cp -rp $FTDSDIR $WORKDIR
++test -h freetds
+ rm -f freetds
++test -d $FTDSDIR
++cp -rp $FTDSDIR $WORKDIR
+ ln -s $WORKDIR freetds
+ cd $WORKDIR
+ find . \( -name \*.bb -o -name \*.bbg -o -name \*.da -o -name \*.gc\* \) -exec rm -f {} \;
+
+commit dbeec2134623fe37d770a8f012128a167b43cba1
+Author: freddy77 <freddy77>
+Date:   Sun Jan 9 22:34:57 2011 +0000
+
+    add --help option
+
+diff --git a/ChangeLog b/ChangeLog
+index e3c0138..4331f6d 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Sun Jan  9 23:34:50 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* misc/test-other.sh: add --help option
++
+ Sat Jan  8 02:36:23 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* src/tds/net.c: small optimization for darwin os
+ 
+@@ -3133,4 +3136,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3189 2011/01/08 01:36:29 freddy77 Exp $
++$Id: ChangeLog,v 1.3190 2011/01/09 22:34:57 freddy77 Exp $
+diff --git a/misc/test-other.sh b/misc/test-other.sh
+index 2fd0c6f..bdf6330 100755
+--- a/misc/test-other.sh
++++ b/misc/test-other.sh
+@@ -33,6 +33,16 @@ do
+ 		do_perl=no
+ 		do_php=yes
+ 		;;
++	--help)
++		echo "Usage: $0 [OPTION]..."
++		echo '  --help          this help'
++		echo '  --verbose       verbose output'
++		echo '  --no-perl       do not execute Perl test'
++		echo '  --no-php        do not execute PHP test'
++		echo '  --perl-only     only Perl test'
++		echo '  --php-only      only PHP test'
++		exit 0
++		;;
+ 	*)
+ 		echo 'Option not supported!' 1>&2
+ 		exit 1
+
+commit 15b8dacd8d71bc0db1153bce7a6e89f1d0453fdb
+Author: freddy77 <freddy77>
+Date:   Wed Jan 12 09:21:11 2011 +0000
+
+    support SQL_VARIANT passing parameters
+
+diff --git a/ChangeLog b/ChangeLog
+index 4331f6d..5c3e6ac 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Wed Jan 12 10:21:03 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/tds/query.c: support SQL_VARIANT passing parameters
++
+ Sun Jan  9 23:34:50 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* misc/test-other.sh: add --help option
+ 
+@@ -3136,4 +3139,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3190 2011/01/09 22:34:57 freddy77 Exp $
++$Id: ChangeLog,v 1.3191 2011/01/12 09:21:11 freddy77 Exp $
+diff --git a/src/tds/query.c b/src/tds/query.c
+index ec1aa83..899bb09 100644
+--- a/src/tds/query.c
++++ b/src/tds/query.c
+@@ -1,6 +1,6 @@
+ /* FreeTDS - Library of routines accessing Sybase and Microsoft databases
+  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005  Brian Bruns
+- * Copyright (C) 2006, 2007, 2008, 2009, 2010  Frediano Ziglio
++ * Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011  Frediano Ziglio
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -46,7 +46,7 @@
+ 
+ #include <assert.h>
+ 
+-TDS_RCSID(var, "$Id: query.c,v 1.245 2010/11/26 08:41:26 freddy77 Exp $");
++TDS_RCSID(var, "$Id: query.c,v 1.246 2011/01/12 09:21:11 freddy77 Exp $");
+ 
+ static void tds_put_params(TDSSOCKET * tds, TDSPARAMINFO * info, int flags);
+ static void tds7_put_query_params(TDSSOCKET * tds, const char *query, size_t query_len);
+@@ -716,6 +716,10 @@ tds_get_column_declaration(TDSSOCKET * tds, TDSCOLUMN * curcol, char *out)
+ 			size /= 2u;
+ 		}
+ 		break;
++	case SYBVARIANT:
++		if (IS_TDS7_PLUS(tds))
++			fmt = "SQL_VARIANT";
++		break;
+ 		/* nullable types should not occur here... */
+ 	case SYBFLTN:
+ 	case SYBMONEYN:
+@@ -729,7 +733,6 @@ tds_get_column_declaration(TDSSOCKET * tds, TDSCOLUMN * curcol, char *out)
+ 	case SYBUINT2:
+ 	case SYBUINT4:
+ 	case SYBUINT8:
+-	case SYBVARIANT:
+ 	default:
+ 		tdsdump_log(TDS_DBG_ERROR, "Unknown type %d\n", tds_get_conversion_type(curcol->on_server.column_type, curcol->on_server.column_size));
+ 		break;
