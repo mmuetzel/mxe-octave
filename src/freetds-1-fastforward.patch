@@ -165371,3 +165371,49 @@ index 6769888..254f84f 100644
  
  		/* Adjust column size according to client's encoding */
  		curcol->on_server.column_size = curcol->column_size;
+
+commit a854961e226e1c292e1a22c6ebfb309324591106
+Author: jklowden <jklowden>
+Date:   Sat Jan 22 20:11:27 2011 +0000
+
+    tds_canonical_charset_name cannot return NULL
+
+diff --git a/ChangeLog b/ChangeLog
+index ca49421..b90e1c3 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Sat Jan 22 15:04:21 EST 2011	JK Lowden <jklowden@freetds.org>
++	* src/tds/iconv.c tds_canonical_charset_name cannot return NULL
++
+ Mon Jan 17 23:27:25 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/tds.h src/tds/data.c src/tds/token.c:
+ 	- unify metadata read from server
+@@ -3146,4 +3149,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3193 2011/01/17 22:27:40 freddy77 Exp $
++$Id: ChangeLog,v 1.3194 2011/01/22 20:11:27 jklowden Exp $
+diff --git a/src/tds/iconv.c b/src/tds/iconv.c
+index 98d1479..773958f 100644
+--- a/src/tds/iconv.c
++++ b/src/tds/iconv.c
+@@ -42,7 +42,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: iconv.c,v 1.147 2010/11/26 19:46:55 freddy77 Exp $");
++TDS_RCSID(var, "$Id: iconv.c,v 1.148 2011/01/22 20:11:28 jklowden Exp $");
+ 
+ #define CHARSIZE(charset) ( ((charset)->min_bytes_per_char == (charset)->max_bytes_per_char )? \
+ 				(charset)->min_bytes_per_char : 0 )
+@@ -1173,7 +1173,7 @@ tds_canonical_charset_name(const char *charset_name)
+ 	if (res >= 0)
+ 		return canonic_charsets[res].name;
+ 
+-	return NULL;
++	return charset_name;	/* hope for the best */
+ }
+ 
+ /**
