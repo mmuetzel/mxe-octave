@@ -165526,3 +165526,206 @@ index 6c6ab2b..24901d5 100644
  };
  
  #define SYBAOPCNT  0x4b
+
+commit fc5e01130d78de81dd9cfb98102a8ee0af2e7593
+Author: freddy77 <freddy77>
+Date:   Fri Feb 11 13:54:43 2011 +0000
+
+    improve iconv replacement unsigned/signed declaration
+
+diff --git a/ChangeLog b/ChangeLog
+index b261a2f..9a5b5ce 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,7 @@
++Fri Feb 11 14:54:17 CET 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* src/replacements/iconv.c:
++	- improve iconv replacement unsigned/signed declaration
++
+ Tue Jan 25 00:52:04 EST 2011	JK Lowden <jklowden@freetds.org>
+ 	* doc/userguide.sgml include/sybdb.h
+ 	- remove use and reference to sqlfront.h.  
+@@ -3153,4 +3157,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3195 2011/01/25 06:18:53 jklowden Exp $
++$Id: ChangeLog,v 1.3196 2011/02/11 13:54:43 freddy77 Exp $
+diff --git a/src/replacements/iconv.c b/src/replacements/iconv.c
+index 8d6a1f7..fb017eb 100644
+--- a/src/replacements/iconv.c
++++ b/src/replacements/iconv.c
+@@ -1,5 +1,6 @@
+ /* FreeTDS - Library of routines accessing Sybase and Microsoft databases
+  * Copyright (C) 2003, 2004  James K. Lowden, based on original work by Brian Bruns
++ * Copyright (C) 2011 Frediano Ziglio
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -49,7 +50,7 @@
+ #include <dmalloc.h>
+ #endif
+ 
+-TDS_RCSID(var, "$Id: iconv.c,v 1.20 2010/09/27 07:25:24 freddy77 Exp $");
++TDS_RCSID(var, "$Id: iconv.c,v 1.21 2011/02/11 13:54:43 freddy77 Exp $");
+ 
+ /**
+  * \addtogroup conv
+@@ -87,10 +88,10 @@ static const unsigned char utf8_masks[7] = {
+ };
+ 
+ static int
+-get_utf8(const unsigned char *p, int len, ICONV_CHAR *out)
++get_utf8(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	ICONV_CHAR uc;
+-	int l;
++	size_t l;
+ 
+ 	l = utf8_lengths[p[0]];
+ 	if (TDS_UNLIKELY(l == 0))
+@@ -107,10 +108,10 @@ get_utf8(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_utf8(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_utf8(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ #define MASK(n) ((0xffffffffu << (n)) & 0xffffffffu)
+-	int o_len;
++	size_t o_len;
+ 	unsigned mask;
+ 
+ 	if ((c & MASK(7)) == 0) {
+@@ -155,7 +156,7 @@ put_utf8(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_ucs4le(const unsigned char *p, int len, ICONV_CHAR *out)
++get_ucs4le(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	if (len < 4)
+ 		return -EINVAL;
+@@ -164,7 +165,7 @@ get_ucs4le(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_ucs4le(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_ucs4le(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	if (buf_len < 4)
+ 		return -E2BIG;
+@@ -173,7 +174,7 @@ put_ucs4le(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_ucs4be(const unsigned char *p, int len, ICONV_CHAR *out)
++get_ucs4be(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	if (len < 4)
+ 		return -EINVAL;
+@@ -182,7 +183,7 @@ get_ucs4be(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_ucs4be(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_ucs4be(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	if (buf_len < 4)
+ 		return -E2BIG;
+@@ -191,7 +192,7 @@ put_ucs4be(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_utf16le(const unsigned char *p, int len, ICONV_CHAR *out)
++get_utf16le(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	ICONV_CHAR c, c2;
+ 
+@@ -212,7 +213,7 @@ get_utf16le(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_utf16le(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_utf16le(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	if (c >= 0x110000u)
+ 		return -EILSEQ;
+@@ -231,7 +232,7 @@ put_utf16le(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_utf16be(const unsigned char *p, int len, ICONV_CHAR *out)
++get_utf16be(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	ICONV_CHAR c, c2;
+ 
+@@ -252,7 +253,7 @@ get_utf16be(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_utf16be(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_utf16be(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	if (c >= 0x110000u)
+ 		return -EILSEQ;
+@@ -271,7 +272,7 @@ put_utf16be(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_iso1(const unsigned char *p, int len, ICONV_CHAR *out)
++get_iso1(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	if (len < 1)
+ 		return -EINVAL;
+@@ -280,7 +281,7 @@ get_iso1(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_iso1(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_iso1(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	if (c >= 0x100u)
+ 		return -EILSEQ;
+@@ -291,7 +292,7 @@ put_iso1(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_ascii(const unsigned char *p, int len, ICONV_CHAR *out)
++get_ascii(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	if (len < 1)
+ 		return -EINVAL;
+@@ -302,7 +303,7 @@ get_ascii(const unsigned char *p, int len, ICONV_CHAR *out)
+ }
+ 
+ static int
+-put_ascii(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_ascii(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	if (c >= 0x80u)
+ 		return -EILSEQ;
+@@ -313,19 +314,19 @@ put_ascii(unsigned char *buf, int buf_len, ICONV_CHAR c)
+ }
+ 
+ static int
+-get_err(const unsigned char *p, int len, ICONV_CHAR *out)
++get_err(const unsigned char *p, size_t len, ICONV_CHAR *out)
+ {
+ 	return -EILSEQ;
+ }
+ 
+ static int
+-put_err(unsigned char *buf, int buf_len, ICONV_CHAR c)
++put_err(unsigned char *buf, size_t buf_len, ICONV_CHAR c)
+ {
+ 	return -EILSEQ;
+ }
+ 
+-typedef int (*iconv_get_t)(const unsigned char *p, int len,     ICONV_CHAR *out);
+-typedef int (*iconv_put_t)(unsigned char *buf,     int buf_len, ICONV_CHAR c);
++typedef int (*iconv_get_t)(const unsigned char *p, size_t len,     ICONV_CHAR *out);
++typedef int (*iconv_put_t)(unsigned char *buf,     size_t buf_len, ICONV_CHAR c);
+ 
+ static const iconv_get_t iconv_gets[8] = {
+ 	get_iso1, get_ascii, get_utf16le, get_utf16be, get_ucs4le, get_ucs4be, get_utf8, get_err
