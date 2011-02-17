@@ -166168,7 +166168,7 @@ index 641ef39..6316797 100644
  		<sect2 id="alternatives">
  			<title>Alternatives</title>
  			<variablelist id="tab.alternatives">
-@@ -243,3291 +220,3204 @@ You may be wondering how these libraries fit with Perl, PHP, TCL, Python, or oth
+@@ -243,4721 +220,4947 @@ You may be wondering how these libraries fit with Perl, PHP, TCL, Python, or oth
  				<varlistentry>
  					<term>Sybase OpenClient</term>
  					<listitem>
@@ -166509,22 +166509,66 @@ index 641ef39..6316797 100644
  
 -			</variablelist>
 -			</sect3>
+-			<sect3><title><command>Make</></title>
+-			<para>
+-Now you're ready to build.  Follow these easy steps.  
+-			</para>
+-			<orderedlist>
+-				<listitem><para>Download the tarball and unpack it.</para>
+-					<para>Alternatively, get the latest build from <productname>CVS</productname>
+-					<footnote>
+-					<para>
+-<productname>CVS</productname> users will need the GNU autotools: Autoconf, Automake, and libtool.  
+-					</para>
+-					</footnote>
+-.  
+-					</para></listitem>
+-				<listitem><para>Change to the <filename>freetds</filename> directory.
+-					</para></listitem>
+-				<listitem><para>run <command>./configure</> with any options you need.  
+-					</para></listitem>
+-				<listitem><para><command>make; make install; make clean</command>
+-					</para></listitem>
+-			</orderedlist>
+-			<para>
+-You normally need to be root to <command>make install</command>, unless you used the <option>--prefix</> option during configuration to install into your own directory.
+-			</para>
+-			<para>
+-With any luck, you've built and installed the &freetds; libraries.  
+-			</para>
+-			</sect3>
+-		</sect2>
+-		</sect1>
+-		<sect1 id="osissues">
+-    			<title>OS-specific Issues</title>
+-			<sidebar>
+-			<para>If you've recently built and installed &freetds; and noticed steps peculiar to your OS, we'll happily include your comments here. </para>
 +<para>Building from CVS is described in the file INSTALL.CVS.</para>
-+			
+ 			
+-			<para>One thing that can be said, if it's not too obvious:  check with your vendor or favorite download site.  &freetds; is routinely rolled up into OS install packages.  We know of packages for <productname>Debian</productname>, <productname>Red Hat</productname>, <productname>FreeBSD</productname>, and <productname>NetBSD</productname>.  The installation through the package management systems in these environments may well reduce your work to simply <command>make install</command>.  </para>
+-			</sidebar>
+-		<sect2 id="Windows"><title></title>
+-			<para>The &freetds; ODBC driver compiles under
 +			</sect2>
 +		<sect2 id="Everyone"><title>For Everyone Else </title>
 +			<TITLEABBREV>(&freetds; for Dummies?)</TITLEABBREV>
-+			
-+
+ 			
+-			<itemizedlist>
+ 
+-				<listitem><para>VC++.  Project files are included in the <filename>win32</> directory.   See also <filename>Makefile.win32</>. </para></listitem>
 +<para>The <acronym>GNU</> development system can generate code for a wide variety of hardware architectures and operating systems, virtually all of which can run <productname>FreeTDS</> in consequence.  The work of building and installing the <productname>FreeTDS</> libraries begins with the command <Command>configure</Command>, which generates the <filename>Makefile</filename> that governs how the code is compiled, linked, and installed.  Once you've <quote>configured</quote> the project, <command>make</> will manage the rest of the build.</para>
 +			<sidebar><title>ODBC Preparation</title>
-+
+ 
+-				<listitem><para>Dev-C++</para></listitem>
+-				<listitem><para>MingW</para></listitem>
 +<para>If you intend to build the <productname>FreeTDS</> ODBC driver &mdash; and want to use a Driver Manager (DM), as most people do &mdash; install the Driver Manager before configuring <productname>FreeTDS</>.  <Command>configure</> will detect the the DM and use its header (<filename>.h</>) files for ODBC constants and such.  If your DM is installed in an unusual directory, you may have to provide the directory name as a parameter to <Command>configure</>.</para>
 +				
-+
+ 
+-				<listitem><para><application>gcc</> under <application>cygwin</>. </para></listitem>
 +<para><productname>FreeTDS</> doesn't <emphasis>require</> a DM.  You can build the ODBC driver without one, as long as you have the requisite header files: <filename>sql.h</>, <filename>sqlext.h</> and <filename>sqltypes.h</>.  These can be taken from either the iODBC or UnixODBC distributions. Put them wherever you like (e.g.,  <filename>/usr/local/include</filename>).  Because <productname>FreeTDS</> won't detect your (missing) DM, it won't automatically build the ODBC driver, so you'll have to tell <Command>configure</> what to do and where to look.  Cf. <link linkend="withOdbcNoDM"><option>--with-odbc-nodm</></link>.</para>
 +				</sidebar>
-+
+ 
+-				<listitem><para>The Borland Builder 6.0 compiler is also reported to work, but requires some tweaking of the <literal>#include</> statements.  We would apply any patches that make this work cleanly.</para></listitem>
 +<para>The simplest form of running <Command>configure</> is:
 +<screen>
 +	<prompt>$ </prompt><userinput>./configure</userinput></screen>
@@ -166688,36 +166732,10 @@ index 641ef39..6316797 100644
 +					
 +					</variablelist>
 +				</sect3>
- 			<sect3><title><command>Make</></title>
--			<para>
--Now you're ready to build.  Follow these easy steps.  
++			<sect3><title><command>Make</></title>
+ 
+-			</itemizedlist>	
 -			</para>
--			<orderedlist>
--				<listitem><para>Download the tarball and unpack it.</para>
--					<para>Alternatively, get the latest build from <productname>CVS</productname>
--					<footnote>
--					<para>
--<productname>CVS</productname> users will need the GNU autotools: Autoconf, Automake, and libtool.  
--					</para>
--					</footnote>
--.  
--					</para></listitem>
--				<listitem><para>Change to the <filename>freetds</filename> directory.
--					</para></listitem>
--				<listitem><para>run <command>./configure</> with any options you need.  
--					</para></listitem>
--				<listitem><para><command>make; make install; make clean</command>
--					</para></listitem>
--			</orderedlist>
--			<para>
--You normally need to be root to <command>make install</command>, unless you used the <option>--prefix</> option during configuration to install into your own directory.
--			</para>
--			<para>
--With any luck, you've built and installed the &freetds; libraries.  
--			</para>
--			</sect3>
--		</sect2>
-+
 +<para>Now you're ready to build.  Follow these easy steps.</para>
 +				<orderedlist>
 +					<listitem><para>Download the tarball and unpack it.</para>
@@ -166742,45 +166760,52 @@ index 641ef39..6316797 100644
 +<para>With any luck, you've built and installed the &freetds; libraries.</para>
 +				</sect3>
 +			</sect2>
- 		</sect1>
--		<sect1 id="osissues">
--    			<title>OS-specific Issues</title>
--			<sidebar>
--			<para>If you've recently built and installed &freetds; and noticed steps peculiar to your OS, we'll happily include your comments here. </para>
--			
--			<para>One thing that can be said, if it's not too obvious:  check with your vendor or favorite download site.  &freetds; is routinely rolled up into OS install packages.  We know of packages for <productname>Debian</productname>, <productname>Red Hat</productname>, <productname>FreeBSD</productname>, and <productname>NetBSD</productname>.  The installation through the package management systems in these environments may well reduce your work to simply <command>make install</command>.  </para>
--			</sidebar>
--		<sect2 id="Windows"><title></title>
--			<para>The &freetds; ODBC driver compiles under
++		</sect1>
 +	<sect1 id="osissues">
 +		<title>OS-specific Issues</title>
 +		<sidebar>
-+
-+<para>If you've recently built and installed &freetds; and noticed steps peculiar to your OS, we'll happily include your comments here.</para>
- 			
--			<itemizedlist>
- 
--				<listitem><para>VC++.  Project files are included in the <filename>win32</> directory.   See also <filename>Makefile.win32</>. </para></listitem>
-+<para>One thing that can be said, if it's not too obvious:  check with your vendor or favorite download site.  &freetds; is routinely rolled up into OS install packages.  We know of packages for <productname>Debian</productname>, <productname>Red Hat</productname>, <productname>FreeBSD</productname>, and <productname>NetBSD</productname>.  The installation through the package management systems in these environments may well reduce your work to simply <command>make install</command>.</para>
-+			</sidebar>
- 
--				<listitem><para>Dev-C++</para></listitem>
--				<listitem><para>MingW</para></listitem>
-+		<sect2 id="Windows"><title>Win32 and Win64</title>
- 
--				<listitem><para><application>gcc</> under <application>cygwin</>. </para></listitem>
-+<para>Building for Windows using Microsoft's compiler is supported via the <filename>NMakefile</filename> included in the distribution.  Set up the command-line build environment per Microsoft's instructions, and run e.g. 
- 
--				<listitem><para>The Borland Builder 6.0 compiler is also reported to work, but requires some tweaking of the <literal>#include</> statements.  We would apply any patches that make this work cleanly.</para></listitem>
-+<screen>
-+	<prompt>$ </prompt><userinput>nmake -fNmakefile -nologo apps PLATFORM=win32 CONFIGURATION=debug</userinput></screen></para>
- 
--			</itemizedlist>	
--			</para>
-+<note><para>Perhaps you're shaking your head at such an <quote>old school</quote> approach.  Over the years, Microsoft's proprietary project-configuration files have proved difficult to support.  Every version is different, and there are a great many versions in use <quote>in the wild</quote> at any one time.  As the project changes, it becomes impossible to maintain these kinds of files.  </para></note>
  
 -			<para>From the Department of Double Emulation: &freetds; builds as a <filename>.dll</> under <productname>WINE</> and as a <filename>.a</> under <productname>Interix</>.  See the mailing list archives (second half of 2003) for details.  </para>
 -		</sect2>
+-		<sect2 id="VMS"><title>VMS&reg;</title>
+-			<para>&freetds; will probably build and run on most versions of OpenVMS Alpha 7.0 and later with DEC/Compaq C 6.0 or later.  Other prerequisites:
++<para>If you've recently built and installed &freetds; and noticed steps peculiar to your OS, we'll happily include your comments here.</para>
++			
+ 
+-			<simplelist>
+-				<member><application>gunzip</></member>
+-				<member><application>vmstar</></member>
+-				<member><application>MMS</> or <application>MMK</></member>
+-			</simplelist>
+-			</para>
+-    
+-		<sect3><title>Build Instructions</title>
+-		
+-			<para>Decompress and unpack the source archive using gunzip and vmstar.  If
+-you are untarring on an ODS-5 disk, you should use the <parameter>/ODS2</> or <parameter>-o</>
+-option to create universally VMS-friendly filenames; otherwise the build will fail to locate some files.</para>
++<para>One thing that can be said, if it's not too obvious:  check with your vendor or favorite download site.  &freetds; is routinely rolled up into OS install packages.  We know of packages for <productname>Debian</productname>, <productname>Red Hat</productname>, <productname>FreeBSD</productname>, and <productname>NetBSD</productname>.  The installation through the package management systems in these environments may well reduce your work to simply <command>make install</command>.</para>
++			</sidebar>
+ 
+-			<para>Set default to the top-level source directory and run the configuration
+-script:</para>
++		<sect2 id="Windows"><title>Win32 and Win64</title>
++
++<para>Building for Windows using Microsoft's compiler is supported via the <filename>NMakefile</filename> included in the distribution.  Set up the command-line build environment per Microsoft's instructions, and run e.g. 
+ 
+ <screen>
+-    <prompt>$</> <userinput>@[.vms]configure</userinput>
+-</screen>
++	<prompt>$ </prompt><userinput>nmake -fNmakefile -nologo apps PLATFORM=win32 CONFIGURATION=debug</userinput></screen></para>
+ 
+-			<para> This creates a <filename>descrip.mms</> in the top-level source
+-directory which you may execute by simply running MMS (if you have the Module Management System that
+-is part of DECset) or MMK (a freeware MMS alternative available from <ulink
+-url="http://www.madgoat.com">www.madgoat.com</ulink>).</para>
++<note><para>Perhaps you're shaking your head at such an <quote>old school</quote> approach.  Over the years, Microsoft's proprietary project-configuration files have proved difficult to support.  Every version is different, and there are a great many versions in use <quote>in the wild</quote> at any one time.  As the project changes, it becomes impossible to maintain these kinds of files.  </para></note>
+ 
+-			<para>Further information can be found in the <filename></> in the source distribution.  
+-			</para>
 +			<sect3><title>Other ways to build under Windows&reg;</title>
 +				
 +				<itemizedlist>
@@ -166798,68 +166823,11 @@ index 641ef39..6316797 100644
 +<para>From the Department of Double Emulation: &freetds; builds as a <filename>.dll</> under <productname>WINE</> and as a <filename>.a</> under <productname>Interix</>.  See the mailing list archives (second half of 2003) for details.</para>
 +				</sect3>
 +			</sect2>
- 		<sect2 id="VMS"><title>VMS&reg;</title>
--			<para>&freetds; will probably build and run on most versions of OpenVMS Alpha 7.0 and later with DEC/Compaq C 6.0 or later.  Other prerequisites:
- 
--			<simplelist>
--				<member><application>gunzip</></member>
--				<member><application>vmstar</></member>
--				<member><application>MMS</> or <application>MMK</></member>
--			</simplelist>
--			</para>
--    
--		<sect3><title>Build Instructions</title>
--		
--			<para>Decompress and unpack the source archive using gunzip and vmstar.  If
--you are untarring on an ODS-5 disk, you should use the <parameter>/ODS2</> or <parameter>-o</>
--option to create universally VMS-friendly filenames; otherwise the build will fail to locate some files.</para>
-+<para>&freetds; will probably build and run on most versions of OpenVMS Alpha 7.0 and later with DEC/Compaq C 6.0 or later.  Other prerequisites:
-+				
-+				<simplelist>
-+					<member><application>gunzip</></member>
-+					<member><application>vmstar</></member>
-+					<member><application>MMS</> or <application>MMK</></member>
-+					</simplelist></para>
-+			
-+			<sect3><title>Build Instructions</title>
-+				
- 
--			<para>Set default to the top-level source directory and run the configuration
--script:</para>
-+<para>Decompress and unpack the source archive using gunzip and vmstar.  If
-+					you are untarring on an ODS-5 disk, you should use the <parameter>/ODS2</> or <parameter>-o</>
-+					option to create universally VMS-friendly filenames; otherwise the build will fail to locate some files.</para>
-+				
- 
-+<para>Set default to the top-level source directory and run the configuration
-+					script:</para>
-+				
- <screen>
--    <prompt>$</> <userinput>@[.vms]configure</userinput>
--</screen>
--
--			<para> This creates a <filename>descrip.mms</> in the top-level source
--directory which you may execute by simply running MMS (if you have the Module Management System that
--is part of DECset) or MMK (a freeware MMS alternative available from <ulink
--url="http://www.madgoat.com">www.madgoat.com</ulink>).</para>
-+	<prompt>$</> <userinput>@[.vms]configure</userinput></screen>
-+	
- 
--			<para>Further information can be found in the <filename></> in the source distribution.  
--			</para>
-+<para> This creates a <filename>descrip.mms</> in the top-level source
-+					directory which you may execute by simply running MMS (if you have the Module Management System that
-+					is part of DECset) or MMK (a freeware MMS alternative available from <ulink
-+						url="http://www.madgoat.com">www.madgoat.com</ulink>).</para>
-+				
++		<sect2 id="VMS"><title>VMS&reg;</title>
  
 -		</sect3>
 -		</sect2>
-+<para>Further information can be found in the <filename></> in the source distribution.</para>
-+				
-+				</sect3>
-+			</sect2>
- 		<sect2 id="osx"><title>OS X&reg;</title>
+-		<sect2 id="osx"><title>OS X&reg;</title>
 -  			<para>As of this writing ($Date: 2011/01/25 06:18:53 $), the regular distribution compiles on OS X.  Releases prior to 0.63 either did not compile or required patching.  </para>
 -
 -		<sect3 id="OSX.Build.Update">
@@ -166875,7 +166843,83 @@ index 641ef39..6316797 100644
 -		<prompt>$ </prompt><userinput>./configure --disable-libiconv --disable-odbc</userinput>
 -		</screen>
 -		</para></step>
-+
+-	<step><para>Overwrite FreeTDS's <filename>libtool</> with a symbolic link to your (better) one
+-		<screen>
+-		<footnote><para> If you run <command>configure</> again, you'll need to perform this step
+-again, because <command>libtool</> will have been regenerated in its fossilized state.	</para></footnote>
+-		<prompt>$ </prompt><userinput>ln -sf /usr/local/bin/libtool</userinput>
+-		</screen></para></step>
+-		
+-		
+-	<step performance="optional"><para>To check that you've done everything correctly up to this 
+-point, 
+-		<screen>
+-		<prompt>$ </prompt><userinput>./libtool --version</userinput>
+-		</screen>
+-		<command>libtool</> should report version 1.5.2 (or whatever version you downloaded, and <emphasis>not</> 1.4).  </para></step>
+-	<step><para>And finally, of course
+-		<screen>
+-		<prompt>$ </prompt><userinput>make && make install</userinput>
+-		</screen>
+-		</para></step>
++<para>&freetds; will probably build and run on most versions of OpenVMS Alpha 7.0 and later with DEC/Compaq C 6.0 or later.  Other prerequisites:
++				
++				<simplelist>
++					<member><application>gunzip</></member>
++					<member><application>vmstar</></member>
++					<member><application>MMS</> or <application>MMK</></member>
++					</simplelist></para>
++			
++			<sect3><title>Build Instructions</title>
++				
+ 
+-</procedure>
+-		</sect3>
+-		</sect2>
++<para>Decompress and unpack the source archive using gunzip and vmstar.  If
++					you are untarring on an ODS-5 disk, you should use the <parameter>/ODS2</> or <parameter>-o</>
++					option to create universally VMS-friendly filenames; otherwise the build will fail to locate some files.</para>
++				
+ 
+-		<sect2 id="AIX"><title>AIX&reg;</title>
+-			<para>
+-AIX&reg; can induce linker indigestion.  libtool doesn't always understand that a <filename>.a</> file 
+-can be a shared library.  One solution is to build only static libraries with the <option>--disable-shared</> 
+-configure option.  
+-			</para>
+-			<para>
+-Another problem seems to be that the linker isn't asked to pull in all the requisite libraries.  Cf. this helpful
+-<ulink url="http://lists.ibiblio.org/pipermail/freetds/2004q3/016748.html">mailing list message</ulink>.  
+-			</para>
+-		</sect2>
++<para>Set default to the top-level source directory and run the configuration
++					script:</para>
++				
++<screen>
++	<prompt>$</> <userinput>@[.vms]configure</userinput></screen>
++	
+ 
+-		<sect2 id="RPM"><title>GNU/Linux distributions that use RPMs</title>
+-			<para>
+-You may find it convenient to make an RPM from the source distribution, in which case you'll be glad to 
+-know it is easily done:
++<para> This creates a <filename>descrip.mms</> in the top-level source
++					directory which you may execute by simply running MMS (if you have the Module Management System that
++					is part of DECset) or MMK (a freeware MMS alternative available from <ulink
++						url="http://www.madgoat.com">www.madgoat.com</ulink>).</para>
++				
+ 
+-			<screen>
+-			<prompt>$ </prompt><userinput>rpmbuild -ta freetds-0.63RC9.tar.gz</userinput>
+-			</screen>
++<para>Further information can be found in the <filename></> in the source distribution.</para>
++				
++				</sect3>
++			</sect2>
++		<sect2 id="osx"><title>OS X&reg;</title>
+ 
+-			</para>
+-		</sect2>
 +<para>As of this writing ($Date: 2011/02/13 01:54:38 $), the regular distribution compiles on OS X.  Releases prior to 0.63 either did not compile or required patching.</para>
 +			
 +<![ %comment [
@@ -166892,20 +166936,7 @@ index 641ef39..6316797 100644
 +<screen>
 +	<prompt>$ </prompt><userinput>./configure --disable-libiconv --disable-odbc</userinput></screen>
 +</para></step>
- 	<step><para>Overwrite FreeTDS's <filename>libtool</> with a symbolic link to your (better) one
--		<screen>
--		<footnote><para> If you run <command>configure</> again, you'll need to perform this step
--again, because <command>libtool</> will have been regenerated in its fossilized state.	</para></footnote>
--		<prompt>$ </prompt><userinput>ln -sf /usr/local/bin/libtool</userinput>
--		</screen></para></step>
--		
--		
--	<step performance="optional"><para>To check that you've done everything correctly up to this 
--point, 
--		<screen>
--		<prompt>$ </prompt><userinput>./libtool --version</userinput>
--		</screen>
--		<command>libtool</> should report version 1.5.2 (or whatever version you downloaded, and <emphasis>not</> 1.4).  </para></step>
++	<step><para>Overwrite FreeTDS's <filename>libtool</> with a symbolic link to your (better) one
 +<screen>
 +	<footnote><para> If you run <command>configure</> again, you'll need to perform this step
 +	again, because <command>libtool</> will have been regenerated in its fossilized state.</para></footnote>
@@ -166916,16 +166947,7 @@ index 641ef39..6316797 100644
 +<screen>
 +	<prompt>$ </prompt><userinput>./libtool --version</userinput></screen>
 +	<command>libtool</> should report version 1.5.2 (or whatever version you downloaded, and <emphasis>not</> 1.4).</para></step>
- 	<step><para>And finally, of course
--		<screen>
--		<prompt>$ </prompt><userinput>make && make install</userinput>
--		</screen>
--		</para></step>
--
--</procedure>
--		</sect3>
--		</sect2>
--
++	<step><para>And finally, of course
 +<screen>
 +	<prompt>$ </prompt><userinput>make &amp;&amp; make install</userinput></screen>
 +</para></step>
@@ -166935,32 +166957,12 @@ index 641ef39..6316797 100644
 +]]>
 +			</sect2>
 +		
- 		<sect2 id="AIX"><title>AIX&reg;</title>
--			<para>
--AIX&reg; can induce linker indigestion.  libtool doesn't always understand that a <filename>.a</> file 
--can be a shared library.  One solution is to build only static libraries with the <option>--disable-shared</> 
--configure option.  
--			</para>
--			<para>
--Another problem seems to be that the linker isn't asked to pull in all the requisite libraries.  Cf. this helpful
--<ulink url="http://lists.ibiblio.org/pipermail/freetds/2004q3/016748.html">mailing list message</ulink>.  
--			</para>
--		</sect2>
--
--		<sect2 id="RPM"><title>GNU/Linux distributions that use RPMs</title>
--			<para>
--You may find it convenient to make an RPM from the source distribution, in which case you'll be glad to 
--know it is easily done:
- 
--			<screen>
--			<prompt>$ </prompt><userinput>rpmbuild -ta freetds-0.63RC9.tar.gz</userinput>
--			</screen>
++		<sect2 id="AIX"><title>AIX&reg;</title>
++
 +<para>AIX&reg; can induce linker indigestion.  libtool doesn't always understand that a <filename>.a</> file
 +				can be a shared library.  One solution is to build only static libraries with the <option>--disable-shared</>
 +				configure option.</para>
- 
--			</para>
--		</sect2>
++
 +<para>Another problem seems to be that the linker isn't asked to pull in all the requisite libraries.  Cf. this helpful
 +				<ulink url="http://lists.ibiblio.org/pipermail/freetds/2004q3/016748.html">mailing list message</ulink>.</para>
 +			</sect2>
@@ -167207,9 +167209,6 @@ index 641ef39..6316797 100644
 -				<listitem><para>Attempt to convert <replaceable>servername</> to an IP address with <function>inet_addr(3)</>.   </para></listitem>
 -				<listitem><para>Request name-lookup from the operating system via <function>gethostbyname(3)</> or similar.   </para></listitem>
 -			</orderedlist>
--			
--			If the TDS version and port are not read from &freetdsconf;, they are derived from the compiled-in defaults and overridden by applicable environment variables.  
--			</para>
 +					<footnote><para>This description applies to &dblib; and &ctlib;.  ODBC lookup is different.</para></footnote>
 +					</title>
 +				<listitem><para>Find <replaceable>servername</> in &freetdsconf;.  If a section with that name exists, use the hostname, port, and TDS version specified therein.</para></listitem>
@@ -167217,6 +167216,9 @@ index 641ef39..6316797 100644
 +				<listitem><para>Request name-lookup from the operating system via <function>gethostbyname(3)</> or similar.</para></listitem>
 +				</orderedlist>
  			
+-			If the TDS version and port are not read from &freetdsconf;, they are derived from the compiled-in defaults and overridden by applicable environment variables.  
+-			</para>
+-			
 -			<para>As you can see, if most of your servers use the same TDS version and answer to the default port, then you don't need to list them all in &freetdsconf;.  You can simply compile in the right defaults &mdash; or set the <envar>TDSPORT</envar> and <envar>TDSVER</envar> environment variables &mdash; and rely on DNS for name resolution.  
 -			</para>
 -		</sect1>
@@ -167258,7 +167260,7 @@ index 641ef39..6316797 100644
 -			</para>
 -		</sect2>
 +<para>Just as DNS defines hostnames for  network addresses, &freetdsconf; uses a <firstterm>servername</> to define the properties of your server.  <footnote>
- 
++
 +<para>In general, the servername is arbitrary and local; it's used only by your client programs to tell &freetds; which server to connect to.  You can choose any name you like.</para>
 +
 +<para><productname>Sybase SQL Anywhere</productname> (a/k/a Sybase ASA), however, is fussy.  Unless you use the <link linkend="asa.database">ASA Database</link> property, you must use the database's name as your servername.  Otherwise, the server will refuse your connection.</para>
@@ -167274,7 +167276,7 @@ index 641ef39..6316797 100644
 +					</ItemizedList>				</para>
 +
 +<para></para>
-+
+ 
 +<para><note><para>	&freetds; also supports an older configuration file format, known as the <filename>interfaces</filename> file.  Use &freetdsconf; unless <filename>interfaces</filename> is needed for your situation.  It is easier to read, and it is where all the new options are being added.  &freetds; looks for &freetdsconf; first, falling back on <filename>interfaces</filename> only if &freetdsconf; is not found.</para>
 +
 +<para>Should you need it, more information about <filename>interfaces</filename> can be found in the <link linkend="interfacesfile">Appendix</link>.</para></note></para>
@@ -167843,14 +167845,14 @@ index 641ef39..6316797 100644
 +						</tgroup>
 +					</table>
 +				
-+
+ 
+-		<sect1 id="locales">
+-    			<title>The <filename>locales.conf</filename> file</title>
 +<para>For more about the wonderful world of &freetds; logs, see <link linkend="logging">Logging</link>.</para>
 +				</sect3>
 +			
 +			<sect3><title>Deprecated options</>
- 
--		<sect1 id="locales">
--    			<title>The <filename>locales.conf</filename> file</title>
++
 +<para>The following options have long been deprecated.</para>
 +				
 +				<itemizedlist id="lst.freetds.conf.deprecated" spacing="compact">
@@ -168614,7 +168616,7 @@ index 641ef39..6316797 100644
 -</screen>
 -</example>
 +<para>To complete successfully, the ODBC tests require some additional setup.  In your <filename>PWD</> file, add a <literal>SRV</> entry specifying the DSN entry for your <filename>odbc.ini</>.  The ODBC tests all build their own <filename>odbc.ini</> and try to redirect the Driver Manager to it, however this functionality is very DM dependent and may well fail unless you have either iODBC or unixODBC.</para>
- 
++
 +<para><tip><para>
 +						The <filename>PWD</> provided by &freetds; includes usernames and passwords that probably don't exist on your server.
 +</para></tip></para>
@@ -168628,6 +168630,8 @@ index 641ef39..6316797 100644
  
 +<para>To connect to a database server, a library such as &freetds; needs some information about the connection.  By <emphasis>server</>, which IP address and port is do you mean?  Which user is requesting the connection, and what authentication does he offer?  Every database library needs a way to capture and convey that information.</para>
  
++<para>ODBC was conceived as a general interface definition, not tied to any particular database or access library.  For that reason, ODBC also needs to know which driver to use with a given server.</para>
+ 
 -			<para>
 -For details on <command>tsql</>, see the its man page.  
 -			</para>
@@ -168636,7 +168640,7 @@ index 641ef39..6316797 100644
 -			<sect2 id="Tests"><title><application>Unit Tests</application></title>
 -			<para>
 -The source code directory of each &freetds; library includes a <filename>unittests</> directory.  
-+<para>ODBC was conceived as a general interface definition, not tied to any particular database or access library.  For that reason, ODBC also needs to know which driver to use with a given server.</para>
++<para>The original ODBC solution to this conundrum employed the <filename>odbc.ini</> file.  <filename>odbc.ini</> stored information about a server, known generically as a <firstterm>Data Source Name</> (DSN).  ODBC applications connected to the server by calling the function <function>SQLConnect(DSN, UID, PWD)</function>, where <replaceable>DSN</> is the Data Source Name entry in <filename>odbc.ini</>, <replaceable>UID</> is the username, and <replaceable>PWD</> the password. Any and all information about the DSN was kept in <filename>odbc.ini</>.  And all was right with the world.</para>
  
 -<screen>
 -<prompt>$ </prompt><userinput>ls -d -1 src/*/unittests</userinput>
@@ -168647,7 +168651,8 @@ index 641ef39..6316797 100644
 -src/tds/unittests
 -</computeroutput>
 -</screen>
-+<para>The original ODBC solution to this conundrum employed the <filename>odbc.ini</> file.  <filename>odbc.ini</> stored information about a server, known generically as a <firstterm>Data Source Name</> (DSN).  ODBC applications connected to the server by calling the function <function>SQLConnect(DSN, UID, PWD)</function>, where <replaceable>DSN</> is the Data Source Name entry in <filename>odbc.ini</>, <replaceable>UID</> is the username, and <replaceable>PWD</> the password. Any and all information about the DSN was kept in <filename>odbc.ini</>.  And all was right with the world.</para>
++<para>The ODBC 3.0 specification introduced a new function: <function>SQLDriverConnect</>.
++			The connection attributes are provided as a single argument, a string of concatenated name-value pairs.  <function>SQLDriverConnect</> subsumed the functionality of <function>SQLConnect</>, in that the name-value pair string allowed the caller to pass &mdash;  in addition the the original <literal>DSN</>, <literal>UID</>, and <literal>PWD</> &mdash; any other parameters the driver could accept. Moreover, the application can specify which driver to use.  In effect, it became possible to specify the entire set of DSN properties as parameters to <function>SQLDriverConnect</>, obviating the need for <filename>odbc.ini</>.  This led to the use of the so-called <firstterm>DSN-less</> configuration, a setup with no <filename>odbc.ini</>.</para>
  
 -The unit tests rely on the <filename>PWD</> file in root of the FreeTDS source tree.  
 -<filename>PWD</> holds a username, password, servername, and database to be used for the unit tests.  We try to make sure to leave nothing behind: any data and objects created are either temporary or removed at the end of the test.  The tests should all work, subject to disclaimers in the directory's <filename>README</>.  			</para>
@@ -168665,9 +168670,6 @@ index 641ef39..6316797 100644
 -			</para>
 -			</sect2>
 -		</sect1>
-+<para>The ODBC 3.0 specification introduced a new function: <function>SQLDriverConnect</>.
-+			The connection attributes are provided as a single argument, a string of concatenated name-value pairs.  <function>SQLDriverConnect</> subsumed the functionality of <function>SQLConnect</>, in that the name-value pair string allowed the caller to pass &mdash;  in addition the the original <literal>DSN</>, <literal>UID</>, and <literal>PWD</> &mdash; any other parameters the driver could accept. Moreover, the application can specify which driver to use.  In effect, it became possible to specify the entire set of DSN properties as parameters to <function>SQLDriverConnect</>, obviating the need for <filename>odbc.ini</>.  This led to the use of the so-called <firstterm>DSN-less</> configuration, a setup with no <filename>odbc.ini</>.</para>
-+
 +<para>But <productname>FreeTDS</> did not start out as an ODBC driver (remember &dblib; and &ctlib;), and has always had its own way to store server properties: &freetdsconf;.  When Brian added the &freetds; ODBC driver, he began by supporting the old <function>SQLConnect</>, using <filename>odbc.ini</> to describe the DSN.  That choice complied with the expectations of the Driver Managers, and minimized the amount of duplicated information in the configuration files.  But it can be a little confusing, too, because <filename>odbc.ini</> in effect points to &freetdsconf;.  We call this configuration <firstterm>ODBC-combined</>, because it supports all three <productname>FreeTDS</> libraries.</para>
 +
 +<para>As progress on the the &freetds; ODBC library progressed, the driver was made able to read the connection attributes directly from <filename>odbc.ini</>, rather than leaning on &freetdsconf;.  For installations that don't need &dblib; and &ctlib;, this <firstterm>ODBC-only</> setup is simpler.</para>
@@ -169591,11 +169593,15 @@ index 641ef39..6316797 100644
 -If &freetds; runs into a character it can not convert, its behavior varies according to the severity of the problem.  On retrieving data from the server, &freetds; substitutes an <acronym>ASCII</> '?' in the character's place, and emits a warning message stating that some characters could not be converted.  On sending data to the server, &freetds; aborts the query and emits an error message.  It is well to ensure that the data contained in the database is representable in the client's character set.</para>
 +	</programlisting>
 +			</example>
++
++<para>If &freetds; runs into a character it can not convert, its behavior varies according to the severity of the problem.  On retrieving data from the server, &freetds; substitutes an <acronym>ASCII</> '?' in the character's place, and emits a warning message stating that some characters could not be converted.  On sending data to the server, &freetds; aborts the query and emits an error message.  It is well to ensure that the data contained in the database is representable in the client's character set.</para>
++		
  
 -			<para>
 -If you have a mix of character data that can not be contained in a single-byte character set, you may wish to use <acronym>UTF-8</>.  <acronym>UTF-8</> is a variable length unicode encoding that is compatible with <acronym>ASCII</> in the range 0 to 127.  With <acronym>UTF-8</>, you are guaranteed to never have an unconvertible character.</para>
-+<para>If &freetds; runs into a character it can not convert, its behavior varies according to the severity of the problem.  On retrieving data from the server, &freetds; substitutes an <acronym>ASCII</> '?' in the character's place, and emits a warning message stating that some characters could not be converted.  On sending data to the server, &freetds; aborts the query and emits an error message.  It is well to ensure that the data contained in the database is representable in the client's character set.</para>
++<para>If you have a mix of character data that can not be contained in a single-byte character set, you may wish to use <acronym>UTF-8</>.  <acronym>UTF-8</> is a variable length unicode encoding that is compatible with <acronym>ASCII</> in the range 0 to 127.  With <acronym>UTF-8</>, you are guaranteed to never have an unconvertible character.</para>
 +		
++		<Important><para>&freetds; is not fully compatible with multi-byte character sets such as <acronym>UCS-2</>.  You must use an ASCII-extension charset (e.g., UTF-8, ISO-8859-*)<footnote><para>not EBCDIC or other weird charsets</para></footnote>. Great care should be taken testing applications using these encodings. Specifically, many applications do not expect the number of characters returned to exceed the column size (in bytes).</para></Important>
  
 -<Important><para>&freetds; is not fully compatible with multi-byte character sets such as <acronym>UCS-2</>.  You must use an ASCII-extension charset (e.g., UTF-8, ISO-8859-*)<footnote><para>not EBCDIC or other weird charsets</para></footnote>. Great care should be taken testing applications using these encodings. Specifically, many applications do not expect the number of characters returned to exceed the column size (in bytes).  </para></Important>
 -			<para>
@@ -169603,10 +169609,6 @@ index 641ef39..6316797 100644
 -			</para>
 -<example id="e.g.UTF8">
 -<title>Configuring for <acronym>UTF-8</> &freetdsconf; setting</title>
-+<para>If you have a mix of character data that can not be contained in a single-byte character set, you may wish to use <acronym>UTF-8</>.  <acronym>UTF-8</> is a variable length unicode encoding that is compatible with <acronym>ASCII</> in the range 0 to 127.  With <acronym>UTF-8</>, you are guaranteed to never have an unconvertible character.</para>
-+		
-+		<Important><para>&freetds; is not fully compatible with multi-byte character sets such as <acronym>UCS-2</>.  You must use an ASCII-extension charset (e.g., UTF-8, ISO-8859-*)<footnote><para>not EBCDIC or other weird charsets</para></footnote>. Great care should be taken testing applications using these encodings. Specifically, many applications do not expect the number of characters returned to exceed the column size (in bytes).</para></Important>
-+
 +<para>In the following example, a server named <literal>mssql</literal> will return data encoded in the <acronym>UTF-8</> character set.</para>
 +		<example id="e.g.UTF8">
 +			<title>Configuring for <acronym>UTF-8</> &freetdsconf; setting</title>
@@ -170119,7 +170121,12 @@ index 641ef39..6316797 100644
 +<para>Install openssl and stunnel on the Linux box:
 +					<ulink url="http://www.stunnel.org/">stunnel.org</ulink>
 +</para></listitem>
-+			<listitem>
+ 			<listitem>
+-				<para>Set up FreeTDS to use the tunnel.  If this is your unencrypted entry in
+-   &freetdsconf;:
+-				</para>
+-<example id="e.g.Unencrypted">
+-<title>Unencrypted entry in &freetdsconf;</title>
 +
 +<para>Download the <ulink url="http://www.stunnel.org/download/binaries.html">stunnel binary</ulink> and openssl dll's for Windows.
 +</para></listitem>
@@ -170145,12 +170152,7 @@ index 641ef39..6316797 100644
 +
 +<para>where <replaceable>win2kserver</replaceable> is the hostname or IP address of the W2k box.
 +</para></listitem>
- 			<listitem>
--				<para>Set up FreeTDS to use the tunnel.  If this is your unencrypted entry in
--   &freetdsconf;:
--				</para>
--<example id="e.g.Unencrypted">
--<title>Unencrypted entry in &freetdsconf;</title>
++			<listitem>
 +
 +<para>Set up FreeTDS to use the tunnel.  If this is your unencrypted entry in
 +					&freetdsconf;:</para>
@@ -170221,17 +170223,17 @@ index 641ef39..6316797 100644
 -                        		<para>A non-interactive equivalent of the <symbol>isql</> utility programs distributed by Sybase and Microsoft. Like them, <command>bsqlodbc</> uses the command <quote>go</> on a line by itself as a separator between batches. The last batch need not be followed by <quote>go</>.  It uses the <acronym>ODBC</> <acronym>API</>. </para>
 +<para>  A non-interactive equivalent of the <symbol>isql</> utility programs distributed by Sybase and Microsoft. Like them, <command>bsqldb</> uses the command <quote>go</> on a line by itself as a separator between batches. The last batch need not be followed by <quote>go</>.</para>
 +					
- 
--					<para><command>bsqlodbc</> is a demonstration project, but can also aid in isolating problems.  <acronym>ODBC</> applications typically have many layers, and it can be difficult to know if a problem arises in a layer, or in the interface between layers.  By executing a query in <command>bsqlodbc</>, you can see if the functionality of the <acronym>ODBC</> driver works when used as the folks who wrote the driver thought it would be used.  </para>
--                		</listitem>
--        		</varlistentry> 
++
 +<para><command>bsqldb</> makes use of the <symbol>db-lib</> <acronym>API</>. Intended for production use.</para>
 +					</listitem>
 +				</varlistentry>
 +			<varlistentry>
 +				<term>bsqlodbc</term>
 +				<listitem>
-+
+ 
+-					<para><command>bsqlodbc</> is a demonstration project, but can also aid in isolating problems.  <acronym>ODBC</> applications typically have many layers, and it can be difficult to know if a problem arises in a layer, or in the interface between layers.  By executing a query in <command>bsqlodbc</>, you can see if the functionality of the <acronym>ODBC</> driver works when used as the folks who wrote the driver thought it would be used.  </para>
+-                		</listitem>
+-        		</varlistentry> 
 +<para>A non-interactive equivalent of the <symbol>isql</> utility programs distributed by Sybase and Microsoft. Like them, <command>bsqlodbc</> uses the command <quote>go</> on a line by itself as a separator between batches. The last batch need not be followed by <quote>go</>.  It uses the <acronym>ODBC</> <acronym>API</>.</para>
 +					
  
@@ -170305,10 +170307,10 @@ index 641ef39..6316797 100644
 +			<varlistentry>
 +				<term>defncopy</term>
 +				<listitem>
- 
++
 +<para>Replaces a similar program of the same name distributed by Sybase.</para>
 +					
- 
++
 +<para><command>defncopy</> reads the text of a stored procedure or view, and writes a script suitable for recreating the procedure or view. For tables, it reads  the output of <command>sp_help</> and constructs a <literal>CREATE TABLE</> statement, complete with <literal>CREATE INDEX</>, too.</para>
 +					</listitem>
 +				</varlistentry>
@@ -170316,7 +170318,7 @@ index 641ef39..6316797 100644
 +			<varlistentry>
 +				<term>fisql</term>
 +				<listitem>
- 
++
 +<para>A complete replacement of the <symbol>isql</> utility programs distributed by Sybase and Microsoft. Like them, <command>fisql</> uses the command <quote>go</> on a line by itself as a separator between batches.</para>
 +					</listitem>
 +				</varlistentry>
@@ -170324,8 +170326,39 @@ index 641ef39..6316797 100644
 +			<varlistentry>
 +				<term>freebcp</term>
 +				<listitem>
- 
++
 +<para>Replicates the functionality of the <symbol>bcp</> utility programs distributed by Sybase and Microsoft.</para>
+ 
++<para><command>freebcp</> makes use of the <symbol>db-lib</> bcp <acronym>API</>.</para>
++
++<para>The manual pages or online help for Sybase or SQL Server can be referenced for more detailed information on bcp functionality.</para>
++					</listitem>
++				</varlistentry>
++			
++			<varlistentry>
++				<term>osql</term>
++				<listitem>
++
++<para>A Bourne shell script that checks and reports on your configuration.</para>
++					</listitem>
++				</varlistentry>
++			
++			<varlistentry>
++				<term>tsql</term>
++				<listitem>
+ 
++<para>A diagnostic tool that uses uses the lowest level <productname>FreeTDS</> library, <symbol>libtds</>, as a way to isolate potential  bugs  in  the  protocol implementation.</para>
+ 
++<para><command>tsql</> is <emphasis>not</> a replacement for a complete <symbol>isql</>.</para>
++					</listitem>
++				</varlistentry>
++			</variablelist>
++		</sect1>
++	</chapter>
+ 
++<!-- ////////////////// CHAPTER /////////////////////// -->
++<chapter id="software">
++	<title>How to get what works with it working</title>
  
 -				<!-- ////////////////// CHAPTER /////////////////////// -->
 -	<chapter id="software">
@@ -170337,25 +170370,18 @@ index 641ef39..6316797 100644
 -			<title><application>SQSH</application></title>
 -			<para>
 -<application>SQSH</application> is a command line based query tool written by Scott Gray to replace the <command>isql</> utility that ships with <productname>Sybase ASE</productname>.  It makes a great diagnostic tool for &freetds; as well.  If you are having trouble, install <application>SQSH</application> (it's easy) and try getting that to work before more complicated arrangements.
-+<para><command>freebcp</> makes use of the <symbol>db-lib</> bcp <acronym>API</>.</para>
++<para>The following programs are known to work to some extent with &freetds;.  Here you will find any special instructions for getting them compiled or running.</para>
++	<sect1 id="sqsh">
++		<title><application>SQSH</application></title>
  
 -	<tip><sidebar><para>That advice is so good, it bears repeating.  If you are having trouble, grab <application>SQSH</application> and get that to work. Not only will it help isolate the problem, it will give you a very capable tool.  </para></sidebar></tip>
-+<para>The manual pages or online help for Sybase or SQL Server can be referenced for more detailed information on bcp functionality.</para>
-+					</listitem>
-+				</varlistentry>
++<para><application>SQSH</application> is a command line based query tool written by Scott Gray to replace the <command>isql</> utility that ships with <productname>Sybase ASE</productname>.  It makes a great diagnostic tool for &freetds; as well.  If you are having trouble, install <application>SQSH</application> (it's easy) and try getting that to work before more complicated arrangements.
 +			
-+			<varlistentry>
-+				<term>osql</term>
-+				<listitem>
++			<tip><sidebar><para><application>SQSH</application> is an excellent tool.  Because it uses &ctlib;, it works with &freetds;, but potentially &mdash; and with significant effort &mdash; it could be ported to ODBC and thus made useful for other server environments.  Just a thought&hellip;.</para></sidebar></tip>			</para>
++		
  
 -			</para>
-+<para>A Bourne shell script that checks and reports on your configuration.</para>
-+					</listitem>
-+				</varlistentry>
-+			
-+			<varlistentry>
-+				<term>tsql</term>
-+				<listitem>
++<para><application>SQSH</application> 2.1 includes direct support for &freetds;, so these instructions may not be necessary, but are still included just in case.</para>
  
 -			<para>
 -<application>SQSH</application> 2.1 includes direct support for &freetds;, so these instructions may not be necessary, but are still included just in case.  
@@ -170364,7 +170390,10 @@ index 641ef39..6316797 100644
 -After running <Command>configure</Command> in <application>SQSH</application>'s directory (make sure you set the Sybase environment variable first), look for the Sybase_LIBS definition in the Makefile.  Change the line to match this example.
 -<example id="e.g.SQSHmake">
 -<title>The <application>SQSH</application> Makefile</title>
--<programlisting>
++<para>After running <Command>configure</Command> in <application>SQSH</application>'s directory (make sure you set the <envar>Sybase</envar> environment variable first), look for the <literal>Sybase_LIBS</literal> definition in the <filename>Makefile</filename>.  Change the line to match this example.
++			<example id="e.g.SQSHmake">
++				<title>The <application>SQSH</application> Makefile</title>
+ <programlisting>
 -#
 -#  The following set of CT-LIB libraries were determined automatically
 -#  by 'configure'.  For most systems configure looks up the required
@@ -170390,37 +170419,6 @@ index 641ef39..6316797 100644
 -			<para>
 -After that just type <command>make</command> and you are off and running.
 -			</para>
-+<para>A diagnostic tool that uses uses the lowest level <productname>FreeTDS</> library, <symbol>libtds</>, as a way to isolate potential  bugs  in  the  protocol implementation.</para>
-+
-+<para><command>tsql</> is <emphasis>not</> a replacement for a complete <symbol>isql</>.</para>
-+					</listitem>
-+				</varlistentry>
-+			</variablelist>
- 		</sect1>
-+	</chapter>
-+
-+<!-- ////////////////// CHAPTER /////////////////////// -->
-+<chapter id="software">
-+	<title>How to get what works with it working</title>
-+
-+<para>The following programs are known to work to some extent with &freetds;.  Here you will find any special instructions for getting them compiled or running.</para>
-+	<sect1 id="sqsh">
-+		<title><application>SQSH</application></title>
- 
--		<sect1 id="perl">
--			<title>Perl</title>
--			<para>There are a few ways to use <productname>Perl</productname> to connect to a <productname>SQL Server</productname> using &freetds;. </para>
-+<para><application>SQSH</application> is a command line based query tool written by Scott Gray to replace the <command>isql</> utility that ships with <productname>Sybase ASE</productname>.  It makes a great diagnostic tool for &freetds; as well.  If you are having trouble, install <application>SQSH</application> (it's easy) and try getting that to work before more complicated arrangements.
- 			
-+			<tip><sidebar><para><application>SQSH</application> is an excellent tool.  Because it uses &ctlib;, it works with &freetds;, but potentially &mdash; and with significant effort &mdash; it could be ported to ODBC and thus made useful for other server environments.  Just a thought&hellip;.</para></sidebar></tip>			</para>
-+		
-+
-+<para><application>SQSH</application> 2.1 includes direct support for &freetds;, so these instructions may not be necessary, but are still included just in case.</para>
-+
-+<para>After running <Command>configure</Command> in <application>SQSH</application>'s directory (make sure you set the <envar>Sybase</envar> environment variable first), look for the <literal>Sybase_LIBS</literal> definition in the <filename>Makefile</filename>.  Change the line to match this example.
-+			<example id="e.g.SQSHmake">
-+				<title>The <application>SQSH</application> Makefile</title>
-+<programlisting>
 +	#
 +	#  The following set of CT-LIB libraries were determined automatically
 +	#  by 'configure'.  For most systems configure looks up the required
@@ -170444,11 +170442,15 @@ index 641ef39..6316797 100644
 +			At this point you can also enable <application>readline</application> support if you didn't specify it in the <application>configure</application> arguments.</para>
 +
 +<para>After that just type <command>make</command> and you are off and running.</para>
-+		</sect1>
+ 		</sect1>
 +	
 +	<sect1 id="perl">
 +		<title>Perl</title>
-+
+ 
+-		<sect1 id="perl">
+-			<title>Perl</title>
+-			<para>There are a few ways to use <productname>Perl</productname> to connect to a <productname>SQL Server</productname> using &freetds;. </para>
+-			
 +<para>There are a few ways to use <productname>Perl</productname> to connect to a <productname>SQL Server</productname> using &freetds;.</para>
 +		
  		<sect2 id="DBD.Sybase"><title>DBD::Sybase</title>
@@ -171225,23 +171227,48 @@ index 641ef39..6316797 100644
 -</para>
 -<para>
 -If you receive a message like
--<screen>
++	<prompt>$ </prompt><userinput>cd src/apps</userinput>
++	<prompt>$ </prompt><userinput>TDSVER=7.0 ./tsql -H <replaceable>myhost</> -p <replaceable>1433</> -U <replaceable>user</></userinput></screen>
++	</example>
++	If you receive a message of 'Login Failed.' then your connectivity is OK, but you have a authentication issue.</para>
++
++<para>If you receive a message like
+ <screen>
 -<computeroutput>
 - Msg. No.: 18450 Severity: 14 State: 1 Login failed- User: loginid Reason: Not defined as a valid user of a trusted SQL Server connection
 -</computeroutput>
 -</screen>
 -<productname>SQL Server</productname> is accepting only <quote>domain</quote> logins.  This applies only to Microsoft <productname>SQL Server</productname> and you'll need to have your DBA verify that <quote>server logins</quote> are allowed, or use a <link linkend="domains">domain login</link>.  
-+	<prompt>$ </prompt><userinput>cd src/apps</userinput>
-+	<prompt>$ </prompt><userinput>TDSVER=7.0 ./tsql -H <replaceable>myhost</> -p <replaceable>1433</> -U <replaceable>user</></userinput></screen>
++	<computeroutput>
++	Msg. No.: 18450 Severity: 14 State: 1 Login failed- User: loginid Reason: Not defined as a valid user of a trusted SQL Server connection
++	</computeroutput></screen>
++	<productname>SQL Server</productname> is accepting only <quote>domain</quote> logins.  This applies only to Microsoft <productname>SQL Server</productname> and you'll need to have your DBA verify that <quote>server logins</quote> are allowed, or use a <link linkend="domains">domain login</link>.				</para>
++
++<para>Finally, if you received a prompt, then try <command>tsql</> using the servername.
++				<example id="e.g.troubleshooting.tsql">
++					<title>Connecting to the server using &freetdsconf;</title>
++<screen>
++	<prompt>$ </prompt><userinput>./tsql -S <replaceable>myserver</> -U <replaceable>user</></userinput></screen>
 +	</example>
-+	If you receive a message of 'Login Failed.' then your connectivity is OK, but you have a authentication issue.</para>
++	If this fails, FreeTDS is either not finding your &freetdsconf; file, finding the wrong one, or there is an error in the file.</para>
++	</sect2>
++	</sect1>
++	<sect1 id="Logging">
++	<title>Logging</title>
++
++<para>&freetds; has quite extensive logging capabilities.  These are often invaluable in setting up new configurations, when it's hard to be sure precisely what configuration information is being used, and what communication is (not) working.   Often such questions can be quickly resolved by turning on logging and examining the logs.</para>
++		<sect2 id="Environment"><title>Environment Variables that Control Logging</title>
++			<variablelist id="tab.Logging.control.envar">
++				<varlistentry>
++					<term id="TDSDUMP"><envar>TDSDUMP</envar></term>
++					<listitem>
  
 -			</para>
 -			<para>
 -Finally, if you received a prompt, then try <command>tsql</> using the servername.
 -<example id="e.g.troubleshooting.tsql">
 -	<title>Connecting to the server using &freetdsconf;</title>
-+<para>If you receive a message like
++<para>Log files can be turned on using the <envar>TDSDUMP</envar> environment variable.  For instance, setting the location of a dumpfile
  <screen>
 -<prompt>$ </prompt><userinput>./tsql -S <replaceable>myserver</> -U <replaceable>user</></userinput>
 -</screen>
@@ -171257,64 +171284,18 @@ index 641ef39..6316797 100644
 -			</para>
 -        		<sect2 id="Environment"><title>Environment Variables that Control Logging</title>
 -<variablelist id="tab.Logging.control.envar">
--	<varlistentry>
--		<term id="TDSDUMP"><envar>TDSDUMP</envar></term>
--		<listitem>
--			<para>Log files can be turned on using the <envar>TDSDUMP</envar> environment variable.  For instance, setting the location of a dumpfile
-+	<computeroutput>
-+	Msg. No.: 18450 Severity: 14 State: 1 Login failed- User: loginid Reason: Not defined as a valid user of a trusted SQL Server connection
-+	</computeroutput></screen>
-+	<productname>SQL Server</productname> is accepting only <quote>domain</quote> logins.  This applies only to Microsoft <productname>SQL Server</productname> and you'll need to have your DBA verify that <quote>server logins</quote> are allowed, or use a <link linkend="domains">domain login</link>.				</para>
-+
-+<para>Finally, if you received a prompt, then try <command>tsql</> using the servername.
-+				<example id="e.g.troubleshooting.tsql">
-+					<title>Connecting to the server using &freetdsconf;</title>
- <screen>
--<prompt>$ </prompt><userinput>export TDSDUMP=/tmp/freetds.log</userinput>
--</screen>
--Will generate a log file named <filename>freetds.log</filename> in the <filename>/tmp</filename> directory.  
--			<tip><para> The filenames <filename>stdout</> and <filename>stderr</> are also supported.  They can be handy if you want to intersperse the log output with your application's output, or if your application opens more than one connection.  (The logfile is otherwise normally truncatated each time the library connects to the server.) </para></tip>
--			</para>
--		</listitem>
--	</varlistentry>	
-+	<prompt>$ </prompt><userinput>./tsql -S <replaceable>myserver</> -U <replaceable>user</></userinput></screen>
-+	</example>
-+	If this fails, FreeTDS is either not finding your &freetdsconf; file, finding the wrong one, or there is an error in the file.</para>
-+	</sect2>
-+	</sect1>
-+	<sect1 id="Logging">
-+	<title>Logging</title>
-+
-+<para>&freetds; has quite extensive logging capabilities.  These are often invaluable in setting up new configurations, when it's hard to be sure precisely what configuration information is being used, and what communication is (not) working.   Often such questions can be quickly resolved by turning on logging and examining the logs.</para>
-+		<sect2 id="Environment"><title>Environment Variables that Control Logging</title>
-+			<variablelist id="tab.Logging.control.envar">
-+				<varlistentry>
-+					<term id="TDSDUMP"><envar>TDSDUMP</envar></term>
-+					<listitem>
-+
-+<para>Log files can be turned on using the <envar>TDSDUMP</envar> environment variable.  For instance, setting the location of a dumpfile
-+<screen>
 +	<prompt>$ </prompt><userinput>export TDSDUMP=/tmp/freetds.log</userinput></screen>
 +	Will generate a log file named <filename>freetds.log</filename> in the <filename>/tmp</filename> directory.
 +	<tip><para> The filenames <filename>stdout</> and <filename>stderr</> are also supported.  They can be handy if you want to intersperse the log output with your application's output, or if your application opens more than one connection.  (The logfile is otherwise normally truncatated each time the library connects to the server.)</para></tip></para>
 +	</listitem>
 +	</varlistentry>
  	<varlistentry>
--		<term><envar>TDSDUMPCONFIG</envar></term>
+-		<term id="TDSDUMP"><envar>TDSDUMP</envar></term>
 -		<listitem>
--			<para>Set <envar>TDSDUMPCONFIG</envar> to a file to
--write information to on how the configuration information is being
--obtained, e.g. from environment variables, a &freetdsconf; file, or <filename>interfaces</filename> file.  Sometimes it's unclear what source of information &freetds; is using to connect to a given servername.  This variable can make that bright and clear.  </para>
--			
--		</listitem>
--	</varlistentry>	
--</variablelist>
+-			<para>Log files can be turned on using the <envar>TDSDUMP</envar> environment variable.  For instance, setting the location of a dumpfile
 +	<term><envar>TDSDUMPCONFIG</envar></term>
 +	<listitem>
- 
--			<tip><para>
--What if you were running <productname>Apache</productname>/PHP?  <productname>Apache</productname> has many children.
--Setting the <envar>TDSDUMP</envar> (and/or <envar>TDSDUMPCONFIG</envar>) variable to a null string will cause &freetds; to open a log under every PID.
++
 +<para>Set <envar>TDSDUMPCONFIG</envar> to a file to
 +							write information to on how the configuration information is being
 +							obtained, e.g. from environment variables, a &freetdsconf; file, or <filename>interfaces</filename> file.  Sometimes it's unclear what source of information &freetds; is using to connect to a given servername.  This variable can make that bright and clear.</para>
@@ -171326,6 +171307,31 @@ index 641ef39..6316797 100644
 +			<tip><para>What if you were running <productname>Apache</productname>/PHP?  <productname>Apache</productname> has many children.
 +					Setting the <envar>TDSDUMP</envar> (and/or <envar>TDSDUMPCONFIG</envar>) variable to a null string will cause &freetds; to open a log under every PID.
  <screen>
+-<prompt>$ </prompt><userinput>export TDSDUMP=/tmp/freetds.log</userinput>
+-</screen>
+-Will generate a log file named <filename>freetds.log</filename> in the <filename>/tmp</filename> directory.  
+-			<tip><para> The filenames <filename>stdout</> and <filename>stderr</> are also supported.  They can be handy if you want to intersperse the log output with your application's output, or if your application opens more than one connection.  (The logfile is otherwise normally truncatated each time the library connects to the server.) </para></tip>
+-			</para>
+-		</listitem>
+-	</varlistentry>	
+-	<varlistentry>
+-		<term><envar>TDSDUMPCONFIG</envar></term>
+-		<listitem>
+-			<para>Set <envar>TDSDUMPCONFIG</envar> to a file to
+-write information to on how the configuration information is being
+-obtained, e.g. from environment variables, a &freetdsconf; file, or <filename>interfaces</filename> file.  Sometimes it's unclear what source of information &freetds; is using to connect to a given servername.  This variable can make that bright and clear.  </para>
+-			
+-		</listitem>
+-	</varlistentry>	
+-</variablelist>
++	<prompt>$ </prompt><userinput>export TDSDUMP=""</userinput></screen>
++	The log files will be named <filename>/tmp/freetds.log.<replaceable>9999</replaceable></filename>, where <replaceable>9999</replaceable> is the pid number of the process generating the log.
++</para></tip>
+ 
+-			<tip><para>
+-What if you were running <productname>Apache</productname>/PHP?  <productname>Apache</productname> has many children.
+-Setting the <envar>TDSDUMP</envar> (and/or <envar>TDSDUMPCONFIG</envar>) variable to a null string will cause &freetds; to open a log under every PID.
+-<screen>
 -<prompt>$ </prompt><userinput>export TDSDUMP=""</userinput>
 -</screen>
 -The log files will be named <filename>/tmp/freetds.log.<replaceable>9999</replaceable></filename>, where <replaceable>9999</replaceable> is the pid number of the process generating the log.
@@ -171345,10 +171351,6 @@ index 641ef39..6316797 100644
 -		        </sect2>
 -        		
 -			<sect2 id="Logging.freetds.conf">
-+	<prompt>$ </prompt><userinput>export TDSDUMP=""</userinput></screen>
-+	The log files will be named <filename>/tmp/freetds.log.<replaceable>9999</replaceable></filename>, where <replaceable>9999</replaceable> is the pid number of the process generating the log.
-+</para></tip>
-+
 +<para>A couple of important notes about using the logs with &freetds;.  First,
 +				the logs tend to grow large, so trim or archive them often.  Secondly,
 +				&freetds; will record certain network packets to the log, this
@@ -171564,7 +171566,7 @@ index 641ef39..6316797 100644
 +		
 +		<itemizedlist mark='bullet'>
 +			<listitem>
- 
++
 +<para>Logging.  If everything seems a bit sluggish, check to make sure logging is turned off. <envar>TDSDUMP</> should not be defined, and there should be no <literal>dump file</>  mentioned in &freetdsconf;.  You can double-check by setting <envar>TDSDUMPCONFIG</> temporarily, which will log only the startup process.</para>
 +				</listitem>
 +			<listitem>
@@ -171577,7 +171579,7 @@ index 641ef39..6316797 100644
 +					<Note><para> Reverse lookup code has been removed as of version 0.62 due to wrong implementation.</para></Note></para>
 +				</listitem>
 +			<listitem>
-+
+ 
 +<para>Packet size.  Check packet size setting on &freetdsconf; (see <literal>initial block size</>). Default value (no configuration) is usually fine. The slowness is due to multiple packet to use.
 +					Under <productname><acronym>GNU</>/Linux</productname> system we use an optimization to reduce network traffic so you shouldn't see much difference using this system.</para>
 +				</listitem>
@@ -171620,12 +171622,12 @@ index 641ef39..6316797 100644
 +			Won't you please, please help me?
 +			</literallayout></para>
 +		</epigraph>
-+
+ 
 +<para>In the battle against frustration and wasted motion, this manual is our first defense.  Our documentation is intended to make it possible for a knowledgeable user to, well, <emphasis>use</> &freetds; without further assistance.  We strive to include all known features and behaviors here, so you can work quickly and anonymously, and go home before 5:00.  Would that it were always thus.</para>
 +
 +	<sect1 id="reconfirm.installation">
 +		<title>Reconfirm the installation</title>
- 
++
 +<para>For initial setup and login problems, review <xref linkend="ConfirmInstall">.  Distinguish between <emphasis>network</emphasis> and <emphasis>server</emphasis> issues, between finding the server and logging into it.  The <envar>TDSDUMPCONFIG</envar> log will show how the servername is being looked up, what address &amp; port is being used, what TDS version is being used.  The <envar>TDSDUMP</envar> log will show quite clearly whether or not the server accepted the connection, and whether or not the login succeeded.  </para>
 +
 +<para>Remember compiled-in defaults can be displayed with <command>tsql</command>:
@@ -171811,12 +171813,12 @@ index 641ef39..6316797 100644
 +		<sect2 id="ShowYourWork"><title>Show your work</title>
 +
 +<para>Great questions make the problem crystal clear to a tired developer after supper.  </para>
- 
--		</sect2>
++
 +<para>Show what you did, and show what happened.  Throughout this User Guide, you've seen examples of screenshots; in each case the first line was the command entered, followed by the machine's response.  By showing <emphasis>verbatim</emphasis> what you did and saw, you give someone who knows what to do a chance to look over your shoulder.  <emphasis>Across the Internet!</emphasis>  How cool is that?   </para>
 +
 +<para>Whether you're having a problem with your own application or with something at a higher level, you're well advised to try to reproduce it using one of the &freetds; utilities, preferably one that used the same client library you're using.  If, say, <command>bsqldb</command> works and your program doesn't, that's a clue.  By the same token, if <command>bsqldb</command> exhibits problems, too, chances are you found a bug.  Or &mdash; how to say it? &mdash; a <emphasis>missing feature</emphasis>.  It's always good to know about those.  </para>
-+
+ 
+-		</sect2>
 +			</sect2>
  		</sect1>
  	</chapter>
@@ -171914,11 +171916,7 @@ index 641ef39..6316797 100644
 -The FAQ and in particular the news don't get updated often enough.  If that's your thing, drop a line to your friendly project maintainer, <ulink url="mailto:jklowden@freetds.org">James K. Lowden</ulink>.  
 -			</para>
 -		</sect2>
-+			<title>Be the Webmaster</title>
-+
-+<para>The FAQ and in particular the news don't get updated often enough.  If that's your thing, drop a line to your friendly project maintainer, <ulink url="mailto:jklowden@freetds.org">James K. Lowden</ulink>.</para>
-+			</sect2>
- 		</sect1>
+-		</sect1>
 -		<sect1 id="Advocacy">
 -    			<title>Advocacy</title>
 -			<para>
@@ -171937,15 +171935,7 @@ index 641ef39..6316797 100644
 -</ItemizedList>
 -			<para>If more people knew, fewer would be stuck.  
 -			</para>
-+
-+	<sect1 id="Light.taper">
-+		<title>Light another's taper</title>
-+
-+<para>Every question you answer on the mailing list will save someone time and, if done well, will actually improve your own knowledge.  The project's developers will often answer technical questions that require substantial understanding of the code or suggest a possible bug.  Setup issues, though, connecting and logging in to the server, getting Apache going, are questions many experienced users can and do answer, thereby fostering the community on which the project depends.  </para>
-+
-+<para>Your experience may well be more closely aligned with the question posed than that of anyone else reading the list that day.  You may use that framework or language or OS, or have that particular server.  No one, no matter how expert in the code, has used every configuration, version, OS, compiler, etc.  Whether you simply confirm there's a problem in some particular arrangement, or say, <quote>dunno, works for me</quote>, you're adding information.  </para>
-+
- 		</sect1>
+-		</sect1>
 -	</chapter>
 -				<!-- ////////////////// CHAPTER /////////////////////// -->
 -	<chapter id="programming">
@@ -171957,33 +171947,7 @@ index 641ef39..6316797 100644
 -			<para>
 -Can be found on <ulink url="http://www.freetds.org/tds.html">www.freetds.org</ulink>
 -			</para>
-+
-+	<sect1 id="Ambition">
-+		<title>Ambitious ideas</title>
-+
-+<para>If you want to get your hands really dirty, here are some big ideas to contemplate.  </para>
-+		
-+		<sect2>
-+			<title><literal>libtds2</literal></title>			
-+
-+<para>After many years developing &freetds;, we've learned quite a bit about the protocol and how to write database libraries.  Unfortunately, though, one of the things holding us back &mdash; and, obviously hampering the project &mdash; is the underlying utility library.</para>
-+
-+<para>This wouldn't be a from-scratch effort; most of the code is already written.  What's needed is a more uniform API that better reflects the TDS protocol, and that does <emphasis>not</emphasis> attempt character set conversions immediately on receipt of the data.  </para>   
-+			</sect2>
-+
-+		<sect2>
-+			<title><literal>libstddb</literal></title>			
-+
-+<para>This would be a new client library modelled after <literal>stdio</literal>, a project to demonstrate what database programming should be like.  </para>
-+			</sect2>
-+
-+		<sect2>
-+			<title>Server code </title>			
-+
-+<para>&freetds; includes a little stub of a server, but it could be much more useful.  One idea would be to make it a front-end to SQLite, thereby creating for the first time a TDS client &amp; server pair composed entirely of free software.  </para>
-+			</sect2>
-+
- 		</sect1>
+-		</sect1>
 -		<sect1 id="APIreference"><title>API Reference Manual</title>
 -			<para>
 -The <ulink url="../reference/index.html">reference manual</ulink> is installed as part of <productname>FreeTDS</>.  It can be regenerated at any time using <productname>Doxygen</productname> with <command>cd <filename>doc</>; make doc</command>.  
@@ -172025,28 +171989,8 @@ index 641ef39..6316797 100644
 -	</varlistentry>	
 -</variablelist>
 -			</para>
-+
-+	<sect1 id="Advocacy">
-+		<title>Advocacy</title>
-+
-+<para>Out of ten people you know, it's a fair bet 10 never heard of &freetds; and nine don't understand the problem it solves.  Lots of places have begun to use Microsoft <productname>SQL Server</productname>s in all sorts of ways, and if you adhere to the Microsoft line, there's only one way to connect to them: from a Microsoft OS.</para>
-+
-+<para>What can &freetds; do that can't be done any other way?  Glad you asked.  &freetds; can</para>
-+		<ItemizedList>
-+			<listitem><para>Connect to every version of either vendor's server, using the same binaries.</para></listitem>
-+			<listitem><para>Provide a &ctlib; interface to Microsoft <productname>SQL Server</productname>.  This feature alone allows <productname>DBD::Sybase</> and <command>sqsh</>, among others, to connect to Microsoft's product.</para></listitem>
-+			<listitem><para>Provide a bcp-capable interface and command-line utility on unix-like operating systems for  Microsoft <productname>SQL Server</productname>.</para></listitem>
-+			<listitem><para>Run on many more operating systems than either vendor's libraries do.</para></listitem>
-+			<listitem><para>Get fixed, instead of telling you to get stuffed.</para></listitem>
-+			<listitem><para>Amuse and inform.  Also frustrate and infuriate, but we don't put that under <quote>Advocacy</>.</para></listitem>
-+			</ItemizedList>
-+
-+<para>If more people knew, fewer would be stuck.</para>
- 		</sect1>
-+	</chapter>
-+<!-- ////////////////// CHAPTER /////////////////////// -->
-+<chapter id="programming">
-+	<title>Programming</title>
+-		</sect1>
++			<title>Be the Webmaster</title>
  
 -		<sect1 id="dblib.api.summary">
 -			<title>db-lib API Implementation Summary</title>
@@ -172060,12 +172004,243 @@ index 641ef39..6316797 100644
 -			
 -			<footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/dblib.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.  </para></footnote></para>
 -			&dblibapisgml;
++<para>The FAQ and in particular the news don't get updated often enough.  If that's your thing, drop a line to your friendly project maintainer, <ulink url="mailto:jklowden@freetds.org">James K. Lowden</ulink>.</para>
++			</sect2>
+ 		</sect1>
+ 
+-		<sect1 id="ctlib.api.summary">
+-			<title>ct-lib API Implementation Summary</title>
+-			<para>Sybase ct-lib documentation can be found 
+-			<ulink url="http://manuals.sybase.com/onlinebooks/group-cnarc/cng1110e/ctref/@Generic__BookView">online</ulink> 
+-			and in <ulink url="http://download.sybase.com/pdfdocs/cng1000e/ref.pdf">PDF</ulink> form. <footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/ctlib.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.  </para></footnote> </para>
+-			&ctlibapisgml;
+-		</sect1>
+-	
+-		<sect1 id="odbc.api.summary">
+-			<title>ODBC API Implementation Summary</title>
+-			<para>Microsoft's ODBC documentation is 
+-			<ulink url="http://msdn.microsoft.com/en-us/library/ms714177.aspx">online</ulink>. </para>
+-			
+-			<para>The functions are linked to the reference page on Microsoft's website.  <footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/odbc.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.  </para></footnote></para>
+-			&odbcapisgml;
++	<sect1 id="Light.taper">
++		<title>Light another's taper</title>
++
++<para>Every question you answer on the mailing list will save someone time and, if done well, will actually improve your own knowledge.  The project's developers will often answer technical questions that require substantial understanding of the code or suggest a possible bug.  Setup issues, though, connecting and logging in to the server, getting Apache going, are questions many experienced users can and do answer, thereby fostering the community on which the project depends.  </para>
++
++<para>Your experience may well be more closely aligned with the question posed than that of anyone else reading the list that day.  You may use that framework or language or OS, or have that particular server.  No one, no matter how expert in the code, has used every configuration, version, OS, compiler, etc.  Whether you simply confirm there's a problem in some particular arrangement, or say, <quote>dunno, works for me</quote>, you're adding information.  </para>
++
+ 		</sect1>
+-	
+-		<sect1 id="samplecode">
+-    			<title>DB-Library for the Tenderfoot</title>
+-				<epigraph><attribution>Mark Twain</>
+-					<para>Few things are harder to put up with than the annoyance of a good example.</para> </epigraph>
+-			
+-			<abstract><para>Below is a complete sample working db-lib program, presented as a series of examples.  
+-			<itemizedlist><title>Features of sample code</title>
+-				<listitem><para>Processes command-line options to select the server, database, username, and password</para></listitem>
+-				<listitem><para>Remaining arguments on the command line comprise the SQL query to execute</para></listitem>
+-				<listitem><para>Installs error and message handlers</para></listitem>
+-				<listitem><para>Illustrates correct row-processing</para></listitem>
+-				<listitem><para>Illustrates correct error detection and handling</para></listitem>
+-			</itemizedlist>
+-			Other sample code may be found in the distribution, in the cleverly named <filename>samples</> directory. A complete program, heavily commented for your perusal, is <filename>apps/bsqldb.c</>.</para></abstract>
+-			
+-			<para><important><sidebar><title>What's the big deal with errors?</title>
+-			<para>Correct handling of errors is extremely important in database applications because they involve two systems most others don't: the network and the database server.  Both can give rise to errors that, if not detected and reported when they occur, let the application proceed blithely on until something truly mysterious happens.  In the worst case, in the absence of a properly reported error, the application may <emphasis>seem</> to have updated the data, when in fact it did not.  </para>
+-			<para>Every db-lib application uses the network, making it subject to network failures.  Database programs also almost always have very high data integrity requirements.  It is necessary to know the row was absolutely, positively committed, once and only once, without error or exception.  Without taking great care to trap and handle all error conditions, no statement about the program's reliability can be made with confidence.</para></sidebar></important></para>
+-			
+-			<para>
+-			<orderedlist><title>How to Get and Build the sample code</title>
+-				<listitem><para>Run <filename>doc/grep_sample_code</> to extract the <symbol>C</> code from the User Guide <symbol>SGML</> source.  </para></listitem>
+-				<listitem><para>Compile </para></listitem>
+-				<listitem><para>Link </para></listitem>
+-			</orderedlist>
+ 
+-			<itemizedlist><title>Files Required to Build the Sample Code</title>
+-				<listitem><para><filename>sybfront.h</> </para></listitem>
+-				<listitem><para><filename>sybdb.h </></para></listitem>
+-				<listitem><para><filename>libsybdb.a</> or <filename>libsybdb.so</> </para></listitem>
+-			</itemizedlist>
+-			Your library's extension may vary according to your operating system. </para>
+-			
+-			<para>The source code may be built with commands similar to these.  The precise options and paths depend on your particular system.  The commands below work with the GNU compiler and linker on an ELF system with dynamic linking, common on Linux and BSD systems.  
+-<example><title>Building the Sample Code</title>
+-  <screen>
+-    <prompt>$ </prompt><userinput>../doc/grep_sample_code ../doc/userguide.sgml > sample.c</userinput>
+-    <prompt>$ </prompt><userinput>cc -I /usr/local/include -Wl,-L/usr/local/lib -Wl,-R/usr/local/lib sample.c -lsybdb -o sample</userinput>
+-  </screen>
+-</example>
+-			where <filename>/usr/local/include</> and <filename>/usr/local/lib</> are respectively the locations of your header files and libraries.  
+-			</para>
+-			
+-			<para>We now proceed to the code proper.</para>
+-			
++	<sect1 id="Ambition">
++		<title>Ambitious ideas</title>
+ 
+-			<sect2 id="samplecode.include"><title>Header files</title>
+-			<abstract><para>We need two header files to use db-lib.  We need a few others to deal with I/O in C, as you know.  Also declare the error and message handler functions, more about which later. </para></abstract> 
++<para>If you want to get your hands really dirty, here are some big ideas to contemplate.  </para>
++		
++		<sect2>
++			<title><literal>libtds2</literal></title>			
+ 
+-			<para><example id="e.g.samplecode.dblib.include">
+-				<title>Sample Code: <symbol>db-lib</> header files</title>
+-			<programlisting linenumbering="unnumbered">
+-<![CDATA[
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <string.h>
+-#include <assert.h>
+-#include <errno.h>
+-#include <unistd.h>
+-#include <libgen.h>
+-]]>
++<para>After many years developing &freetds;, we've learned quite a bit about the protocol and how to write database libraries.  Unfortunately, though, one of the things holding us back &mdash; and, obviously hampering the project &mdash; is the underlying utility library.</para>
+ 
+-#include &lt;sybfront.h&gt;	<lineannotation>/* <filename>sybfront.h</> always comes first */</lineannotation>
+-#include &lt;sybdb.h&gt;	<lineannotation>/* <filename>sybdb.h</> is the only other file you need */</lineannotation>
++<para>This wouldn't be a from-scratch effort; most of the code is already written.  What's needed is a more uniform API that better reflects the TDS protocol, and that does <emphasis>not</emphasis> attempt character set conversions immediately on receipt of the data.  </para>   
++			</sect2>
+ 
+-int err_handler(DBPROCESS*, int, int, int, char*, char*);
+-int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
+-			</programlisting></example>
+-			</para>
++		<sect2>
++			<title><literal>libstddb</literal></title>			
++
++<para>This would be a new client library modelled after <literal>stdio</literal>, a project to demonstrate what database programming should be like.  </para>
+ 			</sect2>
+-			
+-			<sect2 id="samplecode.prolog"><title>Prolog</title>
+-			<abstract><para>Nothing special here.  Collect the command line parameters.  We do this with the standard <function>getopts(3)</function> function.  Cf. <command>man 3 getopts</command> for details. </para></abstract>
+-			  
+-			<para><example id="e.g.samplecode.dblib.prolog">
+-				<title>Sample Code: <symbol>db-lib</> prolog</title>
+-			<programlisting linenumbering="unnumbered">
+-extern char *optarg;
+-extern int optind;
+-
+-const static char syntax[] = 
+-		"syntax: example -S server -D db -U user -P passwd\n";
+-
+-struct {
+-	char *appname, *servername, *dbname, *username, *password;
+-} options = {0,0,0,0,0};
+ 
+-int
+-main(int argc, char *argv[])
+-{
+-	int i, ch;
+-	LOGINREC *login;	<co id="samplecode.init.loginrec">
+-	DBPROCESS *dbproc;	<co id="samplecode.init.dbprocess">
+-	RETCODE erc;		<co id="samplecode.init.retcode">
+-	
+-	options.appname = basename(argv[0]);
+-	
+-	while ((ch = getopt(argc, argv, "U:P:S:D:")) != -1) {
+-		switch (ch) {
+-		case 'S':
+-			options.servername = strdup(optarg);
+-			break;
+-		case 'D':
+-			options.dbname = strdup(optarg);
+-			break;
+-		case 'U':
+-			options.username = strdup(optarg);
+-			break;
+-		case 'P':
+-			options.password = strdup(optarg);
+-			break;
+-		case '?':
+-		default:
+-			fprintf(stderr, syntax);
+-			exit(1);
+-		}
+-	}
++		<sect2>
++			<title>Server code </title>			
+ 
+-	argc -= optind;
+-	argv += optind;
+-	
+-	if (! (options.servername
+-	    && options.username   && options.password)) {
+-		fprintf(stderr, syntax);
+-		exit(1);
+-	}
+-			</programlisting></example>
+-			<calloutlist><title>Prolog Notes</title>
+-				<callout arearefs="samplecode.init.loginrec">
+-				<para><symbol>LOGINREC</> is a structure that describes the client.  It's passed to the server at connect time. </para></callout>
+-				<callout arearefs="samplecode.init.dbprocess">
+-				<para><symbol>DBPROCESS</> is a structure that describes the connection.  It is returned by <function>dbopen()</>. </para></callout>
+-				<callout arearefs="samplecode.init.retcode">
+-				<para><symbol>RETCODE</> is the most common return code type for <symbol>db-lib</> functions. </para></callout>
+-			</calloutlist>
+-			</para>
++<para>&freetds; includes a little stub of a server, but it could be much more useful.  One idea would be to make it a front-end to SQLite, thereby creating for the first time a TDS client &amp; server pair composed entirely of free software.  </para>
+ 			</sect2>
+ 
+-			<sect2 id="samplecode.init"><title>Initialize</title>
+-			<abstract><para>Initialize the library.  Create and populate a <symbol>LOGINREC</symbol> record. </para></abstract>
+-			  
+-			<para><example id="e.g.samplecode.dblib.Initialize">
+-				<title>Sample Code: <symbol>db-lib</> Initialize</title>
+-			<programlisting linenumbering="unnumbered">
++		</sect1>
+ 
+-<co id="samplecode.init.dbinit" label="initialize">
+-	if (dbinit() == FAIL) {
+-		fprintf(stderr, "%s:%d: dbinit() failed\n", 
+-				options.appname, __LINE__);
+-		exit(1);
+-	}
+-	
+-<co id="samplecode.init.handlers">
+-	dberrhandle(err_handler);
+-	dbmsghandle(msg_handler);
++	<sect1 id="Advocacy">
++		<title>Advocacy</title>
+ 
+-<co id="samplecode.init.login">
+-	if ((login = dblogin()) == NULL) {
+-		fprintf(stderr, "%s:%d: unable to allocate login structure\n", 
+-				options.appname, __LINE__);
+-		exit(1);
+-	}
++<para>Out of ten people you know, it's a fair bet 10 never heard of &freetds; and nine don't understand the problem it solves.  Lots of places have begun to use Microsoft <productname>SQL Server</productname>s in all sorts of ways, and if you adhere to the Microsoft line, there's only one way to connect to them: from a Microsoft OS.</para>
+ 
+-<co id="samplecode.init.login.populate">
+-	DBSETLUSER(login, options.username);
+-	DBSETLPWD(login, options.password);
++<para>What can &freetds; do that can't be done any other way?  Glad you asked.  &freetds; can</para>
++		<ItemizedList>
++			<listitem><para>Connect to every version of either vendor's server, using the same binaries.</para></listitem>
++			<listitem><para>Provide a &ctlib; interface to Microsoft <productname>SQL Server</productname>.  This feature alone allows <productname>DBD::Sybase</> and <command>sqsh</>, among others, to connect to Microsoft's product.</para></listitem>
++			<listitem><para>Provide a bcp-capable interface and command-line utility on unix-like operating systems for  Microsoft <productname>SQL Server</productname>.</para></listitem>
++			<listitem><para>Run on many more operating systems than either vendor's libraries do.</para></listitem>
++			<listitem><para>Get fixed, instead of telling you to get stuffed.</para></listitem>
++			<listitem><para>Amuse and inform.  Also frustrate and infuriate, but we don't put that under <quote>Advocacy</>.</para></listitem>
++			</ItemizedList>
++
++<para>If more people knew, fewer would be stuck.</para>
++		</sect1>
++	</chapter>
++<!-- ////////////////// CHAPTER /////////////////////// -->
++<chapter id="programming">
++	<title>Programming</title>
++
 +<para></para>
 +	<sect1 id="TDSprotocolref">
 +		<title>TDS protocol reference</title>
 +
 +<para>Can be found on <ulink url="http://www.freetds.org/tds.html">www.freetds.org</ulink></para>
- 		</sect1>
++		</sect1>
 +	<sect1 id="APIreference"><title>API Reference Manual</title>
 +
 +<para>The <ulink url="../reference/index.html">reference manual</ulink> is installed as part of <productname>FreeTDS</>.  It can be regenerated at any time using <productname>Doxygen</productname> with <command>cd <filename>doc</>; make doc</command>.</para>
@@ -172103,23 +172278,13 @@ index 641ef39..6316797 100644
 +				<varlistentry>
 +					<term>OK</term>
 +					<listitem>
- 
--		<sect1 id="ctlib.api.summary">
--			<title>ct-lib API Implementation Summary</title>
--			<para>Sybase ct-lib documentation can be found 
--			<ulink url="http://manuals.sybase.com/onlinebooks/group-cnarc/cng1110e/ctref/@Generic__BookView">online</ulink> 
--			and in <ulink url="http://download.sybase.com/pdfdocs/cng1000e/ref.pdf">PDF</ulink> form. <footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/ctlib.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.  </para></footnote> </para>
--			&ctlibapisgml;
++
 +<para>Function is implemented.  Completely, we claim.</para>
 +						</listitem>
 +					</varlistentry>
 +				</variablelist></para>
- 		</sect1>
++		</sect1>
  	
--		<sect1 id="odbc.api.summary">
--			<title>ODBC API Implementation Summary</title>
--			<para>Microsoft's ODBC documentation is 
--			<ulink url="http://msdn.microsoft.com/en-us/library/ms714177.aspx">online</ulink>. </para>
 +	<sect1 id="dblib.api.summary">
 +		<title>db-lib API Implementation Summary</title>
 +
@@ -172130,38 +172295,11 @@ index 641ef39..6316797 100644
 +			and can be
 +			<ulink url="http://download.sybase.com/pdfdocs/cng1250j/dblib.pdf">downloaded</ulink>
 +			as a PDF file.
- 			
--			<para>The functions are linked to the reference page on Microsoft's website.  <footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/odbc.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.  </para></footnote></para>
--			&odbcapisgml;
++			
 +			<footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/dblib.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.</para></footnote></para>
 +		&dblibapisgml;
- 		</sect1>
++		</sect1>
  	
--		<sect1 id="samplecode">
--    			<title>DB-Library for the Tenderfoot</title>
--				<epigraph><attribution>Mark Twain</>
--					<para>Few things are harder to put up with than the annoyance of a good example.</para> </epigraph>
--			
--			<abstract><para>Below is a complete sample working db-lib program, presented as a series of examples.  
--			<itemizedlist><title>Features of sample code</title>
--				<listitem><para>Processes command-line options to select the server, database, username, and password</para></listitem>
--				<listitem><para>Remaining arguments on the command line comprise the SQL query to execute</para></listitem>
--				<listitem><para>Installs error and message handlers</para></listitem>
--				<listitem><para>Illustrates correct row-processing</para></listitem>
--				<listitem><para>Illustrates correct error detection and handling</para></listitem>
--			</itemizedlist>
--			Other sample code may be found in the distribution, in the cleverly named <filename>samples</> directory. A complete program, heavily commented for your perusal, is <filename>apps/bsqldb.c</>.</para></abstract>
--			
--			<para><important><sidebar><title>What's the big deal with errors?</title>
--			<para>Correct handling of errors is extremely important in database applications because they involve two systems most others don't: the network and the database server.  Both can give rise to errors that, if not detected and reported when they occur, let the application proceed blithely on until something truly mysterious happens.  In the worst case, in the absence of a properly reported error, the application may <emphasis>seem</> to have updated the data, when in fact it did not.  </para>
--			<para>Every db-lib application uses the network, making it subject to network failures.  Database programs also almost always have very high data integrity requirements.  It is necessary to know the row was absolutely, positively committed, once and only once, without error or exception.  Without taking great care to trap and handle all error conditions, no statement about the program's reliability can be made with confidence.</para></sidebar></important></para>
--			
--			<para>
--			<orderedlist><title>How to Get and Build the sample code</title>
--				<listitem><para>Run <filename>doc/grep_sample_code</> to extract the <symbol>C</> code from the User Guide <symbol>SGML</> source.  </para></listitem>
--				<listitem><para>Compile </para></listitem>
--				<listitem><para>Link </para></listitem>
--			</orderedlist>
 +	<sect1 id="ctlib.api.summary">
 +		<title>ct-lib API Implementation Summary</title>
 +
@@ -172170,7 +172308,20 @@ index 641ef39..6316797 100644
 +			and in <ulink url="http://download.sybase.com/pdfdocs/cng1000e/ref.pdf">PDF</ulink> form. <footnote><para>Links such as these are quite perishable.  Should you find them broken, please check the <ulink url="http://www.freetds.org/userguide/ctlib.api.summary.htm">FreeTDS User Guide</ulink> posted on our website.  If it's out of date, please let us know, so we can correct it.  Thanks.</para></footnote></para>
 +		&ctlibapisgml;
 +		</sect1>
-+	
+ 	
+-			</programlisting></example>
+-			<calloutlist><title>Initialization Notes</title>
+-				<callout arearefs="samplecode.init.dbinit">
+-				<para><emphasis>Always</> make <function>dbinit()</> the first db-lib call.</para></callout>
+-				<callout arearefs="samplecode.init.handlers">
+-				<para>Install the error- and mesage-handlers right away.  They're explained in more detail later. </para></callout>
+-				<callout arearefs="samplecode.init.login">
+-				<para><function>dblogin()</> almost never fails.  
+-But check!  No point in trying to use a null pointer.  </para></callout>
+-				<callout arearefs="samplecode.init.login.populate">
+-				<para>The <symbol>LOGIN</symbol> record isn't directly accessible.  It's populated via macros like these.  There are other fields, but these two are essential. Look for <symbol>SETLsomething</> in the documentation. </para></callout>			
+-			</calloutlist>
+-			</para>
 +	<sect1 id="odbc.api.summary">
 +		<title>ODBC API Implementation Summary</title>
 +
@@ -172202,7 +172353,7 @@ index 641ef39..6316797 100644
 +<para><important><sidebar><title>What's the big deal with errors?</title>
 +
 +<para>Correct handling of errors is extremely important in database applications because they involve two systems most others don't: the network and the database server.  Both can give rise to errors that, if not detected and reported when they occur, let the application proceed blithely on until something truly mysterious happens.  In the worst case, in the absence of a properly reported error, the application may <emphasis>seem</> to have updated the data, when in fact it did not.</para>
- 
++
 +<para>Every db-lib application uses the network, making it subject to network failures.  Database programs also almost always have very high data integrity requirements.  It is necessary to know the row was absolutely, positively committed, once and only once, without error or exception.  Without taking great care to trap and handle all error conditions, no statement about the program's reliability can be made with confidence.</para></sidebar></important></para>
 +		
 +
@@ -172212,33 +172363,14 @@ index 641ef39..6316797 100644
 +				<listitem><para>Link</para></listitem>
 +				</orderedlist>
 +			
- 			<itemizedlist><title>Files Required to Build the Sample Code</title>
--				<listitem><para><filename>sybfront.h</> </para></listitem>
++			<itemizedlist><title>Files Required to Build the Sample Code</title>
 +				<listitem><para><filename>sybfront.h</></para></listitem>
- 				<listitem><para><filename>sybdb.h </></para></listitem>
--				<listitem><para><filename>libsybdb.a</> or <filename>libsybdb.so</> </para></listitem>
--			</itemizedlist>
--			Your library's extension may vary according to your operating system. </para>
--			
--			<para>The source code may be built with commands similar to these.  The precise options and paths depend on your particular system.  The commands below work with the GNU compiler and linker on an ELF system with dynamic linking, common on Linux and BSD systems.  
--<example><title>Building the Sample Code</title>
--  <screen>
--    <prompt>$ </prompt><userinput>../doc/grep_sample_code ../doc/userguide.sgml > sample.c</userinput>
--    <prompt>$ </prompt><userinput>cc -I /usr/local/include -Wl,-L/usr/local/lib -Wl,-R/usr/local/lib sample.c -lsybdb -o sample</userinput>
--  </screen>
--</example>
--			where <filename>/usr/local/include</> and <filename>/usr/local/lib</> are respectively the locations of your header files and libraries.  
--			</para>
--			
--			<para>We now proceed to the code proper.</para>
--			
++				<listitem><para><filename>sybdb.h </></para></listitem>
 +				<listitem><para><filename>libsybdb.a</> or <filename>libsybdb.so</></para></listitem>
 +				</itemizedlist>
 +			Your library's extension may vary according to your operating system.</para>
 +		
- 
--			<sect2 id="samplecode.include"><title>Header files</title>
--			<abstract><para>We need two header files to use db-lib.  We need a few others to deal with I/O in C, as you know.  Also declare the error and message handler functions, more about which later. </para></abstract> 
++
 +<para>The source code may be built with commands similar to these.  The precise options and paths depend on your particular system.  The commands below work with the GNU compiler and linker on an ELF system with dynamic linking, common on Linux and BSD systems.
 +			<example><title>Building the Sample Code</title>
 +<screen>
@@ -172247,10 +172379,7 @@ index 641ef39..6316797 100644
 +	</example>
 +	where <filename>/usr/local/include</> and <filename>/usr/local/lib</> are respectively the locations of your header files and libraries.</para>
 +	
- 
--			<para><example id="e.g.samplecode.dblib.include">
--				<title>Sample Code: <symbol>db-lib</> header files</title>
--			<programlisting linenumbering="unnumbered">
++
 +<para>We now proceed to the code proper.</para>
 +				
 +		<sect2 id="samplecode.include"><title>Header files</title>
@@ -172260,49 +172389,39 @@ index 641ef39..6316797 100644
 +<para><example id="e.g.samplecode.dblib.include">
 +					<title>Sample Code: <symbol>db-lib</> header files</title>
 +					<programlisting linenumbering="unnumbered">
- <![CDATA[
- #include <stdio.h>
- #include <stdlib.h>
-@@ -3536,36 +3426,36 @@ the extent to which it is implemented.  The <emphasis>Status</> field may be:
- #include <errno.h>
- #include <unistd.h>
- #include <libgen.h>
--]]>
--
++<![CDATA[
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <assert.h>
++#include <errno.h>
++#include <unistd.h>
++#include <libgen.h>
 +						]]>
 +						
- #include &lt;sybfront.h&gt;	<lineannotation>/* <filename>sybfront.h</> always comes first */</lineannotation>
- #include &lt;sybdb.h&gt;	<lineannotation>/* <filename>sybdb.h</> is the only other file you need */</lineannotation>
- 
- int err_handler(DBPROCESS*, int, int, int, char*, char*);
- int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
--			</programlisting></example>
--			</para>
++#include &lt;sybfront.h&gt;	<lineannotation>/* <filename>sybfront.h</> always comes first */</lineannotation>
++#include &lt;sybdb.h&gt;	<lineannotation>/* <filename>sybdb.h</> is the only other file you need */</lineannotation>
++
++int err_handler(DBPROCESS*, int, int, int, char*, char*);
++int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
 +</programlisting></example></para>
  			</sect2>
 +		
 +		<sect2 id="samplecode.prolog"><title>Prolog</title>
 +			<abstract><para>Nothing special here.  Collect the command line parameters.  We do this with the standard <function>getopts(3)</function> function.  Cf. <command>man 3 getopts</command> for details.</para></abstract>
- 			
--			<sect2 id="samplecode.prolog"><title>Prolog</title>
--			<abstract><para>Nothing special here.  Collect the command line parameters.  We do this with the standard <function>getopts(3)</function> function.  Cf. <command>man 3 getopts</command> for details. </para></abstract>
--			  
--			<para><example id="e.g.samplecode.dblib.prolog">
--				<title>Sample Code: <symbol>db-lib</> prolog</title>
--			<programlisting linenumbering="unnumbered">
--extern char *optarg;
--extern int optind;
--
--const static char syntax[] = 
--		"syntax: example -S server -D db -U user -P passwd\n";
--
--struct {
--	char *appname, *servername, *dbname, *username, *password;
--} options = {0,0,0,0,0};
++			
  
--int
--main(int argc, char *argv[])
--{
+-			<sect2 id="samplecode.connect"><title>Connect to the server</title>
+-			<abstract><para><function>dbopen()</> forms a connection with the server.  We pass our <symbol>LOGINREC</> pointer (which describes the client end), and the name of the server.  Then, optionally, we change to our favored database.  If that step is skipped, the user lands in his default database. </para></abstract>
+-			  
+-			<para><example id="e.g.samplecode.dblib.Connect">
+-				<title>Sample Code: <symbol>db-lib</> Connect to the server</title>
+-			<programlisting>
+-	if ((dbproc = dbopen(login, options.servername)) == NULL) {
+-		fprintf(stderr, "%s:%d: unable to connect to %s as %s\n", 
+-				options.appname, __LINE__, 
+-				options.servername, options.username);
+-		exit(1);
 +<para><example id="e.g.samplecode.dblib.prolog">
 +					<title>Sample Code: <symbol>db-lib</> prolog</title>
 +<programlisting linenumbering="unnumbered">
@@ -172319,31 +172438,14 @@ index 641ef39..6316797 100644
 +	int
 +	main(int argc, char *argv[])
 +	{
- 	int i, ch;
- 	LOGINREC *login;	<co id="samplecode.init.loginrec">
- 	DBPROCESS *dbproc;	<co id="samplecode.init.dbprocess">
-@@ -3574,1390 +3464,1703 @@ main(int argc, char *argv[])
- 	options.appname = basename(argv[0]);
- 	
- 	while ((ch = getopt(argc, argv, "U:P:S:D:")) != -1) {
--		switch (ch) {
--		case 'S':
--			options.servername = strdup(optarg);
--			break;
--		case 'D':
--			options.dbname = strdup(optarg);
--			break;
--		case 'U':
--			options.username = strdup(optarg);
--			break;
--		case 'P':
--			options.password = strdup(optarg);
--			break;
--		case '?':
--		default:
--			fprintf(stderr, syntax);
--			exit(1);
--		}
++	int i, ch;
++	LOGINREC *login;	<co id="samplecode.init.loginrec">
++	DBPROCESS *dbproc;	<co id="samplecode.init.dbprocess">
++	RETCODE erc;		<co id="samplecode.init.retcode">
++	
++	options.appname = basename(argv[0]);
++	
++	while ((ch = getopt(argc, argv, "U:P:S:D:")) != -1) {
 +	switch (ch) {
 +	case 'S':
 +	options.servername = strdup(optarg);
@@ -172361,49 +172463,31 @@ index 641ef39..6316797 100644
 +	default:
 +	fprintf(stderr, syntax);
 +	exit(1);
- 	}
--
++	}
 +	}
 +	
- 	argc -= optind;
- 	argv += optind;
- 	
- 	if (! (options.servername
--	    && options.username   && options.password)) {
--		fprintf(stderr, syntax);
--		exit(1);
++	argc -= optind;
++	argv += optind;
++	
++	if (! (options.servername
 +	&& options.username   && options.password)) {
 +	fprintf(stderr, syntax);
 +	exit(1);
  	}
--			</programlisting></example>
--			<calloutlist><title>Prolog Notes</title>
--				<callout arearefs="samplecode.init.loginrec">
--				<para><symbol>LOGINREC</> is a structure that describes the client.  It's passed to the server at connect time. </para></callout>
--				<callout arearefs="samplecode.init.dbprocess">
--				<para><symbol>DBPROCESS</> is a structure that describes the connection.  It is returned by <function>dbopen()</>. </para></callout>
--				<callout arearefs="samplecode.init.retcode">
--				<para><symbol>RETCODE</> is the most common return code type for <symbol>db-lib</> functions. </para></callout>
--			</calloutlist>
--			</para>
--			</sect2>
 +	</programlisting></example>
 +				<calloutlist><title>Prolog Notes</title>
 +					<callout arearefs="samplecode.init.loginrec">
-+
+ 
+-	if (options.dbname  && (erc = dbuse(dbproc, options.dbname)) == FAIL) {
+-		fprintf(stderr, "%s:%d: unable to use to database %s\n", 
+-				options.appname, __LINE__, options.dbname);
+-		exit(1);
 +<para><symbol>LOGINREC</> is a structure that describes the client.  It's passed to the server at connect time.</para></callout>
 +					<callout arearefs="samplecode.init.dbprocess">
- 
--			<sect2 id="samplecode.init"><title>Initialize</title>
--			<abstract><para>Initialize the library.  Create and populate a <symbol>LOGINREC</symbol> record. </para></abstract>
--			  
--			<para><example id="e.g.samplecode.dblib.Initialize">
--				<title>Sample Code: <symbol>db-lib</> Initialize</title>
--			<programlisting linenumbering="unnumbered">
++
 +<para><symbol>DBPROCESS</> is a structure that describes the connection.  It is returned by <function>dbopen()</>.</para></callout>
 +					<callout arearefs="samplecode.init.retcode">
- 
--<co id="samplecode.init.dbinit" label="initialize">
++
 +<para><symbol>RETCODE</> is the most common return code type for <symbol>db-lib</> functions.</para></callout>
 +					</calloutlist></para>
 +			</sect2>
@@ -172417,61 +172501,36 @@ index 641ef39..6316797 100644
 +<programlisting linenumbering="unnumbered">
 +	
 +	<co id="samplecode.init.dbinit" label="initialize">
- 	if (dbinit() == FAIL) {
--		fprintf(stderr, "%s:%d: dbinit() failed\n", 
--				options.appname, __LINE__);
--		exit(1);
++	if (dbinit() == FAIL) {
 +	fprintf(stderr, "%s:%d: dbinit() failed\n",
 +	options.appname, __LINE__);
 +	exit(1);
- 	}
- 	
--<co id="samplecode.init.handlers">
++	}
++	
 +	<co id="samplecode.init.handlers">
- 	dberrhandle(err_handler);
- 	dbmsghandle(msg_handler);
--
--<co id="samplecode.init.login">
++	dberrhandle(err_handler);
++	dbmsghandle(msg_handler);
 +	
 +	<co id="samplecode.init.login">
- 	if ((login = dblogin()) == NULL) {
--		fprintf(stderr, "%s:%d: unable to allocate login structure\n", 
--				options.appname, __LINE__);
--		exit(1);
++	if ((login = dblogin()) == NULL) {
 +	fprintf(stderr, "%s:%d: unable to allocate login structure\n",
 +	options.appname, __LINE__);
 +	exit(1);
  	}
--
--<co id="samplecode.init.login.populate">
 +	
 +	<co id="samplecode.init.login.populate">
- 	DBSETLUSER(login, options.username);
- 	DBSETLPWD(login, options.password);
--	
--	
--	
--			</programlisting></example>
--			<calloutlist><title>Initialization Notes</title>
--				<callout arearefs="samplecode.init.dbinit">
--				<para><emphasis>Always</> make <function>dbinit()</> the first db-lib call.</para></callout>
--				<callout arearefs="samplecode.init.handlers">
--				<para>Install the error- and mesage-handlers right away.  They're explained in more detail later. </para></callout>
--				<callout arearefs="samplecode.init.login">
--				<para><function>dblogin()</> almost never fails.  
--But check!  No point in trying to use a null pointer.  </para></callout>
--				<callout arearefs="samplecode.init.login.populate">
--				<para>The <symbol>LOGIN</symbol> record isn't directly accessible.  It's populated via macros like these.  There are other fields, but these two are essential. Look for <symbol>SETLsomething</> in the documentation. </para></callout>			
--			</calloutlist>
--			</para>
++	DBSETLUSER(login, options.username);
++	DBSETLPWD(login, options.password);
 +													
 +	</programlisting></example>
 +				<calloutlist><title>Initialization Notes</title>
 +					<callout arearefs="samplecode.init.dbinit">
-+
+ 
 +<para><emphasis>Always</> make <function>dbinit()</> the first db-lib call.</para></callout>
 +					<callout arearefs="samplecode.init.handlers">
-+
+ 
+-			</programlisting></example>
+-			</para>
 +<para>Install the error- and mesage-handlers right away.  They're explained in more detail later.</para></callout>
 +					<callout arearefs="samplecode.init.login">
 +
@@ -172487,44 +172546,25 @@ index 641ef39..6316797 100644
 +			<abstract><para><function>dbopen()</> forms a connection with the server.  We pass our <symbol>LOGINREC</> pointer (which describes the client end), and the name of the server.  Then, optionally, we change to our favored database.  If that step is skipped, the user lands in his default database.</para></abstract>
 +			
  
--			<sect2 id="samplecode.connect"><title>Connect to the server</title>
--			<abstract><para><function>dbopen()</> forms a connection with the server.  We pass our <symbol>LOGINREC</> pointer (which describes the client end), and the name of the server.  Then, optionally, we change to our favored database.  If that step is skipped, the user lands in his default database. </para></abstract>
--			  
--			<para><example id="e.g.samplecode.dblib.Connect">
--				<title>Sample Code: <symbol>db-lib</> Connect to the server</title>
--			<programlisting>
+-			<sect2 id="samplecode.query"><title>Send a query</title>
 +<para><example id="e.g.samplecode.dblib.Connect">
 +					<title>Sample Code: <symbol>db-lib</> Connect to the server</title>
 +<programlisting>
- 	if ((dbproc = dbopen(login, options.servername)) == NULL) {
--		fprintf(stderr, "%s:%d: unable to connect to %s as %s\n", 
--				options.appname, __LINE__, 
--				options.servername, options.username);
--		exit(1);
++	if ((dbproc = dbopen(login, options.servername)) == NULL) {
 +	fprintf(stderr, "%s:%d: unable to connect to %s as %s\n",
 +	options.appname, __LINE__,
 +	options.servername, options.username);
 +	exit(1);
- 	}
--
++	}
 +	
- 	if (options.dbname  && (erc = dbuse(dbproc, options.dbname)) == FAIL) {
--		fprintf(stderr, "%s:%d: unable to use to database %s\n", 
--				options.appname, __LINE__, options.dbname);
--		exit(1);
++	if (options.dbname  && (erc = dbuse(dbproc, options.dbname)) == FAIL) {
 +	fprintf(stderr, "%s:%d: unable to use to database %s\n",
 +	options.appname, __LINE__, options.dbname);
 +	exit(1);
- 	}
--
--
--			</programlisting></example>
--			</para>
++	}
 +							
 +	</programlisting></example></para>
- 			</sect2>
--
--			<sect2 id="samplecode.query"><title>Send a query</title>
++			</sect2>
 +		
 +		<sect2 id="samplecode.query"><title>Send a query</title>
  			<abstract><para><symbol>db-lib</> maintains a <firstterm>command buffer</> to hold the SQL to be sent to the server.  Two functions &mdash; <function>dbcmd()</> and <function>dbfcmd()</> &mdash; build up the query from strings of text. The command buffer is reset after the query is sent to the server.</para>
@@ -173110,6 +173150,9 @@ index 641ef39..6316797 100644
 +
 +<para><important><title>Fetch All Rows!</title>
 +					<sidebar><para><symbol>db-lib</> doesn't insist every column &mdash; or even any column &mdash; be bound or otherwise retrieved into the application's variables.  There is, however, one absolutely <emphasis>crucial, inflexible, unalterable</emphasis> requirement: the application must <emphasis>process all rows produced by the query</>.  Before the <symbol>DBPROCESS</> can be used for another query, the application must either fetch all rows, or cancel the results and receive an acknowledgement from the server. Cancelling is beyond the scope of this document, so for now  <emphasis> fetch all rows</>.</para></sidebar></important></para>
++			
++
++<para>Now, at last, some sample code that fetches data.  In the interest of simplicity, we don't bind anything except regular rows.</para>
  			
 -			if (SYBCHAR != pcol->type) {			<co id="samplecode.results.dbcollen">
 -				pcol->size = dbwillconvert(pcol->type, SYBCHAR);
@@ -173129,9 +173172,6 @@ index 641ef39..6316797 100644
 -						options.appname, __LINE__, c);
 -				exit(1);
 -			}
-+
-+<para>Now, at last, some sample code that fetches data.  In the interest of simplicity, we don't bind anything except regular rows.</para>
-+			
 +
 +<para><example id="e.g.samplecode.dblib.fetch">
 +					<title>Sample Code: <symbol>db-lib</> Fetch Results</title>
@@ -174803,12 +174843,7 @@ index 641ef39..6316797 100644
 +	<sect1 id="gfdl-0">
 +		<title>PREAMBLE</title>
 +		
- 
--    <para>If you have no Invariant Sections, write "with no Invariant
--    Sections" instead of saying which ones are invariant.  If you have
--    no Front-Cover Texts, write "no Front-Cover Texts" instead of
--    "Front-Cover Texts being LIST"; likewise for Back-Cover
--    Texts.</para>
++
 +<para>The purpose of this License is to make a manual, textbook,
 +			or other written document "free" in the sense of freedom: to
 +			assure everyone the effective freedom to copy and redistribute it,
@@ -174819,18 +174854,22 @@ index 641ef39..6316797 100644
 +			others.</para>
 +		
  
--    <para>If your document contains nontrivial examples of program
--    code, we recommend releasing these examples in parallel under your
--    choice of free software license, such as the GNU General Public
--    License, to permit their use in free software.</para>
--  </sect1>
+-    <para>If you have no Invariant Sections, write "with no Invariant
+-    Sections" instead of saying which ones are invariant.  If you have
+-    no Front-Cover Texts, write "no Front-Cover Texts" instead of
+-    "Front-Cover Texts being LIST"; likewise for Back-Cover
+-    Texts.</para>
 +<para>This License is a kind of "copyleft", which means that
 +			derivative works of the document must themselves be free in the
 +			same sense.  It complements the GNU General Public License, which
 +			is a copyleft license designed for free software.</para>
 +		
  
--</appendix>
+-    <para>If your document contains nontrivial examples of program
+-    code, we recommend releasing these examples in parallel under your
+-    choice of free software license, such as the GNU General Public
+-    License, to permit their use in free software.</para>
+-  </sect1>
 +<para>We have designed this License in order to use it for manuals
 +			for free software, because free software needs free documentation:
 +			a free program should come with manuals providing the same
@@ -174844,7 +174883,8 @@ index 641ef39..6316797 100644
 +	<sect1 id="gfdl-1">
 +		<title>APPLICABILITY AND DEFINITIONS</title>
 +		
-+
+ 
+-</appendix>
 +<para>This License applies to any manual or other work that
 +			contains a notice placed by the copyright holder saying it can be
 +			distributed under the terms of this License.  The "Document",
