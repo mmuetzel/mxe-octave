@@ -176352,3 +176352,521 @@ index 1ec03d1..f2d0060 100755
 -# x64\Debug\BcpStreams.lib
 -# x64\Release\BcpStreams.lib
 \ No newline at end of file
+
+commit db97423b255bbcebb997df8429b47dcbebbec609
+Author: jklowden <jklowden>
+Date:   Sat Mar 12 12:54:00 2011 +0000
+
+    fine tune linker appendix
+
+diff --git a/ChangeLog b/ChangeLog
+index aed712d..ef42e9c 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,6 @@
++Sat Mar 12 07:52:15 EST 2011	JK Lowden <jklowden@freetds.org>
++	* doc/userguide.sgml fine tune linker appendix
++	
+ Thu Feb 17 16:40:58 EST 2011	JK Lowden <jklowden@freetds.org>
+ 	* Nmakefile more help for building under Windows
+ 
+@@ -3170,4 +3173,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3199 2011/02/17 21:42:29 jklowden Exp $
++$Id: ChangeLog,v 1.3200 2011/03/12 12:54:00 jklowden Exp $
+diff --git a/doc/userguide.sgml b/doc/userguide.sgml
+index 6316797..ac19ae9 100644
+--- a/doc/userguide.sgml
++++ b/doc/userguide.sgml
+@@ -13,8 +13,8 @@
+ ]>
+ <book>
+ <bookinfo>
+-	<date>$Date: 2011/02/13 01:54:38 $</date>
+-	<releaseinfo>$Revision: 1.133 $</releaseinfo>
++	<date>$Date: 2011/03/12 12:54:01 $</date>
++	<releaseinfo>$Revision: 1.134 $</releaseinfo>
+ 	<title>&freetds; User Guide</title>
+ 	<subtitle>A Guide to Installing, Configuring, and Running &freetds;</subtitle>
+ 	<author>
+@@ -63,9 +63,9 @@
+ 
+ <para>The version you're reading is:</para>
+ 			<simplelist type='vert'>
+-				<member>$Revision: 1.133 $</>
+-				<member>$Date: 2011/02/13 01:54:38 $</>
+-				<member>CVS control number $Id: userguide.sgml,v 1.133 2011/02/13 01:54:38 jklowden Exp $.</>
++				<member>$Revision: 1.134 $</>
++				<member>$Date: 2011/03/12 12:54:01 $</>
++				<member>CVS control number $Id: userguide.sgml,v 1.134 2011/03/12 12:54:01 jklowden Exp $.</>
+ 				</simplelist>
+ 			</footnote>
+ 		can be found on the &freetds;
+@@ -523,7 +523,32 @@ The <quote>TDS</quote> part of the name comes from name of the protocol used to
+ <para>Building for Windows using Microsoft's compiler is supported via the <filename>NMakefile</filename> included in the distribution.  Set up the command-line build environment per Microsoft's instructions, and run e.g. 
+ 
+ <screen>
+-	<prompt>$ </prompt><userinput>nmake -fNmakefile -nologo apps PLATFORM=win32 CONFIGURATION=debug</userinput></screen></para>
++	<prompt>$ </prompt><userinput>nmake -fNmakefile -nologo apps PLATFORM=win32 CONFIGURATION=debug</userinput></screen>
++	
++The assumed availability of standard <filename>.h</filename> files is captured in <filename>win32/config.h</filename>.  If you encounter difficulties related to missing include files, examine the indicated file for an include guard, and compare it to  	<filename>win32/config.h</filename>.  For example, you get an error like this:
++<example><title>Missing include file in Windows</title>
++<screen>
++<computeroutput>&hellip;
++asprintf.c
++include\tds_sysdep_private.h(239) : fatal error C1083: Cannot open include file: 'inttypes.h': No such file or directory
++</computeroutput></screen>
++</example>
++
++<filename>src/replacements/asprintf.c</filename>  includes <filename>include/tds_sysdep_private.h</filename>, where you find 
++
++<screen><computeroutput>238  #ifdef HAVE_INTTYPES_H
++239  #include &lt;inttypes.h&gt;
++240  #endif
++</computeroutput></screen>
++
++and, sure enough, <filename>asprintf.c</filename> earlier includes <filename>win32/config.h</filename>, which says
++
++<screen>91  /* Define to 1 if you have the &lt;inttypes.h&gt; header file. */
++92  #define HAVE_INTTYPES_H 1</screen>
++
++Which shouldn't be defined unless <filename>inttypes.h</filename> exists on your system.  </para>
++
++<para>Let's review: <filename>config.h</filename> defines a bunch of preprocessor definitions that (try to) describe your build environment to the compiler.  In this example, it got one wrong, causing the compiler to look for a file that isn't present, creating the error.  The solution is <emphasis> not</emphasis> to change the &freetds; source code, but merely to comment out line 92 in <filename>config.h</filename>.   </para>
+ 
+ <note><para>Perhaps you're shaking your head at such an <quote>old school</quote> approach.  Over the years, Microsoft's proprietary project-configuration files have proved difficult to support.  Every version is different, and there are a great many versions in use <quote>in the wild</quote> at any one time.  As the project changes, it becomes impossible to maintain these kinds of files.  </para></note>
+ 
+@@ -544,6 +569,7 @@ The <quote>TDS</quote> part of the name comes from name of the protocol used to
+ <para>From the Department of Double Emulation: &freetds; builds as a <filename>.dll</> under <productname>WINE</> and as a <filename>.a</> under <productname>Interix</>.  See the mailing list archives (second half of 2003) for details.</para>
+ 				</sect3>
+ 			</sect2>
++		
+ 		<sect2 id="VMS"><title>VMS&reg;</title>
+ 
+ <para>&freetds; will probably build and run on most versions of OpenVMS Alpha 7.0 and later with DEC/Compaq C 6.0 or later.  Other prerequisites:
+@@ -581,7 +607,7 @@ The <quote>TDS</quote> part of the name comes from name of the protocol used to
+ 			</sect2>
+ 		<sect2 id="osx"><title>OS X&reg;</title>
+ 
+-<para>As of this writing ($Date: 2011/02/13 01:54:38 $), the regular distribution compiles on OS X.  Releases prior to 0.63 either did not compile or required patching.</para>
++<para>As of this writing ($Date: 2011/03/12 12:54:01 $), the regular distribution compiles on OS X.  Releases prior to 0.63 either did not compile or required patching.</para>
+ 			
+ <![ %comment [
+ 	<!-- cf http://www.is-thought.co.uk/book/sgml-8.htm -->
+@@ -4092,7 +4118,7 @@ int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
+ 					<callout arearefs="samplecode.errors.msghandler.suppress"><para>Some messages don't convey much, as though the server gets lonely sometimes.  You're not obliged to print every one.</para></callout>
+ 					<callout arearefs="samplecode.errors.msghandler.severity"><para>Severities are defined in the <emphasis>server</> documentation, and can be set by the <symbol>T-SQL RAISERROR</> statement.</para></callout>
+ 					<callout arearefs="samplecode.errors.msghandler.return"><para>Message handlers <emphasis>always and only ever</> return zero.</para></callout>
+-					<callout arearefs="samplecode.errors.errhandler.args"><para>When first writing the handler, pay careful attention to the precise type of each parameter.  Only by carefully matching them will you convince a modern <symbol>C</> compiler that the address of your function is of the type accepted by <function>dberrhandle()</>. <footnote><para>If that advice sounds familiar, it's because it bears repeating.</para></footnote></para></callout>
++					<callout arearefs="samplecode.errors.errhandler.args"><para>When first writing the handler, pay careful attention to the precise type of each parameter.  Only by carefully matching them will you convince a modern <symbol>C</> compiler that the address of your function is of the type accepted by <function>dberrhandle()</>. <footnote><para>If that 					advice sounds familiar, it's because it bears repeating.</para></footnote></para></callout>
+ 					<callout arearefs="samplecode.errors.errhandler.msgs"><para>Some messages are so severe they provoke <symbol>db-lib</> into calling the error handler, too!  If you have both installed &mdash; and of course you do, right? &mdash; then you can skip those lacking an error number.</para></callout>
+ 					<callout arearefs="samplecode.errors.errhandler.return"><para>While <symbol>INT_CANCEL</> is the most common return code, it's not the only one.  For one thing, the error handler's return code can control how long <symbol>db-lib</> keeps retrying timeout errors.  See the documentation for details.</para></callout>
+ 					</calloutlist></para>
+@@ -4196,13 +4222,13 @@ int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
+ 
+ <!-- ////////////////// Appendix  ////////////////// -->
+ 
+-<Appendix id="rutime.linker">
++<Appendix id="rtl">
+ 	<title>On Linkers</title>
+ 	<Abstract><para>&freetds; is a library, obviously, its functions invoked by an application.  How the application finds the library can be mysterious.  In the interest of making &freetds; easier to use, this appendix discusses how it all works.   </para>
+ 	<para>This appendix focusses on <emphasis>using</emphasis> &freetds; in your application.  It isn't intended to help in building &freetds;, although the background information it provides might be useful.  </para>	
+ 	</Abstract>
+ 
+-	<section id="rutime.linker.define.function">
++	<section id="rtl.define.function">
+ 		<title>What is a C function?</title>
+ 
+ <para>A C function is a named bit of code.</para>
+@@ -4214,7 +4240,7 @@ int msg_handler(DBPROCESS*, DBINT, int, int, char*, char*, char*, int);
+ 			<listitem><para>Convert source code into object code </para></listitem>
+ 			<listitem><para>Put in jumps to defined functions </para></listitem>
+ 			<listitem><para>Create a list of defined functions, and their addresses </para></listitem>
+-			<listitem><para>Create a list of undefined ones </para></listitem>
++			<listitem><para>Create a list of undefined functions </para></listitem>
+ 		</itemizedlist>
+ 
+ The <command>nm</command> utility displays function names.  Here are the ones defined by <filename>bsqldb.c</filename> (in <filename>bsqsldb.o</filename>):
+@@ -4256,7 +4282,7 @@ static int set_format_string(struct METADATA * meta, const char separator[]);
+                  U dbaltcolid
+                  U dbaltlen</computeroutput></screen>
+ 
+-Two things to note.  First, the functions defined by <filename>bsqldb.o</filename> have addresses, and those that don't, don't.  Second, <emphasis>only the name</emphasis> identifies the function.  It's been that way since about 1978, and it's one reason C libraries are so useful: to find a function, the tool need only <firstterm>resolve the name</firstterm>, i.e. convert the name into an address.  The caller (the programmer, really) has to know the function's inputs and semantics (how it behaves), but the tool's job is bone simple.  Which turns out to be quite handy.        
++Two things to note.  First, the functions defined by <filename>bsqldb.o</filename> have addresses, and undefined functions don't.  Second, <emphasis>only the name</emphasis> identifies the function.  It's been that way since about 1978, and it's one reason C libraries are so useful: to find a function, the tool need only <firstterm>resolve the name</firstterm>, i.e. convert the name into an address.  The caller (the programmer, really) has to know the function's inputs and semantics (how it behaves), but the tool's job is bone simple.  Which turns out to be quite handy.        
+ 	</para>
+ 
+ <!--
+@@ -4266,20 +4292,20 @@ It has an address &mdash; a location &mdash; in the <firstterm>text</firstterm>
+ -->
+ 			</section>
+ 	
+-	<section id="rutime.linker.define.library">
++	<section id="rtl.define.library">
+ 		<title>What is a C library?</title>
+ <para>A C library is a set of named functions, for example <literal>dbinit()</literal> or <literal>SQLConnect()</literal>.  Or, for that matter, <literal>fopen(3)</literal><footnote><para>The Unix convention is to put in parentheses behind the name the section of the manual in which the function is documented.  &freetds; functions don't get numbers because they're not in the manual.  Yet.  </para></footnote>.  </para>
+ 
+ <para>Libraries come in two flavors: <firstterm>static</firstterm> and <firstterm>dynamic</firstterm>.  </para>
+ 
+-		<section id="rutime.linker.define.library.static">
++		<section id="rtl.define.library.static">
+ 			<title>Static libraries</title>
+ <para>Static libraries (also known as <firstterm>archives</firstterm>) have been around as long as C itself.  Like a <literal>.zip</literal> file, they're just a bag of object files &mdash; containing functions, of course &mdash; with a table of contents in front giving the address of each name<footnote><para>Or, depending on how you look at it, the name of each address.</para></footnote>.  Static libraries are created from object files using a <firstterm>librarian</firstterm> utility of some kind.  One such programs is <command>ar</command>, for <emphasis>archive</emphasis>.  </para>
+ 
+ <para>Static libraries are part of the build environment.  Functions in static libraries are joined to a program's main module by a <firstterm>static linker</firstterm> at build time to produce an executable program.  The executable incorporates the libraries' object code into its own body, making it completely self-sufficient.  </para>
+ 		</section>
+ 
+-		<section id="rutime.linker.define.library.dynamic">
++		<section id="rtl.define.library.dynamic">
+ 			<title>Dynamic libraries</title>
+ 
+ <para>Dynamic libraries are the new kid on the block, as these things go, arriving on the Unix scene circa 1985.   Like a static library, a dynamic library is a collection of functions with a table of contents.  They are referenced at build time to give the executatble information about how they will eventually be used, but they aren't <emphasis>used</emphasis> until run time.  </para>
+@@ -4293,7 +4319,7 @@ It has an address &mdash; a location &mdash; in the <firstterm>text</firstterm>
+ 
+ <para>C header files include <firstterm>functional prototypes</firstterm>, declarations (not <emphasis>definitions)</emphasis> of functions.  Functional prototypes describe to the compiler each function's parameters, allowing the compiler to confirm that the function is being called correctly.  </para>
+ 
+-<para>Most of the functions declared in header files are implemented in libraries.  However, there's <emphasis>no mechanical or automatic relationship</emphasis> between the functional prototypes in the header files and the implementation of those same functions in a library.  The <literal>.h</literal> file is maintained by hand, by the programmer, and is used to generate a library.  The header file and associated library are distributed and installed together (one hopes), but correct installation and subsequent use by the compiler &amp; linker require human beings to keep track of the pair.  Failure to do so leads to <quote>interesting</quote> development and even run-time problems, especially with libraries whose functions' parameters frequently change from version to version. </para>
++<para>Most of the functions declared in header files are implemented in libraries.  However, there's <emphasis>no mechanical or automatic relationship</emphasis> between the functional prototypes in the header files and their implementation in a library.  The <literal>.h</literal> file is maintained by hand, by the programmer, and is used to generate a library.  The header file and associated library are distributed and installed together (one hopes), but correct installation and subsequent use by the compiler &amp; linker require human beings to keep track of the pair.  Failure to do so leads to <quote>interesting</quote> development and even run-time problems, especially with libraries whose functions' parameters change from version to version. </para>
+ 
+ <para>For example, imagine a function <literal>f(int g)</literal> defined in library <filename>libf.so</filename> and declared in <filename>f.h</filename>.  In a later version of <filename>libf.so</filename>, the function's parameter is changed to use a pointer, <literal>f(int *p)</literal>, and <filename>f.h</filename> is likewise updated.  Possible errors that cannot be prevented by the linker include: 
+ 
+@@ -4314,7 +4340,7 @@ These errors are possible because C functions are identified to the linker <emph
+ 
+ <para>A linker, any linker, knits together object files (some of which may be in libraries) such that every function needed by the program has a definition.  If the linker fails to locate a definition for even one function, it will fail and the program will not run.  </para>
+ 
+-<para>Returning to <link linkend="bsqldb.unresolved"><filename>bsqldb.o</filename></link>, we can use <command>nm</command> to see which functions are unresolved, and determine whether or not a particular library contains them.  We'll ignore the first symbols start with an underscore, marking them per the C standard as being provided by the implementation<footnote><para>Why and how leading underscores enter into this discussion is just one more example of arcane historical practices one needs to know to master the subject.  For our purposes, though, it's enough to know that <quote>implementation-provided</quote> functions like these &mdash; functions provided by the C standard library &mdash; often have an underscored prepended.  </para></footnote>, and focus on the last five in this abbreviated list.  
++<para>Returning to <link linkend="bsqldb.unresolved"><filename>bsqldb.o</filename></link>, we can use <command>nm</command> to see which functions are unresolved, and determine whether or not a particular library contains them.  We'll ignore the symbols that start with an underscore, marking them per the C standard as being provided by the implementation<footnote><para>Why and how leading underscores enter into this discussion is just one more example of arcane historical practices one needs to know to master the subject.  For our purposes, though, it's enough to know that <quote>implementation-provided</quote> functions like these &mdash; functions provided by the C standard library &mdash; often have an underscored prepended.  </para></footnote>, and focus on the last five in this abbreviated list.  
+ 
+  <variablelist>
+  	<title>Some unresolved functions in <filename>bsqldb.o</filename></title>
+@@ -4382,7 +4408,7 @@ Although these examples refer to static libraries, <command>nm</command> works j
+ 
+ 			<section>
+ 				<title>Knitting together the object modules</title>
+-<para>The static linker merges your object files into one executable.  Your project's object files may refer freely (usually) to each other's functions, and the linker will match them up.  It will catenate them together, compute every funtion's offset from the start of the executable, and replace every function reference with the actual address needed for the executable it's constructing.  For library functions, definitions are copied from the library and appended to the output file (executable).  The placeholder addresses left by the compiler are similarly replaced by offsets.  </para>
++<para>The static linker merges your object files into one executable.  Your project's object files may refer freely (usually) to each other's functions, and the linker will match them up.  It will catenate them together, compute every function's offset from the start of the executable, and replace every function reference with the actual address needed for the executable it's constructing.  For library functions, definitions are copied from the library and appended to the output file (executable).  The placeholder addresses left by the compiler are similarly replaced by offsets.  </para>
+ 				</section>
+ 
+ 			<section>
+@@ -4474,7 +4500,15 @@ Although these examples refer to static libraries, <command>nm</command> works j
+         -lsybdb.5 => /usr/local/lib/libsybdb.so.5</computeroutput>
+ </screen>
+ 
+-Important to understand: <command>ldd</command> is <emphasis>not</emphasis> figuring out this information by itself.  All it does is report the results of its interrogation of the runtime linker.  As the configuration of the runtime linker is changed, so changes the output of <command>ldd</command>.  </para>
++Important to understand: <command>ldd</command> is <emphasis>not</emphasis> figuring out this information by itself.  It just reports the results of its interrogation of the runtime linker.  As the configuration of the runtime linker is changed, so changes the output of <command>ldd</command>.  </para>
++				</section>
++
++			<section id="linker.dynamic.win32">
++				<title>A Word about Windows&reg;</title>
++<para>WIndows executables use the older COFF format, which has no provision for an <literal>RPATH</>.  The runtime linker searches the <literal>PATH</> instead, after some built-in locations that usually include the current working directory.  Neither <command>ldd</command> nor any similar utility is included in the basic product.  </para>
++
++<para>It has been said that Unix is for <emphasis>programmers</emphasis> and Windows is for <emphasis>users</>, and perhaps that roughtly describes the  intention.  But the Unix features listed above &mdash; <literal>RPATH</> and <command>ldd</command> &mdash; as well as a canonical filesystem hierarchy and dynamic library versioning, all promote a better <emphasis>user</emphasis> experience.  Because of them, the problem of DLL conflicts in Windows hardly exists in Unix.  Yet they are neither new nor secrect nor patented nor complicated; Microsoft could have adopted years ago (as Apple finally did).  We therefore know that the 20-year old phenomemon known as &ldquo;DLL hell&rdquo; is not inevitable, but a <emphasis>choice</> signifying nothing so much as Microsoft's indifference to its customers.  </para>
++
+ 				</section>
+ 
+ 			<section id="linker.dynamic.advice">
+@@ -4488,6 +4522,14 @@ Important to understand: <command>ldd</command> is <emphasis>not</emphasis> figu
+ 
+ 			</section> <!-- end linker.dynamic -->
+ 		</section>
++	<section id="linker.conclusion">
++		<title>Keep in Mind</title>
++<para>The compiler's job ends on the last line of each source code file.  A header file describes a function <emphasis>for the compiler</>, not the linker.  </para>
++
++<para>The linker, static or runtime, uses only the function's name to resolve references.  Function parameters and semantics are invisible to it.  </para>
++
++<para>The programmer and, to a lesser degree, the sysadmin direct the choice of which library to link to an executable.  A missing function will prevent execution.  A wrong function will promote wrong execution.  Don't do that.  </para>
++		</section>
+ 	</Appendix>
+ 
+ <Appendix id="interfacesfile"><title>The <filename>interfaces</filename> File</title>
+
+commit b429812727bcb4cc5837d94e8c975386685bf6d2
+Author: jklowden <jklowden>
+Date:   Sun Mar 13 21:32:39 2011 +0000
+
+    doc/userguide.sgml updated for upcoming release
+
+diff --git a/ChangeLog b/ChangeLog
+index ef42e9c..d330b3f 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,10 @@
++Sun Mar 13 14:40:55 EDT 2011	JK Lowden <jklowden@freetds.org>
++	* doc/bsqldb.txt doc/freebcp.txt doc/tsql.txt
++	- doc/userguide.sgml
++	- updated for upcoming release
++	* src/apps/bsqldb.c support numeric/decimal
++	* src/apps/freebcp.c allow no username for trusted logins
++
+ Sat Mar 12 07:52:15 EST 2011	JK Lowden <jklowden@freetds.org>
+ 	* doc/userguide.sgml fine tune linker appendix
+ 	
+@@ -3173,4 +3180,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3200 2011/03/12 12:54:00 jklowden Exp $
++$Id: ChangeLog,v 1.3201 2011/03/13 21:32:39 jklowden Exp $
+diff --git a/doc/bsqldb.txt b/doc/bsqldb.txt
+index bfac1d0..36c72c4 100644
+--- a/doc/bsqldb.txt
++++ b/doc/bsqldb.txt
+@@ -1,10 +1,10 @@
+ NAME
+-  bsqldb - batch SQL script processor using db-lib
++  bsqldb - batch SQL script processor using DB-Library
+ 
+ SYNOPSIS
+-  bsqldb [-U username] [-P password] [-S server] [-D database]
+-         [-i input_file] [-o output_file] [-e error_file]
+-         [-t field_term] [-qv]
++  bsqldb [-U username] [-P password] [-S servername] [-D database]
++         [-i input_file] [-o output_file] [-e error_file] [-H hostname]
++         [-t field_term] [-hqv]
+ 
+ DESCRIPTION
+   bsqldb is a utility program distributed with FreeTDS.
+@@ -14,15 +14,16 @@ DESCRIPTION
+   the command "go" on a line by itself as a separator between batches. The last
+   batch need not be followed by "go".
+ 
+-  bsqldb makes use of the db-lib API provided by FreeTDS. This 
++  bsqldb makes use of the DB-Library API provided by FreeTDS. This 
+   API is of course also available to application developers.
+ 
+ OPTIONS
+-  -U username   Database server login name.
+-
++  -U username   Database server login name. If username is not provided, a domain
++  login is attempted for TDS 7+ connections.
++  
+   -P password   Database server password.
+ 
+-  -S server	Database server to which to connect.
++  -S servername	Database server to which to connect.
+ 
+   -D database	Database to use.
+ 
+@@ -38,21 +39,24 @@ OPTIONS
+ 
+   -h  Print column headers with the data to the same file. 
+   
+-  -H  Override hostname sent to server. 
++  -H  hostname Override name of client sent to server. 
+   
+   -q  Do not print column metadata, return status, or rowcount. Overrides -h. 
+ 
+-  -v  Verbose mode, for more information about the db-lib interaction.
++  -v  Verbose mode, for more information about the DB-Libraryrary interaction.
+   This also reports the result set metadata, including and return code. All
+   verbose data are written to standard error (or -e), so as not to interfere 
+   with the data stream.
+ 
++ENVIRONMENT
++  DSQUERY	default servername
++
+ NOTES
+   bsqldb is a filter; it reads from standard input, writes to standard output, 
+   and writes errors to standard error. The -i, -o, and -e options override 
+   these, of course.
+ 
+-  The source code for bsqldb is intended as a model for db-lib users. db-lib
++  The source code for bsqldb is intended as a model for DB-Library users. DB-Library
+   has a rich set of functions, and it can be hard sometimes to understand how to
+   use them, particularly the first time. If you are using it in this way and
+   find something unclear, you are encouraged to email the author your
+diff --git a/doc/freebcp.txt b/doc/freebcp.txt
+index 6a841e7..df2a421 100644
+--- a/doc/freebcp.txt
++++ b/doc/freebcp.txt
+@@ -48,7 +48,7 @@ TABLES AND FILES
+ OPTIONS
+   -c            The host data file is (or will be) in "character" format,
+   		i.e., a text file. Encoding is determined by the 
+-		client charset attribute in freetds.conf.  
++		client charset attribute in freetds.conf.
+ 
+   -n            The host data file is in "native" format.
+                 This is a format that freebcp will be able to process,
+@@ -86,7 +86,8 @@ OPTIONS
+ 
+   -S servername  The name of the Database Server to which to connect. 
+ 
+-  -U username   A database login name. 
++  -U username   A database login name. If username is not provided, a domain
++  login is attempted for TDS 7+ connections.
+ 
+   -P password   A database password.
+ 
+@@ -119,6 +120,9 @@ OPTIONS
+ 
+   -v -V		Print the version information and exit. 
+ 
++ENVIRONMENT
++  DSQUERY	default servername
++
+ NOTES
+   When connecting to a Sybase database server, it is required that the
+   TDS 5.0 protocol be used. When connecting to a Microsoft SQL Server
+diff --git a/doc/tsql.txt b/doc/tsql.txt
+index 62a147f..d410bed 100644
+--- a/doc/tsql.txt
++++ b/doc/tsql.txt
+@@ -39,7 +39,8 @@ OPTIONS
+ 
+ 	-p port  the port at which SQL Server is listening
+ 
+-	-U username  database login name.
++	-U username  database login name. If username is not provided, a domain
++	login is attempted for TDS 7+ connections.
+ 
+ 	-P password  database password.
+ 	
+
+commit d5ceb93411a37a34dd8522da40904dd1417e928f
+Author: jklowden <jklowden>
+Date:   Sun Mar 13 21:32:46 2011 +0000
+
+    support numeric/decimal
+
+diff --git a/src/apps/bsqldb.c b/src/apps/bsqldb.c
+index 0360abd..09fbea9 100644
+--- a/src/apps/bsqldb.c
++++ b/src/apps/bsqldb.c
+@@ -53,7 +53,7 @@
+ #include <sybdb.h>
+ #include "replacements.h"
+ 
+-static char software_version[] = "$Id: bsqldb.c,v 1.48 2011/02/17 15:55:28 jklowden Exp $";
++static char software_version[] = "$Id: bsqldb.c,v 1.49 2011/03/13 21:32:46 jklowden Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ #ifdef _WIN32
+@@ -661,6 +661,7 @@ static int
+ get_printable_size(int type, int size)	/* adapted from src/dblib/dblib.c */
+ {
+ 	switch (type) {
++	case SYBBITN:
+ 	case SYBBIT:
+ 		return 1;
+ 	case SYBINTN:
+@@ -680,11 +681,15 @@ get_printable_size(int type, int size)	/* adapted from src/dblib/dblib.c */
+ 		return 6;
+ 	case SYBINT4:
+ 		return 11;
++	case SYBDECIMAL:
++	case SYBNUMERIC:
+ 	case SYBINT8:
+ 		return 21;
+ 	case SYBVARCHAR:
+ 	case SYBCHAR:
+ 		return size;
++	case SYBNVARCHAR:
++		return size/2;
+ 	case SYBFLT8:
+ 		return 11;	/* FIX ME -- we do not track precision */
+ 	case SYBREAL:
+@@ -698,15 +703,13 @@ get_printable_size(int type, int size)	/* adapted from src/dblib/dblib.c */
+ 	case SYBDATETIMN:
+ 		return 26;	/* FIX ME */
+ #if 0	/* not exported by sybdb.h */
+-	case SYBBITN:
+ 	case SYBLONGBINARY:
+ 	case SYBLONGCHAR:
+-	case SYBNTEXT:
+-	case SYBNVARCHAR:
+ #endif
+ 	case SYBBINARY:
+ 	case SYBIMAGE:
+ 	case SYBTEXT:
++	case SYBNTEXT:
+ 	case SYBVARBINARY:
+ 		return INT_MAX;
+ 	}
+@@ -819,6 +822,8 @@ get_login(int argc, char *argv[], OPTIONS *options)
+ 	
+ 	DBSETLAPP(login, options->appname);
+ 	
++	options->servername = getenv("DSQUERY");
++	
+ 	while ((ch = getopt(argc, argv, "U:P:S:dD:i:o:e:t:H:hqv")) != -1) {
+ 		switch (ch) {
+ 		case 'U':
+
+commit e9d3a01514d871b42eade62ac783243f76677b1a
+Author: jklowden <jklowden>
+Date:   Sun Mar 13 21:32:49 2011 +0000
+
+    allow no username for trusted logins
+
+diff --git a/src/apps/freebcp.c b/src/apps/freebcp.c
+index f67ad36..b2e6ee0 100644
+--- a/src/apps/freebcp.c
++++ b/src/apps/freebcp.c
+@@ -54,7 +54,7 @@
+ #include <sybdb.h>
+ #include "freebcp.h"
+ 
+-static char software_version[] = "$Id: freebcp.c,v 1.58 2010/12/17 04:31:36 berryc Exp $";
++static char software_version[] = "$Id: freebcp.c,v 1.59 2011/03/13 21:32:49 jklowden Exp $";
+ static void *no_unused_var_warn[] = { software_version, no_unused_var_warn };
+ 
+ void pusage(void);
+@@ -324,21 +324,27 @@ process_parameters(int argc, char **argv, BCPPARAMDATA *pdata)
+ 
+ 	/* 
+ 	 * Check for required/disallowed option combinations 
++	 * If no username is provided, rely on domain login. 
+ 	 */
+ 	 
+-	/* these must be specified */
+-	if (!pdata->Uflag || !pdata->Pflag || !pdata->Sflag) {
+-		fprintf(stderr, "All 3 options -U, -P, -S must be supplied.\n");
+-		return (FALSE);
++	/* Server */
++	if (!pdata->Sflag) {
++		if ((pdata->server = getenv("DSQUERY")) != NULL) {
++			pdata->server = strdup(pdata->server);	/* can be freed */
++			pdata->Sflag++;
++		} else {
++			fprintf(stderr, "-S must be supplied.\n");
++			return (FALSE);
++		}
+ 	}
+ 
+-	/* only one of these can be specified */
++	/* Only one of these can be specified */
+ 	if (pdata->cflag + pdata->nflag + pdata->fflag != 1) {
+ 		fprintf(stderr, "Exactly one of options -c, -n, -f must be supplied.\n");
+ 		return (FALSE);
+ 	}
+ 
+-	/* character mode file: Fill in some default values*/
++	/* Character mode file: fill in default values */
+ 	if (pdata->cflag) {
+ 
+ 		if (!pdata->tflag || !pdata->fieldterm) {	/* field terminator not specified */
+@@ -407,14 +413,17 @@ login_to_database(BCPPARAMDATA * pdata, DBPROCESS ** pdbproc)
+ 	if (!login)
+ 		return FALSE;
+ 
+-	DBSETLUSER(login, pdata->user);
+-	DBSETLPWD(login, pdata->pass);
++	if (pdata->user)
++		DBSETLUSER(login, pdata->user);
++	if (pdata->pass) {
++		DBSETLPWD(login, pdata->pass);
++		memset(pdata->pass, 0, strlen(pdata->pass));
++	}
++	
+ 	DBSETLAPP(login, "FreeBCP");
+ 	if (pdata->charset)
+ 		DBSETLCHARSET(login, pdata->charset);
+ 
+-	/* if packet size specified, set in login record */
+-
+ 	if (pdata->Aflag && pdata->packetsize > 0) {
+ 		DBSETLPACKET(login, pdata->packetsize);
+ 	}
