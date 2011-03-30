@@ -102,7 +102,7 @@ done
 
 (
   cd $GITDIR
-  git checkout master
+  git checkout Branch-0_91
   git reset --hard
 )
 
@@ -111,7 +111,7 @@ done
   cd $GITDIR
   echo
   echo "======== fast forward to latest"
-  git log --reverse -p ^branch-0-82 master
+  git log --reverse -p ^branch-0-82 Branch-0_91
   #git diff branch-0-82 master
 ) >> src/freetds-1-fastforward.patch
 
@@ -178570,6 +178570,57 @@ index 3d6b95b..e05146a 100644
  AC_PREREQ(2.53)
 -AC_REVISION($Revision: 1.60 $)
 +AC_REVISION($Revision: 1.61 $)
+ 
+ AM_INIT_AUTOMAKE([dist-bzip2])
+ AC_CONFIG_HEADERS(include/config.h)
+
+commit 8ce06317c4c36bda15c95e67188f6f5a5bc40d79
+Author: freddy77 <freddy77>
+Date:   Wed Mar 30 12:55:41 2011 +0000
+
+    release version
+
+diff --git a/ChangeLog b/ChangeLog
+index b5aecf3..662f0e9 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,5 +1,5 @@
+-Wed Mar 30 14:53:04 CEST 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
+-	* configure.ac: future developing version!
++Wed Mar 30 14:55:28 CEST 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
++	* configure.ac: release version
+ 
+ Wed Mar 30 13:29:15 CEST 2011    Frediano Ziglio <freddy77_A_gmail_D_com>
+ 	* include/tds.h src/odbc/odbc.c src/tds/query.c:
+@@ -3200,4 +3200,4 @@ Wed Jan  9 19:54:43 EST 2008	JK Lowden <jklowden@freetds.org>
+ 	* ChangeLog-0.82 added because of release
+ 	
+ $FreeTDS$
+-$Id: ChangeLog,v 1.3206 2011/03/30 12:53:19 freddy77 Exp $
++$Id: ChangeLog,v 1.3205.2.1 2011/03/30 12:55:41 freddy77 Exp $
+diff --git a/configure.ac b/configure.ac
+index e05146a..11076d6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1,7 +1,7 @@
+ dnl Process this file with autoconf to produce a configure script.
+ 
+ dnl ------------------------------------------------------------
+-dnl $Id: configure.ac,v 1.61 2011/03/30 12:53:19 freddy77 Exp $
++dnl $Id: configure.ac,v 1.60.2.1 2011/03/30 12:55:41 freddy77 Exp $
+ dnl If you're trying to create a new configure test, try
+ dnl
+ dnl 	http://autogen.sourceforge.net/conftest.html
+@@ -12,10 +12,10 @@ dnl ------------------------------------------------------------
+ # ------------------------------------------------------------
+ # Initialization
+ # ------------------------------------------------------------
+-AC_INIT(FreeTDS, 0.92.dev.esyscmd(printf $(date +"%Y%m%d")))
++AC_INIT(FreeTDS, 0.91)
+ AC_CONFIG_SRCDIR(src/dblib/dblib.c)
+ AC_PREREQ(2.53)
+-AC_REVISION($Revision: 1.61 $)
++AC_REVISION($Revision: 1.60.2.1 $)
  
  AM_INIT_AUTOMAKE([dist-bzip2])
  AC_CONFIG_HEADERS(include/config.h)
