@@ -1,18 +1,23 @@
 This file is part of mingw-cross-env.
 See doc/index.html for further information.
 
-Contains ad hoc patches for cross building.
+Commits backported (cherry-picked) from upstream branch or merge requests.
+http://qt.gitorious.org/qt
+Also contains mingw-cross-env specific fixes.
 
-From df56e2bbd55d570ca319e8891514319a0ce9b35c Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From 9ae9b4c7f69482cfb67594044da8444bc70c6f97 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 1/9] do not detect or configure iconv for Windows
+Subject: [PATCH 01/10] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
 set conversions do not work.
 
 Configure.exe already disables iconv for Windows.
+---
+ configure |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/configure b/configure
 index b590507..25cc7df 100755
@@ -31,11 +36,14 @@ index b590507..25cc7df 100755
 1.7.7
 
 
-From 681573979c68321023343e425258b4090329d7c5 Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From 5146d425f67575913f4d988da5cf1daff722e9e7 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 22:45:15 +0200
-Subject: [PATCH 2/9] add missing multiple inclusion guard
+Subject: [PATCH 02/10] add missing multiple inclusion guard
 
+---
+ src/plugins/codecs/kr/cp949codetbl.h |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
 diff --git a/src/plugins/codecs/kr/cp949codetbl.h b/src/plugins/codecs/kr/cp949codetbl.h
 index f54db8d..8b254e0 100644
@@ -61,10 +69,10 @@ index f54db8d..8b254e0 100644
 1.7.7
 
 
-From 14fe581b6f16c0f664ca5ad4ee9c468a1207f5dc Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From d19058417259a1f18c0f0ddcc7c7fad120a88f12 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 3/9] load plugin codecs regardless of iconv
+Subject: [PATCH 03/10] load plugin codecs regardless of iconv
 
 Otherwise Windows applications linking to static Qt will have to
 import the static plugins to avoid linking failure even if they
@@ -72,9 +80,12 @@ do not use the codecs.
 
 Also, this is preparation for moving these codecs into QtCore
 proper.
+---
+ src/corelib/codecs/qtextcodec.cpp |   14 +++++---------
+ 1 files changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index dd06a2a..dbe6f6e 100644
+index dd06a2a..dbe6f6eb 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -65,15 +65,14 @@
@@ -132,10 +143,10 @@ index dd06a2a..dbe6f6e 100644
 1.7.7
 
 
-From 6c9dbea65428056dbd03497ef788baea23164597 Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From 1572988d2a3728505d9bacd204a1e7132d5f7a7d Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:40:11 +0200
-Subject: [PATCH 4/9] move plugin text codecs to QtCore
+Subject: [PATCH 04/10] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -158,6 +169,105 @@ Additional cleanup:
 -rename multiple inclusion guards
 -add private header warning text
 -remove obsolete codec plugin loading code
+---
+ src/corelib/codecs/codecs.pri           |   45 +-
+ src/corelib/codecs/cp949codetbl_p.h     |  648 ++
+ src/corelib/codecs/qbig5codec.cpp       |12788 +++++++++++++++++++++++++++++++
+ src/corelib/codecs/qbig5codec_p.h       |  135 +
+ src/corelib/codecs/qeucjpcodec.cpp      |  261 +
+ src/corelib/codecs/qeucjpcodec_p.h      |  117 +
+ src/corelib/codecs/qeuckrcodec.cpp      | 3571 +++++++++
+ src/corelib/codecs/qeuckrcodec_p.h      |  140 +
+ src/corelib/codecs/qfontjpcodec.cpp     |  145 +
+ src/corelib/codecs/qfontjpcodec_p.h     |  104 +
+ src/corelib/codecs/qgb18030codec.cpp    | 9265 ++++++++++++++++++++++
+ src/corelib/codecs/qgb18030codec_p.h    |  170 +
+ src/corelib/codecs/qjiscodec.cpp        |  367 +
+ src/corelib/codecs/qjiscodec_p.h        |  117 +
+ src/corelib/codecs/qjpunicode.cpp       |10700 ++++++++++++++++++++++++++
+ src/corelib/codecs/qjpunicode_p.h       |  185 +
+ src/corelib/codecs/qsjiscodec.cpp       |  229 +
+ src/corelib/codecs/qsjiscodec_p.h       |  117 +
+ src/corelib/codecs/qtextcodec.cpp       |  101 +-
+ src/corelib/codecs/qtextcodecplugin.cpp |  161 -
+ src/corelib/codecs/qtextcodecplugin.h   |   96 -
+ src/corelib/global/qconfig-medium.h     |    4 -
+ src/corelib/global/qconfig-nacl.h       |    3 -
+ src/corelib/global/qconfig-small.h      |    3 -
+ src/corelib/global/qfeatures.h          |    5 -
+ src/plugins/codecs/cn/cn.pro            |   16 -
+ src/plugins/codecs/cn/main.cpp          |  145 -
+ src/plugins/codecs/cn/qgb18030codec.cpp | 9265 ----------------------
+ src/plugins/codecs/cn/qgb18030codec.h   |  159 -
+ src/plugins/codecs/codecs.pro           |    4 -
+ src/plugins/codecs/jp/jp.pro            |   27 -
+ src/plugins/codecs/jp/main.cpp          |  149 -
+ src/plugins/codecs/jp/qeucjpcodec.cpp   |  261 -
+ src/plugins/codecs/jp/qeucjpcodec.h     |  106 -
+ src/plugins/codecs/jp/qfontjpcodec.cpp  |  145 -
+ src/plugins/codecs/jp/qfontjpcodec.h    |   93 -
+ src/plugins/codecs/jp/qjiscodec.cpp     |  367 -
+ src/plugins/codecs/jp/qjiscodec.h       |  106 -
+ src/plugins/codecs/jp/qjpunicode.cpp    |10700 --------------------------
+ src/plugins/codecs/jp/qjpunicode.h      |  174 -
+ src/plugins/codecs/jp/qsjiscodec.cpp    |  229 -
+ src/plugins/codecs/jp/qsjiscodec.h      |  106 -
+ src/plugins/codecs/kr/cp949codetbl.h    |  637 --
+ src/plugins/codecs/kr/kr.pro            |   20 -
+ src/plugins/codecs/kr/main.cpp          |  131 -
+ src/plugins/codecs/kr/qeuckrcodec.cpp   | 3571 ---------
+ src/plugins/codecs/kr/qeuckrcodec.h     |  129 -
+ src/plugins/codecs/tw/main.cpp          |  138 -
+ src/plugins/codecs/tw/qbig5codec.cpp    |12788 -------------------------------
+ src/plugins/codecs/tw/qbig5codec.h      |  124 -
+ src/plugins/codecs/tw/tw.pro            |   16 -
+ src/plugins/plugins.pro                 |    5 -
+ 52 files changed, 39090 insertions(+), 39998 deletions(-)
+ create mode 100644 src/corelib/codecs/cp949codetbl_p.h
+ create mode 100644 src/corelib/codecs/qbig5codec.cpp
+ create mode 100644 src/corelib/codecs/qbig5codec_p.h
+ create mode 100644 src/corelib/codecs/qeucjpcodec.cpp
+ create mode 100644 src/corelib/codecs/qeucjpcodec_p.h
+ create mode 100644 src/corelib/codecs/qeuckrcodec.cpp
+ create mode 100644 src/corelib/codecs/qeuckrcodec_p.h
+ create mode 100644 src/corelib/codecs/qfontjpcodec.cpp
+ create mode 100644 src/corelib/codecs/qfontjpcodec_p.h
+ create mode 100644 src/corelib/codecs/qgb18030codec.cpp
+ create mode 100644 src/corelib/codecs/qgb18030codec_p.h
+ create mode 100644 src/corelib/codecs/qjiscodec.cpp
+ create mode 100644 src/corelib/codecs/qjiscodec_p.h
+ create mode 100644 src/corelib/codecs/qjpunicode.cpp
+ create mode 100644 src/corelib/codecs/qjpunicode_p.h
+ create mode 100644 src/corelib/codecs/qsjiscodec.cpp
+ create mode 100644 src/corelib/codecs/qsjiscodec_p.h
+ delete mode 100644 src/corelib/codecs/qtextcodecplugin.cpp
+ delete mode 100644 src/corelib/codecs/qtextcodecplugin.h
+ delete mode 100644 src/plugins/codecs/cn/cn.pro
+ delete mode 100644 src/plugins/codecs/cn/main.cpp
+ delete mode 100644 src/plugins/codecs/cn/qgb18030codec.cpp
+ delete mode 100644 src/plugins/codecs/cn/qgb18030codec.h
+ delete mode 100644 src/plugins/codecs/codecs.pro
+ delete mode 100644 src/plugins/codecs/jp/jp.pro
+ delete mode 100644 src/plugins/codecs/jp/main.cpp
+ delete mode 100644 src/plugins/codecs/jp/qeucjpcodec.cpp
+ delete mode 100644 src/plugins/codecs/jp/qeucjpcodec.h
+ delete mode 100644 src/plugins/codecs/jp/qfontjpcodec.cpp
+ delete mode 100644 src/plugins/codecs/jp/qfontjpcodec.h
+ delete mode 100644 src/plugins/codecs/jp/qjiscodec.cpp
+ delete mode 100644 src/plugins/codecs/jp/qjiscodec.h
+ delete mode 100644 src/plugins/codecs/jp/qjpunicode.cpp
+ delete mode 100644 src/plugins/codecs/jp/qjpunicode.h
+ delete mode 100644 src/plugins/codecs/jp/qsjiscodec.cpp
+ delete mode 100644 src/plugins/codecs/jp/qsjiscodec.h
+ delete mode 100644 src/plugins/codecs/kr/cp949codetbl.h
+ delete mode 100644 src/plugins/codecs/kr/kr.pro
+ delete mode 100644 src/plugins/codecs/kr/main.cpp
+ delete mode 100644 src/plugins/codecs/kr/qeuckrcodec.cpp
+ delete mode 100644 src/plugins/codecs/kr/qeuckrcodec.h
+ delete mode 100644 src/plugins/codecs/tw/main.cpp
+ delete mode 100644 src/plugins/codecs/tw/qbig5codec.cpp
+ delete mode 100644 src/plugins/codecs/tw/qbig5codec.h
+ delete mode 100644 src/plugins/codecs/tw/tw.pro
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index 46d7dd4..e302561 100644
@@ -39391,7 +39501,7 @@ index 0000000..73ab5c8
 +
 +#endif // QSJISCODEC_P_H
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index dbe6f6e..03a0cc9 100644
+index dbe6f6eb..03a0cc9 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -47,11 +47,6 @@
@@ -39874,7 +39984,7 @@ index 4f34169..963df87 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index f65e8f8..6c9bedb 100644
+index e0b8a8f..61510eb 100644
 --- a/src/corelib/global/qfeatures.h
 +++ b/src/corelib/global/qfeatures.h
 @@ -646,11 +646,6 @@
@@ -79671,12 +79781,15 @@ index 94ce675..c4af49b 100644
 1.7.7
 
 
-From f0d54264b40dd9cbceadd4093bc11bf122913609 Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From dfa9f966e6f4a18d69eb056d17d8ea1b8c5fd663 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
 Date: Tue, 16 Nov 2010 20:06:28 +0100
-Subject: [PATCH 5/9] explicitly include -llcms for -lmng (mingw-cross-env
+Subject: [PATCH 05/10] explicitly include -llcms for -lmng (mingw-cross-env
  specific)
 
+---
+ src/gui/image/qmnghandler.pri |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/src/gui/image/qmnghandler.pri b/src/gui/image/qmnghandler.pri
 index ffb98de..c213e09 100644
@@ -79695,10 +79808,10 @@ index ffb98de..c213e09 100644
 1.7.7
 
 
-From ddf0613f95586eb9473bad9967a140bebe374162 Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From 71ef8c96b3b0eaa756c8671ce3b0fb742b67915a Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 6/9] restore support for static linking of QtWebKit
+Subject: [PATCH 06/10] restore support for static linking of QtWebKit
  (mingw-cross-env specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -79708,6 +79821,12 @@ For static Qt on win32-g++*, applications using webkit link to jscore and webcor
 Added INSTALLS and pkg-config for static jscore and webcore.
 
 Don't build Qt WebKit tests to avoid static linking problems.
+---
+ configure                                          |    6 ------
+ .../JavaScriptCore/JavaScriptCore.pri              |   13 +++++++++++++
+ src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   14 ++++++++++++++
+ src/3rdparty/webkit/Source/WebKit.pro              |    2 +-
+ 4 files changed, 28 insertions(+), 7 deletions(-)
 
 diff --git a/configure b/configure
 index 25cc7df..3a56cf6 100755
@@ -79786,10 +79905,40 @@ index 9be0f4a..6744f58 100644
 1.7.7
 
 
-From f952c111aac4eb7ef4c88e990eabaf6379d1b2c7 Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From 2cad7454dd058c4fa6d681e81a01fa6f709d2a7b Mon Sep 17 00:00:00 2001
+From: Tony Theodore <tonyt@logyst.com>
+Date: Mon, 21 Feb 2011 22:22:04 +0100
+Subject: [PATCH 07/10] workaround for native build on OSX (mingw-cross-env
+ specific)
+
+The native build complains about:
+"You are building a 64-bit application, but using a 32-bit version of
+Qt. Check your build configuration."
+---
+ mkspecs/macx-g++/qmake.conf |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/mkspecs/macx-g++/qmake.conf b/mkspecs/macx-g++/qmake.conf
+index e402e54..1fcb422 100644
+--- a/mkspecs/macx-g++/qmake.conf
++++ b/mkspecs/macx-g++/qmake.conf
+@@ -16,4 +16,8 @@ QMAKE_INCREMENTAL_STYLE = sublib
+ include(../common/mac.conf)
+ include(../common/gcc-base-macx.conf)
+ include(../common/g++-macx.conf)
++
++QMAKE_CC		 = gcc -arch i386
++QMAKE_CXX		 = g++ -arch i386
++
+ load(qt_config)
+-- 
+1.7.7
+
+
+From 77e735d6ac7681280e622650912d1e47a3f94695 Mon Sep 17 00:00:00 2001
+From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 7/9] fix building on GNU/kFreeBSD (mingw-cross-specific)
+Subject: [PATCH 08/10] fix building on GNU/kFreeBSD (mingw-cross-specific)
 
 This patch has been taken from:
 
@@ -79798,9 +79947,12 @@ http://anonscm.debian.org/gitweb/?p=pkg-kde/qt/qt4-x11.git;a=blob;f=debian/patch
 Author: Pino Toscano <pino@kde.org>
 Description: Fixes FTBFS on GNU/kFreeBSD by creating new Q_OS_FREEBSD_KERNEL.
 Last-Update: 2010-10-06
+---
+ src/corelib/global/qglobal.h |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
-index 9d04937..df37906 100644
+index cfe5eea..cefa719 100644
 --- a/src/corelib/global/qglobal.h
 +++ b/src/corelib/global/qglobal.h
 @@ -226,6 +226,8 @@ namespace QT_NAMESPACE {}
@@ -79816,16 +79968,19 @@ index 9d04937..df37906 100644
 1.7.7
 
 
-From b46cfcd7f6b5e4d84c38ae3149e09f78610e690e Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From d5ab91656ba7ce6843929a179c2cd66888c4573a Mon Sep 17 00:00:00 2001
+From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 8/9] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 09/10] fix missing platform when building on GNU/kFreeBSD
  (mingw-cross-env specific)
 
 This patch is inspired by:
 http://anonscm.debian.org/gitweb/?p=pkg-kde/qt/qt4-x11.git;a=blob;f=debian/rules;h=47e5efbf09f77e6da51a3d719d2f6be47f69d096;hb=HEAD
 
 For the time being, glibc-g++ is simply a copy of linux-g++.
+---
+ configure |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
 diff --git a/configure b/configure
 index 3a56cf6..d3ac872 100755
@@ -79845,13 +80000,16 @@ index 3a56cf6..d3ac872 100755
 1.7.7
 
 
-From 7359879d9a13acd424f6cecfa3037f0283e0111f Mon Sep 17 00:00:00 2001
-From: mingw-cross-env
+From 4419792b62a321d543d81fd334959426b98069c5 Mon Sep 17 00:00:00 2001
+From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 9/9] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 10/10] fix building on dragonfly (mingw-cross-env specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
+---
+ configure |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/configure b/configure
 index d3ac872..ca7a2ea 100755
