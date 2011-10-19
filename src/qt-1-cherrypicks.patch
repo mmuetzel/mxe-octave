@@ -8,7 +8,7 @@ Also contains mingw-cross-env specific fixes.
 From 9ae9b4c7f69482cfb67594044da8444bc70c6f97 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 01/10] do not detect or configure iconv for Windows
+Subject: [PATCH 1/9] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -39,7 +39,7 @@ index b590507..25cc7df 100755
 From 5146d425f67575913f4d988da5cf1daff722e9e7 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 22:45:15 +0200
-Subject: [PATCH 02/10] add missing multiple inclusion guard
+Subject: [PATCH 2/9] add missing multiple inclusion guard
 
 ---
  src/plugins/codecs/kr/cp949codetbl.h |    5 +++++
@@ -72,7 +72,7 @@ index f54db8d..8b254e0 100644
 From d19058417259a1f18c0f0ddcc7c7fad120a88f12 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 03/10] load plugin codecs regardless of iconv
+Subject: [PATCH 3/9] load plugin codecs regardless of iconv
 
 Otherwise Windows applications linking to static Qt will have to
 import the static plugins to avoid linking failure even if they
@@ -146,7 +146,7 @@ index dd06a2a..dbe6f6eb 100644
 From 1572988d2a3728505d9bacd204a1e7132d5f7a7d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:40:11 +0200
-Subject: [PATCH 04/10] move plugin text codecs to QtCore
+Subject: [PATCH 4/9] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79784,7 +79784,7 @@ index 94ce675..c4af49b 100644
 From dfa9f966e6f4a18d69eb056d17d8ea1b8c5fd663 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Tue, 16 Nov 2010 20:06:28 +0100
-Subject: [PATCH 05/10] explicitly include -llcms for -lmng (mingw-cross-env
+Subject: [PATCH 5/9] explicitly include -llcms for -lmng (mingw-cross-env
  specific)
 
 ---
@@ -79811,7 +79811,7 @@ index ffb98de..c213e09 100644
 From 71ef8c96b3b0eaa756c8671ce3b0fb742b67915a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 06/10] restore support for static linking of QtWebKit
+Subject: [PATCH 6/9] restore support for static linking of QtWebKit
  (mingw-cross-env specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -79905,40 +79905,10 @@ index 9be0f4a..6744f58 100644
 1.7.7
 
 
-From 2cad7454dd058c4fa6d681e81a01fa6f709d2a7b Mon Sep 17 00:00:00 2001
-From: Tony Theodore <tonyt@logyst.com>
-Date: Mon, 21 Feb 2011 22:22:04 +0100
-Subject: [PATCH 07/10] workaround for native build on OSX (mingw-cross-env
- specific)
-
-The native build complains about:
-"You are building a 64-bit application, but using a 32-bit version of
-Qt. Check your build configuration."
----
- mkspecs/macx-g++/qmake.conf |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
-
-diff --git a/mkspecs/macx-g++/qmake.conf b/mkspecs/macx-g++/qmake.conf
-index e402e54..1fcb422 100644
---- a/mkspecs/macx-g++/qmake.conf
-+++ b/mkspecs/macx-g++/qmake.conf
-@@ -16,4 +16,8 @@ QMAKE_INCREMENTAL_STYLE = sublib
- include(../common/mac.conf)
- include(../common/gcc-base-macx.conf)
- include(../common/g++-macx.conf)
-+
-+QMAKE_CC		 = gcc -arch i386
-+QMAKE_CXX		 = g++ -arch i386
-+
- load(qt_config)
--- 
-1.7.7
-
-
-From 77e735d6ac7681280e622650912d1e47a3f94695 Mon Sep 17 00:00:00 2001
+From 433b214427e41e8cd00757012b3adbe5c956f11c Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 08/10] fix building on GNU/kFreeBSD (mingw-cross-specific)
+Subject: [PATCH 7/9] fix building on GNU/kFreeBSD (mingw-cross-specific)
 
 This patch has been taken from:
 
@@ -79968,10 +79938,10 @@ index cfe5eea..cefa719 100644
 1.7.7
 
 
-From d5ab91656ba7ce6843929a179c2cd66888c4573a Mon Sep 17 00:00:00 2001
+From 3feafc3e015fa17129dd644ed2da5c1148972216 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 09/10] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 8/9] fix missing platform when building on GNU/kFreeBSD
  (mingw-cross-env specific)
 
 This patch is inspired by:
@@ -80000,10 +79970,10 @@ index 3a56cf6..d3ac872 100755
 1.7.7
 
 
-From 4419792b62a321d543d81fd334959426b98069c5 Mon Sep 17 00:00:00 2001
+From 867c6f2c8f9a14fcb83b215ed455eae448d6c485 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 10/10] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 9/9] fix building on dragonfly (mingw-cross-env specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
