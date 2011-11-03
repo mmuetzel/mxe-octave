@@ -79781,26 +79781,27 @@ index 94ce675..c4af49b 100644
 1.7.7
 
 
-From ee6f38ec8b306847c326c31ee646701ae3c72408 Mon Sep 17 00:00:00 2001
+From 91577ea4e4c338e24c67c611a4ddefddbfd3ccdc Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
-Date: Tue, 16 Nov 2010 20:06:28 +0100
-Subject: [PATCH 05/10] explicitly include -llcms for -lmng (mingw-cross-env
- specific)
+Date: Thu, 3 Nov 2011 15:10:26 +0100
+Subject: [PATCH 05/10] use pkg-config for libmng
 
 ---
- src/gui/image/qmnghandler.pri |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ src/gui/image/qmnghandler.pri |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
 diff --git a/src/gui/image/qmnghandler.pri b/src/gui/image/qmnghandler.pri
-index ffb98de..c213e09 100644
+index ffb98de..6aab68f 100644
 --- a/src/gui/image/qmnghandler.pri
 +++ b/src/gui/image/qmnghandler.pri
-@@ -3,7 +3,7 @@ INCLUDEPATH *= $$PWD
+@@ -3,7 +3,9 @@ INCLUDEPATH *= $$PWD
  HEADERS += $$PWD/qmnghandler_p.h
  SOURCES += $$PWD/qmnghandler.cpp
  contains(QT_CONFIG, system-mng) {
 -        if(unix|win32-g++*):LIBS += -lmng
-+        if(unix|win32-g++*):LIBS += -lmng -llcms
++        CONFIG += link_pkgconfig
++        PKGCONFIG += libmng
++        if(unix|win32-g++*):LIBS *= -lmng
          else:win32:         LIBS += libmng.lib
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
@@ -79808,26 +79809,27 @@ index ffb98de..c213e09 100644
 1.7.7
 
 
-From ede77e74e597434ecebe36c151103e9115d67b67 Mon Sep 17 00:00:00 2001
+From 430bcd7435a32b1058e0a387ba0295c1e0389766 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
-Date: Wed, 2 Nov 2011 15:11:22 +0100
-Subject: [PATCH 06/10] explicitly include -ljpeg for -ltiff (mingw-cross-env
- specific)
+Date: Thu, 3 Nov 2011 14:11:02 +0100
+Subject: [PATCH 06/10] use pkg-config for libtiff
 
 ---
- src/gui/image/qtiffhandler.pri |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ src/gui/image/qtiffhandler.pri |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
 diff --git a/src/gui/image/qtiffhandler.pri b/src/gui/image/qtiffhandler.pri
-index e1cc3ee..34421dc 100644
+index e1cc3ee..c692ca9 100644
 --- a/src/gui/image/qtiffhandler.pri
 +++ b/src/gui/image/qtiffhandler.pri
-@@ -3,7 +3,7 @@ INCLUDEPATH *= $$PWD
+@@ -3,7 +3,9 @@ INCLUDEPATH *= $$PWD
  HEADERS += $$PWD/qtiffhandler_p.h
  SOURCES += $$PWD/qtiffhandler.cpp
  contains(QT_CONFIG, system-tiff) {
 -        if(unix|win32-g++*):LIBS += -ltiff
-+        if(unix|win32-g++*):LIBS += -ltiff -ljpeg
++        CONFIG += link_pkgconfig
++        PKGCONFIG += libtiff
++        if(unix|win32-g++*):LIBS *= -ltiff
          else:win32:         LIBS += libtiff.lib
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
@@ -79835,7 +79837,7 @@ index e1cc3ee..34421dc 100644
 1.7.7
 
 
-From f103e7d7666ee527bd2ceddaf4eb1e72586c4d75 Mon Sep 17 00:00:00 2001
+From 606cc859a6df8e57006f1a51b3bc67ec75e3eb26 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
 Subject: [PATCH 07/10] restore support for static linking of QtWebKit
@@ -79932,7 +79934,7 @@ index 9be0f4a..6744f58 100644
 1.7.7
 
 
-From 89a0dbeda24a0972eb6754090b5e38b703eeac67 Mon Sep 17 00:00:00 2001
+From 6459ac61c72e148a768b5785b4bf297b982b98ad Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
 Subject: [PATCH 08/10] fix building on GNU/kFreeBSD (mingw-cross-specific)
@@ -79965,7 +79967,7 @@ index cfe5eea..cefa719 100644
 1.7.7
 
 
-From f2535af9d2d785b70433ddb1a8238ed8ce68eaab Mon Sep 17 00:00:00 2001
+From 9ed796a8de712249a2967eb543dec9abdef6bf68 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
 Subject: [PATCH 09/10] fix missing platform when building on GNU/kFreeBSD
@@ -79997,7 +79999,7 @@ index 3a56cf6..d3ac872 100755
 1.7.7
 
 
-From 5e3dafe140ab2d1d2bb867147b303df369a1c240 Mon Sep 17 00:00:00 2001
+From 8cc359a585438d16e1ba6199baadf0e16dc1716f Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
 Subject: [PATCH 10/10] fix building on dragonfly (mingw-cross-env specific)
