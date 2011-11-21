@@ -8,7 +8,7 @@ Also contains mingw-cross-env specific fixes.
 From 9ae9b4c7f69482cfb67594044da8444bc70c6f97 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 01/12] do not detect or configure iconv for Windows
+Subject: [PATCH 01/13] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -39,7 +39,7 @@ index b590507..25cc7df 100755
 From 5146d425f67575913f4d988da5cf1daff722e9e7 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 22:45:15 +0200
-Subject: [PATCH 02/12] add missing multiple inclusion guard
+Subject: [PATCH 02/13] add missing multiple inclusion guard
 
 ---
  src/plugins/codecs/kr/cp949codetbl.h |    5 +++++
@@ -72,7 +72,7 @@ index f54db8d..8b254e0 100644
 From d19058417259a1f18c0f0ddcc7c7fad120a88f12 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 03/12] load plugin codecs regardless of iconv
+Subject: [PATCH 03/13] load plugin codecs regardless of iconv
 
 Otherwise Windows applications linking to static Qt will have to
 import the static plugins to avoid linking failure even if they
@@ -146,7 +146,7 @@ index dd06a2a..dbe6f6eb 100644
 From 1572988d2a3728505d9bacd204a1e7132d5f7a7d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:40:11 +0200
-Subject: [PATCH 04/12] move plugin text codecs to QtCore
+Subject: [PATCH 04/13] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79784,7 +79784,7 @@ index 94ce675..c4af49b 100644
 From 72750d704101c1f3a97d1efa2135ea0ac76a9924 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 05/12] use pkg-config for libmng (mingw-cross-env specific)
+Subject: [PATCH 05/13] use pkg-config for libmng (mingw-cross-env specific)
 
 ---
  src/gui/image/qmnghandler.pri |    4 +++-
@@ -79812,7 +79812,7 @@ index ffb98de..6aab68f 100644
 From 9fa7811cb907435a72b0f0719ca585e36e19dec0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 06/12] use pkg-config for libtiff (mingw-cross-env specific)
+Subject: [PATCH 06/13] use pkg-config for libtiff (mingw-cross-env specific)
 
 ---
  src/gui/image/qtiffhandler.pri |    4 +++-
@@ -79840,7 +79840,7 @@ index e1cc3ee..c692ca9 100644
 From f2b7061ab718faa8a7178536443e0224af101296 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 07/12] restore support for static linking of QtWebKit
+Subject: [PATCH 07/13] restore support for static linking of QtWebKit
  (mingw-cross-env specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -79937,7 +79937,7 @@ index 9be0f4a..6744f58 100644
 From 1ccb57fd77c555afe5a3da5da12e345923e284e0 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 08/12] fix building on GNU/kFreeBSD (mingw-cross-specific)
+Subject: [PATCH 08/13] fix building on GNU/kFreeBSD (mingw-cross-specific)
 
 This patch has been taken from:
 
@@ -79970,7 +79970,7 @@ index cfe5eea..cefa719 100644
 From 65b8403ce58f8324517915717cfdaf700ab739cb Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 09/12] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 09/13] fix missing platform when building on GNU/kFreeBSD
  (mingw-cross-env specific)
 
 This patch is inspired by:
@@ -80002,7 +80002,7 @@ index 3a56cf6..d3ac872 100755
 From ab430c7079d00e65b6aadd20704d0e39c1c2ad9c Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 10/12] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 10/13] fix building on dragonfly (mingw-cross-env specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80030,7 +80030,7 @@ index d3ac872..ca7a2ea 100755
 From 1f2598b07cd835b75c824e111d0fceaff7cbb7a3 Mon Sep 17 00:00:00 2001
 From: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 Date: Wed, 16 Nov 2011 09:53:38 +0100
-Subject: [PATCH 11/12] Windows: Add gcc 4.6.
+Subject: [PATCH 11/13] Windows: Add gcc 4.6.
 
 - Add gcc 4.6 mkspec for > 4.4 (win32-g++-4.6)
 - Add detection of g++ version and 64bit to configure.
@@ -80479,7 +80479,7 @@ index 9bbd096..81c232a 100644
 From f36985c6115866b8e12e405e19a547f79adecd71 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 17 Nov 2011 00:57:12 +0100
-Subject: [PATCH 12/12] Windows: Add gcc 4.6 for cross building
+Subject: [PATCH 12/13] Windows: Add gcc 4.6 for cross building
 
     - Add gcc 4.6 cross mkspec for > 4.4 (win32-g++-4.6-cross)
 
@@ -80548,6 +80548,32 @@ index 0000000..f91d92d
 +****************************************************************************/
 +
 +#include "../../win32-g++-4.6/qplatformdefs.h"
+-- 
+1.7.7.3
+
+
+From 61330441561034630376bdb28a337c7b35090a5c Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Mon, 21 Nov 2011 08:56:19 +0100
+Subject: [PATCH 13/13] use "cp -R" instead of "cp -r" for *bsd compatibility
+
+---
+ mkspecs/unsupported/win32-g++-cross/qmake.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/mkspecs/unsupported/win32-g++-cross/qmake.conf b/mkspecs/unsupported/win32-g++-cross/qmake.conf
+index 0538e86..97a088c 100644
+--- a/mkspecs/unsupported/win32-g++-cross/qmake.conf
++++ b/mkspecs/unsupported/win32-g++-cross/qmake.conf
+@@ -79,7 +79,7 @@ QMAKE_SH		= bash
+ MINGW_IN_SHELL		= 1
+ QMAKE_DIR_SEP		= /
+ QMAKE_COPY		= cp
+-QMAKE_COPY_DIR		= cp -r
++QMAKE_COPY_DIR		= cp -R
+ QMAKE_MOVE		= mv
+ QMAKE_DEL_FILE		= rm -f
+ QMAKE_MKDIR		= mkdir -p
 -- 
 1.7.7.3
 
