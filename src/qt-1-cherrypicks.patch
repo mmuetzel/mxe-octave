@@ -79837,7 +79837,7 @@ index e1cc3ee..c692ca9 100644
 1.7.7.3
 
 
-From f2b7061ab718faa8a7178536443e0224af101296 Mon Sep 17 00:00:00 2001
+From 92b5e6b96f02f9a003ff3a17125cdf904e38336a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
 Subject: [PATCH 07/13] restore support for static linking of QtWebKit
@@ -79852,10 +79852,10 @@ Added INSTALLS and pkg-config for static jscore and webcore.
 Don't build Qt WebKit tests to avoid static linking problems.
 ---
  configure                                          |    6 ------
- .../JavaScriptCore/JavaScriptCore.pri              |   13 +++++++++++++
- src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   14 ++++++++++++++
+ .../Source/JavaScriptCore/JavaScriptCore.pri       |   12 ++++++++++++
+ src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   12 ++++++++++++
  src/3rdparty/webkit/Source/WebKit.pro              |    2 +-
- 4 files changed, 28 insertions(+), 7 deletions(-)
+ 4 files changed, 25 insertions(+), 7 deletions(-)
 
 diff --git a/configure b/configure
 index 25cc7df..3a56cf6 100755
@@ -79874,48 +79874,45 @@ index 25cc7df..3a56cf6 100755
  
  CFG_CONCURRENT="yes"
  if [ "$canBuildQtConcurrent" = "no" ]; then
-diff --git a/src/3rdparty/javascriptcore/JavaScriptCore/JavaScriptCore.pri b/src/3rdparty/javascriptcore/JavaScriptCore/JavaScriptCore.pri
-index b061321..4c3aa6c 100644
---- a/src/3rdparty/javascriptcore/JavaScriptCore/JavaScriptCore.pri
-+++ b/src/3rdparty/javascriptcore/JavaScriptCore/JavaScriptCore.pri
-@@ -233,3 +233,16 @@ SOURCES += \
-     SOURCES += wtf/TCSystemAlloc.cpp
+diff --git a/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri b/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
+index d8290cf..28080f9 100644
+--- a/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
++++ b/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
+@@ -109,3 +109,15 @@ defineTest(prependJavaScriptCoreLib) {
+     return(true)
  }
  
-+static:win32-g++* {
++static {
 +    # applications must link to static libjscore
 +    target.path = $$[QT_INSTALL_LIBS]
 +    INSTALLS += target
++
++    CONFIG += create_pc
++    QMAKE_PKGCONFIG_LIBDIR = $$[QT_INSTALL_LIBS]
++    QMAKE_PKGCONFIG_INCDIR = $$[QT_INSTALL_HEADERS]/$$TARGET
++    QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
++    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 +}
 +
-+win32-g++-* {
-+   CONFIG += create_pc
-+   QMAKE_PKGCONFIG_LIBDIR = $$[QT_INSTALL_LIBS]
-+   QMAKE_PKGCONFIG_INCDIR = $$[QT_INSTALL_HEADERS]/$$TARGET
-+   QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
-+   QMAKE_PKGCONFIG_DESTDIR = pkgconfig
-+}
 diff --git a/src/3rdparty/webkit/Source/WebCore/WebCore.pri b/src/3rdparty/webkit/Source/WebCore/WebCore.pri
-index d8ba8a6..15fafa7 100644
+index d8ba8a6..e9e6e7e 100644
 --- a/src/3rdparty/webkit/Source/WebCore/WebCore.pri
 +++ b/src/3rdparty/webkit/Source/WebCore/WebCore.pri
-@@ -365,3 +365,17 @@ defineTest(prependWebCoreLib) {
+@@ -365,3 +365,15 @@ defineTest(prependWebCoreLib) {
  
      return(true)
  }
 +
-+static:win32-g++* {
++static {
 +    # applications must link to static libwebcore
 +    target.path = $$[QT_INSTALL_LIBS]
 +    INSTALLS += target
-+}
 +
-+win32-g++-* {
-+   CONFIG += create_pc
-+   QMAKE_PKGCONFIG_LIBDIR = $$[QT_INSTALL_LIBS]
-+   QMAKE_PKGCONFIG_INCDIR = $$[QT_INSTALL_HEADERS]/$$TARGET
-+   QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
-+   QMAKE_PKGCONFIG_DESTDIR = pkgconfig
++    CONFIG += create_pc
++    QMAKE_PKGCONFIG_LIBDIR = $$[QT_INSTALL_LIBS]
++    QMAKE_PKGCONFIG_INCDIR = $$[QT_INSTALL_HEADERS]/$$TARGET
++    QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
++    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 +}
 diff --git a/src/3rdparty/webkit/Source/WebKit.pro b/src/3rdparty/webkit/Source/WebKit.pro
 index 9be0f4a..6744f58 100644
@@ -79934,7 +79931,7 @@ index 9be0f4a..6744f58 100644
 1.7.7.3
 
 
-From 1ccb57fd77c555afe5a3da5da12e345923e284e0 Mon Sep 17 00:00:00 2001
+From 96e72b847d40f0692f24e2763bdce29d9d29c307 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
 Subject: [PATCH 08/13] fix building on GNU/kFreeBSD (mingw-cross-specific)
@@ -79967,7 +79964,7 @@ index cfe5eea..cefa719 100644
 1.7.7.3
 
 
-From 65b8403ce58f8324517915717cfdaf700ab739cb Mon Sep 17 00:00:00 2001
+From db36a1fc4de5e1a6b1e6ec69fd46504604042d4c Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
 Subject: [PATCH 09/13] fix missing platform when building on GNU/kFreeBSD
@@ -79999,7 +79996,7 @@ index 3a56cf6..d3ac872 100755
 1.7.7.3
 
 
-From ab430c7079d00e65b6aadd20704d0e39c1c2ad9c Mon Sep 17 00:00:00 2001
+From e1a5e4f77ed8424bf1c0deade8a5cc23a3728f9b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
 Subject: [PATCH 10/13] fix building on dragonfly (mingw-cross-env specific)
@@ -80027,7 +80024,7 @@ index d3ac872..ca7a2ea 100755
 1.7.7.3
 
 
-From 1f2598b07cd835b75c824e111d0fceaff7cbb7a3 Mon Sep 17 00:00:00 2001
+From 19d9e0c54398e5f9e383e68d8808da04515015bc Mon Sep 17 00:00:00 2001
 From: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 Date: Wed, 16 Nov 2011 09:53:38 +0100
 Subject: [PATCH 11/13] Windows: Add gcc 4.6.
@@ -80476,7 +80473,7 @@ index 9bbd096..81c232a 100644
 1.7.7.3
 
 
-From f36985c6115866b8e12e405e19a547f79adecd71 Mon Sep 17 00:00:00 2001
+From 5cdc968d2a01c02de4161efaf6b32592b286a016 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 17 Nov 2011 00:57:12 +0100
 Subject: [PATCH 12/13] Windows: Add gcc 4.6 for cross building
@@ -80552,7 +80549,7 @@ index 0000000..f91d92d
 1.7.7.3
 
 
-From 61330441561034630376bdb28a337c7b35090a5c Mon Sep 17 00:00:00 2001
+From 05de81b435bd72875580e87a336a025a544d8bf6 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 21 Nov 2011 08:56:19 +0100
 Subject: [PATCH 13/13] use "cp -R" instead of "cp -r" for *bsd compatibility
