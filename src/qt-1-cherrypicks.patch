@@ -5,10 +5,10 @@ Commits backported (cherry-picked) from upstream branch or merge requests.
 http://qt.gitorious.org/qt
 Also contains mingw-cross-env specific fixes.
 
-From 9ae9b4c7f69482cfb67594044da8444bc70c6f97 Mon Sep 17 00:00:00 2001
+From f0444553928adaca520af24d76b3f8c328b7ed39 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 01/13] do not detect or configure iconv for Windows
+Subject: [PATCH 01/12] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -20,10 +20,10 @@ Configure.exe already disables iconv for Windows.
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/configure b/configure
-index b590507..25cc7df 100755
+index 5a5ef1d..e113544 100755
 --- a/configure
 +++ b/configure
-@@ -5557,7 +5557,7 @@ fi
+@@ -5600,7 +5600,7 @@ fi
  
  # auto-detect iconv(3) support
  if [ "$CFG_ICONV" != "no" ]; then
@@ -36,10 +36,10 @@ index b590507..25cc7df 100755
 1.7.7.3
 
 
-From 5146d425f67575913f4d988da5cf1daff722e9e7 Mon Sep 17 00:00:00 2001
+From 986dc8a13a0ac35082af274427f25f11cafbfe76 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 22:45:15 +0200
-Subject: [PATCH 02/13] add missing multiple inclusion guard
+Subject: [PATCH 02/12] add missing multiple inclusion guard
 
 ---
  src/plugins/codecs/kr/cp949codetbl.h |    5 +++++
@@ -69,10 +69,10 @@ index f54db8d..8b254e0 100644
 1.7.7.3
 
 
-From d19058417259a1f18c0f0ddcc7c7fad120a88f12 Mon Sep 17 00:00:00 2001
+From 520a67aa51bb02aad5e7f96cff3b36442ab33102 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 03/13] load plugin codecs regardless of iconv
+Subject: [PATCH 03/12] load plugin codecs regardless of iconv
 
 Otherwise Windows applications linking to static Qt will have to
 import the static plugins to avoid linking failure even if they
@@ -143,10 +143,10 @@ index dd06a2a..dbe6f6eb 100644
 1.7.7.3
 
 
-From 1572988d2a3728505d9bacd204a1e7132d5f7a7d Mon Sep 17 00:00:00 2001
+From 4c148f06f97bf8596b9c4a869105c7214fb245bb Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:40:11 +0200
-Subject: [PATCH 04/13] move plugin text codecs to QtCore
+Subject: [PATCH 04/12] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -39956,7 +39956,7 @@ index f9ecf92..ab3e20b 100644
  #endif
  #ifndef QT_NO_TRANSLATION_UTF8
 diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
-index 18ae261..38ee4aa 100644
+index 5aefdfe..15664b6 100644
 --- a/src/corelib/global/qconfig-nacl.h
 +++ b/src/corelib/global/qconfig-nacl.h
 @@ -128,9 +128,6 @@
@@ -39984,10 +39984,10 @@ index 4f34169..963df87 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index e0b8a8f..61510eb 100644
+index 64d5f08..2b35940 100644
 --- a/src/corelib/global/qfeatures.h
 +++ b/src/corelib/global/qfeatures.h
-@@ -646,11 +646,6 @@
+@@ -643,11 +643,6 @@
  #define QT_NO_TABDIALOG
  #endif
  
@@ -79781,10 +79781,10 @@ index 94ce675..c4af49b 100644
 1.7.7.3
 
 
-From 72750d704101c1f3a97d1efa2135ea0ac76a9924 Mon Sep 17 00:00:00 2001
+From 99a792b0373066137fe863db80a3c004a9d8789c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 05/13] use pkg-config for libmng (mingw-cross-env specific)
+Subject: [PATCH 05/12] use pkg-config for libmng (mingw-cross-env specific)
 
 ---
  src/gui/image/qmnghandler.pri |    4 +++-
@@ -79809,10 +79809,10 @@ index ffb98de..6aab68f 100644
 1.7.7.3
 
 
-From 9fa7811cb907435a72b0f0719ca585e36e19dec0 Mon Sep 17 00:00:00 2001
+From b9648ff155a885b2ca615c3f606e0cfc2704d54d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 06/13] use pkg-config for libtiff (mingw-cross-env specific)
+Subject: [PATCH 06/12] use pkg-config for libtiff (mingw-cross-env specific)
 
 ---
  src/gui/image/qtiffhandler.pri |    4 +++-
@@ -79837,10 +79837,10 @@ index e1cc3ee..c692ca9 100644
 1.7.7.3
 
 
-From 92b5e6b96f02f9a003ff3a17125cdf904e38336a Mon Sep 17 00:00:00 2001
+From 806e5773758bffd7a00af772994eb2b86339659d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 07/13] restore support for static linking of QtWebKit
+Subject: [PATCH 07/12] restore support for static linking of QtWebKit
  (mingw-cross-env specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -79858,10 +79858,10 @@ Don't build Qt WebKit tests to avoid static linking problems.
  4 files changed, 25 insertions(+), 7 deletions(-)
 
 diff --git a/configure b/configure
-index 25cc7df..3a56cf6 100755
+index e113544..222308e 100755
 --- a/configure
 +++ b/configure
-@@ -7546,12 +7546,6 @@ if [ "$CFG_GUI" = "no" ]; then
+@@ -7599,12 +7599,6 @@ if [ "$CFG_GUI" = "no" ]; then
      canBuildWebKit="no"
  fi
  
@@ -79931,10 +79931,10 @@ index 9be0f4a..6744f58 100644
 1.7.7.3
 
 
-From 96e72b847d40f0692f24e2763bdce29d9d29c307 Mon Sep 17 00:00:00 2001
+From ede1b5a5efeb7e62bb5472b657dde190bb1a8f02 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 08/13] fix building on GNU/kFreeBSD (mingw-cross-specific)
+Subject: [PATCH 08/12] fix building on GNU/kFreeBSD (mingw-cross-specific)
 
 This patch has been taken from:
 
@@ -79948,7 +79948,7 @@ Last-Update: 2010-10-06
  1 files changed, 2 insertions(+), 0 deletions(-)
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
-index cfe5eea..cefa719 100644
+index e8c611b..c824d66 100644
 --- a/src/corelib/global/qglobal.h
 +++ b/src/corelib/global/qglobal.h
 @@ -226,6 +226,8 @@ namespace QT_NAMESPACE {}
@@ -79964,10 +79964,10 @@ index cfe5eea..cefa719 100644
 1.7.7.3
 
 
-From db36a1fc4de5e1a6b1e6ec69fd46504604042d4c Mon Sep 17 00:00:00 2001
+From 03e9b78df4cccf7e8d804e9e661f85afc89cc6cb Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 09/13] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 09/12] fix missing platform when building on GNU/kFreeBSD
  (mingw-cross-env specific)
 
 This patch is inspired by:
@@ -79979,10 +79979,10 @@ For the time being, glibc-g++ is simply a copy of linux-g++.
  1 files changed, 3 insertions(+), 0 deletions(-)
 
 diff --git a/configure b/configure
-index 3a56cf6..d3ac872 100755
+index 222308e..7b52179 100755
 --- a/configure
 +++ b/configure
-@@ -2747,6 +2747,9 @@ if [ -z "$PLATFORM" ]; then
+@@ -2749,6 +2749,9 @@ if [ -z "$PLATFORM" ]; then
       GNU:*)
          PLATFORM=hurd-g++
          ;;
@@ -79996,10 +79996,10 @@ index 3a56cf6..d3ac872 100755
 1.7.7.3
 
 
-From e1a5e4f77ed8424bf1c0deade8a5cc23a3728f9b Mon Sep 17 00:00:00 2001
+From 9f10ee186e28c8f3c22af911c56b740f2821a425 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 10/13] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 10/12] fix building on dragonfly (mingw-cross-env specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80008,10 +80008,10 @@ http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/configure b/configure
-index d3ac872..ca7a2ea 100755
+index 7b52179..0914ca5 100755
 --- a/configure
 +++ b/configure
-@@ -2759,7 +2759,7 @@ if [ -z "$PLATFORM" ]; then
+@@ -2761,7 +2761,7 @@ if [ -z "$PLATFORM" ]; then
       ULTRIX:*)
          PLATFORM=ultrix-g++
          ;;
@@ -80024,459 +80024,10 @@ index d3ac872..ca7a2ea 100755
 1.7.7.3
 
 
-From 19d9e0c54398e5f9e383e68d8808da04515015bc Mon Sep 17 00:00:00 2001
-From: Friedemann Kleint <Friedemann.Kleint@nokia.com>
-Date: Wed, 16 Nov 2011 09:53:38 +0100
-Subject: [PATCH 11/13] Windows: Add gcc 4.6.
-
-- Add gcc 4.6 mkspec for > 4.4 (win32-g++-4.6)
-- Add detection of g++ version and 64bit to configure.
-
-Reviewed-by: mariusSO
-(cherry picked from commit d4150975af620e2889cc58bd476bac6b4d101db3)
----
- mkspecs/win32-g++-4.6/qmake.conf      |    3 +
- mkspecs/win32-g++-4.6/qplatformdefs.h |  159 +++++++++++++++++++++++++++++++++
- qmake/Makefile.win32-g++              |    2 +-
- src/corelib/tools/qlocale_tools.cpp   |    7 ++
- tools/configure/configureapp.cpp      |   31 ++++---
- tools/configure/environment.cpp       |   86 ++++++++++++++++++-
- tools/configure/environment.h         |    3 +
- 7 files changed, 275 insertions(+), 16 deletions(-)
- create mode 100644 mkspecs/win32-g++-4.6/qmake.conf
- create mode 100644 mkspecs/win32-g++-4.6/qplatformdefs.h
-
-diff --git a/mkspecs/win32-g++-4.6/qmake.conf b/mkspecs/win32-g++-4.6/qmake.conf
-new file mode 100644
-index 0000000..2c94587
---- /dev/null
-+++ b/mkspecs/win32-g++-4.6/qmake.conf
-@@ -0,0 +1,3 @@
-+include(../win32-g++/qmake.conf)
-+QMAKE_CFLAGS *= -fno-keep-inline-dllexport
-+QMAKE_CXXFLAGS *= -fno-keep-inline-dllexport
-diff --git a/mkspecs/win32-g++-4.6/qplatformdefs.h b/mkspecs/win32-g++-4.6/qplatformdefs.h
-new file mode 100644
-index 0000000..630a6a4
---- /dev/null
-+++ b/mkspecs/win32-g++-4.6/qplatformdefs.h
-@@ -0,0 +1,159 @@
-+/****************************************************************************
-+**
-+** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
-+**
-+** This file is part of the qmake spec of the Qt Toolkit.
-+**
-+** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-+**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
-+** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-+**
-+** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
-+**
-+** $QT_END_LICENSE$
-+**
-+****************************************************************************/
-+
-+#ifndef QPLATFORMDEFS_H
-+#define QPLATFORMDEFS_H
-+
-+#ifdef UNICODE
-+#ifndef _UNICODE
-+#define _UNICODE
-+#endif
-+#endif
-+
-+// Get Qt defines/settings
-+
-+#include "qglobal.h"
-+
-+#include <tchar.h>
-+#include <io.h>
-+#include <direct.h>
-+#include <stdio.h>
-+#include <fcntl.h>
-+#include <errno.h>
-+#include <sys/stat.h>
-+#include <stdlib.h>
-+#include <qt_windows.h>
-+#include <limits.h>
-+
-+#if !defined(_WIN32_WINNT) || (_WIN32_WINNT-0 < 0x0500)
-+typedef enum {
-+    NameUnknown		  = 0,
-+    NameFullyQualifiedDN  = 1,
-+    NameSamCompatible	  = 2,
-+    NameDisplay		  = 3,
-+    NameUniqueId	  = 6,
-+    NameCanonical	  = 7,
-+    NameUserPrincipal	  = 8,
-+    NameCanonicalEx	  = 9,
-+    NameServicePrincipal  = 10,
-+    NameDnsDomain	  = 12
-+} EXTENDED_NAME_FORMAT, *PEXTENDED_NAME_FORMAT;
-+#endif
-+
-+#define Q_FS_FAT
-+#ifdef QT_LARGEFILE_SUPPORT
-+#define QT_STATBUF		struct _stati64		// non-ANSI defs
-+#define QT_STATBUF4TSTAT	struct _stati64		// non-ANSI defs
-+#define QT_STAT			::_stati64
-+#define QT_FSTAT		::_fstati64
-+#else
-+#define QT_STATBUF		struct _stat		// non-ANSI defs
-+#define QT_STATBUF4TSTAT	struct _stat		// non-ANSI defs
-+#define QT_STAT			::_stat
-+#define QT_FSTAT		::_fstat
-+#endif
-+#define QT_STAT_REG		_S_IFREG
-+#define QT_STAT_DIR		_S_IFDIR
-+#define QT_STAT_MASK		_S_IFMT
-+#if defined(_S_IFLNK)
-+#  define QT_STAT_LNK		_S_IFLNK
-+#endif
-+#define QT_FILENO		_fileno
-+#define QT_OPEN			::_open
-+#define QT_CLOSE		::_close
-+#ifdef QT_LARGEFILE_SUPPORT
-+#define QT_LSEEK		::_lseeki64
-+#ifndef UNICODE
-+#define QT_TSTAT		::_stati64
-+#else
-+#define QT_TSTAT		::_wstati64
-+#endif
-+#else
-+#define QT_LSEEK		::_lseek
-+#ifndef UNICODE
-+#define QT_TSTAT		::_stat
-+#else
-+#define QT_TSTAT		::_wstat
-+#endif
-+#endif
-+#define QT_READ			::_read
-+#define QT_WRITE		::_write
-+#define QT_ACCESS		::_access
-+#define QT_GETCWD		::_getcwd
-+#define QT_CHDIR		::_chdir
-+#define QT_MKDIR		::_mkdir
-+#define QT_RMDIR		::_rmdir
-+#define QT_OPEN_LARGEFILE       0
-+#define QT_OPEN_RDONLY		_O_RDONLY
-+#define QT_OPEN_WRONLY		_O_WRONLY
-+#define QT_OPEN_RDWR		_O_RDWR
-+#define QT_OPEN_CREAT		_O_CREAT
-+#define QT_OPEN_TRUNC		_O_TRUNC
-+#define QT_OPEN_APPEND		_O_APPEND
-+#if defined(O_TEXT)
-+# define QT_OPEN_TEXT		_O_TEXT
-+# define QT_OPEN_BINARY		_O_BINARY
-+#endif
-+
-+#include "../common/c89/qplatformdefs.h"
-+
-+#ifdef QT_LARGEFILE_SUPPORT
-+#undef QT_FSEEK
-+#undef QT_FTELL
-+#undef QT_OFF_T
-+
-+#define QT_FSEEK                ::fseeko64
-+#define QT_FTELL                ::ftello64
-+#define QT_OFF_T                off64_t
-+#endif
-+
-+#define QT_SIGNAL_ARGS		int
-+
-+#define QT_VSNPRINTF		::_vsnprintf
-+#define QT_SNPRINTF		::_snprintf
-+
-+# define F_OK	0
-+# define X_OK	1
-+# define W_OK	2
-+# define R_OK	4
-+
-+
-+#endif // QPLATFORMDEFS_H
-diff --git a/qmake/Makefile.win32-g++ b/qmake/Makefile.win32-g++
-index d40dc29..5fa1e5e 100644
---- a/qmake/Makefile.win32-g++
-+++ b/qmake/Makefile.win32-g++
-@@ -27,7 +27,7 @@ CFLAGS	    =	-c -o$@ -O \
- 		-DQT_BUILD_QMAKE -DQT_NO_THREAD -DQT_NO_QOBJECT -DQT_NO_GEOM_VARIANT -DQT_NO_DATASTREAM \
- 		-DQT_BOOTSTRAPPED -DQLIBRARYINFO_EPOCROOT
- CXXFLAGS    =   $(CFLAGS)
--LFLAGS	    = -static-libgcc -static-libstdc++ -s
-+LFLAGS      = -static-libgcc -s
- LIBS	    = -lole32 -luuid -ladvapi32 -lkernel32
- LINKQMAKE   =	g++ $(LFLAGS) -o qmake.exe $(OBJS) $(QTOBJS) $(LIBS)
- ADDCLEAN    =
-diff --git a/src/corelib/tools/qlocale_tools.cpp b/src/corelib/tools/qlocale_tools.cpp
-index df31bf9..750379c 100644
---- a/src/corelib/tools/qlocale_tools.cpp
-+++ b/src/corelib/tools/qlocale_tools.cpp
-@@ -2253,6 +2253,13 @@ static int quorem(Bigint *b, Bigint *S)
-  *           calculation.
-  */
- 
-+#if defined(Q_OS_WIN) && defined (Q_CC_GNU) && !defined(_clear87) // See QTBUG-7576
-+extern "C" {
-+__attribute__ ((dllimport)) unsigned int __cdecl __MINGW_NOTHROW _control87 (unsigned int unNew, unsigned int unMask);
-+__attribute__ ((dllimport)) unsigned int __cdecl __MINGW_NOTHROW _clearfp (void); /* Clear the FPU status word */
-+}
-+#  define _clear87 _clearfp
-+#endif
- 
- /* This actually sometimes returns a pointer to a string literal
-    cast to a char*. Do NOT try to modify the return value. */
-diff --git a/tools/configure/configureapp.cpp b/tools/configure/configureapp.cpp
-index e6d8526..60996e3 100644
---- a/tools/configure/configureapp.cpp
-+++ b/tools/configure/configureapp.cpp
-@@ -1263,17 +1263,18 @@ void Configure::parseCmdLine()
-         }
-         cout << "See the README file for a list of supported operating systems and compilers." << endl;
-     } else {
--        if (dictionary[ "QMAKESPEC" ].endsWith("-icc") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc.net") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc2002") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc2003") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc2005") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc2008") ||
--            dictionary[ "QMAKESPEC" ].endsWith("-msvc2010")) {
-+        const QString qmakeSpec = dictionary[ "QMAKESPEC" ];
-+        if (qmakeSpec.endsWith("-icc") ||
-+            qmakeSpec.endsWith("-msvc") ||
-+            qmakeSpec.endsWith("-msvc.net") ||
-+            qmakeSpec.endsWith("-msvc2002") ||
-+            qmakeSpec.endsWith("-msvc2003") ||
-+            qmakeSpec.endsWith("-msvc2005") ||
-+            qmakeSpec.endsWith("-msvc2008") ||
-+            qmakeSpec.endsWith("-msvc2010")) {
-             if (dictionary[ "MAKE" ].isEmpty()) dictionary[ "MAKE" ] = "nmake";
-             dictionary[ "QMAKEMAKEFILE" ] = "Makefile.win32";
--        } else if (dictionary[ "QMAKESPEC" ] == QString("win32-g++")) {
-+        } else if (qmakeSpec.contains("win32-g++")) {
-             if (dictionary[ "MAKE" ].isEmpty()) dictionary[ "MAKE" ] = "mingw32-make";
-             if (Environment::detectExecutable("sh.exe")) {
-                 dictionary[ "QMAKEMAKEFILE" ] = "Makefile.win32-g++-sh";
-@@ -1329,7 +1330,7 @@ void Configure::parseCmdLine()
-         }
-     }
- 
--    useUnixSeparators = (dictionary["QMAKESPEC"] == "win32-g++");
-+    useUnixSeparators = dictionary["QMAKESPEC"].contains("win32-g++");
- 
-     // Allow tests for private classes to be compiled against internal builds
-     if (dictionary["BUILDDEV"] == "yes")
-@@ -2201,7 +2202,9 @@ bool Configure::checkAvailability(const QString &part)
-     } else if (part == "MULTIMEDIA" || part == "SCRIPT" || part == "SCRIPTTOOLS" || part == "DECLARATIVE") {
-         available = true;
-     } else if (part == "WEBKIT") {
--        available = (dictionary.value("QMAKESPEC") == "win32-msvc2005") || (dictionary.value("QMAKESPEC") == "win32-msvc2008") || (dictionary.value("QMAKESPEC") == "win32-msvc2010") || (dictionary.value("QMAKESPEC") == "win32-g++");
-+        const QString qmakeSpec = dictionary.value("QMAKESPEC");
-+        available = qmakeSpec == "win32-msvc2005" || qmakeSpec == "win32-msvc2008" ||
-+                qmakeSpec == "win32-msvc2010" || qmakeSpec.startsWith("win32-g++");
-         if (dictionary[ "SHARED" ] == "no") {
-             cout << endl << "WARNING: Using static linking will disable the WebKit module." << endl
-                  << endl;
-@@ -2376,7 +2379,7 @@ bool Configure::verifyConfiguration()
- 
-         dictionary["SQL_SQLITE_LIB"] = "qt"; // Set to Qt's bundled lib an continue
-     }
--    if (dictionary["QMAKESPEC"].endsWith("-g++")
-+    if (dictionary["QMAKESPEC"].contains("-g++")
-         && dictionary["SQL_OCI"] != "no") {
-         cout << "WARNING: Qt does not support compiling the Oracle database driver with" << endl
-              << "MinGW, due to lack of such support from Oracle. Consider disabling the" << endl
-@@ -2456,7 +2459,7 @@ void Configure::generateBuildKey()
-     QString spec = dictionary["QMAKESPEC"];
- 
-     QString compiler = "msvc"; // ICC is compatible
--    if (spec.endsWith("-g++"))
-+    if (spec.contains("-g++"))
-         compiler = "mingw";
-     else if (spec.endsWith("-borland"))
-         compiler = "borland";
-@@ -2874,7 +2877,7 @@ void Configure::generateOutputVars()
-     if (!qmakeStylePlugins.isEmpty())
-         qmakeVars += QString("style-plugins  += ") + qmakeStylePlugins.join(" ");
- 
--    if (dictionary["QMAKESPEC"].endsWith("-g++")) {
-+    if (dictionary["QMAKESPEC"].contains("-g++")) {
-         QString includepath = qgetenv("INCLUDE");
-         bool hasSh = Environment::detectExecutable("sh.exe");
-         QChar separator = (!includepath.contains(":\\") && hasSh ? QChar(':') : QChar(';'));
-diff --git a/tools/configure/environment.cpp b/tools/configure/environment.cpp
-index f9b3e85..78e1d87 100644
---- a/tools/configure/environment.cpp
-+++ b/tools/configure/environment.cpp
-@@ -120,6 +120,9 @@ QString Environment::detectQMakeSpec()
-         spec = "win32-icc";
-         break;
-     case CC_MINGW:
-+        spec = "win32-g++-4.6";
-+        break;
-+    case CC_MINGW_44:
-         spec = "win32-g++";
-         break;
-     case CC_BORLAND:
-@@ -173,6 +176,12 @@ Compiler Environment::detectCompiler()
-             if (executable.length() && Environment::detectExecutable(executable)) {
-                 ++installed;
-                 detectedCompiler = compiler_info[i].compiler;
-+                if (detectedCompiler == CC_MINGW) {
-+                    bool is64bit;
-+                    const int version = detectGPlusPlusVersion(executable, &is64bit);
-+                    if (version < 0x040600)
-+                        detectedCompiler = CC_MINGW_44;
-+                }
-                 break;
-             }
-         }
-@@ -184,7 +193,7 @@ Compiler Environment::detectCompiler()
-     }
-     return detectedCompiler;
- #endif
--};
-+}
- 
- /*!
-     Returns true if the \a executable could be loaded, else false.
-@@ -214,6 +223,81 @@ bool Environment::detectExecutable(const QString &executable)
- }
- 
- /*!
-+  Determine the g++ version.
-+*/
-+
-+int Environment::detectGPlusPlusVersion(const QString &executable,
-+                                        bool *is64bit)
-+{
-+    QRegExp regexp(QLatin1String("[gG]\\+\\+[\\.exEX]{0,4} ([^\\s]+) (\\d+)\\.(\\d+)\\.(\\d+)"));
-+    QString stdOut = readProcessStandardOutput(executable + QLatin1String(" --version"));
-+    if (regexp.indexIn(stdOut) != -1) {
-+        const QString compiler = regexp.cap(1);
-+        // Check for "tdm64-1"
-+        *is64bit = compiler.contains(QLatin1String("64"));
-+        const int major = regexp.cap(2).toInt();
-+        const int minor = regexp.cap(3).toInt();
-+        const int patch = regexp.cap(4).toInt();
-+        return (major << 16) + (minor << 8) + patch;
-+    }
-+    *is64bit = false;
-+    return 0;
-+}
-+
-+/*!
-+    Run a process and return its standard output.
-+*/
-+
-+QString Environment::readProcessStandardOutput(const QString &commandLine)
-+{
-+    QString stdOut;
-+    TCHAR tempFileName[MAX_PATH];
-+    TCHAR tempPathBuffer[MAX_PATH];
-+    if (!GetTempPath(MAX_PATH, tempPathBuffer)
-+        || !GetTempFileName(tempPathBuffer, TEXT("qtconfigure"), 0, tempFileName))
-+        return stdOut;
-+
-+    STARTUPINFO startInfo;
-+    memset(&startInfo, 0, sizeof(startInfo));
-+    startInfo.cb = sizeof(startInfo);
-+    startInfo.dwFlags |= STARTF_USESTDHANDLES;
-+
-+    SECURITY_ATTRIBUTES securityAttributes;
-+    securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
-+    securityAttributes.bInheritHandle = TRUE;
-+    securityAttributes.lpSecurityDescriptor = NULL;
-+
-+    startInfo.hStdOutput = CreateFile(tempFileName, GENERIC_WRITE, 0, &securityAttributes, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-+    if (startInfo.hStdOutput == INVALID_HANDLE_VALUE)
-+        return stdOut;
-+
-+    PROCESS_INFORMATION procInfo;
-+    memset(&procInfo, 0, sizeof(procInfo));
-+
-+    if (!CreateProcess(0, (wchar_t*)commandLine.utf16(),
-+                       0, 0, TRUE,
-+                       0,
-+                       0, 0, &startInfo, &procInfo)) {
-+        CloseHandle(startInfo.hStdOutput);
-+        DeleteFile(tempFileName);
-+        return stdOut;
-+    }
-+
-+    WaitForSingleObject(procInfo.hProcess, INFINITE);
-+    CloseHandle(procInfo.hThread);
-+    CloseHandle(procInfo.hProcess);
-+    CloseHandle(startInfo.hStdOutput);
-+    QFile file(QString::fromWCharArray(tempFileName));
-+
-+    if (file.open(QIODevice::Text| QIODevice::ReadOnly)) {
-+        stdOut = QString::fromLocal8Bit(file.readAll());
-+        file.close();
-+    }
-+    DeleteFile(tempFileName);
-+    return stdOut;
-+}
-+
-+/*!
-     Creates a commandling from \a program and it \a arguments,
-     escaping characters that needs it.
- */
-diff --git a/tools/configure/environment.h b/tools/configure/environment.h
-index 9bbd096..81c232a 100644
---- a/tools/configure/environment.h
-+++ b/tools/configure/environment.h
-@@ -49,6 +49,7 @@ enum Compiler {
-     CC_UNKNOWN = 0,
-     CC_BORLAND = 0x01,
-     CC_MINGW   = 0x02,
-+    CC_MINGW_44 = 0x21,
-     CC_INTEL   = 0x03,
-     CC_NET2003 = 0x71,
-     CC_NET2005 = 0x80,
-@@ -63,6 +64,8 @@ public:
-     static Compiler detectCompiler();
-     static QString detectQMakeSpec();
-     static bool detectExecutable(const QString &executable);
-+    static int detectGPlusPlusVersion(const QString &executable, bool *is64bit);
-+    static QString readProcessStandardOutput(const QString &commandLine);
- 
-     static int execute(QStringList arguments, const QStringList &additionalEnv, const QStringList &removeEnv);
-     static bool cpdir(const QString &srcDir,
--- 
-1.7.7.3
-
-
-From 5cdc968d2a01c02de4161efaf6b32592b286a016 Mon Sep 17 00:00:00 2001
+From a78a6f534ae1db783ba444a7f33170cb3c5a43ca Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 17 Nov 2011 00:57:12 +0100
-Subject: [PATCH 12/13] Windows: Add gcc 4.6 for cross building
+Subject: [PATCH 11/12] Windows: Add gcc 4.6 for cross building
 
     - Add gcc 4.6 cross mkspec for > 4.4 (win32-g++-4.6-cross)
 
@@ -80549,10 +80100,10 @@ index 0000000..f91d92d
 1.7.7.3
 
 
-From 05de81b435bd72875580e87a336a025a544d8bf6 Mon Sep 17 00:00:00 2001
+From 055bc5250e7f522a3c390c1c7460e4b654714a5e Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 21 Nov 2011 08:56:19 +0100
-Subject: [PATCH 13/13] use "cp -R" instead of "cp -r" for *bsd compatibility
+Subject: [PATCH 12/12] use "cp -R" instead of "cp -r" for *bsd compatibility
 
 ---
  mkspecs/unsupported/win32-g++-cross/qmake.conf |    2 +-
