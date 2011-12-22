@@ -33,7 +33,7 @@ index 5a5ef1d..e113544 100755
      elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
          CFG_ICONV=yes
 -- 
-1.7.7.3
+1.7.8
 
 
 From 986dc8a13a0ac35082af274427f25f11cafbfe76 Mon Sep 17 00:00:00 2001
@@ -66,7 +66,7 @@ index f54db8d..8b254e0 100644
 +
 +#endif // CP494CODETBL_H
 -- 
-1.7.7.3
+1.7.8
 
 
 From 520a67aa51bb02aad5e7f96cff3b36442ab33102 Mon Sep 17 00:00:00 2001
@@ -140,7 +140,7 @@ index dd06a2a..dbe6f6eb 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.7.7.3
+1.7.8
 
 
 From 4c148f06f97bf8596b9c4a869105c7214fb245bb Mon Sep 17 00:00:00 2001
@@ -79778,7 +79778,7 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.7.7.3
+1.7.8
 
 
 From 99a792b0373066137fe863db80a3c004a9d8789c Mon Sep 17 00:00:00 2001
@@ -79806,20 +79806,21 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.7.7.3
+1.7.8
 
 
-From b9648ff155a885b2ca615c3f606e0cfc2704d54d Mon Sep 17 00:00:00 2001
+From bbbe5893c7a2e4a64c11beb4676b10a90f5e18ff Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 06/12] use pkg-config for libtiff (mingw-cross-env specific)
+Subject: [PATCH 06/12] use pkg-config for libtiff-4 (mingw-cross-env
+ specific)
 
 ---
  src/gui/image/qtiffhandler.pri |    4 +++-
  1 files changed, 3 insertions(+), 1 deletions(-)
 
 diff --git a/src/gui/image/qtiffhandler.pri b/src/gui/image/qtiffhandler.pri
-index e1cc3ee..c692ca9 100644
+index e1cc3ee..71cbab1 100644
 --- a/src/gui/image/qtiffhandler.pri
 +++ b/src/gui/image/qtiffhandler.pri
 @@ -3,7 +3,9 @@ INCLUDEPATH *= $$PWD
@@ -79828,16 +79829,16 @@ index e1cc3ee..c692ca9 100644
  contains(QT_CONFIG, system-tiff) {
 -        if(unix|win32-g++*):LIBS += -ltiff
 +        CONFIG += link_pkgconfig
-+        PKGCONFIG += libtiff
++        PKGCONFIG += libtiff-4
 +        if(unix|win32-g++*):LIBS *= -ltiff
          else:win32:         LIBS += libtiff.lib
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.7.7.3
+1.7.8
 
 
-From 806e5773758bffd7a00af772994eb2b86339659d Mon Sep 17 00:00:00 2001
+From 01b98c48f31e616cf29593d08a843300e812a496 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
 Subject: [PATCH 07/12] restore support for static linking of QtWebKit
@@ -79928,10 +79929,10 @@ index 9be0f4a..6744f58 100644
  build-qtscript {
      SUBDIRS += \
 -- 
-1.7.7.3
+1.7.8
 
 
-From ede1b5a5efeb7e62bb5472b657dde190bb1a8f02 Mon Sep 17 00:00:00 2001
+From 9705fb3b6c79b5ce4e4933b839a04ee1d9053048 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
 Subject: [PATCH 08/12] fix building on GNU/kFreeBSD (mingw-cross-specific)
@@ -79961,10 +79962,10 @@ index e8c611b..c824d66 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.7.7.3
+1.7.8
 
 
-From 03e9b78df4cccf7e8d804e9e661f85afc89cc6cb Mon Sep 17 00:00:00 2001
+From eb0ae6c2504dea9e1b3e4df3b1f420d8e78d8b2f Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
 Subject: [PATCH 09/12] fix missing platform when building on GNU/kFreeBSD
@@ -79993,10 +79994,10 @@ index 222308e..7b52179 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.7.7.3
+1.7.8
 
 
-From 9f10ee186e28c8f3c22af911c56b740f2821a425 Mon Sep 17 00:00:00 2001
+From 00f4ef12c2507c56bbf87df0250fc77c34a4427b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
 Subject: [PATCH 10/12] fix building on dragonfly (mingw-cross-env specific)
@@ -80021,10 +80022,10 @@ index 7b52179..0914ca5 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.7.7.3
+1.7.8
 
 
-From a78a6f534ae1db783ba444a7f33170cb3c5a43ca Mon Sep 17 00:00:00 2001
+From 15ed59fa6a060df54b0a9e59223f1c567af6d30e Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 17 Nov 2011 00:57:12 +0100
 Subject: [PATCH 11/12] Windows: Add gcc 4.6 for cross building
@@ -80097,10 +80098,10 @@ index 0000000..f91d92d
 +
 +#include "../../win32-g++-4.6/qplatformdefs.h"
 -- 
-1.7.7.3
+1.7.8
 
 
-From 055bc5250e7f522a3c390c1c7460e4b654714a5e Mon Sep 17 00:00:00 2001
+From 0017467dec96bbe6596fb865586ddd810598129c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 21 Nov 2011 08:56:19 +0100
 Subject: [PATCH 12/12] use "cp -R" instead of "cp -r" for *bsd compatibility
@@ -80123,5 +80124,5 @@ index 0538e86..97a088c 100644
  QMAKE_DEL_FILE		= rm -f
  QMAKE_MKDIR		= mkdir -p
 -- 
-1.7.7.3
+1.7.8
 
