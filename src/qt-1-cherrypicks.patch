@@ -5,42 +5,14 @@ Commits backported (cherry-picked) from upstream branch or merge requests.
 http://qt.gitorious.org/qt
 Also contains mingw-cross-env specific fixes.
 
-From f0444553928adaca520af24d76b3f8c328b7ed39 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 01/12] do not detect or configure iconv for Windows
-
-Qt doesn't use iconv on Windows, but configuring it will appear to
-work and the build will complete. The result is that character
-set conversions do not work.
-
-Configure.exe already disables iconv for Windows.
----
- configure |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/configure b/configure
-index 5a5ef1d..e113544 100755
---- a/configure
-+++ b/configure
-@@ -5600,7 +5600,7 @@ fi
- 
- # auto-detect iconv(3) support
- if [ "$CFG_ICONV" != "no" ]; then
--    if [ "$PLATFORM_QWS" = "yes" -o "$PLATFORM_QPA" = "yes" ]; then
-+    if [ "$PLATFORM_QWS" = "yes" -o "$PLATFORM_QPA" = "yes" -o "$XPLATFORM_MINGW" = "yes" ]; then
- 	CFG_ICONV=no
-     elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
-         CFG_ICONV=yes
--- 
-1.7.8
-
-
-From 986dc8a13a0ac35082af274427f25f11cafbfe76 Mon Sep 17 00:00:00 2001
+From a140e010a213e993f8edf379a7d42c32bc61a672 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 22:45:15 +0200
-Subject: [PATCH 02/12] add missing multiple inclusion guard
+Subject: [PATCH 01/18] add missing multiple inclusion guard
 
+Change-Id: I82e9d1ddfc1a46bf47b8948dce800dcbcc1a0305
+Reviewed-by: hjk <qthjk@ovi.com>
+(cherry picked from commit cd374b794eea65013b50cc60de3591f84be4f0d8)
 ---
  src/plugins/codecs/kr/cp949codetbl.h |    5 +++++
  1 files changed, 5 insertions(+), 0 deletions(-)
@@ -66,24 +38,347 @@ index f54db8d..8b254e0 100644
 +
 +#endif // CP494CODETBL_H
 -- 
-1.7.8
+1.7.8.3
 
 
-From 520a67aa51bb02aad5e7f96cff3b36442ab33102 Mon Sep 17 00:00:00 2001
+From 34da8ee14183f8f9acc7d1b5e6fe61c353872a01 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Thu, 17 Nov 2011 00:57:12 +0100
+Subject: [PATCH 02/18] Windows: Add gcc 4.6 for cross building
+
+Based on commit 1f2598b which did this for win32-g++-4.6
+
+Change-Id: Icbeed880a6810f9e5a121d1b36ed194418b1633b
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+(cherry picked from commit 798a479a956954794e7afff38822fd0205fec859)
+---
+ mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf |    3 +
+ .../win32-g++-4.6-cross/qplatformdefs.h            |   42 ++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 0 deletions(-)
+ create mode 100644 mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
+ create mode 100644 mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
+
+diff --git a/mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf b/mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
+new file mode 100644
+index 0000000..b2a1bb7
+--- /dev/null
++++ b/mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
+@@ -0,0 +1,3 @@
++include(../win32-g++-cross/qmake.conf)
++QMAKE_CFLAGS *= -fno-keep-inline-dllexport
++QMAKE_CXXFLAGS *= -fno-keep-inline-dllexport
+diff --git a/mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h b/mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
+new file mode 100644
+index 0000000..837acbf
+--- /dev/null
++++ b/mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
+@@ -0,0 +1,42 @@
++/****************************************************************************
++**
++** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
++** All rights reserved.
++** Contact: Nokia Corporation (qt-info@nokia.com)
++**
++** This file is part of the qmake spec of the Qt Toolkit.
++**
++** $QT_BEGIN_LICENSE:LGPL$
++** GNU Lesser General Public License Usage
++** This file may be used under the terms of the GNU Lesser General Public
++** License version 2.1 as published by the Free Software Foundation and
++** appearing in the file LICENSE.LGPL included in the packaging of this
++** file. Please review the following information to ensure the GNU Lesser
++** General Public License version 2.1 requirements will be met:
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Nokia gives you certain additional
++** rights. These rights are described in the Nokia Qt LGPL Exception
++** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
++**
++** GNU General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU General
++** Public License version 3.0 as published by the Free Software Foundation
++** and appearing in the file LICENSE.GPL included in the packaging of this
++** file. Please review the following information to ensure the GNU General
++** Public License version 3.0 requirements will be met:
++** http://www.gnu.org/copyleft/gpl.html.
++**
++** Other Usage
++** Alternatively, this file may be used in accordance with the terms and
++** conditions contained in a signed written agreement between you and Nokia.
++**
++**
++**
++**
++**
++** $QT_END_LICENSE$
++**
++****************************************************************************/
++
++#include "../../win32-g++-4.6/qplatformdefs.h"
+-- 
+1.7.8.3
+
+
+From 0b30e1c9bc71b75fdc27a363c30b547091d004f0 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Mon, 21 Nov 2011 08:56:19 +0100
+Subject: [PATCH 03/18] use "cp -R" instead of "cp -r" for *bsd compatibility
+
+Change-Id: Ib013e2d36645a782249b543ec9301902484a7708
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+(cherry picked from commit f8f8af983f8ed95839926ab5e1def7171250f69f)
+---
+ mkspecs/unsupported/win32-g++-cross/qmake.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/mkspecs/unsupported/win32-g++-cross/qmake.conf b/mkspecs/unsupported/win32-g++-cross/qmake.conf
+index 0538e86..97a088c 100644
+--- a/mkspecs/unsupported/win32-g++-cross/qmake.conf
++++ b/mkspecs/unsupported/win32-g++-cross/qmake.conf
+@@ -79,7 +79,7 @@ QMAKE_SH		= bash
+ MINGW_IN_SHELL		= 1
+ QMAKE_DIR_SEP		= /
+ QMAKE_COPY		= cp
+-QMAKE_COPY_DIR		= cp -r
++QMAKE_COPY_DIR		= cp -R
+ QMAKE_MOVE		= mv
+ QMAKE_DEL_FILE		= rm -f
+ QMAKE_MKDIR		= mkdir -p
+-- 
+1.7.8.3
+
+
+From 8feb5a2a04c2a430e7be5e603dea9f01c69fbe1b Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Fri, 13 Jan 2012 00:17:48 +0100
+Subject: [PATCH 04/18] remove trailing whitespace
+
+backported from qt5/qtbase
+Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
+Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
+(cherry picked from commit 0f7a413683ab4358c4ded8bdffb7381459d98068)
+---
+ src/corelib/codecs/codecs.pri |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
+index 46d7dd4..fe01df0 100644
+--- a/src/corelib/codecs/codecs.pri
++++ b/src/corelib/codecs/codecs.pri
+@@ -41,7 +41,7 @@ unix {
+                         ../plugins/codecs/cn/qgb18030codec.h \
+                         ../plugins/codecs/jp/qeucjpcodec.h \
+                         ../plugins/codecs/jp/qjiscodec.h \
+-                        ../plugins/codecs/jp/qsjiscodec.h \ 
++                        ../plugins/codecs/jp/qsjiscodec.h \
+                         ../plugins/codecs/kr/qeuckrcodec.h \
+                         ../plugins/codecs/tw/qbig5codec.h \
+                         ../plugins/codecs/jp/qfontjpcodec.h
+-- 
+1.7.8.3
+
+
+From 0b7749f979f8120a675ac13394f92e31bb62c812 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Thu, 30 Jun 2011 10:22:33 +0200
+Subject: [PATCH 05/18] do not detect or configure iconv for Windows
+
+Qt doesn't use iconv on Windows, but configuring it will appear to
+work and the build will complete. The result is that character
+set conversions do not work.
+
+Configure.exe already disables iconv for Windows.
+
+backported from qt5/qtbase
+Change-Id: I449a00860c2e77e6cdd8cdcf7108621c684207bf
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
+(cherry picked from commit 9fa2b641ba6ff4f4b3f474b87ddb642cfa5c3d83)
+---
+ configure |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/configure b/configure
+index 5a5ef1d..e113544 100755
+--- a/configure
++++ b/configure
+@@ -5600,7 +5600,7 @@ fi
+ 
+ # auto-detect iconv(3) support
+ if [ "$CFG_ICONV" != "no" ]; then
+-    if [ "$PLATFORM_QWS" = "yes" -o "$PLATFORM_QPA" = "yes" ]; then
++    if [ "$PLATFORM_QWS" = "yes" -o "$PLATFORM_QPA" = "yes" -o "$XPLATFORM_MINGW" = "yes" ]; then
+ 	CFG_ICONV=no
+     elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
+         CFG_ICONV=yes
+-- 
+1.7.8.3
+
+
+From 7eb4cb29c6faa778e987e2178cac308b1d314436 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Wed, 18 Jan 2012 11:43:10 +0100
+Subject: [PATCH 06/18] fix whitespace
+
+backported from qt5/qtbase
+Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+(cherry picked from commit 10f6c5981cd2373c73873f8bace0b2df42a01db8)
+---
+ src/corelib/codecs/codecs.pri |   33 ++++++++++++++++-----------------
+ 1 files changed, 16 insertions(+), 17 deletions(-)
+
+diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
+index fe01df0..ec02365 100644
+--- a/src/corelib/codecs/codecs.pri
++++ b/src/corelib/codecs/codecs.pri
+@@ -1,23 +1,23 @@
+ # Qt core library codecs module
+ 
+ HEADERS += \
+-	codecs/qisciicodec_p.h \
+-	codecs/qlatincodec_p.h \
+-	codecs/qsimplecodec_p.h \
+-	codecs/qtextcodec_p.h \
+-	codecs/qtextcodec.h \
+-	codecs/qtsciicodec_p.h \
+-	codecs/qutfcodec_p.h \
+-	codecs/qtextcodecplugin.h
++    codecs/qisciicodec_p.h \
++    codecs/qlatincodec_p.h \
++    codecs/qsimplecodec_p.h \
++    codecs/qtextcodec_p.h \
++    codecs/qtextcodec.h \
++    codecs/qtsciicodec_p.h \
++    codecs/qutfcodec_p.h \
++    codecs/qtextcodecplugin.h
+ 
+ SOURCES += \
+-	codecs/qisciicodec.cpp \
+-	codecs/qlatincodec.cpp \
+-	codecs/qsimplecodec.cpp \
+-	codecs/qtextcodec.cpp \
+-	codecs/qtsciicodec.cpp \
+-	codecs/qutfcodec.cpp \
+-	codecs/qtextcodecplugin.cpp
++    codecs/qisciicodec.cpp \
++    codecs/qlatincodec.cpp \
++    codecs/qsimplecodec.cpp \
++    codecs/qtextcodec.cpp \
++    codecs/qtsciicodec.cpp \
++    codecs/qutfcodec.cpp \
++    codecs/qtextcodecplugin.cpp
+ 
+ unix {
+ 	SOURCES += codecs/qfontlaocodec.cpp
+@@ -28,7 +28,6 @@ unix {
+         } else:contains(QT_CONFIG,gnu-libiconv) {
+                 HEADERS += codecs/qiconvcodec_p.h
+                 SOURCES += codecs/qiconvcodec.cpp
+-
+                 DEFINES += GNU_LIBICONV
+                 !mac:LIBS_PRIVATE *= -liconv
+         } else:contains(QT_CONFIG,sun-libiconv) {
+@@ -50,7 +49,7 @@ unix {
+                         ../plugins/codecs/jp/qjpunicode.cpp \
+                         ../plugins/codecs/jp/qeucjpcodec.cpp \
+                         ../plugins/codecs/jp/qjiscodec.cpp \
+-                        ../plugins/codecs/jp/qsjiscodec.cpp \ 
++                        ../plugins/codecs/jp/qsjiscodec.cpp \
+                         ../plugins/codecs/kr/qeuckrcodec.cpp \
+                         ../plugins/codecs/tw/qbig5codec.cpp \
+                         ../plugins/codecs/jp/qfontjpcodec.cpp
+-- 
+1.7.8.3
+
+
+From 7d0797312d66d93d2e8939b0675678157ff54267 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 03/12] load plugin codecs regardless of iconv
+Subject: [PATCH 07/18] build and load text codecs regardless of iconv and
+ platform
 
-Otherwise Windows applications linking to static Qt will have to
-import the static plugins to avoid linking failure even if they
-do not use the codecs.
+Otherwise applications linking to static Qt may have to import
+the static plugins to avoid linking failure even if they do not
+use the codecs, which is a nuisance.
 
 Also, this is preparation for moving these codecs into QtCore
 proper.
----
- src/corelib/codecs/qtextcodec.cpp |   14 +++++---------
- 1 files changed, 5 insertions(+), 9 deletions(-)
 
+backported from qt5/qtbase
+Change-Id: I71f3bbb0bac6261983143d0578757b34997d1364
+Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+(cherry picked from commit 7ee3d8c8ecb78dd7c5ae09b04ebf1420958f0001)
+---
+ src/corelib/codecs/codecs.pri     |   38 ++++++++++++++++++------------------
+ src/corelib/codecs/qtextcodec.cpp |   14 ++++--------
+ 2 files changed, 24 insertions(+), 28 deletions(-)
+
+diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
+index ec02365..2e3ad71 100644
+--- a/src/corelib/codecs/codecs.pri
++++ b/src/corelib/codecs/codecs.pri
+@@ -10,6 +10,15 @@ HEADERS += \
+     codecs/qutfcodec_p.h \
+     codecs/qtextcodecplugin.h
+ 
++!symbian:HEADERS += \
++    ../plugins/codecs/cn/qgb18030codec.h \
++    ../plugins/codecs/jp/qeucjpcodec.h \
++    ../plugins/codecs/jp/qjiscodec.h \
++    ../plugins/codecs/jp/qsjiscodec.h \
++    ../plugins/codecs/kr/qeuckrcodec.h \
++    ../plugins/codecs/tw/qbig5codec.h \
++    ../plugins/codecs/jp/qfontjpcodec.h
++
+ SOURCES += \
+     codecs/qisciicodec.cpp \
+     codecs/qlatincodec.cpp \
+@@ -19,6 +28,16 @@ SOURCES += \
+     codecs/qutfcodec.cpp \
+     codecs/qtextcodecplugin.cpp
+ 
++!symbian:SOURCES += \
++    ../plugins/codecs/cn/qgb18030codec.cpp \
++    ../plugins/codecs/jp/qjpunicode.cpp \
++    ../plugins/codecs/jp/qeucjpcodec.cpp \
++    ../plugins/codecs/jp/qjiscodec.cpp \
++    ../plugins/codecs/jp/qsjiscodec.cpp \
++    ../plugins/codecs/kr/qeuckrcodec.cpp \
++    ../plugins/codecs/tw/qbig5codec.cpp \
++    ../plugins/codecs/jp/qfontjpcodec.cpp
++
+ unix {
+ 	SOURCES += codecs/qfontlaocodec.cpp
+ 
+@@ -34,25 +53,6 @@ unix {
+                 HEADERS += codecs/qiconvcodec_p.h
+                 SOURCES += codecs/qiconvcodec.cpp
+                 DEFINES += GNU_LIBICONV
+-        } else:!symbian {
+-                # no iconv, so we put all plugins in the library
+-                HEADERS += \
+-                        ../plugins/codecs/cn/qgb18030codec.h \
+-                        ../plugins/codecs/jp/qeucjpcodec.h \
+-                        ../plugins/codecs/jp/qjiscodec.h \
+-                        ../plugins/codecs/jp/qsjiscodec.h \
+-                        ../plugins/codecs/kr/qeuckrcodec.h \
+-                        ../plugins/codecs/tw/qbig5codec.h \
+-                        ../plugins/codecs/jp/qfontjpcodec.h
+-                SOURCES += \
+-                        ../plugins/codecs/cn/qgb18030codec.cpp \
+-                        ../plugins/codecs/jp/qjpunicode.cpp \
+-                        ../plugins/codecs/jp/qeucjpcodec.cpp \
+-                        ../plugins/codecs/jp/qjiscodec.cpp \
+-                        ../plugins/codecs/jp/qsjiscodec.cpp \
+-                        ../plugins/codecs/kr/qeuckrcodec.cpp \
+-                        ../plugins/codecs/tw/qbig5codec.cpp \
+-                        ../plugins/codecs/jp/qfontjpcodec.cpp
+         }
+ }
+ symbian:LIBS += -lcharconv
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
 index dd06a2a..dbe6f6eb 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
@@ -140,13 +435,13 @@ index dd06a2a..dbe6f6eb 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.7.8
+1.7.8.3
 
 
-From 4c148f06f97bf8596b9c4a869105c7214fb245bb Mon Sep 17 00:00:00 2001
+From dfaf8bedabdc64bc6e4b16f91270edcf6335e685 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
-Date: Sun, 3 Jul 2011 21:40:11 +0200
-Subject: [PATCH 04/12] move plugin text codecs to QtCore
+Date: Fri, 13 Jan 2012 00:24:13 +0100
+Subject: [PATCH 08/18] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -162,39 +457,35 @@ dependencies of QtCore.
 For these reasons, it has been decided not to have text codec plugins
 any longer.
 
-Additional cleanup:
--update private header references
--cosmetic adjustments for files moved to core/codecs
--update old reference to 'plugin'
--rename multiple inclusion guards
--add private header warning text
--remove obsolete codec plugin loading code
+backported from qt5/qtbase
+Change-Id: Ic6c80a9c949bd42e881e932d1edae23fe4fe4c88
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+(cherry picked from commit 2ae91491b48a8684b3bba76664d82cedad92bfcd)
+
+Conflicts:
+
+	src/plugins/plugins.pro
 ---
- src/corelib/codecs/codecs.pri           |   45 +-
- src/corelib/codecs/cp949codetbl_p.h     |  648 ++
+ src/corelib/codecs/codecs.pri           |   32 +-
+ src/corelib/codecs/cp949codetbl_p.h     |  637 ++
  src/corelib/codecs/qbig5codec.cpp       |12788 +++++++++++++++++++++++++++++++
- src/corelib/codecs/qbig5codec_p.h       |  135 +
+ src/corelib/codecs/qbig5codec_p.h       |  124 +
  src/corelib/codecs/qeucjpcodec.cpp      |  261 +
- src/corelib/codecs/qeucjpcodec_p.h      |  117 +
+ src/corelib/codecs/qeucjpcodec_p.h      |  106 +
  src/corelib/codecs/qeuckrcodec.cpp      | 3571 +++++++++
- src/corelib/codecs/qeuckrcodec_p.h      |  140 +
+ src/corelib/codecs/qeuckrcodec_p.h      |  129 +
  src/corelib/codecs/qfontjpcodec.cpp     |  145 +
- src/corelib/codecs/qfontjpcodec_p.h     |  104 +
+ src/corelib/codecs/qfontjpcodec_p.h     |   93 +
  src/corelib/codecs/qgb18030codec.cpp    | 9265 ++++++++++++++++++++++
- src/corelib/codecs/qgb18030codec_p.h    |  170 +
+ src/corelib/codecs/qgb18030codec_p.h    |  159 +
  src/corelib/codecs/qjiscodec.cpp        |  367 +
- src/corelib/codecs/qjiscodec_p.h        |  117 +
+ src/corelib/codecs/qjiscodec_p.h        |  106 +
  src/corelib/codecs/qjpunicode.cpp       |10700 ++++++++++++++++++++++++++
- src/corelib/codecs/qjpunicode_p.h       |  185 +
+ src/corelib/codecs/qjpunicode_p.h       |  174 +
  src/corelib/codecs/qsjiscodec.cpp       |  229 +
- src/corelib/codecs/qsjiscodec_p.h       |  117 +
- src/corelib/codecs/qtextcodec.cpp       |  101 +-
- src/corelib/codecs/qtextcodecplugin.cpp |  161 -
- src/corelib/codecs/qtextcodecplugin.h   |   96 -
- src/corelib/global/qconfig-medium.h     |    4 -
- src/corelib/global/qconfig-nacl.h       |    3 -
- src/corelib/global/qconfig-small.h      |    3 -
- src/corelib/global/qfeatures.h          |    5 -
+ src/corelib/codecs/qsjiscodec_p.h       |  106 +
+ src/corelib/codecs/qtextcodec.cpp       |   14 +-
  src/plugins/codecs/cn/cn.pro            |   16 -
  src/plugins/codecs/cn/main.cpp          |  145 -
  src/plugins/codecs/cn/qgb18030codec.cpp | 9265 ----------------------
@@ -222,7 +513,7 @@ Additional cleanup:
  src/plugins/codecs/tw/qbig5codec.h      |  124 -
  src/plugins/codecs/tw/tw.pro            |   16 -
  src/plugins/plugins.pro                 |    5 -
- 52 files changed, 39090 insertions(+), 39998 deletions(-)
+ 46 files changed, 38984 insertions(+), 39633 deletions(-)
  create mode 100644 src/corelib/codecs/cp949codetbl_p.h
  create mode 100644 src/corelib/codecs/qbig5codec.cpp
  create mode 100644 src/corelib/codecs/qbig5codec_p.h
@@ -240,8 +531,6 @@ Additional cleanup:
  create mode 100644 src/corelib/codecs/qjpunicode_p.h
  create mode 100644 src/corelib/codecs/qsjiscodec.cpp
  create mode 100644 src/corelib/codecs/qsjiscodec_p.h
- delete mode 100644 src/corelib/codecs/qtextcodecplugin.cpp
- delete mode 100644 src/corelib/codecs/qtextcodecplugin.h
  delete mode 100644 src/plugins/codecs/cn/cn.pro
  delete mode 100644 src/plugins/codecs/cn/main.cpp
  delete mode 100644 src/plugins/codecs/cn/qgb18030codec.cpp
@@ -270,88 +559,68 @@ Additional cleanup:
  delete mode 100644 src/plugins/codecs/tw/tw.pro
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
-index 46d7dd4..e302561 100644
+index 2e3ad71..367adf4 100644
 --- a/src/corelib/codecs/codecs.pri
 +++ b/src/corelib/codecs/codecs.pri
-@@ -7,8 +7,7 @@ HEADERS += \
- 	codecs/qtextcodec_p.h \
- 	codecs/qtextcodec.h \
- 	codecs/qtsciicodec_p.h \
--	codecs/qutfcodec_p.h \
--	codecs/qtextcodecplugin.h
-+	codecs/qutfcodec_p.h
+@@ -11,13 +11,14 @@ HEADERS += \
+     codecs/qtextcodecplugin.h
+ 
+ !symbian:HEADERS += \
+-    ../plugins/codecs/cn/qgb18030codec.h \
+-    ../plugins/codecs/jp/qeucjpcodec.h \
+-    ../plugins/codecs/jp/qjiscodec.h \
+-    ../plugins/codecs/jp/qsjiscodec.h \
+-    ../plugins/codecs/kr/qeuckrcodec.h \
+-    ../plugins/codecs/tw/qbig5codec.h \
+-    ../plugins/codecs/jp/qfontjpcodec.h
++    codecs/qtextcodecplugin.h \
++    codecs/qgb18030codec_p.h \
++    codecs/qeucjpcodec_p.h \
++    codecs/qjiscodec_p.h \
++    codecs/qsjiscodec_p.h \
++    codecs/qeuckrcodec_p.h \
++    codecs/qbig5codec_p.h \
++    codecs/qfontjpcodec_p.h
  
  SOURCES += \
- 	codecs/qisciicodec.cpp \
-@@ -16,8 +15,7 @@ SOURCES += \
- 	codecs/qsimplecodec.cpp \
- 	codecs/qtextcodec.cpp \
- 	codecs/qtsciicodec.cpp \
--	codecs/qutfcodec.cpp \
--	codecs/qtextcodecplugin.cpp
-+	codecs/qutfcodec.cpp
+     codecs/qisciicodec.cpp \
+@@ -29,14 +30,15 @@ SOURCES += \
+     codecs/qtextcodecplugin.cpp
+ 
+ !symbian:SOURCES += \
+-    ../plugins/codecs/cn/qgb18030codec.cpp \
+-    ../plugins/codecs/jp/qjpunicode.cpp \
+-    ../plugins/codecs/jp/qeucjpcodec.cpp \
+-    ../plugins/codecs/jp/qjiscodec.cpp \
+-    ../plugins/codecs/jp/qsjiscodec.cpp \
+-    ../plugins/codecs/kr/qeuckrcodec.cpp \
+-    ../plugins/codecs/tw/qbig5codec.cpp \
+-    ../plugins/codecs/jp/qfontjpcodec.cpp
++    codecs/qtextcodecplugin.cpp \
++    codecs/qgb18030codec.cpp \
++    codecs/qjpunicode.cpp \
++    codecs/qeucjpcodec.cpp \
++    codecs/qjiscodec.cpp \
++    codecs/qsjiscodec.cpp \
++    codecs/qeuckrcodec.cpp \
++    codecs/qbig5codec.cpp \
++    codecs/qfontjpcodec.cpp
  
  unix {
  	SOURCES += codecs/qfontlaocodec.cpp
-@@ -35,25 +33,26 @@ unix {
-                 HEADERS += codecs/qiconvcodec_p.h
-                 SOURCES += codecs/qiconvcodec.cpp
-                 DEFINES += GNU_LIBICONV
--        } else:!symbian {
--                # no iconv, so we put all plugins in the library
--                HEADERS += \
--                        ../plugins/codecs/cn/qgb18030codec.h \
--                        ../plugins/codecs/jp/qeucjpcodec.h \
--                        ../plugins/codecs/jp/qjiscodec.h \
--                        ../plugins/codecs/jp/qsjiscodec.h \ 
--                        ../plugins/codecs/kr/qeuckrcodec.h \
--                        ../plugins/codecs/tw/qbig5codec.h \
--                        ../plugins/codecs/jp/qfontjpcodec.h
--                SOURCES += \
--                        ../plugins/codecs/cn/qgb18030codec.cpp \
--                        ../plugins/codecs/jp/qjpunicode.cpp \
--                        ../plugins/codecs/jp/qeucjpcodec.cpp \
--                        ../plugins/codecs/jp/qjiscodec.cpp \
--                        ../plugins/codecs/jp/qsjiscodec.cpp \ 
--                        ../plugins/codecs/kr/qeuckrcodec.cpp \
--                        ../plugins/codecs/tw/qbig5codec.cpp \
--                        ../plugins/codecs/jp/qfontjpcodec.cpp
-         }
- }
- symbian:LIBS += -lcharconv
-+else {
-+HEADERS += \
-+	codecs/qgb18030codec_p.h \
-+	codecs/qeucjpcodec_p.h \
-+	codecs/qjiscodec_p.h \
-+	codecs/qsjiscodec_p.h \
-+	codecs/qeuckrcodec_p.h \
-+	codecs/qbig5codec_p.h \
-+	codecs/qfontjpcodec_p.h
-+
-+SOURCES += \
-+	codecs/qgb18030codec.cpp \
-+	codecs/qjpunicode.cpp \
-+	codecs/qeucjpcodec.cpp \
-+	codecs/qjiscodec.cpp \
-+	codecs/qsjiscodec.cpp \
-+	codecs/qeuckrcodec.cpp \
-+	codecs/qbig5codec.cpp \
-+	codecs/qfontjpcodec.cpp
-+}
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
 new file mode 100644
-index 0000000..61909c4
+index 0000000..8b254e0
 --- /dev/null
 +++ b/src/corelib/codecs/cp949codetbl_p.h
-@@ -0,0 +1,648 @@
+@@ -0,0 +1,637 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -386,19 +655,8 @@ index 0000000..61909c4
 +**
 +****************************************************************************/
 +
-+#ifndef CP949CODETBL_P_H
-+#define CP494CODETBL_P_H
-+
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
++#ifndef CP949CODETBL_H
++#define CP494CODETBL_H
 +
 +static const unsigned short cp949_icode_to_unicode[] = {
 +0xac02, 0xac03, 0xac05, 0xac06, 0xac0b, 0xac0c, 0xac0d, 0xac0e, 0xac0f, 0xac18, 0xac1e, 0xac1f, 0xac21, 0xac22, 0xac23, 
@@ -992,10 +1250,10 @@ index 0000000..61909c4
 +0xd7a2, 0xd7a3
 +};
 +
-+#endif // CP494CODETBL_P_H
++#endif // CP494CODETBL_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
 new file mode 100644
-index 0000000..0aba37c
+index 0000000..7a1c019
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -0,0 +1,12788 @@
@@ -1005,7 +1263,7 @@ index 0000000..0aba37c
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -1040,7 +1298,7 @@ index 0000000..0aba37c
 +**
 +****************************************************************************/
 +
-+#include "qbig5codec_p.h"
++#include "qbig5codec.h"
 +
 +QT_BEGIN_NAMESPACE
 +
@@ -13789,17 +14047,17 @@ index 0000000..0aba37c
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
 new file mode 100644
-index 0000000..f95a748
+index 0000000..8347241
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec_p.h
-@@ -0,0 +1,135 @@
+@@ -0,0 +1,124 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -13838,19 +14096,8 @@ index 0000000..f95a748
 +// is included in Qt with the author's permission, and the grateful
 +// thanks of the Qt team.
 +
-+#ifndef QBIG5CODEC_P_H
-+#define QBIG5CODEC_P_H
-+
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
++#ifndef QBIG5CODEC_H
++#define QBIG5CODEC_H
 +
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
@@ -13927,10 +14174,10 @@ index 0000000..f95a748
 +
 +QT_END_NAMESPACE
 +
-+#endif // QBIG5CODEC_P_H
++#endif // QBIG5CODEC_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
 new file mode 100644
-index 0000000..26d2475
+index 0000000..1154f44
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -0,0 +1,261 @@
@@ -13940,7 +14187,7 @@ index 0000000..26d2475
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -14009,7 +14256,7 @@ index 0000000..26d2475
 + * SUCH DAMAGE.
 + */
 +
-+#include "qeucjpcodec_p.h"
++#include "qeucjpcodec.h"
 +
 +QT_BEGIN_NAMESPACE
 +
@@ -14197,17 +14444,17 @@ index 0000000..26d2475
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
 new file mode 100644
-index 0000000..f3e6871
+index 0000000..e40ba95
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
-@@ -0,0 +1,117 @@
+@@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -14271,21 +14518,10 @@ index 0000000..f3e6871
 + * SUCH DAMAGE.
 + */
 +
-+#ifndef QEUCJPCODEC_P_H
-+#define QEUCJPCODEC_P_H
++#ifndef QEUCJPCODEC_H
++#define QEUCJPCODEC_H
 +
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
-+
-+#include "qjpunicode_p.h"
++#include "qjpunicode.h"
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
 +
@@ -14317,10 +14553,10 @@ index 0000000..f3e6871
 +
 +QT_END_NAMESPACE
 +
-+#endif // QEUCJPCODEC_P_H
++#endif // QEUCJPCODEC_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
 new file mode 100644
-index 0000000..5b2a06e
+index 0000000..49c2575
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -0,0 +1,3571 @@
@@ -14330,7 +14566,7 @@ index 0000000..5b2a06e
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -14391,8 +14627,8 @@ index 0000000..5b2a06e
 +    QString toUnicode(const char* chars, int len) const;
 +*/
 +
-+#include "qeuckrcodec_p.h"
-+#include "cp949codetbl_p.h"
++#include "qeuckrcodec.h"
++#include "cp949codetbl.h"
 +
 +QT_BEGIN_NAMESPACE
 +
@@ -17897,17 +18133,17 @@ index 0000000..5b2a06e
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
 new file mode 100644
-index 0000000..371f316
+index 0000000..aa5e85c
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
-@@ -0,0 +1,140 @@
+@@ -0,0 +1,129 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -17967,19 +18203,8 @@ index 0000000..371f316
 + * SUCH DAMAGE.
 + */
 +
-+#ifndef QEUCKRCODEC_P_H
-+#define QEUCKRCODEC_P_H
-+
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
++#ifndef QEUCKRCODEC_H
++#define QEUCKRCODEC_H
 +
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
@@ -18040,10 +18265,10 @@ index 0000000..371f316
 +
 +QT_END_NAMESPACE
 +
-+#endif // QEUCKRCODEC_P_H
++#endif // QEUCKRCODEC_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
 new file mode 100644
-index 0000000..7bb1911
+index 0000000..7910064
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -0,0 +1,145 @@
@@ -18053,7 +18278,7 @@ index 0000000..7bb1911
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -18088,9 +18313,9 @@ index 0000000..7bb1911
 +**
 +****************************************************************************/
 +
-+#include "qfontjpcodec_p.h"
++#include "qfontjpcodec.h"
 +
-+#include "qjpunicode_p.h"
++#include "qjpunicode.h"
 +
 +QT_BEGIN_NAMESPACE
 +
@@ -18194,17 +18419,17 @@ index 0000000..7bb1911
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
 new file mode 100644
-index 0000000..4cb17c2
+index 0000000..0d2538e
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
-@@ -0,0 +1,104 @@
+@@ -0,0 +1,93 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -18239,19 +18464,8 @@ index 0000000..4cb17c2
 +**
 +****************************************************************************/
 +
-+#ifndef QFONTJPCODEC_P_H
-+#define QFONTJPCODEC_P_H
-+
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
++#ifndef QFONTJPCODEC_H
++#define QFONTJPCODEC_H
 +
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
@@ -18301,10 +18515,10 @@ index 0000000..4cb17c2
 +
 +QT_END_NAMESPACE
 +
-+#endif // QFONTJPCODEC_P_H
++#endif // QFONTJPCODEC_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
 new file mode 100644
-index 0000000..5146ba7
+index 0000000..d12f5d9
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -0,0 +1,9265 @@
@@ -18314,7 +18528,7 @@ index 0000000..5146ba7
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -18354,7 +18568,7 @@ index 0000000..5146ba7
 +  \internal
 +*/
 +
-+#include "qgb18030codec_p.h"
++#include "qgb18030codec.h"
 +
 +#ifndef QT_NO_TEXTCODEC
 +
@@ -27575,17 +27789,17 @@ index 0000000..5146ba7
 +#endif // QT_NO_TEXTCODEC
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
 new file mode 100644
-index 0000000..7cb49bb
+index 0000000..1655263
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec_p.h
-@@ -0,0 +1,170 @@
+@@ -0,0 +1,159 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -27622,19 +27836,8 @@ index 0000000..7cb49bb
 +
 +// Contributed by James Su <suzhe@gnuchina.org>
 +
-+#ifndef QGB18030CODEC_P_H
-+#define QGB18030CODEC_P_H
-+
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
++#ifndef QGB18030CODEC_H
++#define QGB18030CODEC_H
 +
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
@@ -27748,10 +27951,10 @@ index 0000000..7cb49bb
 +
 +QT_END_NAMESPACE
 +
-+#endif // QGB18030CODEC_P_H
++#endif // QGB18030CODEC_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
 new file mode 100644
-index 0000000..781e404
+index 0000000..e9b3691
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -0,0 +1,367 @@
@@ -27761,7 +27964,7 @@ index 0000000..781e404
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -27805,7 +28008,7 @@ index 0000000..781e404
 +    \internal
 +*/
 +
-+#include "qjiscodec_p.h"
++#include "qjiscodec.h"
 +#include "qlist.h"
 +
 +QT_BEGIN_NAMESPACE
@@ -28124,17 +28327,17 @@ index 0000000..781e404
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
 new file mode 100644
-index 0000000..de4dec9
+index 0000000..eabbeca
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec_p.h
-@@ -0,0 +1,117 @@
+@@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -28198,21 +28401,10 @@ index 0000000..de4dec9
 + * SUCH DAMAGE.
 + */
 +
-+#ifndef QJISCODEC_P_H
-+#define QJISCODEC_P_H
++#ifndef QJISCODEC_H
++#define QJISCODEC_H
 +
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
-+
-+#include "qjpunicode_p.h"
++#include "qjpunicode.h"
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
 +
@@ -28244,10 +28436,10 @@ index 0000000..de4dec9
 +
 +QT_END_NAMESPACE
 +
-+#endif // QJISCODEC_P_H
++#endif // QJISCODEC_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
 new file mode 100644
-index 0000000..7d408ba
+index 0000000..8e1c5e5
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -0,0 +1,10700 @@
@@ -28257,7 +28449,7 @@ index 0000000..7d408ba
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -28297,7 +28489,7 @@ index 0000000..7d408ba
 +    \internal
 +*/
 +
-+#include "qjpunicode_p.h"
++#include "qjpunicode.h"
 +
 +#include "qbytearray.h"
 +#include <stdlib.h>
@@ -38953,17 +39145,17 @@ index 0000000..7d408ba
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
 new file mode 100644
-index 0000000..966b618
+index 0000000..a0ff5a4
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode_p.h
-@@ -0,0 +1,185 @@
+@@ -0,0 +1,174 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -39027,19 +39219,8 @@ index 0000000..966b618
 + * SUCH DAMAGE.
 + */
 +
-+#ifndef QJPUNICODE_P_H
-+#define QJPUNICODE_P_H
-+
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
++#ifndef QJPUNICODE_H
++#define QJPUNICODE_H
 +
 +#include <QtCore/qglobal.h>
 +
@@ -39141,10 +39322,10 @@ index 0000000..966b618
 +
 +QT_END_NAMESPACE
 +
-+#endif // QJPUNICODE_P_H
++#endif // QJPUNICODE_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
 new file mode 100644
-index 0000000..2b8efb2
+index 0000000..2a732ff
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -0,0 +1,229 @@
@@ -39154,7 +39335,7 @@ index 0000000..2b8efb2
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -39198,7 +39379,7 @@ index 0000000..2b8efb2
 +    \internal
 +*/
 +
-+#include "qsjiscodec_p.h"
++#include "qsjiscodec.h"
 +#include "qlist.h"
 +
 +QT_BEGIN_NAMESPACE
@@ -39379,17 +39560,17 @@ index 0000000..2b8efb2
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
 new file mode 100644
-index 0000000..73ab5c8
+index 0000000..e61cc91
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec_p.h
-@@ -0,0 +1,117 @@
+@@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
 +** All rights reserved.
 +** Contact: Nokia Corporation (qt-info@nokia.com)
 +**
-+** This file is part of the QtCore module of the Qt Toolkit.
++** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
 +** GNU Lesser General Public License Usage
@@ -39453,21 +39634,10 @@ index 0000000..73ab5c8
 + * SUCH DAMAGE.
 + */
 +
-+#ifndef QSJISCODEC_P_H
-+#define QSJISCODEC_P_H
++#ifndef QSJISCODEC_H
++#define QSJISCODEC_H
 +
-+//
-+//  W A R N I N G
-+//  -------------
-+//
-+// This file is not part of the Qt API.  It exists for the convenience
-+// of other Qt classes.  This header file may change from version to
-+// version without notice, or even be removed.
-+//
-+// We mean it.
-+//
-+
-+#include "qjpunicode_p.h"
++#include "qjpunicode.h"
 +#include <QtCore/qtextcodec.h>
 +#include <QtCore/qlist.h>
 +
@@ -39499,24 +39669,12 @@ index 0000000..73ab5c8
 +
 +QT_END_NAMESPACE
 +
-+#endif // QSJISCODEC_P_H
++#endif // QSJISCODEC_H
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index dbe6f6eb..03a0cc9 100644
+index dbe6f6eb..8c3c779 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
-@@ -47,11 +47,6 @@
- 
- #include "qlist.h"
- #include "qfile.h"
--#ifndef QT_NO_LIBRARY
--# include "qcoreapplication.h"
--# include "qtextcodecplugin.h"
--# include "private/qfactoryloader_p.h"
--#endif
- #include "qstringlist.h"
- 
- #ifdef Q_OS_UNIX
-@@ -66,16 +61,16 @@
+@@ -66,16 +66,16 @@
  #  include "qisciicodec_p.h"
  #if !defined(Q_OS_SYMBIAN) && !defined(Q_OS_INTEGRITY)
  #  if !defined(QT_BOOTSTRAPPED)
@@ -39540,465 +39698,6 @@ index dbe6f6eb..03a0cc9 100644
  #  endif
  #endif // QT_NO_SYMBIAN
  #endif // QT_NO_CODECS
-@@ -104,11 +99,6 @@
- 
- QT_BEGIN_NAMESPACE
- 
--#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
--Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
--    (QTextCodecFactoryInterface_iid, QLatin1String("/codecs")))
--#endif
--
- //Cache for QTextCodec::codecForName and codecForMib.
- typedef QHash<QByteArray, QTextCodec *> QTextCodecCache;
- Q_GLOBAL_STATIC(QTextCodecCache, qTextCodecCache)
-@@ -150,39 +140,6 @@ static bool nameMatch(const QByteArray &name, const QByteArray &test)
- }
- 
- 
--static QTextCodec *createForName(const QByteArray &name)
--{
--#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
--    QFactoryLoader *l = loader();
--    QStringList keys = l->keys();
--    for (int i = 0; i < keys.size(); ++i) {
--        if (nameMatch(name, keys.at(i).toLatin1())) {
--            QString realName = keys.at(i);
--            if (QTextCodecFactoryInterface *factory
--                = qobject_cast<QTextCodecFactoryInterface*>(l->instance(realName))) {
--                return factory->create(realName);
--            }
--        }
--    }
--#else
--    Q_UNUSED(name);
--#endif
--    return 0;
--}
--
--static QTextCodec *createForMib(int mib)
--{
--#ifndef QT_NO_TEXTCODECPLUGIN
--    QString name = QLatin1String("MIB: ") + QString::number(mib);
--    if (QTextCodecFactoryInterface *factory
--        = qobject_cast<QTextCodecFactoryInterface*>(loader()->instance(name)))
--        return factory->create(name);
--#else
--    Q_UNUSED(mib);
--#endif
--    return 0;
--}
--
- static QList<QTextCodec*> *all = 0;
- #ifdef Q_DEBUG_TEXTCODEC
- static bool destroying_is_ok = false;
-@@ -967,10 +924,6 @@ QTextCodec::ConverterState::~ConverterState()
-          \o Converts a Unicode string to an 8-bit character string.
-     \endtable
- 
--    You may find it more convenient to make your codec class
--    available as a plugin; see \l{How to Create Qt Plugins} for
--    details.
--
-     \sa QTextStream, QTextDecoder, QTextEncoder, {Codecs Example}
- */
- 
-@@ -1063,10 +1016,7 @@ QTextCodec *QTextCodec::codecForName(const QByteArray &name)
-             }
-     }
- 
--    codec = createForName(name);
--    if (codec && cache)
--        cache->insert(name, codec);
--    return codec;
-+    return 0;
- }
- 
- 
-@@ -1103,16 +1053,7 @@ QTextCodec* QTextCodec::codecForMib(int mib)
-         }
-     }
- 
--    codec = createForMib(mib);
--
--    // Qt 3 used 1000 (mib for UCS2) as its identifier for the utf16 codec. Map
--    // this correctly for compatibility.
--    if (!codec && mib == 1000)
--        return codecForMib(1015);
--
--    if (codec && cache)
--        cache->insert(key, codec);
--    return codec;
-+    return 0;
- }
- 
- /*!
-@@ -1145,18 +1086,6 @@ QList<QByteArray> QTextCodec::availableCodecs()
-     locker.unlock();
- #endif
- 
--#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
--    QFactoryLoader *l = loader();
--    QStringList keys = l->keys();
--    for (int i = 0; i < keys.size(); ++i) {
--        if (!keys.at(i).startsWith(QLatin1String("MIB: "))) {
--            QByteArray name = keys.at(i).toLatin1();
--            if (!codecs.contains(name))
--                codecs += name;
--        }
--    }
--#endif
--
-     return codecs;
- }
- 
-@@ -1185,18 +1114,6 @@ QList<int> QTextCodec::availableMibs()
-     locker.unlock();
- #endif
- 
--#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
--    QFactoryLoader *l = loader();
--    QStringList keys = l->keys();
--    for (int i = 0; i < keys.size(); ++i) {
--        if (keys.at(i).startsWith(QLatin1String("MIB: "))) {
--            int mib = keys.at(i).mid(5).toInt();
--            if (!codecs.contains(mib))
--                codecs += mib;
--        }
--    }
--#endif
--
-     return codecs;
- }
- 
-diff --git a/src/corelib/codecs/qtextcodecplugin.cpp b/src/corelib/codecs/qtextcodecplugin.cpp
-deleted file mode 100644
-index 91b172d..0000000
---- a/src/corelib/codecs/qtextcodecplugin.cpp
-+++ /dev/null
-@@ -1,161 +0,0 @@
--/****************************************************************************
--**
--** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
--**
--** This file is part of the QtCore module of the Qt Toolkit.
--**
--** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
--**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
--** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
--**
--** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
--**
--** $QT_END_LICENSE$
--**
--****************************************************************************/
--
--#include "qtextcodecplugin.h"
--#include "qstringlist.h"
--
--#ifndef QT_NO_TEXTCODECPLUGIN
--
--QT_BEGIN_NAMESPACE
--
--/*!
--    \class QTextCodecPlugin
--    \brief The QTextCodecPlugin class provides an abstract base for custom QTextCodec plugins.
--    \reentrant
--    \ingroup plugins
--
--    The text codec plugin is a simple plugin interface that makes it
--    easy to create custom text codecs that can be loaded dynamically
--    into applications.
--
--    Writing a text codec plugin is achieved by subclassing this base
--    class, reimplementing the pure virtual functions names(),
--    aliases(), createForName(), mibEnums() and createForMib(), and
--    exporting the class with the Q_EXPORT_PLUGIN2() macro. See \l{How
--    to Create Qt Plugins} for details.
--
--    See the \l{http://www.iana.org/assignments/character-sets}{IANA
--    character-sets encoding file} for more information on mime
--    names and mib enums.
--*/
--
--/*!
--    \fn QStringList QTextCodecPlugin::names() const
--
--    Returns the list of MIME names supported by this plugin.
--
--    If a codec has several names, the extra names are returned by aliases().
--
--    \sa createForName(), aliases()
--*/
--
--/*!
--    \fn QList<QByteArray> QTextCodecPlugin::aliases() const
--
--    Returns the list of aliases supported by this plugin.
--*/
--
--/*!
--    \fn QTextCodec *QTextCodecPlugin::createForName(const QByteArray &name)
--
--    Creates a QTextCodec object for the codec called \a name. The \a name
--    must come from the list of encodings returned by names(). Encoding
--    names are case sensitive.
--
--    Example:
--
--    \snippet doc/src/snippets/code/src_corelib_codecs_qtextcodecplugin.cpp 0
--
--    \sa names()
--*/
--
--
--/*!
--    \fn QList<int> QTextCodecPlugin::mibEnums() const
--
--    Returns the list of mib enums supported by this plugin.
--
--    \sa createForMib()
--*/
--
--/*!
--    \fn QTextCodec *QTextCodecPlugin::createForMib(int mib);
--
--    Creates a QTextCodec object for the mib enum \a mib.
--
--    See \l{http://www.iana.org/assignments/character-sets}{the
--    IANA character-sets encoding file} for more information.
--
--    \sa mibEnums()
--*/
--
--/*!
--    Constructs a text codec plugin with the given \a parent. This is
--    invoked automatically by the Q_EXPORT_PLUGIN2() macro.
--*/
--QTextCodecPlugin::QTextCodecPlugin(QObject *parent)
--    : QObject(parent)
--{
--}
--
--/*!
--    Destroys the text codec plugin.
--
--    You never have to call this explicitly. Qt destroys a plugin
--    automatically when it is no longer used.
--*/
--QTextCodecPlugin::~QTextCodecPlugin()
--{
--}
--
--QStringList QTextCodecPlugin::keys() const
--{
--    QStringList keys;
--    QList<QByteArray> list = names();
--    list += aliases();
--    for (int i = 0; i < list.size(); ++i)
--        keys += QString::fromLatin1(list.at(i));
--    QList<int> mibs = mibEnums();
--    for (int i = 0; i < mibs.count(); ++i)
--        keys += QLatin1String("MIB: ") + QString::number(mibs.at(i));
--    return keys;
--}
--
--QTextCodec *QTextCodecPlugin::create(const QString &name)
--{
--    if (name.startsWith(QLatin1String("MIB: ")))
--        return createForMib(name.mid(4).toInt());
--    return createForName(name.toLatin1());
--}
--
--QT_END_NAMESPACE
--
--#endif // QT_NO_TEXTCODECPLUGIN
-diff --git a/src/corelib/codecs/qtextcodecplugin.h b/src/corelib/codecs/qtextcodecplugin.h
-deleted file mode 100644
-index d80b173..0000000
---- a/src/corelib/codecs/qtextcodecplugin.h
-+++ /dev/null
-@@ -1,96 +0,0 @@
--/****************************************************************************
--**
--** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
--**
--** This file is part of the QtCore module of the Qt Toolkit.
--**
--** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
--**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
--** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
--**
--** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
--**
--** $QT_END_LICENSE$
--**
--****************************************************************************/
--
--#ifndef QTEXTCODECPLUGIN_H
--#define QTEXTCODECPLUGIN_H
--
--#include <QtCore/qplugin.h>
--#include <QtCore/qfactoryinterface.h>
--#include <QtCore/qlist.h>
--#include <QtCore/qbytearray.h>
--
--QT_BEGIN_HEADER
--
--QT_BEGIN_NAMESPACE
--
--QT_MODULE(Core)
--
--#ifndef QT_NO_TEXTCODECPLUGIN
--
--class QTextCodec;
--
--struct Q_CORE_EXPORT QTextCodecFactoryInterface : public QFactoryInterface
--{
--    virtual QTextCodec *create(const QString &key) = 0;
--};
--
--#define QTextCodecFactoryInterface_iid "com.trolltech.Qt.QTextCodecFactoryInterface"
--
--Q_DECLARE_INTERFACE(QTextCodecFactoryInterface, QTextCodecFactoryInterface_iid)
--
--
--class Q_CORE_EXPORT QTextCodecPlugin : public QObject, public QTextCodecFactoryInterface
--{
--    Q_OBJECT
--    Q_INTERFACES(QTextCodecFactoryInterface:QFactoryInterface)
--public:
--    explicit QTextCodecPlugin(QObject *parent = 0);
--    ~QTextCodecPlugin();
--
--    virtual QList<QByteArray> names() const = 0;
--    virtual QList<QByteArray> aliases() const = 0;
--    virtual QTextCodec *createForName(const QByteArray &name) = 0;
--
--    virtual QList<int> mibEnums() const = 0;
--    virtual QTextCodec *createForMib(int mib) = 0;
--
--private:
--    QStringList keys() const;
--    QTextCodec *create(const QString &name);
--};
--
--#endif // QT_NO_TEXTCODECPLUGIN
--
--QT_END_NAMESPACE
--
--QT_END_HEADER
--
--#endif // QTEXTCODECPLUGIN_H
-diff --git a/src/corelib/global/qconfig-medium.h b/src/corelib/global/qconfig-medium.h
-index f9ecf92..ab3e20b 100644
---- a/src/corelib/global/qconfig-medium.h
-+++ b/src/corelib/global/qconfig-medium.h
-@@ -91,10 +91,6 @@
- #ifndef QT_NO_CODECS
- #  define QT_NO_CODECS
- #endif
--#ifndef QT_NO_TEXTCODECPLUGIN
--#  define QT_NO_TEXTCODECPLUGIN
--#endif
--#ifndef QT_NO_TRANSLATION
- #  define QT_NO_TRANSLATION
- #endif
- #ifndef QT_NO_TRANSLATION_UTF8
-diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
-index 5aefdfe..15664b6 100644
---- a/src/corelib/global/qconfig-nacl.h
-+++ b/src/corelib/global/qconfig-nacl.h
-@@ -128,9 +128,6 @@
- #ifndef QT_NO_CODECS
- #  define QT_NO_CODECS
- #endif
--#ifndef QT_NO_TEXTCODECPLUGIN
--#  define QT_NO_TEXTCODECPLUGIN
--#endif
- #ifndef QT_NO_TRANSLATION
- #  define QT_NO_TRANSLATION
- #endif
-diff --git a/src/corelib/global/qconfig-small.h b/src/corelib/global/qconfig-small.h
-index 4f34169..963df87 100644
---- a/src/corelib/global/qconfig-small.h
-+++ b/src/corelib/global/qconfig-small.h
-@@ -128,9 +128,6 @@
- #ifndef QT_NO_CODECS
- #  define QT_NO_CODECS
- #endif
--#ifndef QT_NO_TEXTCODECPLUGIN
--#  define QT_NO_TEXTCODECPLUGIN
--#endif
- #ifndef QT_NO_TRANSLATION
- #  define QT_NO_TRANSLATION
- #endif
-diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index 64d5f08..2b35940 100644
---- a/src/corelib/global/qfeatures.h
-+++ b/src/corelib/global/qfeatures.h
-@@ -643,11 +643,6 @@
- #define QT_NO_TABDIALOG
- #endif
- 
--// QTextCodecPlugin
--#if !defined(QT_NO_TEXTCODECPLUGIN) && (defined(QT_NO_TEXTCODEC) || defined(QT_NO_LIBRARY))
--#define QT_NO_TEXTCODECPLUGIN
--#endif
--
- // QColorDialog
- #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
- #define QT_NO_COLORDIALOG
 diff --git a/src/plugins/codecs/cn/cn.pro b/src/plugins/codecs/cn/cn.pro
 deleted file mode 100644
 index b0a8a91..0000000
@@ -79778,13 +79477,1287 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.7.8
+1.7.8.3
 
 
-From 99a792b0373066137fe863db80a3c004a9d8789c Mon Sep 17 00:00:00 2001
+From 3547af917a4da078f42825af7cb933fac3d22718 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Wed, 18 Jan 2012 21:01:26 +0100
+Subject: [PATCH 09/18] update private header references
+
+backported from qt5/qtbase
+Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+(cherry picked from commit 15e4df7d83fd30e16f014bc1ddc5d55884b388aa)
+---
+ src/corelib/codecs/qbig5codec.cpp    |    2 +-
+ src/corelib/codecs/qeucjpcodec.cpp   |    2 +-
+ src/corelib/codecs/qeucjpcodec_p.h   |    2 +-
+ src/corelib/codecs/qeuckrcodec.cpp   |    4 ++--
+ src/corelib/codecs/qfontjpcodec.cpp  |    4 ++--
+ src/corelib/codecs/qgb18030codec.cpp |    2 +-
+ src/corelib/codecs/qjiscodec.cpp     |    2 +-
+ src/corelib/codecs/qjiscodec_p.h     |    2 +-
+ src/corelib/codecs/qjpunicode.cpp    |    2 +-
+ src/corelib/codecs/qsjiscodec.cpp    |    2 +-
+ src/corelib/codecs/qsjiscodec_p.h    |    2 +-
+ 11 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
+index 7a1c019..3252a0d 100644
+--- a/src/corelib/codecs/qbig5codec.cpp
++++ b/src/corelib/codecs/qbig5codec.cpp
+@@ -39,7 +39,7 @@
+ **
+ ****************************************************************************/
+ 
+-#include "qbig5codec.h"
++#include "qbig5codec_p.h"
+ 
+ QT_BEGIN_NAMESPACE
+ 
+diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
+index 1154f44..5714ccb 100644
+--- a/src/corelib/codecs/qeucjpcodec.cpp
++++ b/src/corelib/codecs/qeucjpcodec.cpp
+@@ -73,7 +73,7 @@
+  * SUCH DAMAGE.
+  */
+ 
+-#include "qeucjpcodec.h"
++#include "qeucjpcodec_p.h"
+ 
+ QT_BEGIN_NAMESPACE
+ 
+diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
+index e40ba95..f4fd8d2 100644
+--- a/src/corelib/codecs/qeucjpcodec_p.h
++++ b/src/corelib/codecs/qeucjpcodec_p.h
+@@ -71,7 +71,7 @@
+ #ifndef QEUCJPCODEC_H
+ #define QEUCJPCODEC_H
+ 
+-#include "qjpunicode.h"
++#include "qjpunicode_p.h"
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+ 
+diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
+index 49c2575..dd8e84c 100644
+--- a/src/corelib/codecs/qeuckrcodec.cpp
++++ b/src/corelib/codecs/qeuckrcodec.cpp
+@@ -65,8 +65,8 @@
+     QString toUnicode(const char* chars, int len) const;
+ */
+ 
+-#include "qeuckrcodec.h"
+-#include "cp949codetbl.h"
++#include "qeuckrcodec_p.h"
++#include "cp949codetbl_p.h"
+ 
+ QT_BEGIN_NAMESPACE
+ 
+diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
+index 7910064..83de56d 100644
+--- a/src/corelib/codecs/qfontjpcodec.cpp
++++ b/src/corelib/codecs/qfontjpcodec.cpp
+@@ -39,9 +39,9 @@
+ **
+ ****************************************************************************/
+ 
+-#include "qfontjpcodec.h"
++#include "qfontjpcodec_p.h"
+ 
+-#include "qjpunicode.h"
++#include "qjpunicode_p.h"
+ 
+ QT_BEGIN_NAMESPACE
+ 
+diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
+index d12f5d9..70dc235 100644
+--- a/src/corelib/codecs/qgb18030codec.cpp
++++ b/src/corelib/codecs/qgb18030codec.cpp
+@@ -44,7 +44,7 @@
+   \internal
+ */
+ 
+-#include "qgb18030codec.h"
++#include "qgb18030codec_p.h"
+ 
+ #ifndef QT_NO_TEXTCODEC
+ 
+diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
+index e9b3691..00678d3 100644
+--- a/src/corelib/codecs/qjiscodec.cpp
++++ b/src/corelib/codecs/qjiscodec.cpp
+@@ -48,7 +48,7 @@
+     \internal
+ */
+ 
+-#include "qjiscodec.h"
++#include "qjiscodec_p.h"
+ #include "qlist.h"
+ 
+ QT_BEGIN_NAMESPACE
+diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
+index eabbeca..6ca2923 100644
+--- a/src/corelib/codecs/qjiscodec_p.h
++++ b/src/corelib/codecs/qjiscodec_p.h
+@@ -71,7 +71,7 @@
+ #ifndef QJISCODEC_H
+ #define QJISCODEC_H
+ 
+-#include "qjpunicode.h"
++#include "qjpunicode_p.h"
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+ 
+diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
+index 8e1c5e5..ec7d338 100644
+--- a/src/corelib/codecs/qjpunicode.cpp
++++ b/src/corelib/codecs/qjpunicode.cpp
+@@ -44,7 +44,7 @@
+     \internal
+ */
+ 
+-#include "qjpunicode.h"
++#include "qjpunicode_p.h"
+ 
+ #include "qbytearray.h"
+ #include <stdlib.h>
+diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
+index 2a732ff..0e583e2 100644
+--- a/src/corelib/codecs/qsjiscodec.cpp
++++ b/src/corelib/codecs/qsjiscodec.cpp
+@@ -48,7 +48,7 @@
+     \internal
+ */
+ 
+-#include "qsjiscodec.h"
++#include "qsjiscodec_p.h"
+ #include "qlist.h"
+ 
+ QT_BEGIN_NAMESPACE
+diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
+index e61cc91..6176536 100644
+--- a/src/corelib/codecs/qsjiscodec_p.h
++++ b/src/corelib/codecs/qsjiscodec_p.h
+@@ -71,7 +71,7 @@
+ #ifndef QSJISCODEC_H
+ #define QSJISCODEC_H
+ 
+-#include "qjpunicode.h"
++#include "qjpunicode_p.h"
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+ 
+-- 
+1.7.8.3
+
+
+From b46be6306811d46b287ac1d884c63f68c2a76d12 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Sun, 3 Jul 2011 21:53:27 +0200
+Subject: [PATCH 10/18] cosmetic adjustments for files moved to core/codecs
+
+-update old reference to 'plugin'
+-rename multiple inclusion guards
+-add private header warning text
+
+backported from qt5/qtbase
+Change-Id: I4c582dcba549d871bd8d929bee5372586117eabb
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+(cherry picked from commit 712cfb509484599f1586f68cc379e3e7464e9967)
+---
+ src/corelib/codecs/cp949codetbl_p.h  |   19 +++++++++++++++----
+ src/corelib/codecs/qbig5codec.cpp    |    2 +-
+ src/corelib/codecs/qbig5codec_p.h    |   19 +++++++++++++++----
+ src/corelib/codecs/qeucjpcodec.cpp   |    2 +-
+ src/corelib/codecs/qeucjpcodec_p.h   |   19 +++++++++++++++----
+ src/corelib/codecs/qeuckrcodec.cpp   |    2 +-
+ src/corelib/codecs/qeuckrcodec_p.h   |   19 +++++++++++++++----
+ src/corelib/codecs/qfontjpcodec.cpp  |    2 +-
+ src/corelib/codecs/qfontjpcodec_p.h  |   19 +++++++++++++++----
+ src/corelib/codecs/qgb18030codec.cpp |    2 +-
+ src/corelib/codecs/qgb18030codec_p.h |   19 +++++++++++++++----
+ src/corelib/codecs/qjiscodec.cpp     |    2 +-
+ src/corelib/codecs/qjiscodec_p.h     |   19 +++++++++++++++----
+ src/corelib/codecs/qjpunicode.cpp    |    2 +-
+ src/corelib/codecs/qjpunicode_p.h    |   19 +++++++++++++++----
+ src/corelib/codecs/qsjiscodec.cpp    |    2 +-
+ src/corelib/codecs/qsjiscodec_p.h    |   19 +++++++++++++++----
+ 17 files changed, 143 insertions(+), 44 deletions(-)
+
+diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
+index 8b254e0..61909c4 100644
+--- a/src/corelib/codecs/cp949codetbl_p.h
++++ b/src/corelib/codecs/cp949codetbl_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -39,8 +39,19 @@
+ **
+ ****************************************************************************/
+ 
+-#ifndef CP949CODETBL_H
+-#define CP494CODETBL_H
++#ifndef CP949CODETBL_P_H
++#define CP494CODETBL_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ static const unsigned short cp949_icode_to_unicode[] = {
+ 0xac02, 0xac03, 0xac05, 0xac06, 0xac0b, 0xac0c, 0xac0d, 0xac0e, 0xac0f, 0xac18, 0xac1e, 0xac1f, 0xac21, 0xac22, 0xac23, 
+@@ -634,4 +645,4 @@ static const unsigned short cp949_icode_to_unicode[] = {
+ 0xd7a2, 0xd7a3
+ };
+ 
+-#endif // CP494CODETBL_H
++#endif // CP494CODETBL_P_H
+diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
+index 3252a0d..0aba37c 100644
+--- a/src/corelib/codecs/qbig5codec.cpp
++++ b/src/corelib/codecs/qbig5codec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
+index 8347241..f95a748 100644
+--- a/src/corelib/codecs/qbig5codec_p.h
++++ b/src/corelib/codecs/qbig5codec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -43,8 +43,19 @@
+ // is included in Qt with the author's permission, and the grateful
+ // thanks of the Qt team.
+ 
+-#ifndef QBIG5CODEC_H
+-#define QBIG5CODEC_H
++#ifndef QBIG5CODEC_P_H
++#define QBIG5CODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+@@ -121,4 +132,4 @@ public:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QBIG5CODEC_H
++#endif // QBIG5CODEC_P_H
+diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
+index 5714ccb..26d2475 100644
+--- a/src/corelib/codecs/qeucjpcodec.cpp
++++ b/src/corelib/codecs/qeucjpcodec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
+index f4fd8d2..f3e6871 100644
+--- a/src/corelib/codecs/qeucjpcodec_p.h
++++ b/src/corelib/codecs/qeucjpcodec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -68,8 +68,19 @@
+  * SUCH DAMAGE.
+  */
+ 
+-#ifndef QEUCJPCODEC_H
+-#define QEUCJPCODEC_H
++#ifndef QEUCJPCODEC_P_H
++#define QEUCJPCODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include "qjpunicode_p.h"
+ #include <QtCore/qtextcodec.h>
+@@ -103,4 +114,4 @@ protected:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QEUCJPCODEC_H
++#endif // QEUCJPCODEC_P_H
+diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
+index dd8e84c..5b2a06e 100644
+--- a/src/corelib/codecs/qeuckrcodec.cpp
++++ b/src/corelib/codecs/qeuckrcodec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
+index aa5e85c..371f316 100644
+--- a/src/corelib/codecs/qeuckrcodec_p.h
++++ b/src/corelib/codecs/qeuckrcodec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -64,8 +64,19 @@
+  * SUCH DAMAGE.
+  */
+ 
+-#ifndef QEUCKRCODEC_H
+-#define QEUCKRCODEC_H
++#ifndef QEUCKRCODEC_P_H
++#define QEUCKRCODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+@@ -126,4 +137,4 @@ public:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QEUCKRCODEC_H
++#endif // QEUCKRCODEC_P_H
+diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
+index 83de56d..7bb1911 100644
+--- a/src/corelib/codecs/qfontjpcodec.cpp
++++ b/src/corelib/codecs/qfontjpcodec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
+index 0d2538e..4cb17c2 100644
+--- a/src/corelib/codecs/qfontjpcodec_p.h
++++ b/src/corelib/codecs/qfontjpcodec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -39,8 +39,19 @@
+ **
+ ****************************************************************************/
+ 
+-#ifndef QFONTJPCODEC_H
+-#define QFONTJPCODEC_H
++#ifndef QFONTJPCODEC_P_H
++#define QFONTJPCODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+@@ -90,4 +101,4 @@ private:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QFONTJPCODEC_H
++#endif // QFONTJPCODEC_P_H
+diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
+index 70dc235..5146ba7 100644
+--- a/src/corelib/codecs/qgb18030codec.cpp
++++ b/src/corelib/codecs/qgb18030codec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
+index 1655263..7cb49bb 100644
+--- a/src/corelib/codecs/qgb18030codec_p.h
++++ b/src/corelib/codecs/qgb18030codec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -41,8 +41,19 @@
+ 
+ // Contributed by James Su <suzhe@gnuchina.org>
+ 
+-#ifndef QGB18030CODEC_H
+-#define QGB18030CODEC_H
++#ifndef QGB18030CODEC_P_H
++#define QGB18030CODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include <QtCore/qtextcodec.h>
+ #include <QtCore/qlist.h>
+@@ -156,4 +167,4 @@ public:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QGB18030CODEC_H
++#endif // QGB18030CODEC_P_H
+diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
+index 00678d3..781e404 100644
+--- a/src/corelib/codecs/qjiscodec.cpp
++++ b/src/corelib/codecs/qjiscodec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
+index 6ca2923..de4dec9 100644
+--- a/src/corelib/codecs/qjiscodec_p.h
++++ b/src/corelib/codecs/qjiscodec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -68,8 +68,19 @@
+  * SUCH DAMAGE.
+  */
+ 
+-#ifndef QJISCODEC_H
+-#define QJISCODEC_H
++#ifndef QJISCODEC_P_H
++#define QJISCODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include "qjpunicode_p.h"
+ #include <QtCore/qtextcodec.h>
+@@ -103,4 +114,4 @@ protected:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QJISCODEC_H
++#endif // QJISCODEC_P_H
+diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
+index ec7d338..7d408ba 100644
+--- a/src/corelib/codecs/qjpunicode.cpp
++++ b/src/corelib/codecs/qjpunicode.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
+index a0ff5a4..966b618 100644
+--- a/src/corelib/codecs/qjpunicode_p.h
++++ b/src/corelib/codecs/qjpunicode_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -68,8 +68,19 @@
+  * SUCH DAMAGE.
+  */
+ 
+-#ifndef QJPUNICODE_H
+-#define QJPUNICODE_H
++#ifndef QJPUNICODE_P_H
++#define QJPUNICODE_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include <QtCore/qglobal.h>
+ 
+@@ -171,4 +182,4 @@ private:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QJPUNICODE_H
++#endif // QJPUNICODE_P_H
+diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
+index 0e583e2..2b8efb2 100644
+--- a/src/corelib/codecs/qsjiscodec.cpp
++++ b/src/corelib/codecs/qsjiscodec.cpp
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
+index 6176536..73ab5c8 100644
+--- a/src/corelib/codecs/qsjiscodec_p.h
++++ b/src/corelib/codecs/qsjiscodec_p.h
+@@ -4,7 +4,7 @@
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
+ **
+-** This file is part of the plugins of the Qt Toolkit.
++** This file is part of the QtCore module of the Qt Toolkit.
+ **
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** GNU Lesser General Public License Usage
+@@ -68,8 +68,19 @@
+  * SUCH DAMAGE.
+  */
+ 
+-#ifndef QSJISCODEC_H
+-#define QSJISCODEC_H
++#ifndef QSJISCODEC_P_H
++#define QSJISCODEC_P_H
++
++//
++//  W A R N I N G
++//  -------------
++//
++// This file is not part of the Qt API.  It exists for the convenience
++// of other Qt classes.  This header file may change from version to
++// version without notice, or even be removed.
++//
++// We mean it.
++//
+ 
+ #include "qjpunicode_p.h"
+ #include <QtCore/qtextcodec.h>
+@@ -103,4 +114,4 @@ protected:
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // QSJISCODEC_H
++#endif // QSJISCODEC_P_H
+-- 
+1.7.8.3
+
+
+From b657b134f4455df3b45d7d6373a3b51caf43fb60 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Thu, 12 Jan 2012 10:43:29 +0100
+Subject: [PATCH 11/18] remove obsolete codec plugin loading code
+
+backported from qt5/qtbase
+Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+(cherry picked from commit 3a3356a85079d734dfa57205a00e1996afc033df)
+
+Conflicts:
+
+	dist/changes-5.0.0
+---
+ src/corelib/codecs/codecs.pri           |    8 +-
+ src/corelib/codecs/qtextcodec.cpp       |   87 +----------------
+ src/corelib/codecs/qtextcodecplugin.cpp |  161 -------------------------------
+ src/corelib/codecs/qtextcodecplugin.h   |   96 ------------------
+ src/corelib/global/qconfig-medium.h     |    3 -
+ src/corelib/global/qconfig-minimal.h    |    3 -
+ src/corelib/global/qconfig-nacl.h       |    3 -
+ src/corelib/global/qconfig-small.h      |    3 -
+ src/corelib/global/qfeatures.h          |    5 -
+ 9 files changed, 4 insertions(+), 365 deletions(-)
+ delete mode 100644 src/corelib/codecs/qtextcodecplugin.cpp
+ delete mode 100644 src/corelib/codecs/qtextcodecplugin.h
+
+diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
+index 367adf4..c089bf3 100644
+--- a/src/corelib/codecs/codecs.pri
++++ b/src/corelib/codecs/codecs.pri
+@@ -7,11 +7,9 @@ HEADERS += \
+     codecs/qtextcodec_p.h \
+     codecs/qtextcodec.h \
+     codecs/qtsciicodec_p.h \
+-    codecs/qutfcodec_p.h \
+-    codecs/qtextcodecplugin.h
++    codecs/qutfcodec_p.h
+ 
+ !symbian:HEADERS += \
+-    codecs/qtextcodecplugin.h \
+     codecs/qgb18030codec_p.h \
+     codecs/qeucjpcodec_p.h \
+     codecs/qjiscodec_p.h \
+@@ -26,11 +24,9 @@ SOURCES += \
+     codecs/qsimplecodec.cpp \
+     codecs/qtextcodec.cpp \
+     codecs/qtsciicodec.cpp \
+-    codecs/qutfcodec.cpp \
+-    codecs/qtextcodecplugin.cpp
++    codecs/qutfcodec.cpp
+ 
+ !symbian:SOURCES += \
+-    codecs/qtextcodecplugin.cpp \
+     codecs/qgb18030codec.cpp \
+     codecs/qjpunicode.cpp \
+     codecs/qeucjpcodec.cpp \
+diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
+index 8c3c779..03a0cc9 100644
+--- a/src/corelib/codecs/qtextcodec.cpp
++++ b/src/corelib/codecs/qtextcodec.cpp
+@@ -47,11 +47,6 @@
+ 
+ #include "qlist.h"
+ #include "qfile.h"
+-#ifndef QT_NO_LIBRARY
+-# include "qcoreapplication.h"
+-# include "qtextcodecplugin.h"
+-# include "private/qfactoryloader_p.h"
+-#endif
+ #include "qstringlist.h"
+ 
+ #ifdef Q_OS_UNIX
+@@ -104,11 +99,6 @@
+ 
+ QT_BEGIN_NAMESPACE
+ 
+-#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
+-Q_GLOBAL_STATIC_WITH_ARGS(QFactoryLoader, loader,
+-    (QTextCodecFactoryInterface_iid, QLatin1String("/codecs")))
+-#endif
+-
+ //Cache for QTextCodec::codecForName and codecForMib.
+ typedef QHash<QByteArray, QTextCodec *> QTextCodecCache;
+ Q_GLOBAL_STATIC(QTextCodecCache, qTextCodecCache)
+@@ -150,39 +140,6 @@ static bool nameMatch(const QByteArray &name, const QByteArray &test)
+ }
+ 
+ 
+-static QTextCodec *createForName(const QByteArray &name)
+-{
+-#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
+-    QFactoryLoader *l = loader();
+-    QStringList keys = l->keys();
+-    for (int i = 0; i < keys.size(); ++i) {
+-        if (nameMatch(name, keys.at(i).toLatin1())) {
+-            QString realName = keys.at(i);
+-            if (QTextCodecFactoryInterface *factory
+-                = qobject_cast<QTextCodecFactoryInterface*>(l->instance(realName))) {
+-                return factory->create(realName);
+-            }
+-        }
+-    }
+-#else
+-    Q_UNUSED(name);
+-#endif
+-    return 0;
+-}
+-
+-static QTextCodec *createForMib(int mib)
+-{
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-    QString name = QLatin1String("MIB: ") + QString::number(mib);
+-    if (QTextCodecFactoryInterface *factory
+-        = qobject_cast<QTextCodecFactoryInterface*>(loader()->instance(name)))
+-        return factory->create(name);
+-#else
+-    Q_UNUSED(mib);
+-#endif
+-    return 0;
+-}
+-
+ static QList<QTextCodec*> *all = 0;
+ #ifdef Q_DEBUG_TEXTCODEC
+ static bool destroying_is_ok = false;
+@@ -967,10 +924,6 @@ QTextCodec::ConverterState::~ConverterState()
+          \o Converts a Unicode string to an 8-bit character string.
+     \endtable
+ 
+-    You may find it more convenient to make your codec class
+-    available as a plugin; see \l{How to Create Qt Plugins} for
+-    details.
+-
+     \sa QTextStream, QTextDecoder, QTextEncoder, {Codecs Example}
+ */
+ 
+@@ -1063,10 +1016,7 @@ QTextCodec *QTextCodec::codecForName(const QByteArray &name)
+             }
+     }
+ 
+-    codec = createForName(name);
+-    if (codec && cache)
+-        cache->insert(name, codec);
+-    return codec;
++    return 0;
+ }
+ 
+ 
+@@ -1103,16 +1053,7 @@ QTextCodec* QTextCodec::codecForMib(int mib)
+         }
+     }
+ 
+-    codec = createForMib(mib);
+-
+-    // Qt 3 used 1000 (mib for UCS2) as its identifier for the utf16 codec. Map
+-    // this correctly for compatibility.
+-    if (!codec && mib == 1000)
+-        return codecForMib(1015);
+-
+-    if (codec && cache)
+-        cache->insert(key, codec);
+-    return codec;
++    return 0;
+ }
+ 
+ /*!
+@@ -1145,18 +1086,6 @@ QList<QByteArray> QTextCodec::availableCodecs()
+     locker.unlock();
+ #endif
+ 
+-#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
+-    QFactoryLoader *l = loader();
+-    QStringList keys = l->keys();
+-    for (int i = 0; i < keys.size(); ++i) {
+-        if (!keys.at(i).startsWith(QLatin1String("MIB: "))) {
+-            QByteArray name = keys.at(i).toLatin1();
+-            if (!codecs.contains(name))
+-                codecs += name;
+-        }
+-    }
+-#endif
+-
+     return codecs;
+ }
+ 
+@@ -1185,18 +1114,6 @@ QList<int> QTextCodec::availableMibs()
+     locker.unlock();
+ #endif
+ 
+-#if !defined(QT_NO_LIBRARY) && !defined(QT_NO_TEXTCODECPLUGIN)
+-    QFactoryLoader *l = loader();
+-    QStringList keys = l->keys();
+-    for (int i = 0; i < keys.size(); ++i) {
+-        if (keys.at(i).startsWith(QLatin1String("MIB: "))) {
+-            int mib = keys.at(i).mid(5).toInt();
+-            if (!codecs.contains(mib))
+-                codecs += mib;
+-        }
+-    }
+-#endif
+-
+     return codecs;
+ }
+ 
+diff --git a/src/corelib/codecs/qtextcodecplugin.cpp b/src/corelib/codecs/qtextcodecplugin.cpp
+deleted file mode 100644
+index 91b172d..0000000
+--- a/src/corelib/codecs/qtextcodecplugin.cpp
++++ /dev/null
+@@ -1,161 +0,0 @@
+-/****************************************************************************
+-**
+-** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+-** All rights reserved.
+-** Contact: Nokia Corporation (qt-info@nokia.com)
+-**
+-** This file is part of the QtCore module of the Qt Toolkit.
+-**
+-** $QT_BEGIN_LICENSE:LGPL$
+-** GNU Lesser General Public License Usage
+-** This file may be used under the terms of the GNU Lesser General Public
+-** License version 2.1 as published by the Free Software Foundation and
+-** appearing in the file LICENSE.LGPL included in the packaging of this
+-** file. Please review the following information to ensure the GNU Lesser
+-** General Public License version 2.1 requirements will be met:
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Nokia gives you certain additional
+-** rights. These rights are described in the Nokia Qt LGPL Exception
+-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+-**
+-** GNU General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU General
+-** Public License version 3.0 as published by the Free Software Foundation
+-** and appearing in the file LICENSE.GPL included in the packaging of this
+-** file. Please review the following information to ensure the GNU General
+-** Public License version 3.0 requirements will be met:
+-** http://www.gnu.org/copyleft/gpl.html.
+-**
+-** Other Usage
+-** Alternatively, this file may be used in accordance with the terms and
+-** conditions contained in a signed written agreement between you and Nokia.
+-**
+-**
+-**
+-**
+-**
+-** $QT_END_LICENSE$
+-**
+-****************************************************************************/
+-
+-#include "qtextcodecplugin.h"
+-#include "qstringlist.h"
+-
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-
+-QT_BEGIN_NAMESPACE
+-
+-/*!
+-    \class QTextCodecPlugin
+-    \brief The QTextCodecPlugin class provides an abstract base for custom QTextCodec plugins.
+-    \reentrant
+-    \ingroup plugins
+-
+-    The text codec plugin is a simple plugin interface that makes it
+-    easy to create custom text codecs that can be loaded dynamically
+-    into applications.
+-
+-    Writing a text codec plugin is achieved by subclassing this base
+-    class, reimplementing the pure virtual functions names(),
+-    aliases(), createForName(), mibEnums() and createForMib(), and
+-    exporting the class with the Q_EXPORT_PLUGIN2() macro. See \l{How
+-    to Create Qt Plugins} for details.
+-
+-    See the \l{http://www.iana.org/assignments/character-sets}{IANA
+-    character-sets encoding file} for more information on mime
+-    names and mib enums.
+-*/
+-
+-/*!
+-    \fn QStringList QTextCodecPlugin::names() const
+-
+-    Returns the list of MIME names supported by this plugin.
+-
+-    If a codec has several names, the extra names are returned by aliases().
+-
+-    \sa createForName(), aliases()
+-*/
+-
+-/*!
+-    \fn QList<QByteArray> QTextCodecPlugin::aliases() const
+-
+-    Returns the list of aliases supported by this plugin.
+-*/
+-
+-/*!
+-    \fn QTextCodec *QTextCodecPlugin::createForName(const QByteArray &name)
+-
+-    Creates a QTextCodec object for the codec called \a name. The \a name
+-    must come from the list of encodings returned by names(). Encoding
+-    names are case sensitive.
+-
+-    Example:
+-
+-    \snippet doc/src/snippets/code/src_corelib_codecs_qtextcodecplugin.cpp 0
+-
+-    \sa names()
+-*/
+-
+-
+-/*!
+-    \fn QList<int> QTextCodecPlugin::mibEnums() const
+-
+-    Returns the list of mib enums supported by this plugin.
+-
+-    \sa createForMib()
+-*/
+-
+-/*!
+-    \fn QTextCodec *QTextCodecPlugin::createForMib(int mib);
+-
+-    Creates a QTextCodec object for the mib enum \a mib.
+-
+-    See \l{http://www.iana.org/assignments/character-sets}{the
+-    IANA character-sets encoding file} for more information.
+-
+-    \sa mibEnums()
+-*/
+-
+-/*!
+-    Constructs a text codec plugin with the given \a parent. This is
+-    invoked automatically by the Q_EXPORT_PLUGIN2() macro.
+-*/
+-QTextCodecPlugin::QTextCodecPlugin(QObject *parent)
+-    : QObject(parent)
+-{
+-}
+-
+-/*!
+-    Destroys the text codec plugin.
+-
+-    You never have to call this explicitly. Qt destroys a plugin
+-    automatically when it is no longer used.
+-*/
+-QTextCodecPlugin::~QTextCodecPlugin()
+-{
+-}
+-
+-QStringList QTextCodecPlugin::keys() const
+-{
+-    QStringList keys;
+-    QList<QByteArray> list = names();
+-    list += aliases();
+-    for (int i = 0; i < list.size(); ++i)
+-        keys += QString::fromLatin1(list.at(i));
+-    QList<int> mibs = mibEnums();
+-    for (int i = 0; i < mibs.count(); ++i)
+-        keys += QLatin1String("MIB: ") + QString::number(mibs.at(i));
+-    return keys;
+-}
+-
+-QTextCodec *QTextCodecPlugin::create(const QString &name)
+-{
+-    if (name.startsWith(QLatin1String("MIB: ")))
+-        return createForMib(name.mid(4).toInt());
+-    return createForName(name.toLatin1());
+-}
+-
+-QT_END_NAMESPACE
+-
+-#endif // QT_NO_TEXTCODECPLUGIN
+diff --git a/src/corelib/codecs/qtextcodecplugin.h b/src/corelib/codecs/qtextcodecplugin.h
+deleted file mode 100644
+index d80b173..0000000
+--- a/src/corelib/codecs/qtextcodecplugin.h
++++ /dev/null
+@@ -1,96 +0,0 @@
+-/****************************************************************************
+-**
+-** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+-** All rights reserved.
+-** Contact: Nokia Corporation (qt-info@nokia.com)
+-**
+-** This file is part of the QtCore module of the Qt Toolkit.
+-**
+-** $QT_BEGIN_LICENSE:LGPL$
+-** GNU Lesser General Public License Usage
+-** This file may be used under the terms of the GNU Lesser General Public
+-** License version 2.1 as published by the Free Software Foundation and
+-** appearing in the file LICENSE.LGPL included in the packaging of this
+-** file. Please review the following information to ensure the GNU Lesser
+-** General Public License version 2.1 requirements will be met:
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Nokia gives you certain additional
+-** rights. These rights are described in the Nokia Qt LGPL Exception
+-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+-**
+-** GNU General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU General
+-** Public License version 3.0 as published by the Free Software Foundation
+-** and appearing in the file LICENSE.GPL included in the packaging of this
+-** file. Please review the following information to ensure the GNU General
+-** Public License version 3.0 requirements will be met:
+-** http://www.gnu.org/copyleft/gpl.html.
+-**
+-** Other Usage
+-** Alternatively, this file may be used in accordance with the terms and
+-** conditions contained in a signed written agreement between you and Nokia.
+-**
+-**
+-**
+-**
+-**
+-** $QT_END_LICENSE$
+-**
+-****************************************************************************/
+-
+-#ifndef QTEXTCODECPLUGIN_H
+-#define QTEXTCODECPLUGIN_H
+-
+-#include <QtCore/qplugin.h>
+-#include <QtCore/qfactoryinterface.h>
+-#include <QtCore/qlist.h>
+-#include <QtCore/qbytearray.h>
+-
+-QT_BEGIN_HEADER
+-
+-QT_BEGIN_NAMESPACE
+-
+-QT_MODULE(Core)
+-
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-
+-class QTextCodec;
+-
+-struct Q_CORE_EXPORT QTextCodecFactoryInterface : public QFactoryInterface
+-{
+-    virtual QTextCodec *create(const QString &key) = 0;
+-};
+-
+-#define QTextCodecFactoryInterface_iid "com.trolltech.Qt.QTextCodecFactoryInterface"
+-
+-Q_DECLARE_INTERFACE(QTextCodecFactoryInterface, QTextCodecFactoryInterface_iid)
+-
+-
+-class Q_CORE_EXPORT QTextCodecPlugin : public QObject, public QTextCodecFactoryInterface
+-{
+-    Q_OBJECT
+-    Q_INTERFACES(QTextCodecFactoryInterface:QFactoryInterface)
+-public:
+-    explicit QTextCodecPlugin(QObject *parent = 0);
+-    ~QTextCodecPlugin();
+-
+-    virtual QList<QByteArray> names() const = 0;
+-    virtual QList<QByteArray> aliases() const = 0;
+-    virtual QTextCodec *createForName(const QByteArray &name) = 0;
+-
+-    virtual QList<int> mibEnums() const = 0;
+-    virtual QTextCodec *createForMib(int mib) = 0;
+-
+-private:
+-    QStringList keys() const;
+-    QTextCodec *create(const QString &name);
+-};
+-
+-#endif // QT_NO_TEXTCODECPLUGIN
+-
+-QT_END_NAMESPACE
+-
+-QT_END_HEADER
+-
+-#endif // QTEXTCODECPLUGIN_H
+diff --git a/src/corelib/global/qconfig-medium.h b/src/corelib/global/qconfig-medium.h
+index f9ecf92..b3479cd 100644
+--- a/src/corelib/global/qconfig-medium.h
++++ b/src/corelib/global/qconfig-medium.h
+@@ -91,9 +91,6 @@
+ #ifndef QT_NO_CODECS
+ #  define QT_NO_CODECS
+ #endif
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-#  define QT_NO_TEXTCODECPLUGIN
+-#endif
+ #ifndef QT_NO_TRANSLATION
+ #  define QT_NO_TRANSLATION
+ #endif
+diff --git a/src/corelib/global/qconfig-minimal.h b/src/corelib/global/qconfig-minimal.h
+index 1035631..9ef28fd5 100644
+--- a/src/corelib/global/qconfig-minimal.h
++++ b/src/corelib/global/qconfig-minimal.h
+@@ -167,9 +167,6 @@
+ #ifndef QT_NO_CODECS
+ #  define QT_NO_CODECS
+ #endif
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-#  define QT_NO_TEXTCODECPLUGIN
+-#endif
+ #ifndef QT_NO_TRANSLATION
+ #  define QT_NO_TRANSLATION
+ #endif
+diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
+index 5aefdfe..15664b6 100644
+--- a/src/corelib/global/qconfig-nacl.h
++++ b/src/corelib/global/qconfig-nacl.h
+@@ -128,9 +128,6 @@
+ #ifndef QT_NO_CODECS
+ #  define QT_NO_CODECS
+ #endif
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-#  define QT_NO_TEXTCODECPLUGIN
+-#endif
+ #ifndef QT_NO_TRANSLATION
+ #  define QT_NO_TRANSLATION
+ #endif
+diff --git a/src/corelib/global/qconfig-small.h b/src/corelib/global/qconfig-small.h
+index 4f34169..963df87 100644
+--- a/src/corelib/global/qconfig-small.h
++++ b/src/corelib/global/qconfig-small.h
+@@ -128,9 +128,6 @@
+ #ifndef QT_NO_CODECS
+ #  define QT_NO_CODECS
+ #endif
+-#ifndef QT_NO_TEXTCODECPLUGIN
+-#  define QT_NO_TEXTCODECPLUGIN
+-#endif
+ #ifndef QT_NO_TRANSLATION
+ #  define QT_NO_TRANSLATION
+ #endif
+diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
+index 64d5f08..2b35940 100644
+--- a/src/corelib/global/qfeatures.h
++++ b/src/corelib/global/qfeatures.h
+@@ -643,11 +643,6 @@
+ #define QT_NO_TABDIALOG
+ #endif
+ 
+-// QTextCodecPlugin
+-#if !defined(QT_NO_TEXTCODECPLUGIN) && (defined(QT_NO_TEXTCODEC) || defined(QT_NO_LIBRARY))
+-#define QT_NO_TEXTCODECPLUGIN
+-#endif
+-
+ // QColorDialog
+ #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
+ #define QT_NO_COLORDIALOG
+-- 
+1.7.8.3
+
+
+From fae1dbca2a369f79c41a92c8e874a6de2ce91c42 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Mon, 23 Jan 2012 23:12:46 +0100
+Subject: [PATCH 12/18] remove vestiges of text codec plugins
+
+follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
+
+backported from qt5/qtbase
+Change-Id: Iba84958cbcd105ec702568752090719cc108e101
+Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
+(cherry picked from commit 38d4618eb5f9b7293513267f9f5749aa2568e08c)
+---
+ src/corelib/global/qfeatures.txt |    7 -------
+ 1 files changed, 0 insertions(+), 7 deletions(-)
+
+diff --git a/src/corelib/global/qfeatures.txt b/src/corelib/global/qfeatures.txt
+index dea05e0..12cd8ea 100644
+--- a/src/corelib/global/qfeatures.txt
++++ b/src/corelib/global/qfeatures.txt
+@@ -983,13 +983,6 @@ SeeAlso: ???
+ 
+ # Internationalization
+ 
+-Feature: TEXTCODECPLUGIN
+-Description: Supports custom text codecs that can be loaded dynamically into applications.
+-Section: Internationalization
+-Requires: TEXTCODEC LIBRARY
+-Name: QTextCodecPlugin
+-SeeAlso: ???
+-
+ Feature: TRANSLATION
+ Description: Supports translations using QObject::tr().
+ Section: Internationalization
+-- 
+1.7.8.3
+
+
+From 6162902afd0bf5f18d87bdbec16b19dc250d1ebc Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 05/12] use pkg-config for libmng (mingw-cross-env specific)
+Subject: [PATCH 13/18] use pkg-config for libmng (mingw-cross-env specific)
 
 ---
  src/gui/image/qmnghandler.pri |    4 +++-
@@ -79806,13 +80779,13 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.7.8
+1.7.8.3
 
 
-From bbbe5893c7a2e4a64c11beb4676b10a90f5e18ff Mon Sep 17 00:00:00 2001
+From 85c260ba643defd31292d4cc26ee377161d6092a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 06/12] use pkg-config for libtiff-4 (mingw-cross-env
+Subject: [PATCH 14/18] use pkg-config for libtiff-4 (mingw-cross-env
  specific)
 
 ---
@@ -79835,13 +80808,13 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.7.8
+1.7.8.3
 
 
-From 01b98c48f31e616cf29593d08a843300e812a496 Mon Sep 17 00:00:00 2001
+From 38b30f61ac37b13372408308796dc92360d7752c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 07/12] restore support for static linking of QtWebKit
+Subject: [PATCH 15/18] restore support for static linking of QtWebKit
  (mingw-cross-env specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -79929,13 +80902,13 @@ index 9be0f4a..6744f58 100644
  build-qtscript {
      SUBDIRS += \
 -- 
-1.7.8
+1.7.8.3
 
 
-From 9705fb3b6c79b5ce4e4933b839a04ee1d9053048 Mon Sep 17 00:00:00 2001
+From 10f652d527df2c563bddd51e326f0820f24c3c1b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 08/12] fix building on GNU/kFreeBSD (mingw-cross-specific)
+Subject: [PATCH 16/18] fix building on GNU/kFreeBSD (mingw-cross-specific)
 
 This patch has been taken from:
 
@@ -79962,13 +80935,13 @@ index e8c611b..c824d66 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.7.8
+1.7.8.3
 
 
-From eb0ae6c2504dea9e1b3e4df3b1f420d8e78d8b2f Mon Sep 17 00:00:00 2001
+From aca717c3ed2b0a63f88ad7ad0a4d944d3ca643d3 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 09/12] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 17/18] fix missing platform when building on GNU/kFreeBSD
  (mingw-cross-env specific)
 
 This patch is inspired by:
@@ -79994,13 +80967,13 @@ index 222308e..7b52179 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.7.8
+1.7.8.3
 
 
-From 00f4ef12c2507c56bbf87df0250fc77c34a4427b Mon Sep 17 00:00:00 2001
+From c309d3adb75c75a2e47ce5fda1ec3016e336b84b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 10/12] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 18/18] fix building on dragonfly (mingw-cross-env specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80022,107 +80995,5 @@ index 7b52179..0914ca5 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.7.8
-
-
-From 15ed59fa6a060df54b0a9e59223f1c567af6d30e Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Thu, 17 Nov 2011 00:57:12 +0100
-Subject: [PATCH 11/12] Windows: Add gcc 4.6 for cross building
-
-    - Add gcc 4.6 cross mkspec for > 4.4 (win32-g++-4.6-cross)
-
-Based on commit 1f2598b which did this for win32-g++-4.6
----
- mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf |    3 +
- .../win32-g++-4.6-cross/qplatformdefs.h            |   42 ++++++++++++++++++++
- 2 files changed, 45 insertions(+), 0 deletions(-)
- create mode 100644 mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
- create mode 100644 mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
-
-diff --git a/mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf b/mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
-new file mode 100644
-index 0000000..b2a1bb7
---- /dev/null
-+++ b/mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
-@@ -0,0 +1,3 @@
-+include(../win32-g++-cross/qmake.conf)
-+QMAKE_CFLAGS *= -fno-keep-inline-dllexport
-+QMAKE_CXXFLAGS *= -fno-keep-inline-dllexport
-diff --git a/mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h b/mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
-new file mode 100644
-index 0000000..f91d92d
---- /dev/null
-+++ b/mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
-@@ -0,0 +1,42 @@
-+/****************************************************************************
-+**
-+** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
-+**
-+** This file is part of the qmake spec of the Qt Toolkit.
-+**
-+** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-+**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
-+** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-+**
-+** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
-+**
-+** $QT_END_LICENSE$
-+**
-+****************************************************************************/
-+
-+#include "../../win32-g++-4.6/qplatformdefs.h"
--- 
-1.7.8
-
-
-From 0017467dec96bbe6596fb865586ddd810598129c Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Mon, 21 Nov 2011 08:56:19 +0100
-Subject: [PATCH 12/12] use "cp -R" instead of "cp -r" for *bsd compatibility
-
----
- mkspecs/unsupported/win32-g++-cross/qmake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/mkspecs/unsupported/win32-g++-cross/qmake.conf b/mkspecs/unsupported/win32-g++-cross/qmake.conf
-index 0538e86..97a088c 100644
---- a/mkspecs/unsupported/win32-g++-cross/qmake.conf
-+++ b/mkspecs/unsupported/win32-g++-cross/qmake.conf
-@@ -79,7 +79,7 @@ QMAKE_SH		= bash
- MINGW_IN_SHELL		= 1
- QMAKE_DIR_SEP		= /
- QMAKE_COPY		= cp
--QMAKE_COPY_DIR		= cp -r
-+QMAKE_COPY_DIR		= cp -R
- QMAKE_MOVE		= mv
- QMAKE_DEL_FILE		= rm -f
- QMAKE_MKDIR		= mkdir -p
--- 
-1.7.8
+1.7.8.3
 
