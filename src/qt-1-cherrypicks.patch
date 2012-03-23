@@ -8,14 +8,14 @@ Also contains mingw-cross-env specific fixes.
 From a140e010a213e993f8edf379a7d42c32bc61a672 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 22:45:15 +0200
-Subject: [PATCH 01/18] add missing multiple inclusion guard
+Subject: [PATCH 01/19] add missing multiple inclusion guard
 
 Change-Id: I82e9d1ddfc1a46bf47b8948dce800dcbcc1a0305
 Reviewed-by: hjk <qthjk@ovi.com>
 (cherry picked from commit cd374b794eea65013b50cc60de3591f84be4f0d8)
 ---
  src/plugins/codecs/kr/cp949codetbl.h |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ 1 file changed, 5 insertions(+)
 
 diff --git a/src/plugins/codecs/kr/cp949codetbl.h b/src/plugins/codecs/kr/cp949codetbl.h
 index f54db8d..8b254e0 100644
@@ -38,13 +38,13 @@ index f54db8d..8b254e0 100644
 +
 +#endif // CP494CODETBL_H
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 34da8ee14183f8f9acc7d1b5e6fe61c353872a01 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 17 Nov 2011 00:57:12 +0100
-Subject: [PATCH 02/18] Windows: Add gcc 4.6 for cross building
+Subject: [PATCH 02/19] Windows: Add gcc 4.6 for cross building
 
 Based on commit 1f2598b which did this for win32-g++-4.6
 
@@ -52,9 +52,9 @@ Change-Id: Icbeed880a6810f9e5a121d1b36ed194418b1633b
 Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
 (cherry picked from commit 798a479a956954794e7afff38822fd0205fec859)
 ---
- mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf |    3 +
+ mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf |    3 ++
  .../win32-g++-4.6-cross/qplatformdefs.h            |   42 ++++++++++++++++++++
- 2 files changed, 45 insertions(+), 0 deletions(-)
+ 2 files changed, 45 insertions(+)
  create mode 100644 mkspecs/unsupported/win32-g++-4.6-cross/qmake.conf
  create mode 100644 mkspecs/unsupported/win32-g++-4.6-cross/qplatformdefs.h
 
@@ -116,20 +116,20 @@ index 0000000..837acbf
 +
 +#include "../../win32-g++-4.6/qplatformdefs.h"
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 0b30e1c9bc71b75fdc27a363c30b547091d004f0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 21 Nov 2011 08:56:19 +0100
-Subject: [PATCH 03/18] use "cp -R" instead of "cp -r" for *bsd compatibility
+Subject: [PATCH 03/19] use "cp -R" instead of "cp -r" for *bsd compatibility
 
 Change-Id: Ib013e2d36645a782249b543ec9301902484a7708
 Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
 (cherry picked from commit f8f8af983f8ed95839926ab5e1def7171250f69f)
 ---
  mkspecs/unsupported/win32-g++-cross/qmake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/mkspecs/unsupported/win32-g++-cross/qmake.conf b/mkspecs/unsupported/win32-g++-cross/qmake.conf
 index 0538e86..97a088c 100644
@@ -145,13 +145,13 @@ index 0538e86..97a088c 100644
  QMAKE_DEL_FILE		= rm -f
  QMAKE_MKDIR		= mkdir -p
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 8feb5a2a04c2a430e7be5e603dea9f01c69fbe1b Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 04/18] remove trailing whitespace
+Subject: [PATCH 04/19] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
@@ -159,7 +159,7 @@ Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 0f7a413683ab4358c4ded8bdffb7381459d98068)
 ---
  src/corelib/codecs/codecs.pri |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index 46d7dd4..fe01df0 100644
@@ -175,13 +175,13 @@ index 46d7dd4..fe01df0 100644
                          ../plugins/codecs/tw/qbig5codec.h \
                          ../plugins/codecs/jp/qfontjpcodec.h
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 0b7749f979f8120a675ac13394f92e31bb62c812 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 05/18] do not detect or configure iconv for Windows
+Subject: [PATCH 05/19] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -196,7 +196,7 @@ Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 9fa2b641ba6ff4f4b3f474b87ddb642cfa5c3d83)
 ---
  configure |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
 index 5a5ef1d..e113544 100755
@@ -212,13 +212,13 @@ index 5a5ef1d..e113544 100755
      elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
          CFG_ICONV=yes
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 7eb4cb29c6faa778e987e2178cac308b1d314436 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 06/18] fix whitespace
+Subject: [PATCH 06/19] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
@@ -226,7 +226,7 @@ Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 (cherry picked from commit 10f6c5981cd2373c73873f8bace0b2df42a01db8)
 ---
  src/corelib/codecs/codecs.pri |   33 ++++++++++++++++-----------------
- 1 files changed, 16 insertions(+), 17 deletions(-)
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index fe01df0..ec02365 100644
@@ -289,13 +289,13 @@ index fe01df0..ec02365 100644
                          ../plugins/codecs/tw/qbig5codec.cpp \
                          ../plugins/codecs/jp/qfontjpcodec.cpp
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 7d0797312d66d93d2e8939b0675678157ff54267 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 07/18] build and load text codecs regardless of iconv and
+Subject: [PATCH 07/19] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -312,8 +312,8 @@ Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 7ee3d8c8ecb78dd7c5ae09b04ebf1420958f0001)
 ---
- src/corelib/codecs/codecs.pri     |   38 ++++++++++++++++++------------------
- src/corelib/codecs/qtextcodec.cpp |   14 ++++--------
+ src/corelib/codecs/codecs.pri     |   38 ++++++++++++++++++-------------------
+ src/corelib/codecs/qtextcodec.cpp |   14 +++++---------
  2 files changed, 24 insertions(+), 28 deletions(-)
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
@@ -435,13 +435,13 @@ index dd06a2a..dbe6f6eb 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From dfaf8bedabdc64bc6e4b16f91270edcf6335e685 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 08/18] move plugin text codecs to QtCore
+Subject: [PATCH 08/19] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79477,13 +79477,13 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 3547af917a4da078f42825af7cb933fac3d22718 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 09/18] update private header references
+Subject: [PATCH 09/19] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
@@ -79653,13 +79653,13 @@ index e61cc91..6176536 100644
  #include <QtCore/qlist.h>
  
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From b46be6306811d46b287ac1d884c63f68c2a76d12 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 10/18] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 10/19] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -80164,13 +80164,13 @@ index 6176536..73ab5c8 100644
 -#endif // QSJISCODEC_H
 +#endif // QSJISCODEC_P_H
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From b657b134f4455df3b45d7d6373a3b51caf43fb60 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 11/18] remove obsolete codec plugin loading code
+Subject: [PATCH 11/19] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -80714,13 +80714,13 @@ index 64d5f08..2b35940 100644
  #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
  #define QT_NO_COLORDIALOG
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From fae1dbca2a369f79c41a92c8e874a6de2ce91c42 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 12/18] remove vestiges of text codec plugins
+Subject: [PATCH 12/19] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80730,7 +80730,7 @@ Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 (cherry picked from commit 38d4618eb5f9b7293513267f9f5749aa2568e08c)
 ---
  src/corelib/global/qfeatures.txt |    7 -------
- 1 files changed, 0 insertions(+), 7 deletions(-)
+ 1 file changed, 7 deletions(-)
 
 diff --git a/src/corelib/global/qfeatures.txt b/src/corelib/global/qfeatures.txt
 index dea05e0..12cd8ea 100644
@@ -80751,17 +80751,17 @@ index dea05e0..12cd8ea 100644
  Description: Supports translations using QObject::tr().
  Section: Internationalization
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 6162902afd0bf5f18d87bdbec16b19dc250d1ebc Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 13/18] use pkg-config for libmng (mingw-cross-env specific)
+Subject: [PATCH 13/19] use pkg-config for libmng (mingw-cross-env specific)
 
 ---
  src/gui/image/qmnghandler.pri |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/gui/image/qmnghandler.pri b/src/gui/image/qmnghandler.pri
 index ffb98de..6aab68f 100644
@@ -80779,18 +80779,18 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 85c260ba643defd31292d4cc26ee377161d6092a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 14/18] use pkg-config for libtiff-4 (mingw-cross-env
+Subject: [PATCH 14/19] use pkg-config for libtiff-4 (mingw-cross-env
  specific)
 
 ---
  src/gui/image/qtiffhandler.pri |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/gui/image/qtiffhandler.pri b/src/gui/image/qtiffhandler.pri
 index e1cc3ee..71cbab1 100644
@@ -80808,13 +80808,13 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 38b30f61ac37b13372408308796dc92360d7752c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 15/18] restore support for static linking of QtWebKit
+Subject: [PATCH 15/19] restore support for static linking of QtWebKit
  (mingw-cross-env specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80902,13 +80902,13 @@ index 9be0f4a..6744f58 100644
  build-qtscript {
      SUBDIRS += \
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From 10f652d527df2c563bddd51e326f0820f24c3c1b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 16/18] fix building on GNU/kFreeBSD (mingw-cross-specific)
+Subject: [PATCH 16/19] fix building on GNU/kFreeBSD (mingw-cross-specific)
 
 This patch has been taken from:
 
@@ -80919,7 +80919,7 @@ Description: Fixes FTBFS on GNU/kFreeBSD by creating new Q_OS_FREEBSD_KERNEL.
 Last-Update: 2010-10-06
 ---
  src/corelib/global/qglobal.h |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ 1 file changed, 2 insertions(+)
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
 index e8c611b..c824d66 100644
@@ -80935,13 +80935,13 @@ index e8c611b..c824d66 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From aca717c3ed2b0a63f88ad7ad0a4d944d3ca643d3 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 17/18] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 17/19] fix missing platform when building on GNU/kFreeBSD
  (mingw-cross-env specific)
 
 This patch is inspired by:
@@ -80950,7 +80950,7 @@ http://anonscm.debian.org/gitweb/?p=pkg-kde/qt/qt4-x11.git;a=blob;f=debian/rules
 For the time being, glibc-g++ is simply a copy of linux-g++.
 ---
  configure |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ 1 file changed, 3 insertions(+)
 
 diff --git a/configure b/configure
 index 222308e..7b52179 100755
@@ -80967,19 +80967,19 @@ index 222308e..7b52179 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.7.8.3
+1.7.9.2
 
 
 From c309d3adb75c75a2e47ce5fda1ec3016e336b84b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 18/18] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 18/19] fix building on dragonfly (mingw-cross-env specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
 ---
  configure |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
 index 7b52179..0914ca5 100755
@@ -80995,5 +80995,48 @@ index 7b52179..0914ca5 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.7.8.3
+1.7.9.2
+
+
+From 33c9ce2664c3caef996d2a55acd31e476e4d5894 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Fri, 23 Mar 2012 16:29:57 +0100
+Subject: [PATCH 19/19] gcc 4.7.0 compatibility fix for javascript
+
+taken from http://qt-project.org/forums/viewthread/15071
+
+Change-Id: I701fb5a8d754afe9fcd6b327d779365673e07b5d
+---
+ .../JavaScriptCore/runtime/JSGlobalObject.h        |    2 +-
+ .../JavaScriptCore/runtime/JSStaticScopeObject.h   |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h b/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
+index 7c20272..9eb86e7 100644
+--- a/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
++++ b/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
+@@ -59,7 +59,7 @@ namespace JSC {
+     protected:
+         using JSVariableObject::JSVariableObjectData;
+ 
+-        struct JSGlobalObjectData : public JSVariableObjectData {
++        struct JSGlobalObjectData : public JSVariableObject::JSVariableObjectData {
+             // We use an explicit destructor function pointer instead of a
+             // virtual destructor because we want to avoid adding a vtable
+             // pointer to this struct. Adding a vtable pointer would force the
+diff --git a/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h b/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
+index 2542878..3cb66a0 100644
+--- a/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
++++ b/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h
+@@ -33,7 +33,7 @@ namespace JSC{
+     class JSStaticScopeObject : public JSVariableObject {
+     protected:
+         using JSVariableObject::JSVariableObjectData;
+-        struct JSStaticScopeObjectData : public JSVariableObjectData {
++        struct JSStaticScopeObjectData : public JSVariableObject::JSVariableObjectData {
+             JSStaticScopeObjectData()
+                 : JSVariableObjectData(&symbolTable, &registerStore + 1)
+             {
+-- 
+1.7.9.2
 
