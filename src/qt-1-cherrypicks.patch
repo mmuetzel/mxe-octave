@@ -1,9 +1,9 @@
-This file is part of mingw-cross-env.
+This file is part of MXE.
 See doc/index.html for further information.
 
 Commits backported (cherry-picked) from upstream branch or merge requests.
 http://qt.gitorious.org/qt
-Also contains mingw-cross-env specific fixes.
+Also contains MXE specific fixes.
 
 From a140e010a213e993f8edf379a7d42c32bc61a672 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
@@ -80757,7 +80757,7 @@ index dea05e0..12cd8ea 100644
 From 6162902afd0bf5f18d87bdbec16b19dc250d1ebc Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 13/19] use pkg-config for libmng (mingw-cross-env specific)
+Subject: [PATCH 13/19] use pkg-config for libmng (MXE specific)
 
 ---
  src/gui/image/qmnghandler.pri |    4 +++-
@@ -80785,8 +80785,7 @@ index ffb98de..6aab68f 100644
 From 85c260ba643defd31292d4cc26ee377161d6092a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 14/19] use pkg-config for libtiff-4 (mingw-cross-env
- specific)
+Subject: [PATCH 14/19] use pkg-config for libtiff-4 (MXE specific)
 
 ---
  src/gui/image/qtiffhandler.pri |    4 +++-
@@ -80815,7 +80814,7 @@ From 38b30f61ac37b13372408308796dc92360d7752c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
 Subject: [PATCH 15/19] restore support for static linking of QtWebKit
- (mingw-cross-env specific)
+ (MXE specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
 
@@ -80942,7 +80941,7 @@ From aca717c3ed2b0a63f88ad7ad0a4d944d3ca643d3 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
 Subject: [PATCH 17/19] fix missing platform when building on GNU/kFreeBSD
- (mingw-cross-env specific)
+ (MXE specific)
 
 This patch is inspired by:
 http://anonscm.debian.org/gitweb/?p=pkg-kde/qt/qt4-x11.git;a=blob;f=debian/rules;h=47e5efbf09f77e6da51a3d719d2f6be47f69d096;hb=HEAD
@@ -80973,7 +80972,7 @@ index 222308e..7b52179 100755
 From c309d3adb75c75a2e47ce5fda1ec3016e336b84b Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 18/19] fix building on dragonfly (mingw-cross-env specific)
+Subject: [PATCH 18/19] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
