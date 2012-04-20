@@ -80669,7 +80669,7 @@ index e1cc3ee..71cbab1 100644
 1.7.9.2
 
 
-From 53435e54b4d81bdcd35ccbe292ba6cc9321e8b17 Mon Sep 17 00:00:00 2001
+From a3c87e93fd4aa06163eb157b060e155c44fbbe14 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
 Subject: [PATCH 12/17] restore support for static linking of QtWebKit (MXE
@@ -80688,8 +80688,9 @@ Change-Id: Ia969b8e3f2b656a5057c7ebf748f272d74f014da
  configure                                          |    6 ------
  .../Source/JavaScriptCore/JavaScriptCore.pri       |   12 ++++++++++++
  src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   12 ++++++++++++
+ src/3rdparty/webkit/Source/WebCore/WebCore.pro     |    2 +-
  src/3rdparty/webkit/Source/WebKit.pro              |    2 +-
- 4 files changed, 25 insertions(+), 7 deletions(-)
+ 5 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/configure b/configure
 index 0690822..2837eec 100755
@@ -80748,6 +80749,19 @@ index d83eec7..33c0b1f 100644
 +    QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
 +    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 +}
+diff --git a/src/3rdparty/webkit/Source/WebCore/WebCore.pro b/src/3rdparty/webkit/Source/WebCore/WebCore.pro
+index ceceee8..6609944 100644
+--- a/src/3rdparty/webkit/Source/WebCore/WebCore.pro
++++ b/src/3rdparty/webkit/Source/WebCore/WebCore.pro
+@@ -16,7 +16,7 @@ CONFIG += staticlib
+ DESTDIR = $$WEBCORE_DESTDIR
+ 
+ DEFINES += BUILDING_WEBKIT
+-DEFINES += QT_MAKEDLL
++!static:DEFINES += QT_MAKEDLL
+ 
+ contains(DEFINES, WTF_USE_QT_MOBILE_THEME=1) {
+     DEFINES += ENABLE_NO_LISTBOX_RENDERING=1
 diff --git a/src/3rdparty/webkit/Source/WebKit.pro b/src/3rdparty/webkit/Source/WebKit.pro
 index 9be0f4a..6744f58 100644
 --- a/src/3rdparty/webkit/Source/WebKit.pro
@@ -80765,7 +80779,7 @@ index 9be0f4a..6744f58 100644
 1.7.9.2
 
 
-From f6375f66b90b8f03c2df62330bd1c14e16a0120e Mon Sep 17 00:00:00 2001
+From 0f6cab5fff9eb2e0cfc173eaf71e068f9b82e9d3 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
 Subject: [PATCH 13/17] fix building on GNU/kFreeBSD (MXE specific)
@@ -80799,7 +80813,7 @@ index ed8f9eb..e571c4e 100644
 1.7.9.2
 
 
-From 90fc0213a853e155514e49765794ebbe9ef3da1f Mon Sep 17 00:00:00 2001
+From 3b9839cc26fc7997b043a74c7d30fc3b0b81ad83 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
 Subject: [PATCH 14/17] fix missing platform when building on GNU/kFreeBSD
@@ -80833,7 +80847,7 @@ index 2837eec..8b4e5e8 100755
 1.7.9.2
 
 
-From 3c0837566e8319fddae6c6f5a037657e729f9d43 Mon Sep 17 00:00:00 2001
+From e15286869c4e9b5714209ec38686f63c8b2ff44c Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
 Subject: [PATCH 15/17] fix building on dragonfly (MXE specific)
@@ -80863,7 +80877,7 @@ index 8b4e5e8..99948d1 100755
 1.7.9.2
 
 
-From b80860ba8ddb8c418fc4fb356bc1bc6a93274a4a Mon Sep 17 00:00:00 2001
+From 87952077f0d192d2ce15ea111be3f320bc03be40 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 23 Mar 2012 16:29:57 +0100
 Subject: [PATCH 16/17] gcc 4.7.0 compatibility fix for javascript
@@ -80906,23 +80920,26 @@ index 2542878..3cb66a0 100644
 1.7.9.2
 
 
-From eed49bb64c768d9a51fb55567052b2e3441ef70e Mon Sep 17 00:00:00 2001
+From 4de5298ed5b06dea106f054ef110146a45f06b6f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 19 Apr 2012 14:48:34 +0200
 Subject: [PATCH 17/17] fix static library names when generating .pc files for
  pkgconfig
 
-219a688ac17052e4bb3aac9ff8a813e3f4d8da01 added the version extension
+c354d16cc64cf516a0b5149cdc9ef74de096a998 added the version extension
 which only occurs on the DLL import library.
 
-taken from https://codereview.qt-project.org/23844
+cherry-picked from qt5/qtbase 8e053a5dfc9b4c8f100b1e77335439774f52fc61
 Change-Id: Ie913adf039d7f3a9aadf43f4af014289a8aeacbe
+Reviewed-by: Mark Brand <mabrand@mabrand.nl>
+Reviewed-by: Girish Ramakrishnan <girish.1.ramakrishnan@nokia.com>
+(cherry picked from commit 51a2b0fde9bf635482fd2463b901139c82ed0dc4)
 ---
  qmake/generators/makefile.cpp |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/qmake/generators/makefile.cpp b/qmake/generators/makefile.cpp
-index 66c6d49..951f40d 100644
+index 66c6d49..447943a 100644
 --- a/qmake/generators/makefile.cpp
 +++ b/qmake/generators/makefile.cpp
 @@ -3258,7 +3258,8 @@ MakefileGenerator::writePkgConfigFile()
