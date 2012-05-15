@@ -8,7 +8,7 @@ Also contains MXE specific fixes.
 From 16a4f14e8e879a14ae5db47d0731c9199c01a816 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 01/16] remove trailing whitespace
+Subject: [PATCH 01/17] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
@@ -38,7 +38,7 @@ index 6bc2fa6..9b7967d 100644
 From 162708efc51e40ed59d4e3397d399920c21d03a6 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 02/16] do not detect or configure iconv for Windows
+Subject: [PATCH 02/17] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -75,7 +75,7 @@ index a706908..0690822 100755
 From dd34e052a555203b2bfb415bd0ce348ef232aa7e Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 03/16] fix whitespace
+Subject: [PATCH 03/17] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
@@ -152,7 +152,7 @@ index 9b7967d..836cc34 100644
 From 7f2e5f5e4bc740446f0160ae3246907fa4f6dc2f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 04/16] build and load text codecs regardless of iconv and
+Subject: [PATCH 04/17] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -298,7 +298,7 @@ index 74e5e90..2b3100a 100644
 From 00db0d7b9b99b18fd08463f86102f1b63eb3a527 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 05/16] move plugin text codecs to QtCore
+Subject: [PATCH 05/17] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79340,7 +79340,7 @@ index 94ce675..c4af49b 100644
 From 0332650cdfb4c5847a4678a1aebfbe146c850b87 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 06/16] update private header references
+Subject: [PATCH 06/17] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
@@ -79516,7 +79516,7 @@ index c56a103..df1449b 100644
 From e76298384079852d9cc1e0138a10b0637f34687f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 07/16] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 07/17] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -80027,7 +80027,7 @@ index df1449b..f8efcae 100644
 From 16ea320980842c9c16d380f3bdd84c5a413dbd21 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 08/16] remove obsolete codec plugin loading code
+Subject: [PATCH 08/17] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -80577,7 +80577,7 @@ index 844101a..4ea4227 100644
 From 5a5ae1066dbcf8a663e7f292d8679aae2ccd7b73 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 09/16] remove vestiges of text codec plugins
+Subject: [PATCH 09/17] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80614,7 +80614,7 @@ index dea05e0..12cd8ea 100644
 From 90daa3f753c91a3efde3dfdc9151f9a639c653d0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 10/16] use pkg-config for libmng (MXE specific)
+Subject: [PATCH 10/17] use pkg-config for libmng (MXE specific)
 
 Change-Id: Ifce956d5cad06d5273088656b8500b87980063f4
 ---
@@ -80643,7 +80643,7 @@ index ffb98de..6aab68f 100644
 From 1d4c3643de6eea011e74ed73dc2290c58f41d865 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 11/16] use pkg-config for libtiff-4 (MXE specific)
+Subject: [PATCH 11/17] use pkg-config for libtiff-4 (MXE specific)
 
 Change-Id: I5e89e66fc1606d425553e781c9e62db703136957
 ---
@@ -80669,10 +80669,10 @@ index e1cc3ee..71cbab1 100644
 1.7.9.2
 
 
-From 53435e54b4d81bdcd35ccbe292ba6cc9321e8b17 Mon Sep 17 00:00:00 2001
+From a3c87e93fd4aa06163eb157b060e155c44fbbe14 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/16] restore support for static linking of QtWebKit (MXE
+Subject: [PATCH 12/17] restore support for static linking of QtWebKit (MXE
  specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80688,8 +80688,9 @@ Change-Id: Ia969b8e3f2b656a5057c7ebf748f272d74f014da
  configure                                          |    6 ------
  .../Source/JavaScriptCore/JavaScriptCore.pri       |   12 ++++++++++++
  src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   12 ++++++++++++
+ src/3rdparty/webkit/Source/WebCore/WebCore.pro     |    2 +-
  src/3rdparty/webkit/Source/WebKit.pro              |    2 +-
- 4 files changed, 25 insertions(+), 7 deletions(-)
+ 5 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/configure b/configure
 index 0690822..2837eec 100755
@@ -80748,6 +80749,19 @@ index d83eec7..33c0b1f 100644
 +    QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
 +    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 +}
+diff --git a/src/3rdparty/webkit/Source/WebCore/WebCore.pro b/src/3rdparty/webkit/Source/WebCore/WebCore.pro
+index ceceee8..6609944 100644
+--- a/src/3rdparty/webkit/Source/WebCore/WebCore.pro
++++ b/src/3rdparty/webkit/Source/WebCore/WebCore.pro
+@@ -16,7 +16,7 @@ CONFIG += staticlib
+ DESTDIR = $$WEBCORE_DESTDIR
+ 
+ DEFINES += BUILDING_WEBKIT
+-DEFINES += QT_MAKEDLL
++!static:DEFINES += QT_MAKEDLL
+ 
+ contains(DEFINES, WTF_USE_QT_MOBILE_THEME=1) {
+     DEFINES += ENABLE_NO_LISTBOX_RENDERING=1
 diff --git a/src/3rdparty/webkit/Source/WebKit.pro b/src/3rdparty/webkit/Source/WebKit.pro
 index 9be0f4a..6744f58 100644
 --- a/src/3rdparty/webkit/Source/WebKit.pro
@@ -80765,10 +80779,10 @@ index 9be0f4a..6744f58 100644
 1.7.9.2
 
 
-From f6375f66b90b8f03c2df62330bd1c14e16a0120e Mon Sep 17 00:00:00 2001
+From 0f6cab5fff9eb2e0cfc173eaf71e068f9b82e9d3 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/16] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 13/17] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80799,10 +80813,10 @@ index ed8f9eb..e571c4e 100644
 1.7.9.2
 
 
-From 90fc0213a853e155514e49765794ebbe9ef3da1f Mon Sep 17 00:00:00 2001
+From 3b9839cc26fc7997b043a74c7d30fc3b0b81ad83 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/16] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 14/17] fix missing platform when building on GNU/kFreeBSD
  (MXE specific)
 
 This patch is inspired by:
@@ -80833,10 +80847,10 @@ index 2837eec..8b4e5e8 100755
 1.7.9.2
 
 
-From 3c0837566e8319fddae6c6f5a037657e729f9d43 Mon Sep 17 00:00:00 2001
+From e15286869c4e9b5714209ec38686f63c8b2ff44c Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/16] fix building on dragonfly (MXE specific)
+Subject: [PATCH 15/17] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80863,10 +80877,10 @@ index 8b4e5e8..99948d1 100755
 1.7.9.2
 
 
-From b80860ba8ddb8c418fc4fb356bc1bc6a93274a4a Mon Sep 17 00:00:00 2001
+From 87952077f0d192d2ce15ea111be3f320bc03be40 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 23 Mar 2012 16:29:57 +0100
-Subject: [PATCH 16/16] gcc 4.7.0 compatibility fix for javascript
+Subject: [PATCH 16/17] gcc 4.7.0 compatibility fix for javascript
 
 taken from http://qt-project.org/forums/viewthread/15071
 
@@ -80902,6 +80916,42 @@ index 2542878..3cb66a0 100644
              JSStaticScopeObjectData()
                  : JSVariableObjectData(&symbolTable, &registerStore + 1)
              {
+-- 
+1.7.9.2
+
+
+From 4de5298ed5b06dea106f054ef110146a45f06b6f Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Thu, 19 Apr 2012 14:48:34 +0200
+Subject: [PATCH 17/17] fix static library names when generating .pc files for
+ pkgconfig
+
+c354d16cc64cf516a0b5149cdc9ef74de096a998 added the version extension
+which only occurs on the DLL import library.
+
+cherry-picked from qt5/qtbase 8e053a5dfc9b4c8f100b1e77335439774f52fc61
+Change-Id: Ie913adf039d7f3a9aadf43f4af014289a8aeacbe
+Reviewed-by: Mark Brand <mabrand@mabrand.nl>
+Reviewed-by: Girish Ramakrishnan <girish.1.ramakrishnan@nokia.com>
+(cherry picked from commit 51a2b0fde9bf635482fd2463b901139c82ed0dc4)
+---
+ qmake/generators/makefile.cpp |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/qmake/generators/makefile.cpp b/qmake/generators/makefile.cpp
+index 66c6d49..447943a 100644
+--- a/qmake/generators/makefile.cpp
++++ b/qmake/generators/makefile.cpp
+@@ -3258,7 +3258,8 @@ MakefileGenerator::writePkgConfigFile()
+     } else {
+         pkgConfiglibDir = "-L${libdir}";
+         pkgConfiglibName = "-l" + lname.left(lname.length()-Option::libtool_ext.length());
+-        pkgConfiglibName += project->first("TARGET_VERSION_EXT");
++        if (project->isActiveConfig("shared"))
++            pkgConfiglibName += project->first("TARGET_VERSION_EXT");
+     }
+     t << pkgConfiglibDir << " " << pkgConfiglibName << " " << endl;
+ 
 -- 
 1.7.9.2
 
