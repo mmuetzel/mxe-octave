@@ -5,18 +5,15 @@ Commits backported (cherry-picked) from upstream branch or merge requests.
 http://qt.gitorious.org/qt
 Also contains MXE specific fixes.
 
-From c9337a775daa3a53426403fdc6984656c0e08c29 Mon Sep 17 00:00:00 2001
+From 2a376d8ff643ec0d40fdba68a25c3a323dbd5be4 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 01/15] remove trailing whitespace
+Subject: [PATCH 01/23] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
 Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 0f7a413683ab4358c4ded8bdffb7381459d98068)
----
- src/corelib/codecs/codecs.pri |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index 9090773..859ec8d 100644
@@ -32,13 +29,13 @@ index 9090773..859ec8d 100644
                          ../plugins/codecs/tw/qbig5codec.h \
                          ../plugins/codecs/jp/qfontjpcodec.h
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 2afee6408f010376ede9f58aaee1fe4e23aa116d Mon Sep 17 00:00:00 2001
+From f9650fb05bde43a8d710469daa363383e3947e3a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 02/15] do not detect or configure iconv for Windows
+Subject: [PATCH 02/23] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -51,15 +48,12 @@ Change-Id: I449a00860c2e77e6cdd8cdcf7108621c684207bf
 Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 9fa2b641ba6ff4f4b3f474b87ddb642cfa5c3d83)
----
- configure |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index c1667b6..862aad5 100755
+index d19f443..520ffc3 100755
 --- a/configure
 +++ b/configure
-@@ -5627,7 +5627,7 @@ fi
+@@ -5682,7 +5682,7 @@ fi
  
  # auto-detect iconv(3) support
  if [ "$CFG_ICONV" != "no" ]; then
@@ -69,21 +63,18 @@ index c1667b6..862aad5 100755
      elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
          CFG_ICONV=yes
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From f66200e240a3664dd62beb9eb8aa38efdecfddb1 Mon Sep 17 00:00:00 2001
+From 04a44c0d6b3272c6edb08d34cecf36825843c2a0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 03/15] fix whitespace
+Subject: [PATCH 03/23] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
 Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 (cherry picked from commit 10f6c5981cd2373c73873f8bace0b2df42a01db8)
----
- src/corelib/codecs/codecs.pri |   33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index 859ec8d..70cd890 100644
@@ -146,13 +137,13 @@ index 859ec8d..70cd890 100644
                          ../plugins/codecs/tw/qbig5codec.cpp \
                          ../plugins/codecs/jp/qfontjpcodec.cpp
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From a82277bac5c8ac6fa43577bcc9642534714c91fb Mon Sep 17 00:00:00 2001
+From 043a2cdc024dd19685a1cd3694faa0cdbade5a82 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 04/15] build and load text codecs regardless of iconv and
+Subject: [PATCH 04/23] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -168,10 +159,6 @@ Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 7ee3d8c8ecb78dd7c5ae09b04ebf1420958f0001)
----
- src/corelib/codecs/codecs.pri     |   38 ++++++++++++++++++-------------------
- src/corelib/codecs/qtextcodec.cpp |   14 +++++---------
- 2 files changed, 24 insertions(+), 28 deletions(-)
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index 70cd890..c847264 100644
@@ -237,7 +224,7 @@ index 70cd890..c847264 100644
  }
  symbian:LIBS += -lcharconv
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index ea8a5fd..7966df2 100644
+index 08d954c..f267acb 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -66,15 +66,14 @@
@@ -292,13 +279,13 @@ index ea8a5fd..7966df2 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 1ec39e28f1790723df212eb158a6695c355a304a Mon Sep 17 00:00:00 2001
+From c9e946e08850c2ea92c818bcef9b4f0ec47fb86f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 05/15] move plugin text codecs to QtCore
+Subject: [PATCH 05/23] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -323,97 +310,6 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 Conflicts:
 
 	src/plugins/plugins.pro
----
- src/corelib/codecs/codecs.pri           |   32 +-
- src/corelib/codecs/cp949codetbl_p.h     |  637 ++
- src/corelib/codecs/qbig5codec.cpp       |12788 +++++++++++++++++++++++++++++++
- src/corelib/codecs/qbig5codec_p.h       |  124 +
- src/corelib/codecs/qeucjpcodec.cpp      |  261 +
- src/corelib/codecs/qeucjpcodec_p.h      |  106 +
- src/corelib/codecs/qeuckrcodec.cpp      | 3571 +++++++++
- src/corelib/codecs/qeuckrcodec_p.h      |  129 +
- src/corelib/codecs/qfontjpcodec.cpp     |  145 +
- src/corelib/codecs/qfontjpcodec_p.h     |   93 +
- src/corelib/codecs/qgb18030codec.cpp    | 9265 ++++++++++++++++++++++
- src/corelib/codecs/qgb18030codec_p.h    |  159 +
- src/corelib/codecs/qjiscodec.cpp        |  367 +
- src/corelib/codecs/qjiscodec_p.h        |  106 +
- src/corelib/codecs/qjpunicode.cpp       |10700 ++++++++++++++++++++++++++
- src/corelib/codecs/qjpunicode_p.h       |  174 +
- src/corelib/codecs/qsjiscodec.cpp       |  229 +
- src/corelib/codecs/qsjiscodec_p.h       |  106 +
- src/corelib/codecs/qtextcodec.cpp       |   14 +-
- src/plugins/codecs/cn/cn.pro            |   16 -
- src/plugins/codecs/cn/main.cpp          |  145 -
- src/plugins/codecs/cn/qgb18030codec.cpp | 9265 ----------------------
- src/plugins/codecs/cn/qgb18030codec.h   |  159 -
- src/plugins/codecs/codecs.pro           |    4 -
- src/plugins/codecs/jp/jp.pro            |   27 -
- src/plugins/codecs/jp/main.cpp          |  149 -
- src/plugins/codecs/jp/qeucjpcodec.cpp   |  261 -
- src/plugins/codecs/jp/qeucjpcodec.h     |  106 -
- src/plugins/codecs/jp/qfontjpcodec.cpp  |  145 -
- src/plugins/codecs/jp/qfontjpcodec.h    |   93 -
- src/plugins/codecs/jp/qjiscodec.cpp     |  367 -
- src/plugins/codecs/jp/qjiscodec.h       |  106 -
- src/plugins/codecs/jp/qjpunicode.cpp    |10700 --------------------------
- src/plugins/codecs/jp/qjpunicode.h      |  174 -
- src/plugins/codecs/jp/qsjiscodec.cpp    |  229 -
- src/plugins/codecs/jp/qsjiscodec.h      |  106 -
- src/plugins/codecs/kr/cp949codetbl.h    |  637 --
- src/plugins/codecs/kr/kr.pro            |   20 -
- src/plugins/codecs/kr/main.cpp          |  131 -
- src/plugins/codecs/kr/qeuckrcodec.cpp   | 3571 ---------
- src/plugins/codecs/kr/qeuckrcodec.h     |  129 -
- src/plugins/codecs/tw/main.cpp          |  138 -
- src/plugins/codecs/tw/qbig5codec.cpp    |12788 -------------------------------
- src/plugins/codecs/tw/qbig5codec.h      |  124 -
- src/plugins/codecs/tw/tw.pro            |   16 -
- src/plugins/plugins.pro                 |    5 -
- 46 files changed, 38984 insertions(+), 39633 deletions(-)
- create mode 100644 src/corelib/codecs/cp949codetbl_p.h
- create mode 100644 src/corelib/codecs/qbig5codec.cpp
- create mode 100644 src/corelib/codecs/qbig5codec_p.h
- create mode 100644 src/corelib/codecs/qeucjpcodec.cpp
- create mode 100644 src/corelib/codecs/qeucjpcodec_p.h
- create mode 100644 src/corelib/codecs/qeuckrcodec.cpp
- create mode 100644 src/corelib/codecs/qeuckrcodec_p.h
- create mode 100644 src/corelib/codecs/qfontjpcodec.cpp
- create mode 100644 src/corelib/codecs/qfontjpcodec_p.h
- create mode 100644 src/corelib/codecs/qgb18030codec.cpp
- create mode 100644 src/corelib/codecs/qgb18030codec_p.h
- create mode 100644 src/corelib/codecs/qjiscodec.cpp
- create mode 100644 src/corelib/codecs/qjiscodec_p.h
- create mode 100644 src/corelib/codecs/qjpunicode.cpp
- create mode 100644 src/corelib/codecs/qjpunicode_p.h
- create mode 100644 src/corelib/codecs/qsjiscodec.cpp
- create mode 100644 src/corelib/codecs/qsjiscodec_p.h
- delete mode 100644 src/plugins/codecs/cn/cn.pro
- delete mode 100644 src/plugins/codecs/cn/main.cpp
- delete mode 100644 src/plugins/codecs/cn/qgb18030codec.cpp
- delete mode 100644 src/plugins/codecs/cn/qgb18030codec.h
- delete mode 100644 src/plugins/codecs/codecs.pro
- delete mode 100644 src/plugins/codecs/jp/jp.pro
- delete mode 100644 src/plugins/codecs/jp/main.cpp
- delete mode 100644 src/plugins/codecs/jp/qeucjpcodec.cpp
- delete mode 100644 src/plugins/codecs/jp/qeucjpcodec.h
- delete mode 100644 src/plugins/codecs/jp/qfontjpcodec.cpp
- delete mode 100644 src/plugins/codecs/jp/qfontjpcodec.h
- delete mode 100644 src/plugins/codecs/jp/qjiscodec.cpp
- delete mode 100644 src/plugins/codecs/jp/qjiscodec.h
- delete mode 100644 src/plugins/codecs/jp/qjpunicode.cpp
- delete mode 100644 src/plugins/codecs/jp/qjpunicode.h
- delete mode 100644 src/plugins/codecs/jp/qsjiscodec.cpp
- delete mode 100644 src/plugins/codecs/jp/qsjiscodec.h
- delete mode 100644 src/plugins/codecs/kr/cp949codetbl.h
- delete mode 100644 src/plugins/codecs/kr/kr.pro
- delete mode 100644 src/plugins/codecs/kr/main.cpp
- delete mode 100644 src/plugins/codecs/kr/qeuckrcodec.cpp
- delete mode 100644 src/plugins/codecs/kr/qeuckrcodec.h
- delete mode 100644 src/plugins/codecs/tw/main.cpp
- delete mode 100644 src/plugins/codecs/tw/qbig5codec.cpp
- delete mode 100644 src/plugins/codecs/tw/qbig5codec.h
- delete mode 100644 src/plugins/codecs/tw/tw.pro
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index c847264..a1271b9 100644
@@ -467,15 +363,14 @@ index c847264..a1271b9 100644
  	SOURCES += codecs/qfontlaocodec.cpp
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
 new file mode 100644
-index 0000000..25723c7
+index 0000000..8bf9204
 --- /dev/null
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -0,0 +1,637 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -503,6 +398,7 @@ index 0000000..25723c7
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -1110,15 +1006,14 @@ index 0000000..25723c7
 +#endif // CP494CODETBL_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
 new file mode 100644
-index 0000000..e30861d
+index 0000000..662aee8
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -0,0 +1,12788 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -1146,6 +1041,7 @@ index 0000000..e30861d
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -13904,15 +13800,14 @@ index 0000000..e30861d
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
 new file mode 100644
-index 0000000..f43b733
+index 0000000..eec1798
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -0,0 +1,124 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -13940,6 +13835,7 @@ index 0000000..f43b733
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -14034,15 +13930,14 @@ index 0000000..f43b733
 +#endif // QBIG5CODEC_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
 new file mode 100644
-index 0000000..4ff5552
+index 0000000..69e314c
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -0,0 +1,261 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -14070,6 +13965,7 @@ index 0000000..4ff5552
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -14301,15 +14197,14 @@ index 0000000..4ff5552
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
 new file mode 100644
-index 0000000..af02ed9
+index 0000000..d693e04
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -14337,6 +14232,7 @@ index 0000000..af02ed9
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -14413,15 +14309,14 @@ index 0000000..af02ed9
 +#endif // QEUCJPCODEC_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
 new file mode 100644
-index 0000000..cc8fca8
+index 0000000..bef4132
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -0,0 +1,3571 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -14449,6 +14344,7 @@ index 0000000..cc8fca8
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -17990,15 +17886,14 @@ index 0000000..cc8fca8
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
 new file mode 100644
-index 0000000..9408622
+index 0000000..55a1337
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -0,0 +1,129 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18026,6 +17921,7 @@ index 0000000..9408622
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -18125,15 +18021,14 @@ index 0000000..9408622
 +#endif // QEUCKRCODEC_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
 new file mode 100644
-index 0000000..85eae20
+index 0000000..2ac3d6c
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -0,0 +1,145 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18161,6 +18056,7 @@ index 0000000..85eae20
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -18276,15 +18172,14 @@ index 0000000..85eae20
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
 new file mode 100644
-index 0000000..6b2a6ee
+index 0000000..dfb06bb
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -0,0 +1,93 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18312,6 +18207,7 @@ index 0000000..6b2a6ee
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -18375,15 +18271,14 @@ index 0000000..6b2a6ee
 +#endif // QFONTJPCODEC_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
 new file mode 100644
-index 0000000..760fcc0
+index 0000000..928bc52
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -0,0 +1,9265 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18411,6 +18306,7 @@ index 0000000..760fcc0
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -27646,15 +27542,14 @@ index 0000000..760fcc0
 +#endif // QT_NO_TEXTCODEC
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
 new file mode 100644
-index 0000000..85047f3
+index 0000000..3e082bf
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -0,0 +1,159 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -27682,6 +27577,7 @@ index 0000000..85047f3
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -27811,15 +27707,14 @@ index 0000000..85047f3
 +#endif // QGB18030CODEC_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
 new file mode 100644
-index 0000000..99c756e
+index 0000000..dd80541
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -0,0 +1,367 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -27847,6 +27742,7 @@ index 0000000..99c756e
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -28184,15 +28080,14 @@ index 0000000..99c756e
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
 new file mode 100644
-index 0000000..aaf02a9
+index 0000000..dcdb04d
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -28220,6 +28115,7 @@ index 0000000..aaf02a9
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -28296,15 +28192,14 @@ index 0000000..aaf02a9
 +#endif // QJISCODEC_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
 new file mode 100644
-index 0000000..feb0f41
+index 0000000..ffd8829
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -0,0 +1,10700 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -28332,6 +28227,7 @@ index 0000000..feb0f41
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -39002,15 +38898,14 @@ index 0000000..feb0f41
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
 new file mode 100644
-index 0000000..069f49a
+index 0000000..a5bdd0c
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -0,0 +1,174 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -39038,6 +38933,7 @@ index 0000000..069f49a
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -39182,15 +39078,14 @@ index 0000000..069f49a
 +#endif // QJPUNICODE_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
 new file mode 100644
-index 0000000..ac89b33
+index 0000000..f03cd26
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -0,0 +1,229 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -39218,6 +39113,7 @@ index 0000000..ac89b33
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -39417,15 +39313,14 @@ index 0000000..ac89b33
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
 new file mode 100644
-index 0000000..c56a103
+index 0000000..3d3cde7
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** All rights reserved.
-+** Contact: Nokia Corporation (qt-info@nokia.com)
++** Contact: http://www.qt-project.org/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -39453,6 +39348,7 @@ index 0000000..c56a103
 +** Other Usage
 +** Alternatively, this file may be used in accordance with the terms and
 +** conditions contained in a signed written agreement between you and Nokia.
++**
 +**
 +**
 +**
@@ -39528,7 +39424,7 @@ index 0000000..c56a103
 +
 +#endif // QSJISCODEC_H
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 7966df2..3a2a60e 100644
+index f267acb..b6ed5e6 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -67,16 +67,16 @@
@@ -39579,15 +39475,14 @@ index b0a8a91..0000000
 -symbian:TARGET.UID3=0x2001E615
 diff --git a/src/plugins/codecs/cn/main.cpp b/src/plugins/codecs/cn/main.cpp
 deleted file mode 100644
-index cf42b97..0000000
+index 93b8b72..0000000
 --- a/src/plugins/codecs/cn/main.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -39615,6 +39510,7 @@ index cf42b97..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -39730,15 +39626,14 @@ index cf42b97..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/cn/qgb18030codec.cpp b/src/plugins/codecs/cn/qgb18030codec.cpp
 deleted file mode 100644
-index 760fcc0..0000000
+index 928bc52..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.cpp
 +++ /dev/null
 @@ -1,9265 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -39766,6 +39661,7 @@ index 760fcc0..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49001,15 +48897,14 @@ index 760fcc0..0000000
 -#endif // QT_NO_TEXTCODEC
 diff --git a/src/plugins/codecs/cn/qgb18030codec.h b/src/plugins/codecs/cn/qgb18030codec.h
 deleted file mode 100644
-index 85047f3..0000000
+index 3e082bf..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.h
 +++ /dev/null
 @@ -1,159 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49037,6 +48932,7 @@ index 85047f3..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49209,15 +49105,14 @@ index 6480e43..0000000
 -symbian:TARGET.UID3=0x2001E614
 diff --git a/src/plugins/codecs/jp/main.cpp b/src/plugins/codecs/jp/main.cpp
 deleted file mode 100644
-index b372fb6..0000000
+index 6eee02f..0000000
 --- a/src/plugins/codecs/jp/main.cpp
 +++ /dev/null
 @@ -1,149 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49245,6 +49140,7 @@ index b372fb6..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49364,15 +49260,14 @@ index b372fb6..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.cpp b/src/plugins/codecs/jp/qeucjpcodec.cpp
 deleted file mode 100644
-index 4ff5552..0000000
+index 69e314c..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.cpp
 +++ /dev/null
 @@ -1,261 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49400,6 +49295,7 @@ index 4ff5552..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49631,15 +49527,14 @@ index 4ff5552..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.h b/src/plugins/codecs/jp/qeucjpcodec.h
 deleted file mode 100644
-index af02ed9..0000000
+index d693e04..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49667,6 +49562,7 @@ index af02ed9..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49743,15 +49639,14 @@ index af02ed9..0000000
 -#endif // QEUCJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.cpp b/src/plugins/codecs/jp/qfontjpcodec.cpp
 deleted file mode 100644
-index 85eae20..0000000
+index 2ac3d6c..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49779,6 +49674,7 @@ index 85eae20..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49894,15 +49790,14 @@ index 85eae20..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.h b/src/plugins/codecs/jp/qfontjpcodec.h
 deleted file mode 100644
-index 6b2a6ee..0000000
+index dfb06bb..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.h
 +++ /dev/null
 @@ -1,93 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49930,6 +49825,7 @@ index 6b2a6ee..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -49993,15 +49889,14 @@ index 6b2a6ee..0000000
 -#endif // QFONTJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qjiscodec.cpp b/src/plugins/codecs/jp/qjiscodec.cpp
 deleted file mode 100644
-index 99c756e..0000000
+index dd80541..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.cpp
 +++ /dev/null
 @@ -1,367 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -50029,6 +49924,7 @@ index 99c756e..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -50366,15 +50262,14 @@ index 99c756e..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjiscodec.h b/src/plugins/codecs/jp/qjiscodec.h
 deleted file mode 100644
-index aaf02a9..0000000
+index dcdb04d..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -50402,6 +50297,7 @@ index aaf02a9..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -50478,15 +50374,14 @@ index aaf02a9..0000000
 -#endif // QJISCODEC_H
 diff --git a/src/plugins/codecs/jp/qjpunicode.cpp b/src/plugins/codecs/jp/qjpunicode.cpp
 deleted file mode 100644
-index feb0f41..0000000
+index ffd8829..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.cpp
 +++ /dev/null
 @@ -1,10700 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -50514,6 +50409,7 @@ index feb0f41..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -61184,15 +61080,14 @@ index feb0f41..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjpunicode.h b/src/plugins/codecs/jp/qjpunicode.h
 deleted file mode 100644
-index 069f49a..0000000
+index a5bdd0c..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.h
 +++ /dev/null
 @@ -1,174 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61220,6 +61115,7 @@ index 069f49a..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -61364,15 +61260,14 @@ index 069f49a..0000000
 -#endif // QJPUNICODE_H
 diff --git a/src/plugins/codecs/jp/qsjiscodec.cpp b/src/plugins/codecs/jp/qsjiscodec.cpp
 deleted file mode 100644
-index ac89b33..0000000
+index f03cd26..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.cpp
 +++ /dev/null
 @@ -1,229 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61400,6 +61295,7 @@ index ac89b33..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -61599,15 +61495,14 @@ index ac89b33..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qsjiscodec.h b/src/plugins/codecs/jp/qsjiscodec.h
 deleted file mode 100644
-index c56a103..0000000
+index 3d3cde7..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61635,6 +61530,7 @@ index c56a103..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -61711,15 +61607,14 @@ index c56a103..0000000
 -#endif // QSJISCODEC_H
 diff --git a/src/plugins/codecs/kr/cp949codetbl.h b/src/plugins/codecs/kr/cp949codetbl.h
 deleted file mode 100644
-index 25723c7..0000000
+index 8bf9204..0000000
 --- a/src/plugins/codecs/kr/cp949codetbl.h
 +++ /dev/null
 @@ -1,637 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61747,6 +61642,7 @@ index 25723c7..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -62380,15 +62276,14 @@ index 1cc28d8..0000000
 -symbian:TARGET.UID3=0x2001B2E5
 diff --git a/src/plugins/codecs/kr/main.cpp b/src/plugins/codecs/kr/main.cpp
 deleted file mode 100644
-index 86cb7c2..0000000
+index cbfd133..0000000
 --- a/src/plugins/codecs/kr/main.cpp
 +++ /dev/null
 @@ -1,131 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -62416,6 +62311,7 @@ index 86cb7c2..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -62517,15 +62413,14 @@ index 86cb7c2..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.cpp b/src/plugins/codecs/kr/qeuckrcodec.cpp
 deleted file mode 100644
-index cc8fca8..0000000
+index bef4132..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.cpp
 +++ /dev/null
 @@ -1,3571 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -62553,6 +62448,7 @@ index cc8fca8..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -66094,15 +65990,14 @@ index cc8fca8..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.h b/src/plugins/codecs/kr/qeuckrcodec.h
 deleted file mode 100644
-index 9408622..0000000
+index 55a1337..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.h
 +++ /dev/null
 @@ -1,129 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -66130,6 +66025,7 @@ index 9408622..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -66229,15 +66125,14 @@ index 9408622..0000000
 -#endif // QEUCKRCODEC_H
 diff --git a/src/plugins/codecs/tw/main.cpp b/src/plugins/codecs/tw/main.cpp
 deleted file mode 100644
-index 9c993e3..0000000
+index 4536e67..0000000
 --- a/src/plugins/codecs/tw/main.cpp
 +++ /dev/null
 @@ -1,138 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -66265,6 +66160,7 @@ index 9c993e3..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -66373,15 +66269,14 @@ index 9c993e3..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.cpp b/src/plugins/codecs/tw/qbig5codec.cpp
 deleted file mode 100644
-index e30861d..0000000
+index 662aee8..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.cpp
 +++ /dev/null
 @@ -1,12788 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -66409,6 +66304,7 @@ index e30861d..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -79167,15 +79063,14 @@ index e30861d..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.h b/src/plugins/codecs/tw/qbig5codec.h
 deleted file mode 100644
-index f43b733..0000000
+index eec1798..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.h
 +++ /dev/null
 @@ -1,124 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -79203,6 +79098,7 @@ index f43b733..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -79334,35 +79230,22 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 71aff51d79b2b92edbf40d642903b5114548cc42 Mon Sep 17 00:00:00 2001
+From 7c457dbd99e5865f13499146e9487e9cb4b86868 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 06/15] update private header references
+Subject: [PATCH 06/23] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
 Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 15e4df7d83fd30e16f014bc1ddc5d55884b388aa)
----
- src/corelib/codecs/qbig5codec.cpp    |    2 +-
- src/corelib/codecs/qeucjpcodec.cpp   |    2 +-
- src/corelib/codecs/qeucjpcodec_p.h   |    2 +-
- src/corelib/codecs/qeuckrcodec.cpp   |    4 ++--
- src/corelib/codecs/qfontjpcodec.cpp  |    4 ++--
- src/corelib/codecs/qgb18030codec.cpp |    2 +-
- src/corelib/codecs/qjiscodec.cpp     |    2 +-
- src/corelib/codecs/qjiscodec_p.h     |    2 +-
- src/corelib/codecs/qjpunicode.cpp    |    2 +-
- src/corelib/codecs/qsjiscodec.cpp    |    2 +-
- src/corelib/codecs/qsjiscodec_p.h    |    2 +-
- 11 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index e30861d..c1a73f7 100644
+index 662aee8..cd39ea0 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -39,7 +39,7 @@
@@ -79375,7 +79258,7 @@ index e30861d..c1a73f7 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 4ff5552..f5f4285 100644
+index 69e314c..091ad4d 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -73,7 +73,7 @@
@@ -79388,7 +79271,7 @@ index 4ff5552..f5f4285 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index af02ed9..9cc7c3d 100644
+index d693e04..a5cd119 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -71,7 +71,7 @@
@@ -79401,7 +79284,7 @@ index af02ed9..9cc7c3d 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index cc8fca8..00beebd 100644
+index bef4132..f91442f 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -65,8 +65,8 @@
@@ -79416,7 +79299,7 @@ index cc8fca8..00beebd 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index 85eae20..6763c88 100644
+index 2ac3d6c..590d72d 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -39,9 +39,9 @@
@@ -79432,7 +79315,7 @@ index 85eae20..6763c88 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 760fcc0..d5a40df 100644
+index 928bc52..5c0e701 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -44,7 +44,7 @@
@@ -79445,7 +79328,7 @@ index 760fcc0..d5a40df 100644
  #ifndef QT_NO_TEXTCODEC
  
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index 99c756e..b311646 100644
+index dd80541..1831170 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79458,7 +79341,7 @@ index 99c756e..b311646 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index aaf02a9..3cd7c80 100644
+index dcdb04d..bb59c33 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79471,7 +79354,7 @@ index aaf02a9..3cd7c80 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index feb0f41..67d4630 100644
+index ffd8829..7827ef3 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -44,7 +44,7 @@
@@ -79484,7 +79367,7 @@ index feb0f41..67d4630 100644
  #include "qbytearray.h"
  #include <stdlib.h>
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index ac89b33..b80b494 100644
+index f03cd26..97e6000 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79497,7 +79380,7 @@ index ac89b33..b80b494 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index c56a103..df1449b 100644
+index 3d3cde7..4910bfd 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79510,13 +79393,13 @@ index c56a103..df1449b 100644
  #include <QtCore/qlist.h>
  
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 4cc7d919207633377a3afc52f750d551bc7a90bd Mon Sep 17 00:00:00 2001
+From 2be2accfee23fee3a9d97e5852ff9d2a01a7c33f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 07/15] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 07/23] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -79527,33 +79410,14 @@ Change-Id: I4c582dcba549d871bd8d929bee5372586117eabb
 Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 712cfb509484599f1586f68cc379e3e7464e9967)
----
- src/corelib/codecs/cp949codetbl_p.h  |   19 +++++++++++++++----
- src/corelib/codecs/qbig5codec.cpp    |    2 +-
- src/corelib/codecs/qbig5codec_p.h    |   19 +++++++++++++++----
- src/corelib/codecs/qeucjpcodec.cpp   |    2 +-
- src/corelib/codecs/qeucjpcodec_p.h   |   19 +++++++++++++++----
- src/corelib/codecs/qeuckrcodec.cpp   |    2 +-
- src/corelib/codecs/qeuckrcodec_p.h   |   19 +++++++++++++++----
- src/corelib/codecs/qfontjpcodec.cpp  |    2 +-
- src/corelib/codecs/qfontjpcodec_p.h  |   19 +++++++++++++++----
- src/corelib/codecs/qgb18030codec.cpp |    2 +-
- src/corelib/codecs/qgb18030codec_p.h |   19 +++++++++++++++----
- src/corelib/codecs/qjiscodec.cpp     |    2 +-
- src/corelib/codecs/qjiscodec_p.h     |   19 +++++++++++++++----
- src/corelib/codecs/qjpunicode.cpp    |    2 +-
- src/corelib/codecs/qjpunicode_p.h    |   19 +++++++++++++++----
- src/corelib/codecs/qsjiscodec.cpp    |    2 +-
- src/corelib/codecs/qsjiscodec_p.h    |   19 +++++++++++++++----
- 17 files changed, 143 insertions(+), 44 deletions(-)
 
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
-index 25723c7..0e608fa 100644
+index 8bf9204..228c5ad 100644
 --- a/src/corelib/codecs/cp949codetbl_p.h
 +++ b/src/corelib/codecs/cp949codetbl_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79589,12 +79453,12 @@ index 25723c7..0e608fa 100644
 -#endif // CP494CODETBL_H
 +#endif // CP494CODETBL_P_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index c1a73f7..ecdc84d 100644
+index cd39ea0..13b317f 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79602,12 +79466,12 @@ index c1a73f7..ecdc84d 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
-index f43b733..849ff9d 100644
+index eec1798..674c513 100644
 --- a/src/corelib/codecs/qbig5codec_p.h
 +++ b/src/corelib/codecs/qbig5codec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79643,12 +79507,12 @@ index f43b733..849ff9d 100644
 -#endif // QBIG5CODEC_H
 +#endif // QBIG5CODEC_P_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index f5f4285..c681492 100644
+index 091ad4d..773c473 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79656,12 +79520,12 @@ index f5f4285..c681492 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index 9cc7c3d..d34ac7c 100644
+index a5cd119..97d8523 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79697,12 +79561,12 @@ index 9cc7c3d..d34ac7c 100644
 -#endif // QEUCJPCODEC_H
 +#endif // QEUCJPCODEC_P_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index 00beebd..2cd472b 100644
+index f91442f..8417bf0 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79710,12 +79574,12 @@ index 00beebd..2cd472b 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
-index 9408622..f498d7c 100644
+index 55a1337..79647b1 100644
 --- a/src/corelib/codecs/qeuckrcodec_p.h
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79751,12 +79615,12 @@ index 9408622..f498d7c 100644
 -#endif // QEUCKRCODEC_H
 +#endif // QEUCKRCODEC_P_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index 6763c88..156ec3a 100644
+index 590d72d..3d39524 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79764,12 +79628,12 @@ index 6763c88..156ec3a 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
-index 6b2a6ee..981a086 100644
+index dfb06bb..9e9b8dd 100644
 --- a/src/corelib/codecs/qfontjpcodec_p.h
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79805,12 +79669,12 @@ index 6b2a6ee..981a086 100644
 -#endif // QFONTJPCODEC_H
 +#endif // QFONTJPCODEC_P_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index d5a40df..2b56018 100644
+index 5c0e701..c5daef6 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79818,12 +79682,12 @@ index d5a40df..2b56018 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
-index 85047f3..6c3cb31 100644
+index 3e082bf..0f66211 100644
 --- a/src/corelib/codecs/qgb18030codec_p.h
 +++ b/src/corelib/codecs/qgb18030codec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79859,12 +79723,12 @@ index 85047f3..6c3cb31 100644
 -#endif // QGB18030CODEC_H
 +#endif // QGB18030CODEC_P_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index b311646..7b5fb4e 100644
+index 1831170..83c4329 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79872,12 +79736,12 @@ index b311646..7b5fb4e 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index 3cd7c80..4a0fc43 100644
+index bb59c33..daccf57 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79913,12 +79777,12 @@ index 3cd7c80..4a0fc43 100644
 -#endif // QJISCODEC_H
 +#endif // QJISCODEC_P_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index 67d4630..03db950 100644
+index 7827ef3..1e4883f 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79926,12 +79790,12 @@ index 67d4630..03db950 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
-index 069f49a..82b3d2c 100644
+index a5bdd0c..07b5b25 100644
 --- a/src/corelib/codecs/qjpunicode_p.h
 +++ b/src/corelib/codecs/qjpunicode_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79967,12 +79831,12 @@ index 069f49a..82b3d2c 100644
 -#endif // QJPUNICODE_H
 +#endif // QJPUNICODE_P_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index b80b494..c4438e3 100644
+index 97e6000..27121ad 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79980,12 +79844,12 @@ index b80b494..c4438e3 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** GNU Lesser General Public License Usage
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index df1449b..f8efcae 100644
+index 4910bfd..d57f94b 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
-@@ -4,7 +4,7 @@
- ** All rights reserved.
- ** Contact: Nokia Corporation (qt-info@nokia.com)
+@@ -3,7 +3,7 @@
+ ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -80021,13 +79885,13 @@ index df1449b..f8efcae 100644
 -#endif // QSJISCODEC_H
 +#endif // QSJISCODEC_P_H
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From e57ad0b10f420f62db94ba3ed3367d34ad2825ca Mon Sep 17 00:00:00 2001
+From eeecdea8f15353aa0461ec09f7064f456849a3c3 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 08/15] remove obsolete codec plugin loading code
+Subject: [PATCH 08/23] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -80038,19 +79902,6 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 Conflicts:
 
 	dist/changes-5.0.0
----
- src/corelib/codecs/codecs.pri           |    8 +-
- src/corelib/codecs/qtextcodec.cpp       |   87 +----------------
- src/corelib/codecs/qtextcodecplugin.cpp |  161 -------------------------------
- src/corelib/codecs/qtextcodecplugin.h   |   96 ------------------
- src/corelib/global/qconfig-medium.h     |    3 -
- src/corelib/global/qconfig-minimal.h    |    3 -
- src/corelib/global/qconfig-nacl.h       |    3 -
- src/corelib/global/qconfig-small.h      |    3 -
- src/corelib/global/qfeatures.h          |    5 -
- 9 files changed, 4 insertions(+), 365 deletions(-)
- delete mode 100644 src/corelib/codecs/qtextcodecplugin.cpp
- delete mode 100644 src/corelib/codecs/qtextcodecplugin.h
 
 diff --git a/src/corelib/codecs/codecs.pri b/src/corelib/codecs/codecs.pri
 index a1271b9..9274eda 100644
@@ -80083,7 +79934,7 @@ index a1271b9..9274eda 100644
      codecs/qjpunicode.cpp \
      codecs/qeucjpcodec.cpp \
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 3a2a60e..3cd5a5e 100644
+index b6ed5e6..55e5b83 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -48,11 +48,6 @@
@@ -80231,15 +80082,14 @@ index 3a2a60e..3cd5a5e 100644
  
 diff --git a/src/corelib/codecs/qtextcodecplugin.cpp b/src/corelib/codecs/qtextcodecplugin.cpp
 deleted file mode 100644
-index 4eb075c..0000000
+index b164f31..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.cpp
 +++ /dev/null
 @@ -1,161 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
 -**
@@ -80267,6 +80117,7 @@ index 4eb075c..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -80398,15 +80249,14 @@ index 4eb075c..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/corelib/codecs/qtextcodecplugin.h b/src/corelib/codecs/qtextcodecplugin.h
 deleted file mode 100644
-index 9a00bbc..0000000
+index 2873b0e..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.h
 +++ /dev/null
 @@ -1,96 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** All rights reserved.
--** Contact: Nokia Corporation (qt-info@nokia.com)
+-** Contact: http://www.qt-project.org/
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
 -**
@@ -80434,6 +80284,7 @@ index 9a00bbc..0000000
 -** Other Usage
 -** Alternatively, this file may be used in accordance with the terms and
 -** conditions contained in a signed written agreement between you and Nokia.
+-**
 -**
 -**
 -**
@@ -80499,7 +80350,7 @@ index 9a00bbc..0000000
 -
 -#endif // QTEXTCODECPLUGIN_H
 diff --git a/src/corelib/global/qconfig-medium.h b/src/corelib/global/qconfig-medium.h
-index 96207d1..779d4ef 100644
+index 170b2c3..9ed73aa 100644
 --- a/src/corelib/global/qconfig-medium.h
 +++ b/src/corelib/global/qconfig-medium.h
 @@ -91,9 +91,6 @@
@@ -80513,7 +80364,7 @@ index 96207d1..779d4ef 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-minimal.h b/src/corelib/global/qconfig-minimal.h
-index da2bf14..dc963a7 100644
+index 6781c60..707e6b1 100644
 --- a/src/corelib/global/qconfig-minimal.h
 +++ b/src/corelib/global/qconfig-minimal.h
 @@ -167,9 +167,6 @@
@@ -80527,7 +80378,7 @@ index da2bf14..dc963a7 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
-index d97e666..ecaad4f 100644
+index eb4632f..7fecfec 100644
 --- a/src/corelib/global/qconfig-nacl.h
 +++ b/src/corelib/global/qconfig-nacl.h
 @@ -128,9 +128,6 @@
@@ -80541,7 +80392,7 @@ index d97e666..ecaad4f 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-small.h b/src/corelib/global/qconfig-small.h
-index fefbfb6..d0a7029 100644
+index 988dc6f..dda6567 100644
 --- a/src/corelib/global/qconfig-small.h
 +++ b/src/corelib/global/qconfig-small.h
 @@ -128,9 +128,6 @@
@@ -80555,7 +80406,7 @@ index fefbfb6..d0a7029 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index 844101a..4ea4227 100644
+index 9612778..493269d 100644
 --- a/src/corelib/global/qfeatures.h
 +++ b/src/corelib/global/qfeatures.h
 @@ -643,11 +643,6 @@
@@ -80571,13 +80422,13 @@ index 844101a..4ea4227 100644
  #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
  #define QT_NO_COLORDIALOG
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From ea246a109c1ebc2cfaad6e92ac87c4a1cc18ec7e Mon Sep 17 00:00:00 2001
+From c94d9111ef83683ea2b7db6e4070594c4a332f1c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 09/15] remove vestiges of text codec plugins
+Subject: [PATCH 09/23] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80585,9 +80436,6 @@ backported from qt5/qtbase
 Change-Id: Iba84958cbcd105ec702568752090719cc108e101
 Reviewed-by: Lars Knoll <lars.knoll@nokia.com>
 (cherry picked from commit 38d4618eb5f9b7293513267f9f5749aa2568e08c)
----
- src/corelib/global/qfeatures.txt |    7 -------
- 1 file changed, 7 deletions(-)
 
 diff --git a/src/corelib/global/qfeatures.txt b/src/corelib/global/qfeatures.txt
 index dea05e0..12cd8ea 100644
@@ -80608,18 +80456,15 @@ index dea05e0..12cd8ea 100644
  Description: Supports translations using QObject::tr().
  Section: Internationalization
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 6fa42258f48a5e03ad9faa708202a1c53e1e5e20 Mon Sep 17 00:00:00 2001
+From 415466a4ac2a87522569544a9b9ba7115fc4acf7 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 10/15] use pkg-config for libmng (MXE specific)
+Subject: [PATCH 10/23] use pkg-config for libmng (MXE specific)
 
 Change-Id: Ifce956d5cad06d5273088656b8500b87980063f4
----
- src/gui/image/qmnghandler.pri |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/gui/image/qmnghandler.pri b/src/gui/image/qmnghandler.pri
 index ffb98de..6aab68f 100644
@@ -80637,18 +80482,15 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 94cbc5be38cb1386ec6acd6045615abb9b370874 Mon Sep 17 00:00:00 2001
+From 1cac3150930d5353455b560792f7e76fe180ad26 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 11/15] use pkg-config for libtiff-4 (MXE specific)
+Subject: [PATCH 11/23] use pkg-config for libtiff-4 (MXE specific)
 
 Change-Id: I5e89e66fc1606d425553e781c9e62db703136957
----
- src/gui/image/qtiffhandler.pri |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/src/gui/image/qtiffhandler.pri b/src/gui/image/qtiffhandler.pri
 index e1cc3ee..71cbab1 100644
@@ -80666,13 +80508,13 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 2faf7d28bd1aa3b8b889ad68268700403ccba4d0 Mon Sep 17 00:00:00 2001
+From 28ad5f9d9c70feba6475652c6445bbe263998d3d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/15] restore support for static linking of QtWebKit (MXE
+Subject: [PATCH 12/23] restore support for static linking of QtWebKit (MXE
  specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80684,19 +80526,12 @@ Added INSTALLS and pkg-config for static jscore and webcore.
 Don't build Qt WebKit tests to avoid static linking problems.
 
 Change-Id: Ia969b8e3f2b656a5057c7ebf748f272d74f014da
----
- configure                                          |    6 ------
- .../Source/JavaScriptCore/JavaScriptCore.pri       |   12 ++++++++++++
- src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   12 ++++++++++++
- src/3rdparty/webkit/Source/WebCore/WebCore.pro     |    2 +-
- src/3rdparty/webkit/Source/WebKit.pro              |    2 +-
- 5 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/configure b/configure
-index 862aad5..f679fa4 100755
+index 520ffc3..e018443 100755
 --- a/configure
 +++ b/configure
-@@ -7626,12 +7626,6 @@ if [ "$CFG_GUI" = "no" ]; then
+@@ -7683,12 +7683,6 @@ if [ "$CFG_GUI" = "no" ]; then
      canBuildWebKit="no"
  fi
  
@@ -80776,13 +80611,13 @@ index 9be0f4a..6744f58 100644
  build-qtscript {
      SUBDIRS += \
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From e2187b030e2d7bd0fc9f51190737d5d45d693197 Mon Sep 17 00:00:00 2001
+From ab04bc59d7caf5d04bb87bd75d2bbe98da89d599 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/15] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 13/23] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80792,12 +80627,9 @@ Change-Id: I34d1ab97134b08246567e833d13a7c1924f535ed
 Author: Pino Toscano <pino@kde.org>
 Description: Fixes FTBFS on GNU/kFreeBSD by creating new Q_OS_FREEBSD_KERNEL.
 Last-Update: 2010-10-06
----
- src/corelib/global/qglobal.h |    2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
-index 15b6afb..55f7df3 100644
+index b3d4852..1a6a4a4 100644
 --- a/src/corelib/global/qglobal.h
 +++ b/src/corelib/global/qglobal.h
 @@ -226,6 +226,8 @@ namespace QT_NAMESPACE {}
@@ -80810,13 +80642,13 @@ index 15b6afb..55f7df3 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From edc8e5747312fb0dbc61ae4a1c432440cb70ad94 Mon Sep 17 00:00:00 2001
+From 28bf082efa51789d404e33bfbfdbe17a8261af87 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/15] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 14/23] fix missing platform when building on GNU/kFreeBSD
  (MXE specific)
 
 This patch is inspired by:
@@ -80825,15 +80657,12 @@ http://anonscm.debian.org/gitweb/?p=pkg-kde/qt/qt4-x11.git;a=blob;f=debian/rules
 For the time being, glibc-g++ is simply a copy of linux-g++.
 
 Change-Id: I1bebe2e6eef878318142ca5ed3525afc167b0a95
----
- configure |    3 +++
- 1 file changed, 3 insertions(+)
 
 diff --git a/configure b/configure
-index f679fa4..bb563fe 100755
+index e018443..b600744 100755
 --- a/configure
 +++ b/configure
-@@ -2809,6 +2809,9 @@ if [ -z "$PLATFORM" ]; then
+@@ -2845,6 +2845,9 @@ if [ -z "$PLATFORM" ]; then
       GNU:*)
          PLATFORM=hurd-g++
          ;;
@@ -80844,27 +80673,24 @@ index f679fa4..bb563fe 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.7.9.2
+1.7.10.4
 
 
-From 9e5f8124bdb183e115d742d45acb00fd7a8250c3 Mon Sep 17 00:00:00 2001
+From f32c0852485615d6938d1cde1e0b4dc4e6262a7e Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/15] fix building on dragonfly (MXE specific)
+Subject: [PATCH 15/23] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
 
 Change-Id: I9743a39ac35950cb15af915c3ae527433bc6b56d
----
- configure |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index bb563fe..79ca8d3 100755
+index b600744..599203d 100755
 --- a/configure
 +++ b/configure
-@@ -2821,7 +2821,7 @@ if [ -z "$PLATFORM" ]; then
+@@ -2857,7 +2857,7 @@ if [ -z "$PLATFORM" ]; then
       ULTRIX:*)
          PLATFORM=ultrix-g++
          ;;
@@ -80874,5 +80700,380 @@ index bb563fe..79ca8d3 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.7.9.2
+1.7.10.4
+
+
+From 67da309cbc542e765d2254bd2e2c64a78c7cd35f Mon Sep 17 00:00:00 2001
+From: Yuchen Deng <loaden@gmail.com>
+Date: Sun, 19 Aug 2012 15:38:44 +0800
+Subject: [PATCH 16/23] Add -pipe option of win32-g++'s QMAKE_CFLAGS
+
+cherry-picked from qt5/qtbase commit 2b57a8ebfeb6e3495b63fac619631896ca670f11
+
+Change-Id: Idccab648df1a9456a4ee19f1acfdb0544d40a928
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+(cherry picked from commit 9fbdb93d3aa1cad8859325814e28f014acd18f10)
+
+diff --git a/mkspecs/win32-g++/qmake.conf b/mkspecs/win32-g++/qmake.conf
+index d174634..6d631fc 100644
+--- a/mkspecs/win32-g++/qmake.conf
++++ b/mkspecs/win32-g++/qmake.conf
+@@ -25,7 +25,7 @@ QMAKE_LEX		= flex
+ QMAKE_LEXFLAGS		=
+ QMAKE_YACC		= byacc
+ QMAKE_YACCFLAGS		= -d
+-QMAKE_CFLAGS		=
++QMAKE_CFLAGS		= -pipe
+ QMAKE_CFLAGS_DEPS	= -M
+ QMAKE_CFLAGS_WARN_ON	= -Wall -Wextra
+ QMAKE_CFLAGS_WARN_OFF	= -w
+-- 
+1.7.10.4
+
+
+From eeeadca6963f3dedd6ea3626409199f49afa839f Mon Sep 17 00:00:00 2001
+From: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+Date: Mon, 10 Sep 2012 12:08:51 +0200
+Subject: [PATCH 17/23] find qdevice.pri even for installed qt builds
+
+Change-Id: Ife18068974227d70c52e7cb0d06e6136827ac562
+Reviewed-by: Mark Brand <mabrand@mabrand.nl>
+(cherry picked from commit ffac77f7de433f67570ff0da9656bce6481be920)
+
+diff --git a/mkspecs/features/device_config.prf b/mkspecs/features/device_config.prf
+index f7aeb07..7da3fe5 100644
+--- a/mkspecs/features/device_config.prf
++++ b/mkspecs/features/device_config.prf
+@@ -1,6 +1,6 @@
+ # Load generated qdevice.pri
+ isEmpty(QT_BUILD_TREE): QT_BUILD_TREE = $$fromfile($$_QMAKE_CACHE_, QT_BUILD_TREE)
+-isEmpty(QT_BUILD_TREE): QT_BUILD_TREE = . # where to get?
++isEmpty(QT_BUILD_TREE): QT_BUILD_TREE = $$[QT_INSTALL_DATA]
+ 
+ DEVICE_PRI = $$QT_BUILD_TREE/mkspecs/qdevice.pri
+ 
+-- 
+1.7.10.4
+
+
+From 2519a7dd92f14031c7d11775caa0645384febd87 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Wed, 12 Sep 2012 00:22:28 +0200
+Subject: [PATCH 18/23] Partial Revert "Disable pkg-config, when x-compiling
+ for mingw"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This partially reverts commit c7d5071afc6c76925c90ff35041dc4eb86511271.
+
+Despite what the commit message said, pkg-config previously worked
+and was useful, particularly for static Qt. Qt itself even installs
+its own .pc files.
+
+Note: The mkspec win32-g++-cross had a PKG_CONFIG definition to avoid
+using the pkg-config installation on the build machine.
+
+cherry-picked from qt5/qtbase commit 7d9b5e8e7d2094dedbe7e3e2f961544f233ce57e
+Change-Id: I6c6ed81b2ab42c9cf7f7e250feeeb9c34c8877e7
+Reviewed-by: Peter Kümmel <syntheticpp@gmx.net>
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+(cherry picked from commit 57069f1bd5e8cd5450f1d1ceae0d6d315b4a66c8)
+
+diff --git a/configure b/configure
+index 599203d..a0786da 100755
+--- a/configure
++++ b/configure
+@@ -1684,7 +1684,6 @@ while [ "$#" -gt 0 ]; do
+         case `basename "$XPLATFORM"` in win32-g++*)
+             XPLATFORM_MINGW=yes
+             CFG_RPATH=no
+-            PKG_CONFIG=no
+             CFG_REDUCE_EXPORTS=no
+             ;;
+         esac
+-- 
+1.7.10.4
+
+
+From 03f7a56af4020aaead73c9d0de389d32fd4ddb24 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Peter=20K=C3=BCmmel?= <syntheticpp@gmx.net>
+Date: Wed, 12 Sep 2012 11:13:44 +0200
+Subject: [PATCH 19/23] When x-compiling on Linux the host tools doesn't have
+ Windows' executable suffix
+
+patch not needed for Qt5
+
+Change-Id: I26a6cd8de91dc6df7d31a9f38187f7b1e8209cc1
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+(cherry picked from commit 95c55b8a913fd7aaa23a44f1f9aa568342b25e07)
+
+diff --git a/mkspecs/win32-g++/qmake.conf b/mkspecs/win32-g++/qmake.conf
+index 6d631fc..2cd2214 100644
+--- a/mkspecs/win32-g++/qmake.conf
++++ b/mkspecs/win32-g++/qmake.conf
+@@ -11,6 +11,8 @@ MAKEFILE_GENERATOR	= MINGW
+ 
+ load(device_config)
+ 
++equals(QMAKE_HOST.os, Windows): EXE_SUFFIX = .exe
++
+ TEMPLATE		= app
+ CONFIG			+= qt warn_on release link_prl copy_dir_files debug_and_release debug_and_release_target precompile_header
+ QT			+= core gui
+@@ -101,9 +103,9 @@ QMAKE_LIBS_QT_ENTRY     = -lmingw32 -lqtmain
+     QMAKE_CHK_DIR_EXISTS	= if not exist
+ }
+ 
+-QMAKE_MOC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}moc.exe
+-QMAKE_UIC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}uic.exe
+-QMAKE_IDC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}idc.exe
++QMAKE_MOC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}moc$${EXE_SUFFIX}
++QMAKE_UIC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}uic$${EXE_SUFFIX}
++QMAKE_IDC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}idc$${EXE_SUFFIX}
+ 
+ QMAKE_IDL		= midl
+ QMAKE_LIB		= $${CROSS_COMPILE}ar -ru
+-- 
+1.7.10.4
+
+
+From 32415e3cb482c55b16d5953e37865ded1885869d Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Tue, 11 Sep 2012 23:45:02 +0200
+Subject: [PATCH 20/23] smuggle QT_BUILD_TREE to device_config.prf even during
+ tests
+
+Otherwise CROSS_COMPILE is not available for config.tests
+because qdevice.pri is not found in such configurations as:
+
+./configure -xplatform win32-g++-4.6 \
+            -device-option CROSS_COMPILE=$TARGET \
+            -prefix=$PREFIX/$TARGET \
+            -prefix-install
+
+Normally, we don't want to use .qmake.cache during tests,
+but we need that mechanism here.
+
+Change-Id: If255f9657fa4206c4875a730f467d58b8a1c6ac1
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
+(cherry picked from commit a0c6987dbb139829f9ea61a66cb863b1baa1f183)
+
+diff --git a/config.tests/unix/compile.test b/config.tests/unix/compile.test
+index f4a7f29..b8f6743 100755
+--- a/config.tests/unix/compile.test
++++ b/config.tests/unix/compile.test
+@@ -68,7 +68,8 @@ test -r Makefile && $MAKE distclean >/dev/null 2>&1
+ # Make sure output from possible previous tests is gone
+ rm -f "$EXE" "${EXE}.exe"
+ 
+-"$OUTDIR/bin/qmake" -nocache -spec "$QMKSPEC" "CONFIG+=$QMAKE_CONFIG" "CONFIG-=debug_and_release" "LIBS*=$LFLAGS" "LIBS+=$MAC_ARCH_LFLAGS" "INCLUDEPATH*=$INCLUDEPATH" "QMAKE_CXXFLAGS*=$CXXFLAGS" "QMAKE_CXXFLAGS+=$MAC_ARCH_CXXFLAGS" "QT_BUILD_TREE=$OUTDIR" "$SRCDIR/$TEST/$EXE.pro" -o "$OUTDIR/$TEST/Makefile"
++echo "QT_BUILD_TREE = $OUTDIR" > "$OUTDIR/$TEST/.qmake.cache"
++"$OUTDIR/bin/qmake" -spec "$QMKSPEC" "CONFIG+=$QMAKE_CONFIG" "CONFIG-=debug_and_release" "LIBS*=$LFLAGS" "LIBS+=$MAC_ARCH_LFLAGS" "INCLUDEPATH*=$INCLUDEPATH" "QMAKE_CXXFLAGS*=$CXXFLAGS" "QMAKE_CXXFLAGS+=$MAC_ARCH_CXXFLAGS" "$SRCDIR/$TEST/$EXE.pro" -o "$OUTDIR/$TEST/Makefile"
+ 
+ if [ "$VERBOSE" = "yes" ]; then
+     $MAKE
+-- 
+1.7.10.4
+
+
+From 6a5e0ddd8a49120e14638ff905d7535b3a83d0f9 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Sun, 16 Sep 2012 00:12:53 +0200
+Subject: [PATCH 21/23] postpone pkg-config detection until after qmake is
+ built
+
+pkg-config isn't used before qmake is built, so detecting it can take
+place afterwards. This is preparation for using qmake to resolve
+PKG_CONFIG define in mkspecs.
+
+Change-Id: Icedf9ebd80bbac3fe1e5d7eeca358cb0fc9de072
+
+diff --git a/configure b/configure
+index a0786da..53d0506 100755
+--- a/configure
++++ b/configure
+@@ -3330,64 +3330,9 @@ if [ "$OPT_VERBOSE" = "yes" ]; then
+ fi
+ 
+ #-------------------------------------------------------------------------------
+-# write out device config before we run the test.
+-#-------------------------------------------------------------------------------
+-DEVICE_VARS_OUTFILE="$outpath/mkspecs/qdevice.pri"
+-if cmp -s "$DEVICE_VARS_FILE" "$DEVICE_VARS_OUTFILE"; then
+-    rm -f "$DEVICE_VARS_FILE"
+-else
+-    mv -f $DEVICE_VARS_FILE "$DEVICE_VARS_OUTFILE"
+-    DEVICE_VARS_FILE="$DEVICE_VARS_OUTFILE"
+-fi
+-
+-#-------------------------------------------------------------------------------
+ # tests that don't need qmake (must be run before displaying help)
+ #-------------------------------------------------------------------------------
+ 
+-if [ -z "$PKG_CONFIG" ]; then
+-    # See if PKG_CONFIG is set in the mkspec:
+-    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
+-fi
+-if [ -z "$PKG_CONFIG" ]; then
+-    PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
+-fi
+-
+-# Work out if we can use pkg-config
+-if [ "$QT_CROSS_COMPILE" = "yes" ]; then
+-    if [ "$QT_FORCE_PKGCONFIG" = "yes" ]; then
+-        echo >&2 ""
+-        echo >&2 "You have asked to use pkg-config and are cross-compiling."
+-        echo >&2 "Please make sure you have a correctly set-up pkg-config"
+-        echo >&2 "environment!"
+-        echo >&2 ""
+-        if [ -z "$PKG_CONFIG_PATH" ]; then
+-            echo >&2 ""
+-            echo >&2 "Warning: PKG_CONFIG_PATH has not been set.  This could mean"
+-            echo >&2 "the host compiler's .pc files will be used. This is probably"
+-            echo >&2 "not what you want."
+-            echo >&2 ""
+-        elif [ -z "$PKG_CONFIG_SYSROOT" ] && [ -z "$PKG_CONFIG_SYSROOT_DIR" ]; then
+-            echo >&2 ""
+-            echo >&2 "Warning: PKG_CONFIG_SYSROOT/PKG_CONFIG_SYSROOT_DIR has not"
+-            echo >&2 "been set. This means your toolchain's .pc files must contain"
+-            echo >&2 "the paths to the toolchain's libraries & headers. If configure"
+-            echo >&2 "tests are failing, please check these files."
+-            echo >&2 ""
+-        fi
+-    else
+-        echo >&2 ""
+-        echo >&2 "You have not explicitly asked to use pkg-config and are cross-compiling."
+-        echo >&2 "pkg-config will not be used to automatically query cflag/lib parameters for"
+-        echo >&2 "dependencies"
+-        echo >&2 ""
+-        PKG_CONFIG=""
+-    fi
+-fi
+-
+-if [ ! -n "$PKG_CONFIG" ]; then
+-    QT_CONFIG="$QT_CONFIG no-pkg-config"
+-fi
+-
+ # process CFG_MAC_ARCHS
+ if [ "$PLATFORM_MAC" = "yes" ]; then
+ #   check -arch arguments for validity.
+@@ -5058,6 +5003,61 @@ if true; then ###[ '!' -f "$outpath/bin/qmake" ];
+ fi # Build qmake
+ 
+ #-------------------------------------------------------------------------------
++# write out device config before we run the test.
++#-------------------------------------------------------------------------------
++DEVICE_VARS_OUTFILE="$outpath/mkspecs/qdevice.pri"
++if cmp -s "$DEVICE_VARS_FILE" "$DEVICE_VARS_OUTFILE"; then
++    rm -f "$DEVICE_VARS_FILE"
++else
++    mv -f $DEVICE_VARS_FILE "$DEVICE_VARS_OUTFILE"
++    DEVICE_VARS_FILE="$DEVICE_VARS_OUTFILE"
++fi
++
++if [ -z "$PKG_CONFIG" ]; then
++    # See if PKG_CONFIG is set in the mkspec:
++    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
++fi
++if [ -z "$PKG_CONFIG" ]; then
++    PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
++fi
++
++# Work out if we can use pkg-config
++if [ "$QT_CROSS_COMPILE" = "yes" ]; then
++    if [ "$QT_FORCE_PKGCONFIG" = "yes" ]; then
++        echo >&2 ""
++        echo >&2 "You have asked to use pkg-config and are cross-compiling."
++        echo >&2 "Please make sure you have a correctly set-up pkg-config"
++        echo >&2 "environment!"
++        echo >&2 ""
++        if [ -z "$PKG_CONFIG_PATH" ]; then
++            echo >&2 ""
++            echo >&2 "Warning: PKG_CONFIG_PATH has not been set.  This could mean"
++            echo >&2 "the host compiler's .pc files will be used. This is probably"
++            echo >&2 "not what you want."
++            echo >&2 ""
++        elif [ -z "$PKG_CONFIG_SYSROOT" ] && [ -z "$PKG_CONFIG_SYSROOT_DIR" ]; then
++            echo >&2 ""
++            echo >&2 "Warning: PKG_CONFIG_SYSROOT/PKG_CONFIG_SYSROOT_DIR has not"
++            echo >&2 "been set. This means your toolchain's .pc files must contain"
++            echo >&2 "the paths to the toolchain's libraries & headers. If configure"
++            echo >&2 "tests are failing, please check these files."
++            echo >&2 ""
++        fi
++    else
++        echo >&2 ""
++        echo >&2 "You have not explicitly asked to use pkg-config and are cross-compiling."
++        echo >&2 "pkg-config will not be used to automatically query cflag/lib parameters for"
++        echo >&2 "dependencies"
++        echo >&2 ""
++        PKG_CONFIG=""
++    fi
++fi
++
++if [ ! -n "$PKG_CONFIG" ]; then
++    QT_CONFIG="$QT_CONFIG no-pkg-config"
++fi
++
++#-------------------------------------------------------------------------------
+ # tests that need qmake
+ #-------------------------------------------------------------------------------
+ 
+-- 
+1.7.10.4
+
+
+From aa1b1c8519667f664cbb74e47a350d54ca679652 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Fri, 14 Sep 2012 10:03:18 +0200
+Subject: [PATCH 22/23] use qmake to get PKG_CONFIG in configure script
+
+PKG_CONFIG might be set in qmake.conf and prefixed with CROSS_COMPILE,
+which is part of the device configuration. The shell functions of
+configure are not smart enough to put this together, but qmake is
+pretty good at it now.
+
+Change-Id: I1c9558e550c48e8441ebdac34b82066473c2ce3a
+
+diff --git a/configure b/configure
+index 53d0506..211476d 100755
+--- a/configure
++++ b/configure
+@@ -5015,7 +5015,11 @@ fi
+ 
+ if [ -z "$PKG_CONFIG" ]; then
+     # See if PKG_CONFIG is set in the mkspec:
+-    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
++    (echo TEMPLATE = subdirs
++     echo 'message($$PKG_CONFIG)') > "$outpath/dummy.pro"
++    echo "QT_BUILD_TREE = $outpath" > "$outpath/.qmake.cache.pkgconfig"
++    PKG_CONFIG="`"$outpath/bin/qmake" -cache "$outpath/.qmake.cache.pkgconfig" -spec "$XQMAKESPEC" "$outpath/dummy.pro" -o /dev/null 2>&1 1>&- | sed -n -e 's,Project MESSAGE: \(.*\),\1,p'`"
++    rm "$outpath/.qmake.cache.pkgconfig" "$outpath/dummy.pro"
+ fi
+ if [ -z "$PKG_CONFIG" ]; then
+     PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
+-- 
+1.7.10.4
+
+
+From 8616d85fa85714f69b0599f9ba3b5445db5ecde5 Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Sun, 16 Sep 2012 00:07:12 +0200
+Subject: [PATCH 23/23] add PKG_CONFIG in mkspec (MXE)
+
+Change-Id: I14c92e6cbd7d8f4d4762b004016dad30b0c86f50
+
+diff --git a/mkspecs/win32-g++/qmake.conf b/mkspecs/win32-g++/qmake.conf
+index 2cd2214..af9d799 100644
+--- a/mkspecs/win32-g++/qmake.conf
++++ b/mkspecs/win32-g++/qmake.conf
+@@ -114,4 +114,5 @@ QMAKE_ZIP		= zip -r -9
+ 
+ QMAKE_STRIP		= $${CROSS_COMPILE}strip
+ QMAKE_STRIPFLAGS_LIB 	+= --strip-unneeded
++PKG_CONFIG		= $${CROSS_COMPILE}pkg-config
+ load(qt_config)
+-- 
+1.7.10.4
 
