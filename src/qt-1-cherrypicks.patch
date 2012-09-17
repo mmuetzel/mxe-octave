@@ -8,7 +8,7 @@ Also contains MXE specific fixes.
 From 2a376d8ff643ec0d40fdba68a25c3a323dbd5be4 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 01/23] remove trailing whitespace
+Subject: [PATCH 01/22] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
@@ -35,7 +35,7 @@ index 9090773..859ec8d 100644
 From f9650fb05bde43a8d710469daa363383e3947e3a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 02/23] do not detect or configure iconv for Windows
+Subject: [PATCH 02/22] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -69,7 +69,7 @@ index d19f443..520ffc3 100755
 From 04a44c0d6b3272c6edb08d34cecf36825843c2a0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 03/23] fix whitespace
+Subject: [PATCH 03/22] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
@@ -143,7 +143,7 @@ index 859ec8d..70cd890 100644
 From 043a2cdc024dd19685a1cd3694faa0cdbade5a82 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 04/23] build and load text codecs regardless of iconv and
+Subject: [PATCH 04/22] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -285,7 +285,7 @@ index 08d954c..f267acb 100644
 From c9e946e08850c2ea92c818bcef9b4f0ec47fb86f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 05/23] move plugin text codecs to QtCore
+Subject: [PATCH 05/22] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79236,7 +79236,7 @@ index 94ce675..c4af49b 100644
 From 7c457dbd99e5865f13499146e9487e9cb4b86868 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 06/23] update private header references
+Subject: [PATCH 06/22] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
@@ -79399,7 +79399,7 @@ index 3d3cde7..4910bfd 100644
 From 2be2accfee23fee3a9d97e5852ff9d2a01a7c33f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 07/23] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 07/22] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -79891,7 +79891,7 @@ index 4910bfd..d57f94b 100644
 From eeecdea8f15353aa0461ec09f7064f456849a3c3 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 08/23] remove obsolete codec plugin loading code
+Subject: [PATCH 08/22] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -80428,7 +80428,7 @@ index 9612778..493269d 100644
 From c94d9111ef83683ea2b7db6e4070594c4a332f1c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 09/23] remove vestiges of text codec plugins
+Subject: [PATCH 09/22] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80462,7 +80462,7 @@ index dea05e0..12cd8ea 100644
 From 415466a4ac2a87522569544a9b9ba7115fc4acf7 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 10/23] use pkg-config for libmng (MXE specific)
+Subject: [PATCH 10/22] use pkg-config for libmng (MXE specific)
 
 Change-Id: Ifce956d5cad06d5273088656b8500b87980063f4
 
@@ -80488,7 +80488,7 @@ index ffb98de..6aab68f 100644
 From 1cac3150930d5353455b560792f7e76fe180ad26 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 11/23] use pkg-config for libtiff-4 (MXE specific)
+Subject: [PATCH 11/22] use pkg-config for libtiff-4 (MXE specific)
 
 Change-Id: I5e89e66fc1606d425553e781c9e62db703136957
 
@@ -80514,7 +80514,7 @@ index e1cc3ee..71cbab1 100644
 From 28ad5f9d9c70feba6475652c6445bbe263998d3d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/23] restore support for static linking of QtWebKit (MXE
+Subject: [PATCH 12/22] restore support for static linking of QtWebKit (MXE
  specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80617,7 +80617,7 @@ index 9be0f4a..6744f58 100644
 From ab04bc59d7caf5d04bb87bd75d2bbe98da89d599 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/23] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 13/22] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80648,7 +80648,7 @@ index b3d4852..1a6a4a4 100644
 From 28bf082efa51789d404e33bfbfdbe17a8261af87 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/23] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 14/22] fix missing platform when building on GNU/kFreeBSD
  (MXE specific)
 
 This patch is inspired by:
@@ -80679,7 +80679,7 @@ index e018443..b600744 100755
 From f32c0852485615d6938d1cde1e0b4dc4e6262a7e Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/23] fix building on dragonfly (MXE specific)
+Subject: [PATCH 15/22] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80706,7 +80706,7 @@ index b600744..599203d 100755
 From 67da309cbc542e765d2254bd2e2c64a78c7cd35f Mon Sep 17 00:00:00 2001
 From: Yuchen Deng <loaden@gmail.com>
 Date: Sun, 19 Aug 2012 15:38:44 +0800
-Subject: [PATCH 16/23] Add -pipe option of win32-g++'s QMAKE_CFLAGS
+Subject: [PATCH 16/22] Add -pipe option of win32-g++'s QMAKE_CFLAGS
 
 cherry-picked from qt5/qtbase commit 2b57a8ebfeb6e3495b63fac619631896ca670f11
 
@@ -80734,7 +80734,7 @@ index d174634..6d631fc 100644
 From eeeadca6963f3dedd6ea3626409199f49afa839f Mon Sep 17 00:00:00 2001
 From: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
 Date: Mon, 10 Sep 2012 12:08:51 +0200
-Subject: [PATCH 17/23] find qdevice.pri even for installed qt builds
+Subject: [PATCH 17/22] find qdevice.pri even for installed qt builds
 
 Change-Id: Ife18068974227d70c52e7cb0d06e6136827ac562
 Reviewed-by: Mark Brand <mabrand@mabrand.nl>
@@ -80759,7 +80759,7 @@ index f7aeb07..7da3fe5 100644
 From 2519a7dd92f14031c7d11775caa0645384febd87 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 12 Sep 2012 00:22:28 +0200
-Subject: [PATCH 18/23] Partial Revert "Disable pkg-config, when x-compiling
+Subject: [PATCH 18/22] Partial Revert "Disable pkg-config, when x-compiling
  for mingw"
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -80799,7 +80799,7 @@ index 599203d..a0786da 100755
 From 03f7a56af4020aaead73c9d0de389d32fd4ddb24 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Peter=20K=C3=BCmmel?= <syntheticpp@gmx.net>
 Date: Wed, 12 Sep 2012 11:13:44 +0200
-Subject: [PATCH 19/23] When x-compiling on Linux the host tools doesn't have
+Subject: [PATCH 19/22] When x-compiling on Linux the host tools doesn't have
  Windows' executable suffix
 
 patch not needed for Qt5
@@ -80841,7 +80841,7 @@ index 6d631fc..2cd2214 100644
 From 32415e3cb482c55b16d5953e37865ded1885869d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Tue, 11 Sep 2012 23:45:02 +0200
-Subject: [PATCH 20/23] smuggle QT_BUILD_TREE to device_config.prf even during
+Subject: [PATCH 20/22] smuggle QT_BUILD_TREE to device_config.prf even during
  tests
 
 Otherwise CROSS_COMPILE is not available for config.tests
@@ -80880,7 +80880,7 @@ index f4a7f29..b8f6743 100755
 From 6a5e0ddd8a49120e14638ff905d7535b3a83d0f9 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 16 Sep 2012 00:12:53 +0200
-Subject: [PATCH 21/23] postpone pkg-config detection until after qmake is
+Subject: [PATCH 21/22] postpone pkg-config detection until after qmake is
  built
 
 pkg-config isn't used before qmake is built, so detecting it can take
@@ -81024,15 +81024,18 @@ index a0786da..53d0506 100755
 1.7.10.4
 
 
-From aa1b1c8519667f664cbb74e47a350d54ca679652 Mon Sep 17 00:00:00 2001
+From 8173e1aed8382a20afcb70ca36615dda67faf95c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 14 Sep 2012 10:03:18 +0200
-Subject: [PATCH 22/23] use qmake to get PKG_CONFIG in configure script
+Subject: [PATCH 22/22] use qmake to get PKG_CONFIG in configure script
 
-PKG_CONFIG might be set in qmake.conf and prefixed with CROSS_COMPILE,
-which is part of the device configuration. The shell functions of
-configure are not smart enough to put this together, but qmake is
-pretty good at it now.
+The value of PKG_CONFIG might depend on device options.
+For example, "-device-option PKG_CONFIG" might be used with configure
+or a mkspec might prefix PKG_CONFIG with CROSS_COMPILE which is
+specified as a device option.
+
+The shell functions of configure for parsing mkspecs do not take
+device options into account, but qmake is pretty good at it now.
 
 Change-Id: I1c9558e550c48e8441ebdac34b82066473c2ce3a
 
@@ -81053,27 +81056,6 @@ index 53d0506..211476d 100755
  fi
  if [ -z "$PKG_CONFIG" ]; then
      PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
--- 
-1.7.10.4
-
-
-From 8616d85fa85714f69b0599f9ba3b5445db5ecde5 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Sun, 16 Sep 2012 00:07:12 +0200
-Subject: [PATCH 23/23] add PKG_CONFIG in mkspec (MXE)
-
-Change-Id: I14c92e6cbd7d8f4d4762b004016dad30b0c86f50
-
-diff --git a/mkspecs/win32-g++/qmake.conf b/mkspecs/win32-g++/qmake.conf
-index 2cd2214..af9d799 100644
---- a/mkspecs/win32-g++/qmake.conf
-+++ b/mkspecs/win32-g++/qmake.conf
-@@ -114,4 +114,5 @@ QMAKE_ZIP		= zip -r -9
- 
- QMAKE_STRIP		= $${CROSS_COMPILE}strip
- QMAKE_STRIPFLAGS_LIB 	+= --strip-unneeded
-+PKG_CONFIG		= $${CROSS_COMPILE}pkg-config
- load(qt_config)
 -- 
 1.7.10.4
 
