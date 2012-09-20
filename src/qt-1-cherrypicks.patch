@@ -8,7 +8,7 @@ Also contains MXE specific fixes.
 From 16a4f14e8e879a14ae5db47d0731c9199c01a816 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 01/17] remove trailing whitespace
+Subject: [PATCH 01/18] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
@@ -32,13 +32,13 @@ index 6bc2fa6..9b7967d 100644
                          ../plugins/codecs/tw/qbig5codec.h \
                          ../plugins/codecs/jp/qfontjpcodec.h
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 162708efc51e40ed59d4e3397d399920c21d03a6 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 02/17] do not detect or configure iconv for Windows
+Subject: [PATCH 02/18] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -69,13 +69,13 @@ index a706908..0690822 100755
      elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
          CFG_ICONV=yes
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From dd34e052a555203b2bfb415bd0ce348ef232aa7e Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 03/17] fix whitespace
+Subject: [PATCH 03/18] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
@@ -146,13 +146,13 @@ index 9b7967d..836cc34 100644
                          ../plugins/codecs/tw/qbig5codec.cpp \
                          ../plugins/codecs/jp/qfontjpcodec.cpp
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 7f2e5f5e4bc740446f0160ae3246907fa4f6dc2f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 04/17] build and load text codecs regardless of iconv and
+Subject: [PATCH 04/18] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -292,13 +292,13 @@ index 74e5e90..2b3100a 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 00db0d7b9b99b18fd08463f86102f1b63eb3a527 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 05/17] move plugin text codecs to QtCore
+Subject: [PATCH 05/18] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79334,13 +79334,13 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 0332650cdfb4c5847a4678a1aebfbe146c850b87 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 06/17] update private header references
+Subject: [PATCH 06/18] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
@@ -79510,13 +79510,13 @@ index c56a103..df1449b 100644
  #include <QtCore/qlist.h>
  
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From e76298384079852d9cc1e0138a10b0637f34687f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 07/17] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 07/18] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -80021,13 +80021,13 @@ index df1449b..f8efcae 100644
 -#endif // QSJISCODEC_H
 +#endif // QSJISCODEC_P_H
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 16ea320980842c9c16d380f3bdd84c5a413dbd21 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 08/17] remove obsolete codec plugin loading code
+Subject: [PATCH 08/18] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -80571,13 +80571,13 @@ index 844101a..4ea4227 100644
  #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
  #define QT_NO_COLORDIALOG
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 5a5ae1066dbcf8a663e7f292d8679aae2ccd7b73 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 09/17] remove vestiges of text codec plugins
+Subject: [PATCH 09/18] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80608,13 +80608,13 @@ index dea05e0..12cd8ea 100644
  Description: Supports translations using QObject::tr().
  Section: Internationalization
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 90daa3f753c91a3efde3dfdc9151f9a639c653d0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 10/17] use pkg-config for libmng (MXE specific)
+Subject: [PATCH 10/18] use pkg-config for libmng (MXE specific)
 
 Change-Id: Ifce956d5cad06d5273088656b8500b87980063f4
 ---
@@ -80637,13 +80637,13 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 1d4c3643de6eea011e74ed73dc2290c58f41d865 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 11/17] use pkg-config for libtiff-4 (MXE specific)
+Subject: [PATCH 11/18] use pkg-config for libtiff-4 (MXE specific)
 
 Change-Id: I5e89e66fc1606d425553e781c9e62db703136957
 ---
@@ -80666,13 +80666,13 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From a3c87e93fd4aa06163eb157b060e155c44fbbe14 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/17] restore support for static linking of QtWebKit (MXE
+Subject: [PATCH 12/18] restore support for static linking of QtWebKit (MXE
  specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80685,11 +80685,11 @@ Don't build Qt WebKit tests to avoid static linking problems.
 
 Change-Id: Ia969b8e3f2b656a5057c7ebf748f272d74f014da
 ---
- configure                                          |    6 ------
- .../Source/JavaScriptCore/JavaScriptCore.pri       |   12 ++++++++++++
- src/3rdparty/webkit/Source/WebCore/WebCore.pri     |   12 ++++++++++++
- src/3rdparty/webkit/Source/WebCore/WebCore.pro     |    2 +-
- src/3rdparty/webkit/Source/WebKit.pro              |    2 +-
+ configure                                                  |    6 ------
+ .../webkit/Source/JavaScriptCore/JavaScriptCore.pri        |   12 ++++++++++++
+ src/3rdparty/webkit/Source/WebCore/WebCore.pri             |   12 ++++++++++++
+ src/3rdparty/webkit/Source/WebCore/WebCore.pro             |    2 +-
+ src/3rdparty/webkit/Source/WebKit.pro                      |    2 +-
  5 files changed, 26 insertions(+), 8 deletions(-)
 
 diff --git a/configure b/configure
@@ -80776,13 +80776,13 @@ index 9be0f4a..6744f58 100644
  build-qtscript {
      SUBDIRS += \
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 0f6cab5fff9eb2e0cfc173eaf71e068f9b82e9d3 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/17] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 13/18] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80810,13 +80810,13 @@ index ed8f9eb..e571c4e 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 3b9839cc26fc7997b043a74c7d30fc3b0b81ad83 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/17] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 14/18] fix missing platform when building on GNU/kFreeBSD
  (MXE specific)
 
 This patch is inspired by:
@@ -80844,13 +80844,13 @@ index 2837eec..8b4e5e8 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From e15286869c4e9b5714209ec38686f63c8b2ff44c Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/17] fix building on dragonfly (MXE specific)
+Subject: [PATCH 15/18] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80874,20 +80874,20 @@ index 8b4e5e8..99948d1 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 87952077f0d192d2ce15ea111be3f320bc03be40 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 23 Mar 2012 16:29:57 +0100
-Subject: [PATCH 16/17] gcc 4.7.0 compatibility fix for javascript
+Subject: [PATCH 16/18] gcc 4.7.0 compatibility fix for javascript
 
 taken from http://qt-project.org/forums/viewthread/15071
 
 Change-Id: I701fb5a8d754afe9fcd6b327d779365673e07b5d
 ---
- .../JavaScriptCore/runtime/JSGlobalObject.h        |    2 +-
- .../JavaScriptCore/runtime/JSStaticScopeObject.h   |    2 +-
+ src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h  |    2 +-
+ .../javascriptcore/JavaScriptCore/runtime/JSStaticScopeObject.h      |    2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h b/src/3rdparty/javascriptcore/JavaScriptCore/runtime/JSGlobalObject.h
@@ -80917,13 +80917,13 @@ index 2542878..3cb66a0 100644
                  : JSVariableObjectData(&symbolTable, &registerStore + 1)
              {
 -- 
-1.7.9.2
+1.7.10.4
 
 
 From 4de5298ed5b06dea106f054ef110146a45f06b6f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 19 Apr 2012 14:48:34 +0200
-Subject: [PATCH 17/17] fix static library names when generating .pc files for
+Subject: [PATCH 17/18] fix static library names when generating .pc files for
  pkgconfig
 
 c354d16cc64cf516a0b5149cdc9ef74de096a998 added the version extension
@@ -80953,5 +80953,75 @@ index 66c6d49..447943a 100644
      t << pkgConfiglibDir << " " << pkgConfiglibName << " " << endl;
  
 -- 
-1.7.9.2
+1.7.10.4
+
+
+From ba6f43c6ab66d00fb11e83a00e5e4364cf664131 Mon Sep 17 00:00:00 2001
+From: Richard Moore <rich@kde.org>
+Date: Fri, 14 Sep 2012 00:13:08 +0100
+Subject: [PATCH 18/18] Disable SSL compression by default.
+
+Disable SSL compression by default since this appears to be the a likely
+cause of the currently hyped CRIME attack.
+
+This is a backport of 5ea896fbc63593f424a7dfbb11387599c0025c74
+
+Change-Id: I6eeefb23c6b140a9633b28ed85879459c474348a
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+Reviewed-by: Peter Hartmann <phartmann@rim.com>
+(cherry picked from commit d41dc3e101a694dec98d7bbb582d428d209e5401)
+---
+ src/network/ssl/qssl.cpp              |    5 +++--
+ src/network/ssl/qsslconfiguration.cpp |    4 +++-
+ src/network/ssl/qsslconfiguration_p.h |    4 +++-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/src/network/ssl/qssl.cpp b/src/network/ssl/qssl.cpp
+index e225984..322bbae 100644
+--- a/src/network/ssl/qssl.cpp
++++ b/src/network/ssl/qssl.cpp
+@@ -148,8 +148,9 @@ QT_BEGIN_NAMESPACE
+ 
+     By default, SslOptionDisableEmptyFragments is turned on since this causes
+     problems with a large number of servers. SslOptionDisableLegacyRenegotiation
+-    is also turned on, since it introduces a security risk. The other options
+-    are turned off.
++    is also turned on, since it introduces a security risk.
++    SslOptionDisableCompression is turned on to prevent the attack publicised by
++    CRIME. The other options are turned off.
+ 
+     Note: Availability of above options depends on the version of the SSL
+     backend in use.
+diff --git a/src/network/ssl/qsslconfiguration.cpp b/src/network/ssl/qsslconfiguration.cpp
+index 0eb01b8..968b3f6 100644
+--- a/src/network/ssl/qsslconfiguration.cpp
++++ b/src/network/ssl/qsslconfiguration.cpp
+@@ -201,7 +201,9 @@ bool QSslConfiguration::isNull() const
+             d->privateKey.isNull() &&
+             d->peerCertificate.isNull() &&
+             d->peerCertificateChain.count() == 0 &&
+-            d->sslOptions == (QSsl::SslOptionDisableEmptyFragments|QSsl::SslOptionDisableLegacyRenegotiation));
++            d->sslOptions == ( QSsl::SslOptionDisableEmptyFragments
++                              |QSsl::SslOptionDisableLegacyRenegotiation
++                              |QSsl::SslOptionDisableCompression));
+ }
+ 
+ /*!
+diff --git a/src/network/ssl/qsslconfiguration_p.h b/src/network/ssl/qsslconfiguration_p.h
+index b2a76d4..7ee34ea 100644
+--- a/src/network/ssl/qsslconfiguration_p.h
++++ b/src/network/ssl/qsslconfiguration_p.h
+@@ -83,7 +83,9 @@ public:
+         : protocol(QSsl::SecureProtocols),
+           peerVerifyMode(QSslSocket::AutoVerifyPeer),
+           peerVerifyDepth(0),
+-          sslOptions(QSsl::SslOptionDisableEmptyFragments|QSsl::SslOptionDisableLegacyRenegotiation)
++          sslOptions(QSsl::SslOptionDisableEmptyFragments
++                     |QSsl::SslOptionDisableLegacyRenegotiation
++                     |QSsl::SslOptionDisableCompression)
+     { }
+ 
+     QSslCertificate peerCertificate;
+-- 
+1.7.10.4
 
