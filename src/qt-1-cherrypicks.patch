@@ -8,7 +8,7 @@ Also contains MXE specific fixes.
 From 2a376d8ff643ec0d40fdba68a25c3a323dbd5be4 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 01/23] remove trailing whitespace
+Subject: [PATCH 01/24] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
@@ -35,7 +35,7 @@ index 9090773..859ec8d 100644
 From f9650fb05bde43a8d710469daa363383e3947e3a Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 02/23] do not detect or configure iconv for Windows
+Subject: [PATCH 02/24] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -69,7 +69,7 @@ index d19f443..520ffc3 100755
 From 04a44c0d6b3272c6edb08d34cecf36825843c2a0 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 03/23] fix whitespace
+Subject: [PATCH 03/24] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
@@ -143,7 +143,7 @@ index 859ec8d..70cd890 100644
 From 043a2cdc024dd19685a1cd3694faa0cdbade5a82 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 04/23] build and load text codecs regardless of iconv and
+Subject: [PATCH 04/24] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -285,7 +285,7 @@ index 08d954c..f267acb 100644
 From c9e946e08850c2ea92c818bcef9b4f0ec47fb86f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 05/23] move plugin text codecs to QtCore
+Subject: [PATCH 05/24] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -79236,7 +79236,7 @@ index 94ce675..c4af49b 100644
 From 7c457dbd99e5865f13499146e9487e9cb4b86868 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 06/23] update private header references
+Subject: [PATCH 06/24] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
@@ -79399,7 +79399,7 @@ index 3d3cde7..4910bfd 100644
 From 2be2accfee23fee3a9d97e5852ff9d2a01a7c33f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 07/23] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 07/24] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -79891,7 +79891,7 @@ index 4910bfd..d57f94b 100644
 From eeecdea8f15353aa0461ec09f7064f456849a3c3 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 08/23] remove obsolete codec plugin loading code
+Subject: [PATCH 08/24] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -80428,7 +80428,7 @@ index 9612778..493269d 100644
 From c94d9111ef83683ea2b7db6e4070594c4a332f1c Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 09/23] remove vestiges of text codec plugins
+Subject: [PATCH 09/24] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80462,7 +80462,7 @@ index dea05e0..12cd8ea 100644
 From 415466a4ac2a87522569544a9b9ba7115fc4acf7 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 10/23] use pkg-config for libmng (MXE specific)
+Subject: [PATCH 10/24] use pkg-config for libmng (MXE specific)
 
 Change-Id: Ifce956d5cad06d5273088656b8500b87980063f4
 
@@ -80488,7 +80488,7 @@ index ffb98de..6aab68f 100644
 From 1cac3150930d5353455b560792f7e76fe180ad26 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 11/23] use pkg-config for libtiff-4 (MXE specific)
+Subject: [PATCH 11/24] use pkg-config for libtiff-4 (MXE specific)
 
 Change-Id: I5e89e66fc1606d425553e781c9e62db703136957
 
@@ -80514,7 +80514,7 @@ index e1cc3ee..71cbab1 100644
 From 28ad5f9d9c70feba6475652c6445bbe263998d3d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/23] restore support for static linking of QtWebKit (MXE
+Subject: [PATCH 12/24] restore support for static linking of QtWebKit (MXE
  specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80617,7 +80617,7 @@ index 9be0f4a..6744f58 100644
 From ab04bc59d7caf5d04bb87bd75d2bbe98da89d599 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/23] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 13/24] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80648,7 +80648,7 @@ index b3d4852..1a6a4a4 100644
 From 28bf082efa51789d404e33bfbfdbe17a8261af87 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/23] fix missing platform when building on GNU/kFreeBSD
+Subject: [PATCH 14/24] fix missing platform when building on GNU/kFreeBSD
  (MXE specific)
 
 This patch is inspired by:
@@ -80679,7 +80679,7 @@ index e018443..b600744 100755
 From f32c0852485615d6938d1cde1e0b4dc4e6262a7e Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/23] fix building on dragonfly (MXE specific)
+Subject: [PATCH 15/24] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80706,7 +80706,7 @@ index b600744..599203d 100755
 From 67da309cbc542e765d2254bd2e2c64a78c7cd35f Mon Sep 17 00:00:00 2001
 From: Yuchen Deng <loaden@gmail.com>
 Date: Sun, 19 Aug 2012 15:38:44 +0800
-Subject: [PATCH 16/23] Add -pipe option of win32-g++'s QMAKE_CFLAGS
+Subject: [PATCH 16/24] Add -pipe option of win32-g++'s QMAKE_CFLAGS
 
 cherry-picked from qt5/qtbase commit 2b57a8ebfeb6e3495b63fac619631896ca670f11
 
@@ -80734,7 +80734,7 @@ index d174634..6d631fc 100644
 From eeeadca6963f3dedd6ea3626409199f49afa839f Mon Sep 17 00:00:00 2001
 From: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
 Date: Mon, 10 Sep 2012 12:08:51 +0200
-Subject: [PATCH 17/23] find qdevice.pri even for installed qt builds
+Subject: [PATCH 17/24] find qdevice.pri even for installed qt builds
 
 Change-Id: Ife18068974227d70c52e7cb0d06e6136827ac562
 Reviewed-by: Mark Brand <mabrand@mabrand.nl>
@@ -80759,7 +80759,7 @@ index f7aeb07..7da3fe5 100644
 From 2519a7dd92f14031c7d11775caa0645384febd87 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 12 Sep 2012 00:22:28 +0200
-Subject: [PATCH 18/23] Partial Revert "Disable pkg-config, when x-compiling
+Subject: [PATCH 18/24] Partial Revert "Disable pkg-config, when x-compiling
  for mingw"
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -80799,7 +80799,7 @@ index 599203d..a0786da 100755
 From 03f7a56af4020aaead73c9d0de389d32fd4ddb24 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Peter=20K=C3=BCmmel?= <syntheticpp@gmx.net>
 Date: Wed, 12 Sep 2012 11:13:44 +0200
-Subject: [PATCH 19/23] When x-compiling on Linux the host tools doesn't have
+Subject: [PATCH 19/24] When x-compiling on Linux the host tools doesn't have
  Windows' executable suffix
 
 patch not needed for Qt5
@@ -80841,7 +80841,7 @@ index 6d631fc..2cd2214 100644
 From 32415e3cb482c55b16d5953e37865ded1885869d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Tue, 11 Sep 2012 23:45:02 +0200
-Subject: [PATCH 20/23] smuggle QT_BUILD_TREE to device_config.prf even during
+Subject: [PATCH 20/24] smuggle QT_BUILD_TREE to device_config.prf even during
  tests
 
 Otherwise CROSS_COMPILE is not available for config.tests
@@ -80877,17 +80877,24 @@ index f4a7f29..b8f6743 100755
 1.7.10.4
 
 
-From 6a5e0ddd8a49120e14638ff905d7535b3a83d0f9 Mon Sep 17 00:00:00 2001
+From b0481b3c70c42136df1904de68a8f8fc797591e2 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 16 Sep 2012 00:12:53 +0200
-Subject: [PATCH 21/23] postpone pkg-config detection until after qmake is
- built
+Subject: [PATCH 21/24] configure: postpone pkg-config detection until after
+ qmake is built
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-pkg-config isn't used before qmake is built, so detecting it can take
-place afterwards. This is preparation for using qmake to resolve
-PKG_CONFIG define in mkspecs.
+pkg-config isn't used before qmake is built, so these tests can take
+place afterward.
+
+This is preparation for using qmake to resolve PKG_CONFIG in mkspecs.
 
 Change-Id: Icedf9ebd80bbac3fe1e5d7eeca358cb0fc9de072
+Reviewed-by: Peter Kümmel <syntheticpp@gmx.net>
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@digia.com>
+(cherry picked from commit 1861f0317d4058482667154131f8eb6488db407e)
 
 diff --git a/configure b/configure
 index a0786da..53d0506 100755
@@ -81024,10 +81031,10 @@ index a0786da..53d0506 100755
 1.7.10.4
 
 
-From 8173e1aed8382a20afcb70ca36615dda67faf95c Mon Sep 17 00:00:00 2001
+From b0638daae7481b9770e4a88bb7509f6cbbfee0e8 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 14 Sep 2012 10:03:18 +0200
-Subject: [PATCH 22/23] use qmake to get PKG_CONFIG in configure script
+Subject: [PATCH 22/24] use qmake to get PKG_CONFIG in configure script
 
 The value of PKG_CONFIG might depend on device options.
 For example, "-device-option PKG_CONFIG" might be used with configure
@@ -81037,21 +81044,27 @@ specified as a device option.
 The shell functions of configure for parsing mkspecs do not take
 device options into account, but qmake is pretty good at it now.
 
+backport of qt5/qtbase 01864d4854557d2cf8b067e229d77cd7c9c553ee
+
 Change-Id: I1c9558e550c48e8441ebdac34b82066473c2ce3a
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@digia.com>
+(cherry picked from commit d8f1f7a29c277c9a643fd048b87f530e37773676)
 
 diff --git a/configure b/configure
-index 53d0506..211476d 100755
+index 53d0506..723502e 100755
 --- a/configure
 +++ b/configure
-@@ -5015,7 +5015,11 @@ fi
+@@ -5014,8 +5014,12 @@ else
+ fi
  
  if [ -z "$PKG_CONFIG" ]; then
-     # See if PKG_CONFIG is set in the mkspec:
+-    # See if PKG_CONFIG is set in the mkspec:
 -    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
++    # See if PKG_CONFIG is set in the mkspec or device options
 +    (echo TEMPLATE = subdirs
 +     echo 'message($$PKG_CONFIG)') > "$outpath/dummy.pro"
 +    echo "QT_BUILD_TREE = $outpath" > "$outpath/.qmake.cache.pkgconfig"
-+    PKG_CONFIG="`"$outpath/bin/qmake" -cache "$outpath/.qmake.cache.pkgconfig" -spec "$XQMAKESPEC" "$outpath/dummy.pro" -o /dev/null 2>&1 1>&- | sed -n -e 's,Project MESSAGE: \(.*\),\1,p'`"
++    PKG_CONFIG=`"$outpath/bin/qmake" -cache "$outpath/.qmake.cache.pkgconfig" -spec "$XQMAKESPEC" "$outpath/dummy.pro" -o /dev/null 2>&1 > /dev/null | sed -n -e 's,Project MESSAGE: \(.*\),\1,p'`
 +    rm "$outpath/.qmake.cache.pkgconfig" "$outpath/dummy.pro"
  fi
  if [ -z "$PKG_CONFIG" ]; then
@@ -81060,27 +81073,92 @@ index 53d0506..211476d 100755
 1.7.10.4
 
 
-From 606164e8842df49f09b0d273476699c7ebf9d9ba Mon Sep 17 00:00:00 2001
+From 4814e4ff8a6d245eff8761113ac2ae8f37abf71a Mon Sep 17 00:00:00 2001
+From: Richard Moore <rich@kde.org>
+Date: Fri, 14 Sep 2012 00:13:08 +0100
+Subject: [PATCH 23/24] Disable SSL compression by default.
+
+Disable SSL compression by default since this appears to be the a likely
+cause of the currently hyped CRIME attack.
+
+This is a backport of 5ea896fbc63593f424a7dfbb11387599c0025c74
+
+Change-Id: I6eeefb23c6b140a9633b28ed85879459c474348a
+Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+Reviewed-by: Peter Hartmann <phartmann@rim.com>
+(cherry picked from commit d41dc3e101a694dec98d7bbb582d428d209e5401)
+
+diff --git a/src/network/ssl/qssl.cpp b/src/network/ssl/qssl.cpp
+index 49e086f..9578178 100644
+--- a/src/network/ssl/qssl.cpp
++++ b/src/network/ssl/qssl.cpp
+@@ -148,8 +148,9 @@ QT_BEGIN_NAMESPACE
+ 
+     By default, SslOptionDisableEmptyFragments is turned on since this causes
+     problems with a large number of servers. SslOptionDisableLegacyRenegotiation
+-    is also turned on, since it introduces a security risk. The other options
+-    are turned off.
++    is also turned on, since it introduces a security risk.
++    SslOptionDisableCompression is turned on to prevent the attack publicised by
++    CRIME. The other options are turned off.
+ 
+     Note: Availability of above options depends on the version of the SSL
+     backend in use.
+diff --git a/src/network/ssl/qsslconfiguration.cpp b/src/network/ssl/qsslconfiguration.cpp
+index 24c7b77..3a05f54 100644
+--- a/src/network/ssl/qsslconfiguration.cpp
++++ b/src/network/ssl/qsslconfiguration.cpp
+@@ -201,7 +201,9 @@ bool QSslConfiguration::isNull() const
+             d->privateKey.isNull() &&
+             d->peerCertificate.isNull() &&
+             d->peerCertificateChain.count() == 0 &&
+-            d->sslOptions == (QSsl::SslOptionDisableEmptyFragments|QSsl::SslOptionDisableLegacyRenegotiation));
++            d->sslOptions == ( QSsl::SslOptionDisableEmptyFragments
++                              |QSsl::SslOptionDisableLegacyRenegotiation
++                              |QSsl::SslOptionDisableCompression));
+ }
+ 
+ /*!
+diff --git a/src/network/ssl/qsslconfiguration_p.h b/src/network/ssl/qsslconfiguration_p.h
+index 74f17cd..c36b651 100644
+--- a/src/network/ssl/qsslconfiguration_p.h
++++ b/src/network/ssl/qsslconfiguration_p.h
+@@ -83,7 +83,9 @@ public:
+         : protocol(QSsl::SecureProtocols),
+           peerVerifyMode(QSslSocket::AutoVerifyPeer),
+           peerVerifyDepth(0),
+-          sslOptions(QSsl::SslOptionDisableEmptyFragments|QSsl::SslOptionDisableLegacyRenegotiation)
++          sslOptions(QSsl::SslOptionDisableEmptyFragments
++                     |QSsl::SslOptionDisableLegacyRenegotiation
++                     |QSsl::SslOptionDisableCompression)
+     { }
+ 
+     QSslCertificate peerCertificate;
+-- 
+1.7.10.4
+
+
+From 08f8d25243a021fb17bfce06cd2b1f96dea7454d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Tue, 18 Sep 2012 21:40:22 +0200
-Subject: [PATCH 23/23] configure: mac features don't belong on cross mingw
+Subject: [PATCH 24/24] configure: mac features don't belong on cross mingw
  target
+
+CFG_MAC_DWARF2 and CFG_MAC_XARCH options are for targetting macs, not
+bulding on them.
+
+qt5/qtbase commit 7a67c822e3e552d0d881f0409a5316de07dbb8c7
+removed CFG_MAC_DWARF2.
+
+qt5/qtbase commit 59d5c26075724a581ed276d62d884b44d2ca4489
+removed CFG_MAC_XARCH.
 
 Change-Id: Idb789ed9a8aa9b824a4c2191a9c39e741ca49574
 
 diff --git a/configure b/configure
-index 211476d..32f2fe8 100755
+index 723502e..0978939 100755
 --- a/configure
 +++ b/configure
-@@ -3407,7 +3407,7 @@ export SYSROOT_FLAG    # used by config.tests/unix/compile.test
- 
- # auto-detect precompiled header support
- if [ "$CFG_PRECOMPILE" = "auto" ]; then
--    if [ `echo "$CFG_MAC_ARCHS" | wc -w` -gt 1 ]; then
-+    if [ "$XPLATFORM_MINGW" != "yes" ] && [ `echo "$CFG_MAC_ARCHS" | wc -w` -gt 1 ]; then
-        CFG_PRECOMPILE=no
-     elif "$unixtests/precomp.test" "$TEST_COMPILER" "$OPT_VERBOSE"; then
-        CFG_PRECOMPILE=no
 @@ -3421,6 +3421,11 @@ elif [ "$CFG_PRECOMPILE" = "yes" ] && [ `echo "$CFG_MAC_ARCHS" | wc -w` -gt 1 ];
      CFG_PRECOMPILE=no
  fi
