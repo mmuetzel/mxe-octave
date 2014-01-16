@@ -83,7 +83,7 @@ endef
 
 define $(PKG)_BUILD
     # jni install
-    if [[ "$(MXE_SYSTEM)" == "mingw" && "$(MXE_NATIVE_BUILD)" == "no" ]]; then \
+    if [[ "$(MXE_SYSTEM)" == "mingw" && "$(MXE_NATIVE_BUILD)" == "no" && "$(ENABLE_JAVA)" == "yes" ]]; then \
       mkdir -p '$(HOST_INCDIR)/java/include'; \
       $(WGET) -N http://hg.openjdk.java.net/jdk7u/jdk7u/jdk/raw-file/tip/src/share/javavm/export/jni.h \
         -O $(HOST_INCDIR)/java/include/jni.h; \
@@ -113,6 +113,10 @@ define $(PKG)_BUILD
     ## location set by the configure --prefix option, and the other
     ## in a directory tree that will have just Octave files.
     $(MAKE) -C '$(1)/.build' -j '$(JOBS)' install DESTDIR='$(3)'
+
+    if [ "x$(MXE_SYSTEM)" == "xmingw" ]; then \
+      cp '$(1)/.build/src/.libs/octave-gui.exe' '$(3)$(HOST_BINDIR)'; \
+    fi
 
     if [ "x$(ENABLE_DOCS)" == "xyes" ]; then \
         $(MAKE) -C '$(1)/.build' -j '$(JOBS)' DESTDIR=$(3) install-pdf install-html; \

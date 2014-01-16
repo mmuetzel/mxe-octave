@@ -384,8 +384,11 @@ SRC_FILES_1 := \
   of-communications.mk \
   of-control.mk \
   of-data-smoothing.mk \
+  of-dicom.mk \
   of-fits.mk \
   of-fits-1-fixes.patch \
+  of-fl-core.mk \
+  of-fl-core-1-fixes.patch \
   of-fuzzy-logic-toolkit.mk \
   of-general.mk \
   of-geometry.mk \
@@ -403,6 +406,7 @@ SRC_FILES_1 := \
   of-specfun.mk \
   of-statistics.mk \
   of-struct.mk \
+  of-tsa.mk \
   of-windows.mk \
   of-zenity.mk \
   ogg.mk \
