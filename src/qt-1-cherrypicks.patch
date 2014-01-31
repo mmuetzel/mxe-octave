@@ -4,11 +4,10 @@ See index.html for further information.
 Commits backported (cherry-picked) from upstream branch or merge requests.
 http://qt.gitorious.org/qt
 Also contains MXE specific fixes.
-
-From 2a376d8ff643ec0d40fdba68a25c3a323dbd5be4 Mon Sep 17 00:00:00 2001
+From 6dfcbf0d99d76dbade4e3b427c9826e171382ca4 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
-Subject: [PATCH 01/24] remove trailing whitespace
+Subject: [PATCH 01/17] remove trailing whitespace
 
 backported from qt5/qtbase
 Change-Id: If53a0bd1794e69b4856f993c6e2959369bd007d6
@@ -29,13 +28,13 @@ index 9090773..859ec8d 100644
                          ../plugins/codecs/tw/qbig5codec.h \
                          ../plugins/codecs/jp/qfontjpcodec.h
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From f9650fb05bde43a8d710469daa363383e3947e3a Mon Sep 17 00:00:00 2001
+From f35425afd4ab61c9d5b806223d58292aa519997b Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
-Subject: [PATCH 02/24] do not detect or configure iconv for Windows
+Subject: [PATCH 02/17] do not detect or configure iconv for Windows
 
 Qt doesn't use iconv on Windows, but configuring it will appear to
 work and the build will complete. The result is that character
@@ -50,26 +49,26 @@ Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 9fa2b641ba6ff4f4b3f474b87ddb642cfa5c3d83)
 
 diff --git a/configure b/configure
-index d19f443..520ffc3 100755
+index 460b446..e337dc0 100755
 --- a/configure
 +++ b/configure
-@@ -5682,7 +5682,7 @@ fi
+@@ -5770,7 +5770,7 @@ fi
  
  # auto-detect iconv(3) support
  if [ "$CFG_ICONV" != "no" ]; then
 -    if [ "$PLATFORM_QWS" = "yes" ] || [ "$PLATFORM_QPA" = "yes" -a "$CFG_ICONV" = "auto" ]; then
 +    if [ "$PLATFORM_QWS" = "yes" -o "$XPLATFORM_MINGW" = "yes" ] || [ "$PLATFORM_QPA" = "yes" -a "$CFG_ICONV" = "auto" ]; then
          CFG_ICONV=no
-     elif "$unixtests/compile.test" "$XQMAKESPEC" "$QMAKE_CONFIG" "$OPT_VERBOSE" "$relpath" "$outpath" "config.tests/unix/iconv" "POSIX iconv" $L_FLAGS $I_FLAGS $l_FLAGS $MAC_CONFIG_TEST_COMMANDLINE; then
+     elif compileTest "unix/iconv" "POSIX iconv"; then
          CFG_ICONV=yes
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 04a44c0d6b3272c6edb08d34cecf36825843c2a0 Mon Sep 17 00:00:00 2001
+From 4dcf10f5beed5fbe74201f06a750bf18643dd716 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
-Subject: [PATCH 03/24] fix whitespace
+Subject: [PATCH 03/17] fix whitespace
 
 backported from qt5/qtbase
 Change-Id: I0cfccae085c000d4368386a34f288c1e6f01a88f
@@ -137,13 +136,13 @@ index 859ec8d..70cd890 100644
                          ../plugins/codecs/tw/qbig5codec.cpp \
                          ../plugins/codecs/jp/qfontjpcodec.cpp
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 043a2cdc024dd19685a1cd3694faa0cdbade5a82 Mon Sep 17 00:00:00 2001
+From b3bf93f2b38902cabdd203ad0362e3a90977e118 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
-Subject: [PATCH 04/24] build and load text codecs regardless of iconv and
+Subject: [PATCH 04/17] build and load text codecs regardless of iconv and
  platform
 
 Otherwise applications linking to static Qt may have to import
@@ -224,24 +223,24 @@ index 70cd890..c847264 100644
  }
  symbian:LIBS += -lcharconv
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 08d954c..f267acb 100644
+index 7c513a0..517ac87 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -66,15 +66,14 @@
  #  include "qtsciicodec_p.h"
  #  include "qisciicodec_p.h"
  #if !defined(Q_OS_SYMBIAN) && !defined(Q_OS_INTEGRITY)
--#  if defined(QT_NO_ICONV) && !defined(QT_BOOTSTRAPPED)
+-#  if defined(QT_NO_ICONV) && !defined(QT_BOOTSTRAPPED) && !defined(QT_CODEC_PLUGINS)
 -// no iconv(3) support, must build all codecs into the library
-+#  if !defined(QT_BOOTSTRAPPED)
++#  if !defined(QT_BOOTSTRAPPED) && !defined(QT_CODEC_PLUGINS)
  #    include "../../plugins/codecs/cn/qgb18030codec.h"
  #    include "../../plugins/codecs/jp/qeucjpcodec.h"
  #    include "../../plugins/codecs/jp/qjiscodec.h"
  #    include "../../plugins/codecs/jp/qsjiscodec.h"
  #    include "../../plugins/codecs/kr/qeuckrcodec.h"
  #    include "../../plugins/codecs/tw/qbig5codec.h"
--#  endif // QT_NO_ICONV
-+#  endif // !QT_BOOTSTRAPPED
+-#  endif // QT_NO_ICONV && !QT_BOOTSTRAPPED && !QT_CODEC_PLUGINS
++#  endif // !QT_BOOTSTRAPPED && !QT_CODEC_PLUGINS
  #  if defined(Q_WS_X11) && !defined(QT_BOOTSTRAPPED)
  #    include "qfontlaocodec_p.h"
  #    include "../../plugins/codecs/jp/qfontjpcodec.h"
@@ -264,8 +263,8 @@ index 08d954c..f267acb 100644
  
  
  #if !defined(Q_OS_SYMBIAN) && !defined(Q_OS_INTEGRITY)
--#  if defined(QT_NO_ICONV) && !defined(QT_BOOTSTRAPPED)
-+#  if !defined(QT_BOOTSTRAPPED)
+-#  if defined(QT_NO_ICONV) && !defined(QT_BOOTSTRAPPED) && !defined(QT_CODEC_PLUGINS)
++#  if !defined(QT_BOOTSTRAPPED) && !defined(QT_CODEC_PLUGINS)
      // no asian codecs when bootstrapping, sorry
      (void)new QGb18030Codec;
      (void)new QGbkCodec;
@@ -273,19 +272,19 @@ index 08d954c..f267acb 100644
      (void)new QCP949Codec;
      (void)new QBig5Codec;
      (void)new QBig5hkscsCodec;
--#  endif // QT_NO_ICONV && !QT_BOOTSTRAPPED
-+#  endif // !QT_BOOTSTRAPPED
+-#  endif // QT_NO_ICONV && !QT_BOOTSTRAPPED && !QT_CODEC_PLUGINS
++#  endif // !QT_BOOTSTRAPPED && !QT_CODEC_PLUGINS
  #endif //Q_OS_SYMBIAN
  #endif // QT_NO_CODECS
  
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From c9e946e08850c2ea92c818bcef9b4f0ec47fb86f Mon Sep 17 00:00:00 2001
+From 73d43da5b39105d52511036c3bef3a391d0f19ae Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
-Subject: [PATCH 05/24] move plugin text codecs to QtCore
+Subject: [PATCH 05/17] move plugin text codecs to QtCore
 
 Having plugin text codecs adds considerable complexity to
 configuring Qt. The plugin interface is designed for optional
@@ -363,45 +362,45 @@ index c847264..a1271b9 100644
  	SOURCES += codecs/qfontlaocodec.cpp
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
 new file mode 100644
-index 0000000..8bf9204
+index 0000000..a291677
 --- /dev/null
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -0,0 +1,637 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -1006,45 +1005,45 @@ index 0000000..8bf9204
 +#endif // CP494CODETBL_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
 new file mode 100644
-index 0000000..662aee8
+index 0000000..0c673f8
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -0,0 +1,12788 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -13800,45 +13799,45 @@ index 0000000..662aee8
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
 new file mode 100644
-index 0000000..eec1798
+index 0000000..19f470c
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -0,0 +1,124 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -13930,45 +13929,45 @@ index 0000000..eec1798
 +#endif // QBIG5CODEC_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
 new file mode 100644
-index 0000000..69e314c
+index 0000000..2c68919
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -0,0 +1,261 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -14197,45 +14196,45 @@ index 0000000..69e314c
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
 new file mode 100644
-index 0000000..d693e04
+index 0000000..400cb03
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -14309,45 +14308,45 @@ index 0000000..d693e04
 +#endif // QEUCJPCODEC_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
 new file mode 100644
-index 0000000..bef4132
+index 0000000..307b0f3
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -0,0 +1,3571 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -17886,45 +17885,45 @@ index 0000000..bef4132
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
 new file mode 100644
-index 0000000..55a1337
+index 0000000..31c3b1b
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -0,0 +1,129 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -18021,45 +18020,45 @@ index 0000000..55a1337
 +#endif // QEUCKRCODEC_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
 new file mode 100644
-index 0000000..2ac3d6c
+index 0000000..11917ed
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -0,0 +1,145 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -18172,45 +18171,45 @@ index 0000000..2ac3d6c
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
 new file mode 100644
-index 0000000..dfb06bb
+index 0000000..bedac58
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -0,0 +1,93 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -18271,45 +18270,45 @@ index 0000000..dfb06bb
 +#endif // QFONTJPCODEC_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
 new file mode 100644
-index 0000000..928bc52
+index 0000000..73d51fc
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -0,0 +1,9265 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -27542,45 +27541,45 @@ index 0000000..928bc52
 +#endif // QT_NO_TEXTCODEC
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
 new file mode 100644
-index 0000000..3e082bf
+index 0000000..5d231d5
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -0,0 +1,159 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -27707,45 +27706,45 @@ index 0000000..3e082bf
 +#endif // QGB18030CODEC_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
 new file mode 100644
-index 0000000..dd80541
+index 0000000..007dea1
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -0,0 +1,367 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -28080,45 +28079,45 @@ index 0000000..dd80541
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
 new file mode 100644
-index 0000000..dcdb04d
+index 0000000..db2ce54
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -28192,45 +28191,45 @@ index 0000000..dcdb04d
 +#endif // QJISCODEC_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
 new file mode 100644
-index 0000000..ffd8829
+index 0000000..fab366f
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -0,0 +1,10700 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -38898,45 +38897,45 @@ index 0000000..ffd8829
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
 new file mode 100644
-index 0000000..a5bdd0c
+index 0000000..1e7af75
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -0,0 +1,174 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -39078,45 +39077,45 @@ index 0000000..a5bdd0c
 +#endif // QJPUNICODE_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
 new file mode 100644
-index 0000000..f03cd26
+index 0000000..aa4997f
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -0,0 +1,229 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -39313,45 +39312,45 @@ index 0000000..f03cd26
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
 new file mode 100644
-index 0000000..3d3cde7
+index 0000000..054fbe5
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/
++** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
 +** $QT_BEGIN_LICENSE:LGPL$
-+** GNU Lesser General Public License Usage
-+** This file may be used under the terms of the GNU Lesser General Public
-+** License version 2.1 as published by the Free Software Foundation and
-+** appearing in the file LICENSE.LGPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU Lesser
-+** General Public License version 2.1 requirements will be met:
-+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and Digia.  For licensing terms and
++** conditions see http://qt.digia.com/licensing.  For further information
++** use the contact form at http://qt.digia.com/contact-us.
 +**
-+** In addition, as a special exception, Nokia gives you certain additional
-+** rights. These rights are described in the Nokia Qt LGPL Exception
++** GNU Lesser General Public License Usage
++** Alternatively, this file may be used under the terms of the GNU Lesser
++** General Public License version 2.1 as published by the Free Software
++** Foundation and appearing in the file LICENSE.LGPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU Lesser General Public License version 2.1 requirements
++** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++**
++** In addition, as a special exception, Digia gives you certain additional
++** rights.  These rights are described in the Digia Qt LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
-+** Alternatively, this file may be used under the terms of the GNU General
-+** Public License version 3.0 as published by the Free Software Foundation
-+** and appearing in the file LICENSE.GPL included in the packaging of this
-+** file. Please review the following information to ensure the GNU General
-+** Public License version 3.0 requirements will be met:
-+** http://www.gnu.org/copyleft/gpl.html.
-+**
-+** Other Usage
-+** Alternatively, this file may be used in accordance with the terms and
-+** conditions contained in a signed written agreement between you and Nokia.
-+**
-+**
-+**
-+**
++** Alternatively, this file may be used under the terms of the GNU
++** General Public License version 3.0 as published by the Free Software
++** Foundation and appearing in the file LICENSE.GPL included in the
++** packaging of this file.  Please review the following information to
++** ensure the GNU General Public License version 3.0 requirements will be
++** met: http://www.gnu.org/copyleft/gpl.html.
 +**
 +**
 +** $QT_END_LICENSE$
@@ -39424,13 +39423,13 @@ index 0000000..3d3cde7
 +
 +#endif // QSJISCODEC_H
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index f267acb..b6ed5e6 100644
+index 517ac87..2eaff80 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -67,16 +67,16 @@
  #  include "qisciicodec_p.h"
  #if !defined(Q_OS_SYMBIAN) && !defined(Q_OS_INTEGRITY)
- #  if !defined(QT_BOOTSTRAPPED)
+ #  if !defined(QT_BOOTSTRAPPED) && !defined(QT_CODEC_PLUGINS)
 -#    include "../../plugins/codecs/cn/qgb18030codec.h"
 -#    include "../../plugins/codecs/jp/qeucjpcodec.h"
 -#    include "../../plugins/codecs/jp/qjiscodec.h"
@@ -39443,7 +39442,7 @@ index f267acb..b6ed5e6 100644
 +#    include "qsjiscodec_p.h"
 +#    include "qeuckrcodec_p.h"
 +#    include "qbig5codec_p.h"
- #  endif // !QT_BOOTSTRAPPED
+ #  endif // !QT_BOOTSTRAPPED && !QT_CODEC_PLUGINS
  #  if defined(Q_WS_X11) && !defined(QT_BOOTSTRAPPED)
  #    include "qfontlaocodec_p.h"
 -#    include "../../plugins/codecs/jp/qfontjpcodec.h"
@@ -39475,45 +39474,45 @@ index b0a8a91..0000000
 -symbian:TARGET.UID3=0x2001E615
 diff --git a/src/plugins/codecs/cn/main.cpp b/src/plugins/codecs/cn/main.cpp
 deleted file mode 100644
-index 93b8b72..0000000
+index 9414e55..0000000
 --- a/src/plugins/codecs/cn/main.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -39626,45 +39625,45 @@ index 93b8b72..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/cn/qgb18030codec.cpp b/src/plugins/codecs/cn/qgb18030codec.cpp
 deleted file mode 100644
-index 928bc52..0000000
+index 73d51fc..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.cpp
 +++ /dev/null
 @@ -1,9265 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -48897,45 +48896,45 @@ index 928bc52..0000000
 -#endif // QT_NO_TEXTCODEC
 diff --git a/src/plugins/codecs/cn/qgb18030codec.h b/src/plugins/codecs/cn/qgb18030codec.h
 deleted file mode 100644
-index 3e082bf..0000000
+index 5d231d5..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.h
 +++ /dev/null
 @@ -1,159 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -49105,45 +49104,45 @@ index 6480e43..0000000
 -symbian:TARGET.UID3=0x2001E614
 diff --git a/src/plugins/codecs/jp/main.cpp b/src/plugins/codecs/jp/main.cpp
 deleted file mode 100644
-index 6eee02f..0000000
+index 3e53fc8..0000000
 --- a/src/plugins/codecs/jp/main.cpp
 +++ /dev/null
 @@ -1,149 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -49260,45 +49259,45 @@ index 6eee02f..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.cpp b/src/plugins/codecs/jp/qeucjpcodec.cpp
 deleted file mode 100644
-index 69e314c..0000000
+index 2c68919..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.cpp
 +++ /dev/null
 @@ -1,261 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -49527,45 +49526,45 @@ index 69e314c..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.h b/src/plugins/codecs/jp/qeucjpcodec.h
 deleted file mode 100644
-index d693e04..0000000
+index 400cb03..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -49639,45 +49638,45 @@ index d693e04..0000000
 -#endif // QEUCJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.cpp b/src/plugins/codecs/jp/qfontjpcodec.cpp
 deleted file mode 100644
-index 2ac3d6c..0000000
+index 11917ed..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -49790,45 +49789,45 @@ index 2ac3d6c..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.h b/src/plugins/codecs/jp/qfontjpcodec.h
 deleted file mode 100644
-index dfb06bb..0000000
+index bedac58..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.h
 +++ /dev/null
 @@ -1,93 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -49889,45 +49888,45 @@ index dfb06bb..0000000
 -#endif // QFONTJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qjiscodec.cpp b/src/plugins/codecs/jp/qjiscodec.cpp
 deleted file mode 100644
-index dd80541..0000000
+index 007dea1..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.cpp
 +++ /dev/null
 @@ -1,367 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -50262,45 +50261,45 @@ index dd80541..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjiscodec.h b/src/plugins/codecs/jp/qjiscodec.h
 deleted file mode 100644
-index dcdb04d..0000000
+index db2ce54..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -50374,45 +50373,45 @@ index dcdb04d..0000000
 -#endif // QJISCODEC_H
 diff --git a/src/plugins/codecs/jp/qjpunicode.cpp b/src/plugins/codecs/jp/qjpunicode.cpp
 deleted file mode 100644
-index ffd8829..0000000
+index fab366f..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.cpp
 +++ /dev/null
 @@ -1,10700 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -61080,45 +61079,45 @@ index ffd8829..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjpunicode.h b/src/plugins/codecs/jp/qjpunicode.h
 deleted file mode 100644
-index a5bdd0c..0000000
+index 1e7af75..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.h
 +++ /dev/null
 @@ -1,174 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -61260,45 +61259,45 @@ index a5bdd0c..0000000
 -#endif // QJPUNICODE_H
 diff --git a/src/plugins/codecs/jp/qsjiscodec.cpp b/src/plugins/codecs/jp/qsjiscodec.cpp
 deleted file mode 100644
-index f03cd26..0000000
+index aa4997f..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.cpp
 +++ /dev/null
 @@ -1,229 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -61495,45 +61494,45 @@ index f03cd26..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qsjiscodec.h b/src/plugins/codecs/jp/qsjiscodec.h
 deleted file mode 100644
-index 3d3cde7..0000000
+index 054fbe5..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -61607,45 +61606,45 @@ index 3d3cde7..0000000
 -#endif // QSJISCODEC_H
 diff --git a/src/plugins/codecs/kr/cp949codetbl.h b/src/plugins/codecs/kr/cp949codetbl.h
 deleted file mode 100644
-index 8bf9204..0000000
+index a291677..0000000
 --- a/src/plugins/codecs/kr/cp949codetbl.h
 +++ /dev/null
 @@ -1,637 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -62276,45 +62275,45 @@ index 1cc28d8..0000000
 -symbian:TARGET.UID3=0x2001B2E5
 diff --git a/src/plugins/codecs/kr/main.cpp b/src/plugins/codecs/kr/main.cpp
 deleted file mode 100644
-index cbfd133..0000000
+index 87ccd6c..0000000
 --- a/src/plugins/codecs/kr/main.cpp
 +++ /dev/null
 @@ -1,131 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -62413,45 +62412,45 @@ index cbfd133..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.cpp b/src/plugins/codecs/kr/qeuckrcodec.cpp
 deleted file mode 100644
-index bef4132..0000000
+index 307b0f3..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.cpp
 +++ /dev/null
 @@ -1,3571 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -65990,45 +65989,45 @@ index bef4132..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.h b/src/plugins/codecs/kr/qeuckrcodec.h
 deleted file mode 100644
-index 55a1337..0000000
+index 31c3b1b..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.h
 +++ /dev/null
 @@ -1,129 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -66125,45 +66124,45 @@ index 55a1337..0000000
 -#endif // QEUCKRCODEC_H
 diff --git a/src/plugins/codecs/tw/main.cpp b/src/plugins/codecs/tw/main.cpp
 deleted file mode 100644
-index 4536e67..0000000
+index e12ad21..0000000
 --- a/src/plugins/codecs/tw/main.cpp
 +++ /dev/null
 @@ -1,138 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -66269,45 +66268,45 @@ index 4536e67..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.cpp b/src/plugins/codecs/tw/qbig5codec.cpp
 deleted file mode 100644
-index 662aee8..0000000
+index 0c673f8..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.cpp
 +++ /dev/null
 @@ -1,12788 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -79063,45 +79062,45 @@ index 662aee8..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.h b/src/plugins/codecs/tw/qbig5codec.h
 deleted file mode 100644
-index eec1798..0000000
+index 19f470c..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.h
 +++ /dev/null
 @@ -1,124 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -79230,13 +79229,13 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 7c457dbd99e5865f13499146e9487e9cb4b86868 Mon Sep 17 00:00:00 2001
+From aa4d579e9393c0f9b1be42c3b37c9feb04ad42d6 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
-Subject: [PATCH 06/24] update private header references
+Subject: [PATCH 06/17] update private header references
 
 backported from qt5/qtbase
 Change-Id: I092d879653b6900532a0c4534c1eb2be84e9d0f6
@@ -79245,7 +79244,7 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 15e4df7d83fd30e16f014bc1ddc5d55884b388aa)
 
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index 662aee8..cd39ea0 100644
+index 0c673f8..ea3fe52 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -39,7 +39,7 @@
@@ -79258,7 +79257,7 @@ index 662aee8..cd39ea0 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 69e314c..091ad4d 100644
+index 2c68919..64b5e8f 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -73,7 +73,7 @@
@@ -79271,7 +79270,7 @@ index 69e314c..091ad4d 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index d693e04..a5cd119 100644
+index 400cb03..aa672fa 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -71,7 +71,7 @@
@@ -79284,7 +79283,7 @@ index d693e04..a5cd119 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index bef4132..f91442f 100644
+index 307b0f3..5e2daac 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -65,8 +65,8 @@
@@ -79299,7 +79298,7 @@ index bef4132..f91442f 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index 2ac3d6c..590d72d 100644
+index 11917ed..3e62b7b 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -39,9 +39,9 @@
@@ -79315,7 +79314,7 @@ index 2ac3d6c..590d72d 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 928bc52..5c0e701 100644
+index 73d51fc..091f9ce 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -44,7 +44,7 @@
@@ -79328,7 +79327,7 @@ index 928bc52..5c0e701 100644
  #ifndef QT_NO_TEXTCODEC
  
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index dd80541..1831170 100644
+index 007dea1..e11431f 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79341,7 +79340,7 @@ index dd80541..1831170 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index dcdb04d..bb59c33 100644
+index db2ce54..7e0a2d7 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79354,7 +79353,7 @@ index dcdb04d..bb59c33 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index ffd8829..7827ef3 100644
+index fab366f..240af89 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -44,7 +44,7 @@
@@ -79367,7 +79366,7 @@ index ffd8829..7827ef3 100644
  #include "qbytearray.h"
  #include <stdlib.h>
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index f03cd26..97e6000 100644
+index aa4997f..8519147 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79380,7 +79379,7 @@ index f03cd26..97e6000 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index 3d3cde7..4910bfd 100644
+index 054fbe5..c1e4689 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79393,13 +79392,13 @@ index 3d3cde7..4910bfd 100644
  #include <QtCore/qlist.h>
  
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 2be2accfee23fee3a9d97e5852ff9d2a01a7c33f Mon Sep 17 00:00:00 2001
+From 1461f769066a4e73a421f88c57f6ebd5de279f9d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
-Subject: [PATCH 07/24] cosmetic adjustments for files moved to core/codecs
+Subject: [PATCH 07/17] cosmetic adjustments for files moved to core/codecs
 
 -update old reference to 'plugin'
 -rename multiple inclusion guards
@@ -79412,18 +79411,18 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 712cfb509484599f1586f68cc379e3e7464e9967)
 
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
-index 8bf9204..228c5ad 100644
+index a291677..336b0b7 100644
 --- a/src/corelib/codecs/cp949codetbl_p.h
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -39,8 +39,19 @@
  **
  ****************************************************************************/
@@ -79453,31 +79452,31 @@ index 8bf9204..228c5ad 100644
 -#endif // CP494CODETBL_H
 +#endif // CP494CODETBL_P_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index cd39ea0..13b317f 100644
+index ea3fe52..e55af06 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
-index eec1798..674c513 100644
+index 19f470c..9e1d678 100644
 --- a/src/corelib/codecs/qbig5codec_p.h
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -43,8 +43,19 @@
  // is included in Qt with the author's permission, and the grateful
  // thanks of the Qt team.
@@ -79507,31 +79506,31 @@ index eec1798..674c513 100644
 -#endif // QBIG5CODEC_H
 +#endif // QBIG5CODEC_P_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 091ad4d..773c473 100644
+index 64b5e8f..4466496 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index a5cd119..97d8523 100644
+index aa672fa..2102b71 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -68,8 +68,19 @@
   * SUCH DAMAGE.
   */
@@ -79561,31 +79560,31 @@ index a5cd119..97d8523 100644
 -#endif // QEUCJPCODEC_H
 +#endif // QEUCJPCODEC_P_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index f91442f..8417bf0 100644
+index 5e2daac..7a01ef7 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
-index 55a1337..79647b1 100644
+index 31c3b1b..e74b9c9 100644
 --- a/src/corelib/codecs/qeuckrcodec_p.h
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -64,8 +64,19 @@
   * SUCH DAMAGE.
   */
@@ -79615,31 +79614,31 @@ index 55a1337..79647b1 100644
 -#endif // QEUCKRCODEC_H
 +#endif // QEUCKRCODEC_P_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index 590d72d..3d39524 100644
+index 3e62b7b..4b267bb 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
-index dfb06bb..9e9b8dd 100644
+index bedac58..f8aa810 100644
 --- a/src/corelib/codecs/qfontjpcodec_p.h
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -39,8 +39,19 @@
  **
  ****************************************************************************/
@@ -79669,31 +79668,31 @@ index dfb06bb..9e9b8dd 100644
 -#endif // QFONTJPCODEC_H
 +#endif // QFONTJPCODEC_P_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 5c0e701..c5daef6 100644
+index 091f9ce..cf60424 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
-index 3e082bf..0f66211 100644
+index 5d231d5..fe53d49 100644
 --- a/src/corelib/codecs/qgb18030codec_p.h
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -41,8 +41,19 @@
  
  // Contributed by James Su <suzhe@gnuchina.org>
@@ -79723,31 +79722,31 @@ index 3e082bf..0f66211 100644
 -#endif // QGB18030CODEC_H
 +#endif // QGB18030CODEC_P_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index 1831170..83c4329 100644
+index e11431f..6135776 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index bb59c33..daccf57 100644
+index 7e0a2d7..e2b6cf2 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -68,8 +68,19 @@
   * SUCH DAMAGE.
   */
@@ -79777,31 +79776,31 @@ index bb59c33..daccf57 100644
 -#endif // QJISCODEC_H
 +#endif // QJISCODEC_P_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index 7827ef3..1e4883f 100644
+index 240af89..ffe6b3f 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
-index a5bdd0c..07b5b25 100644
+index 1e7af75..da45ceb 100644
 --- a/src/corelib/codecs/qjpunicode_p.h
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -68,8 +68,19 @@
   * SUCH DAMAGE.
   */
@@ -79831,31 +79830,31 @@ index a5bdd0c..07b5b25 100644
 -#endif // QJPUNICODE_H
 +#endif // QJPUNICODE_P_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index 97e6000..27121ad 100644
+index 8519147..fdb94f6 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index 4910bfd..d57f94b 100644
+index c1e4689..d5cbd74 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/
+ ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
  **
  ** $QT_BEGIN_LICENSE:LGPL$
- ** GNU Lesser General Public License Usage
+ ** Commercial License Usage
 @@ -68,8 +68,19 @@
   * SUCH DAMAGE.
   */
@@ -79885,13 +79884,13 @@ index 4910bfd..d57f94b 100644
 -#endif // QSJISCODEC_H
 +#endif // QSJISCODEC_P_H
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From eeecdea8f15353aa0461ec09f7064f456849a3c3 Mon Sep 17 00:00:00 2001
+From d2258c0533b501f36842f99fc7e32d44e5321fd8 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
-Subject: [PATCH 08/24] remove obsolete codec plugin loading code
+Subject: [PATCH 08/17] remove obsolete codec plugin loading code
 
 backported from qt5/qtbase
 Change-Id: I1f3dbb5c10009413f701947b1b89ed3dbc94bf3d
@@ -79934,7 +79933,7 @@ index a1271b9..9274eda 100644
      codecs/qjpunicode.cpp \
      codecs/qeucjpcodec.cpp \
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index b6ed5e6..55e5b83 100644
+index 2eaff80..85403dc 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -48,11 +48,6 @@
@@ -80082,45 +80081,45 @@ index b6ed5e6..55e5b83 100644
  
 diff --git a/src/corelib/codecs/qtextcodecplugin.cpp b/src/corelib/codecs/qtextcodecplugin.cpp
 deleted file mode 100644
-index b164f31..0000000
+index a2102f2..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.cpp
 +++ /dev/null
 @@ -1,161 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -80249,45 +80248,45 @@ index b164f31..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/corelib/codecs/qtextcodecplugin.h b/src/corelib/codecs/qtextcodecplugin.h
 deleted file mode 100644
-index 2873b0e..0000000
+index 8c7fae6..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.h
 +++ /dev/null
 @@ -1,96 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/
+-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
 -**
 -** $QT_BEGIN_LICENSE:LGPL$
--** GNU Lesser General Public License Usage
--** This file may be used under the terms of the GNU Lesser General Public
--** License version 2.1 as published by the Free Software Foundation and
--** appearing in the file LICENSE.LGPL included in the packaging of this
--** file. Please review the following information to ensure the GNU Lesser
--** General Public License version 2.1 requirements will be met:
--** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** Commercial License Usage
+-** Licensees holding valid commercial Qt licenses may use this file in
+-** accordance with the commercial license agreement provided with the
+-** Software or, alternatively, in accordance with the terms contained in
+-** a written agreement between you and Digia.  For licensing terms and
+-** conditions see http://qt.digia.com/licensing.  For further information
+-** use the contact form at http://qt.digia.com/contact-us.
 -**
--** In addition, as a special exception, Nokia gives you certain additional
--** rights. These rights are described in the Nokia Qt LGPL Exception
+-** GNU Lesser General Public License Usage
+-** Alternatively, this file may be used under the terms of the GNU Lesser
+-** General Public License version 2.1 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.LGPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU Lesser General Public License version 2.1 requirements
+-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-**
+-** In addition, as a special exception, Digia gives you certain additional
+-** rights.  These rights are described in the Digia Qt LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
--** Alternatively, this file may be used under the terms of the GNU General
--** Public License version 3.0 as published by the Free Software Foundation
--** and appearing in the file LICENSE.GPL included in the packaging of this
--** file. Please review the following information to ensure the GNU General
--** Public License version 3.0 requirements will be met:
--** http://www.gnu.org/copyleft/gpl.html.
--**
--** Other Usage
--** Alternatively, this file may be used in accordance with the terms and
--** conditions contained in a signed written agreement between you and Nokia.
--**
--**
--**
--**
+-** Alternatively, this file may be used under the terms of the GNU
+-** General Public License version 3.0 as published by the Free Software
+-** Foundation and appearing in the file LICENSE.GPL included in the
+-** packaging of this file.  Please review the following information to
+-** ensure the GNU General Public License version 3.0 requirements will be
+-** met: http://www.gnu.org/copyleft/gpl.html.
 -**
 -**
 -** $QT_END_LICENSE$
@@ -80350,7 +80349,7 @@ index 2873b0e..0000000
 -
 -#endif // QTEXTCODECPLUGIN_H
 diff --git a/src/corelib/global/qconfig-medium.h b/src/corelib/global/qconfig-medium.h
-index 170b2c3..9ed73aa 100644
+index 5547736..60909d5 100644
 --- a/src/corelib/global/qconfig-medium.h
 +++ b/src/corelib/global/qconfig-medium.h
 @@ -91,9 +91,6 @@
@@ -80364,7 +80363,7 @@ index 170b2c3..9ed73aa 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-minimal.h b/src/corelib/global/qconfig-minimal.h
-index 6781c60..707e6b1 100644
+index 36e3401..7edf746 100644
 --- a/src/corelib/global/qconfig-minimal.h
 +++ b/src/corelib/global/qconfig-minimal.h
 @@ -167,9 +167,6 @@
@@ -80378,7 +80377,7 @@ index 6781c60..707e6b1 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
-index eb4632f..7fecfec 100644
+index 446a98a..f760761 100644
 --- a/src/corelib/global/qconfig-nacl.h
 +++ b/src/corelib/global/qconfig-nacl.h
 @@ -128,9 +128,6 @@
@@ -80392,7 +80391,7 @@ index eb4632f..7fecfec 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-small.h b/src/corelib/global/qconfig-small.h
-index 988dc6f..dda6567 100644
+index 8e41875..f4d651b 100644
 --- a/src/corelib/global/qconfig-small.h
 +++ b/src/corelib/global/qconfig-small.h
 @@ -128,9 +128,6 @@
@@ -80406,7 +80405,7 @@ index 988dc6f..dda6567 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index 9612778..493269d 100644
+index 1642947..36c09f1 100644
 --- a/src/corelib/global/qfeatures.h
 +++ b/src/corelib/global/qfeatures.h
 @@ -643,11 +643,6 @@
@@ -80422,13 +80421,13 @@ index 9612778..493269d 100644
  #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
  #define QT_NO_COLORDIALOG
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From c94d9111ef83683ea2b7db6e4070594c4a332f1c Mon Sep 17 00:00:00 2001
+From 18bb9c4ba6b8d08af061a5465da5db16260a309d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
-Subject: [PATCH 09/24] remove vestiges of text codec plugins
+Subject: [PATCH 09/17] remove vestiges of text codec plugins
 
 follow-up to 3a3356a85079d734dfa57205a00e1996afc033df
 
@@ -80456,13 +80455,13 @@ index dea05e0..12cd8ea 100644
  Description: Supports translations using QObject::tr().
  Section: Internationalization
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 415466a4ac2a87522569544a9b9ba7115fc4acf7 Mon Sep 17 00:00:00 2001
+From 4fc126e7430559acb80a5c8891d5f237be0409b3 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
-Subject: [PATCH 10/24] use pkg-config for libmng (MXE specific)
+Subject: [PATCH 10/17] use pkg-config for libmng (MXE specific)
 
 Change-Id: Ifce956d5cad06d5273088656b8500b87980063f4
 
@@ -80482,13 +80481,13 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 1cac3150930d5353455b560792f7e76fe180ad26 Mon Sep 17 00:00:00 2001
+From 2e6ae6495c5ec5a52b4de2473a6a6ad7b1e0fbb2 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
-Subject: [PATCH 11/24] use pkg-config for libtiff-4 (MXE specific)
+Subject: [PATCH 11/17] use pkg-config for libtiff-4 (MXE specific)
 
 Change-Id: I5e89e66fc1606d425553e781c9e62db703136957
 
@@ -80508,13 +80507,13 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 28ad5f9d9c70feba6475652c6445bbe263998d3d Mon Sep 17 00:00:00 2001
+From 7040eedeada1f2e73e76b6ced8badd403138ed62 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/24] restore support for static linking of QtWebKit (MXE
+Subject: [PATCH 12/17] restore support for static linking of QtWebKit (MXE
  specific)
 
 Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
@@ -80528,10 +80527,10 @@ Don't build Qt WebKit tests to avoid static linking problems.
 Change-Id: Ia969b8e3f2b656a5057c7ebf748f272d74f014da
 
 diff --git a/configure b/configure
-index 520ffc3..e018443 100755
+index e337dc0..e54782e 100755
 --- a/configure
 +++ b/configure
-@@ -7683,12 +7683,6 @@ if [ "$CFG_GUI" = "no" ]; then
+@@ -7769,12 +7769,6 @@ if [ "$CFG_GUI" = "no" ]; then
      canBuildWebKit="no"
  fi
  
@@ -80611,13 +80610,13 @@ index 9be0f4a..6744f58 100644
  build-qtscript {
      SUBDIRS += \
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From ab04bc59d7caf5d04bb87bd75d2bbe98da89d599 Mon Sep 17 00:00:00 2001
+From 63506d7ad0ce09e8d1a28db6b76324c4a7576ed4 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/24] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 13/17] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80629,7 +80628,7 @@ Description: Fixes FTBFS on GNU/kFreeBSD by creating new Q_OS_FREEBSD_KERNEL.
 Last-Update: 2010-10-06
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
-index b3d4852..1a6a4a4 100644
+index e914ede..d4d06c8 100644
 --- a/src/corelib/global/qglobal.h
 +++ b/src/corelib/global/qglobal.h
 @@ -226,6 +226,8 @@ namespace QT_NAMESPACE {}
@@ -80642,14 +80641,14 @@ index b3d4852..1a6a4a4 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 28bf082efa51789d404e33bfbfdbe17a8261af87 Mon Sep 17 00:00:00 2001
+From 7dda90d3a9e0bb86bea079a225e245f031d2de36 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/24] fix missing platform when building on GNU/kFreeBSD
- (MXE specific)
+Subject: [PATCH 14/17] fix missing platform when building on GNU/kFreeBSD (MXE
+ specific)
 
 This patch is inspired by:
 http://anonscm.debian.org/gitweb/?p=pkg-kde/qt/qt4-x11.git;a=blob;f=debian/rules;h=47e5efbf09f77e6da51a3d719d2f6be47f69d096;hb=HEAD
@@ -80659,10 +80658,10 @@ For the time being, glibc-g++ is simply a copy of linux-g++.
 Change-Id: I1bebe2e6eef878318142ca5ed3525afc167b0a95
 
 diff --git a/configure b/configure
-index e018443..b600744 100755
+index e54782e..707f55a 100755
 --- a/configure
 +++ b/configure
-@@ -2845,6 +2845,9 @@ if [ -z "$PLATFORM" ]; then
+@@ -2877,6 +2877,9 @@ if [ -z "$PLATFORM" ]; then
       GNU:*)
          PLATFORM=hurd-g++
          ;;
@@ -80673,13 +80672,13 @@ index e018443..b600744 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From f32c0852485615d6938d1cde1e0b4dc4e6262a7e Mon Sep 17 00:00:00 2001
+From 9c9244e24c767378429c70b6b85198fd8e91718f Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/24] fix building on dragonfly (MXE specific)
+Subject: [PATCH 15/17] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80687,10 +80686,10 @@ http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27
 Change-Id: I9743a39ac35950cb15af915c3ae527433bc6b56d
 
 diff --git a/configure b/configure
-index b600744..599203d 100755
+index 707f55a..8c48f51 100755
 --- a/configure
 +++ b/configure
-@@ -2857,7 +2857,7 @@ if [ -z "$PLATFORM" ]; then
+@@ -2889,7 +2889,7 @@ if [ -z "$PLATFORM" ]; then
       ULTRIX:*)
          PLATFORM=ultrix-g++
          ;;
@@ -80700,477 +80699,58 @@ index b600744..599203d 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 67da309cbc542e765d2254bd2e2c64a78c7cd35f Mon Sep 17 00:00:00 2001
-From: Yuchen Deng <loaden@gmail.com>
-Date: Sun, 19 Aug 2012 15:38:44 +0800
-Subject: [PATCH 16/24] Add -pipe option of win32-g++'s QMAKE_CFLAGS
-
-cherry-picked from qt5/qtbase commit 2b57a8ebfeb6e3495b63fac619631896ca670f11
-
-Change-Id: Idccab648df1a9456a4ee19f1acfdb0544d40a928
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
-(cherry picked from commit 9fbdb93d3aa1cad8859325814e28f014acd18f10)
-
-diff --git a/mkspecs/win32-g++/qmake.conf b/mkspecs/win32-g++/qmake.conf
-index d174634..6d631fc 100644
---- a/mkspecs/win32-g++/qmake.conf
-+++ b/mkspecs/win32-g++/qmake.conf
-@@ -25,7 +25,7 @@ QMAKE_LEX		= flex
- QMAKE_LEXFLAGS		=
- QMAKE_YACC		= byacc
- QMAKE_YACCFLAGS		= -d
--QMAKE_CFLAGS		=
-+QMAKE_CFLAGS		= -pipe
- QMAKE_CFLAGS_DEPS	= -M
- QMAKE_CFLAGS_WARN_ON	= -Wall -Wextra
- QMAKE_CFLAGS_WARN_OFF	= -w
--- 
-1.7.10.4
-
-
-From eeeadca6963f3dedd6ea3626409199f49afa839f Mon Sep 17 00:00:00 2001
-From: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
-Date: Mon, 10 Sep 2012 12:08:51 +0200
-Subject: [PATCH 17/24] find qdevice.pri even for installed qt builds
-
-Change-Id: Ife18068974227d70c52e7cb0d06e6136827ac562
-Reviewed-by: Mark Brand <mabrand@mabrand.nl>
-(cherry picked from commit ffac77f7de433f67570ff0da9656bce6481be920)
-
-diff --git a/mkspecs/features/device_config.prf b/mkspecs/features/device_config.prf
-index f7aeb07..7da3fe5 100644
---- a/mkspecs/features/device_config.prf
-+++ b/mkspecs/features/device_config.prf
-@@ -1,6 +1,6 @@
- # Load generated qdevice.pri
- isEmpty(QT_BUILD_TREE): QT_BUILD_TREE = $$fromfile($$_QMAKE_CACHE_, QT_BUILD_TREE)
--isEmpty(QT_BUILD_TREE): QT_BUILD_TREE = . # where to get?
-+isEmpty(QT_BUILD_TREE): QT_BUILD_TREE = $$[QT_INSTALL_DATA]
- 
- DEVICE_PRI = $$QT_BUILD_TREE/mkspecs/qdevice.pri
- 
--- 
-1.7.10.4
-
-
-From 2519a7dd92f14031c7d11775caa0645384febd87 Mon Sep 17 00:00:00 2001
+From 780cdd78482a95a44ae204588577e150e8c34ef3 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
-Date: Wed, 12 Sep 2012 00:22:28 +0200
-Subject: [PATCH 18/24] Partial Revert "Disable pkg-config, when x-compiling
- for mingw"
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Sat, 17 Aug 2013 20:34:36 +0200
+Subject: [PATCH 16/17] libmng 2 config.test compatibility
 
-This partially reverts commit c7d5071afc6c76925c90ff35041dc4eb86511271.
+Change-Id: I6de90a0f51087c7927bd978f605f4960d3f8ee87
 
-Despite what the commit message said, pkg-config previously worked
-and was useful, particularly for static Qt. Qt itself even installs
-its own .pc files.
-
-Note: The mkspec win32-g++-cross had a PKG_CONFIG definition to avoid
-using the pkg-config installation on the build machine.
-
-cherry-picked from qt5/qtbase commit 7d9b5e8e7d2094dedbe7e3e2f961544f233ce57e
-Change-Id: I6c6ed81b2ab42c9cf7f7e250feeeb9c34c8877e7
-Reviewed-by: Peter Kümmel <syntheticpp@gmx.net>
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
-(cherry picked from commit 57069f1bd5e8cd5450f1d1ceae0d6d315b4a66c8)
-
-diff --git a/configure b/configure
-index 599203d..a0786da 100755
---- a/configure
-+++ b/configure
-@@ -1684,7 +1684,6 @@ while [ "$#" -gt 0 ]; do
-         case `basename "$XPLATFORM"` in win32-g++*)
-             XPLATFORM_MINGW=yes
-             CFG_RPATH=no
--            PKG_CONFIG=no
-             CFG_REDUCE_EXPORTS=no
-             ;;
-         esac
--- 
-1.7.10.4
-
-
-From 03f7a56af4020aaead73c9d0de389d32fd4ddb24 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Peter=20K=C3=BCmmel?= <syntheticpp@gmx.net>
-Date: Wed, 12 Sep 2012 11:13:44 +0200
-Subject: [PATCH 19/24] When x-compiling on Linux the host tools doesn't have
- Windows' executable suffix
-
-patch not needed for Qt5
-
-Change-Id: I26a6cd8de91dc6df7d31a9f38187f7b1e8209cc1
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
-(cherry picked from commit 95c55b8a913fd7aaa23a44f1f9aa568342b25e07)
-
-diff --git a/mkspecs/win32-g++/qmake.conf b/mkspecs/win32-g++/qmake.conf
-index 6d631fc..2cd2214 100644
---- a/mkspecs/win32-g++/qmake.conf
-+++ b/mkspecs/win32-g++/qmake.conf
-@@ -11,6 +11,8 @@ MAKEFILE_GENERATOR	= MINGW
+diff --git a/config.tests/unix/libmng/libmng.cpp b/config.tests/unix/libmng/libmng.cpp
+index 0fbe554..2559132 100644
+--- a/config.tests/unix/libmng/libmng.cpp
++++ b/config.tests/unix/libmng/libmng.cpp
+@@ -46,9 +46,11 @@ int main(int, char **)
+     mng_handle hMNG;
+     mng_cleanup(&hMNG);
  
- load(device_config)
++#ifdef MNG_VERSION_MAJOR
+ #if MNG_VERSION_MAJOR < 1 || (MNG_VERSION_MAJOR == 1 && MNG_VERSION_MINOR == 0 && MNG_VERSION_RELEASE < 9)
+ #error System libmng version is less than 1.0.9; using built-in version instead.
+ #endif
++#endif
  
-+equals(QMAKE_HOST.os, Windows): EXE_SUFFIX = .exe
-+
- TEMPLATE		= app
- CONFIG			+= qt warn_on release link_prl copy_dir_files debug_and_release debug_and_release_target precompile_header
- QT			+= core gui
-@@ -101,9 +103,9 @@ QMAKE_LIBS_QT_ENTRY     = -lmingw32 -lqtmain
-     QMAKE_CHK_DIR_EXISTS	= if not exist
+     return 0;
  }
- 
--QMAKE_MOC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}moc.exe
--QMAKE_UIC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}uic.exe
--QMAKE_IDC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}idc.exe
-+QMAKE_MOC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}moc$${EXE_SUFFIX}
-+QMAKE_UIC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}uic$${EXE_SUFFIX}
-+QMAKE_IDC		= $$[QT_INSTALL_BINS]$${DIR_SEPARATOR}idc$${EXE_SUFFIX}
- 
- QMAKE_IDL		= midl
- QMAKE_LIB		= $${CROSS_COMPILE}ar -ru
 -- 
-1.7.10.4
+1.8.1.4
 
 
-From 32415e3cb482c55b16d5953e37865ded1885869d Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Tue, 11 Sep 2012 23:45:02 +0200
-Subject: [PATCH 20/24] smuggle QT_BUILD_TREE to device_config.prf even during
- tests
+From 1b3fcce36a1301406bf35507352de7205e49158a Mon Sep 17 00:00:00 2001
+From: Tony Theodore <tonyt@logyst.com>
+Date: Sat, 19 Oct 2013 19:37:30 +0200
+Subject: [PATCH 17/17] mingw-w64 compatibility
 
-Otherwise CROSS_COMPILE is not available for config.tests
-because qdevice.pri is not found in such configurations as:
+taken from https://raw.github.com/ant32/pkgbuild/master/mingw-w64-qt4/qt-include-intrin-h-on-mingw-w64.patch
 
-./configure -xplatform win32-g++-4.6 \
-            -device-option CROSS_COMPILE=$TARGET \
-            -prefix=$PREFIX/$TARGET \
-            -prefix-install
+Change-Id: I0f49c7f9d280dfacc33870643d39909cf0917d79
 
-Normally, we don't want to use .qmake.cache during tests,
-but we need that mechanism here.
-
-Change-Id: If255f9657fa4206c4875a730f467d58b8a1c6ac1
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@nokia.com>
-(cherry picked from commit a0c6987dbb139829f9ea61a66cb863b1baa1f183)
-
-diff --git a/config.tests/unix/compile.test b/config.tests/unix/compile.test
-index f4a7f29..b8f6743 100755
---- a/config.tests/unix/compile.test
-+++ b/config.tests/unix/compile.test
-@@ -68,7 +68,8 @@ test -r Makefile && $MAKE distclean >/dev/null 2>&1
- # Make sure output from possible previous tests is gone
- rm -f "$EXE" "${EXE}.exe"
+diff --git a/src/corelib/tools/qsimd.cpp b/src/corelib/tools/qsimd.cpp
+index 540b615..dc95ac9 100644
+--- a/src/corelib/tools/qsimd.cpp
++++ b/src/corelib/tools/qsimd.cpp
+@@ -47,7 +47,7 @@
+ #include <windows.h>
+ #endif
  
--"$OUTDIR/bin/qmake" -nocache -spec "$QMKSPEC" "CONFIG+=$QMAKE_CONFIG" "CONFIG-=debug_and_release" "LIBS*=$LFLAGS" "LIBS+=$MAC_ARCH_LFLAGS" "INCLUDEPATH*=$INCLUDEPATH" "QMAKE_CXXFLAGS*=$CXXFLAGS" "QMAKE_CXXFLAGS+=$MAC_ARCH_CXXFLAGS" "QT_BUILD_TREE=$OUTDIR" "$SRCDIR/$TEST/$EXE.pro" -o "$OUTDIR/$TEST/Makefile"
-+echo "QT_BUILD_TREE = $OUTDIR" > "$OUTDIR/$TEST/.qmake.cache"
-+"$OUTDIR/bin/qmake" -spec "$QMKSPEC" "CONFIG+=$QMAKE_CONFIG" "CONFIG-=debug_and_release" "LIBS*=$LFLAGS" "LIBS+=$MAC_ARCH_LFLAGS" "INCLUDEPATH*=$INCLUDEPATH" "QMAKE_CXXFLAGS*=$CXXFLAGS" "QMAKE_CXXFLAGS+=$MAC_ARCH_CXXFLAGS" "$SRCDIR/$TEST/$EXE.pro" -o "$OUTDIR/$TEST/Makefile"
- 
- if [ "$VERBOSE" = "yes" ]; then
-     $MAKE
--- 
-1.7.10.4
-
-
-From b0481b3c70c42136df1904de68a8f8fc797591e2 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Sun, 16 Sep 2012 00:12:53 +0200
-Subject: [PATCH 21/24] configure: postpone pkg-config detection until after
- qmake is built
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-pkg-config isn't used before qmake is built, so these tests can take
-place afterward.
-
-This is preparation for using qmake to resolve PKG_CONFIG in mkspecs.
-
-Change-Id: Icedf9ebd80bbac3fe1e5d7eeca358cb0fc9de072
-Reviewed-by: Peter Kümmel <syntheticpp@gmx.net>
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@digia.com>
-(cherry picked from commit 1861f0317d4058482667154131f8eb6488db407e)
-
-diff --git a/configure b/configure
-index a0786da..53d0506 100755
---- a/configure
-+++ b/configure
-@@ -3330,64 +3330,9 @@ if [ "$OPT_VERBOSE" = "yes" ]; then
- fi
- 
- #-------------------------------------------------------------------------------
--# write out device config before we run the test.
--#-------------------------------------------------------------------------------
--DEVICE_VARS_OUTFILE="$outpath/mkspecs/qdevice.pri"
--if cmp -s "$DEVICE_VARS_FILE" "$DEVICE_VARS_OUTFILE"; then
--    rm -f "$DEVICE_VARS_FILE"
--else
--    mv -f $DEVICE_VARS_FILE "$DEVICE_VARS_OUTFILE"
--    DEVICE_VARS_FILE="$DEVICE_VARS_OUTFILE"
--fi
--
--#-------------------------------------------------------------------------------
- # tests that don't need qmake (must be run before displaying help)
- #-------------------------------------------------------------------------------
- 
--if [ -z "$PKG_CONFIG" ]; then
--    # See if PKG_CONFIG is set in the mkspec:
--    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
--fi
--if [ -z "$PKG_CONFIG" ]; then
--    PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
--fi
--
--# Work out if we can use pkg-config
--if [ "$QT_CROSS_COMPILE" = "yes" ]; then
--    if [ "$QT_FORCE_PKGCONFIG" = "yes" ]; then
--        echo >&2 ""
--        echo >&2 "You have asked to use pkg-config and are cross-compiling."
--        echo >&2 "Please make sure you have a correctly set-up pkg-config"
--        echo >&2 "environment!"
--        echo >&2 ""
--        if [ -z "$PKG_CONFIG_PATH" ]; then
--            echo >&2 ""
--            echo >&2 "Warning: PKG_CONFIG_PATH has not been set.  This could mean"
--            echo >&2 "the host compiler's .pc files will be used. This is probably"
--            echo >&2 "not what you want."
--            echo >&2 ""
--        elif [ -z "$PKG_CONFIG_SYSROOT" ] && [ -z "$PKG_CONFIG_SYSROOT_DIR" ]; then
--            echo >&2 ""
--            echo >&2 "Warning: PKG_CONFIG_SYSROOT/PKG_CONFIG_SYSROOT_DIR has not"
--            echo >&2 "been set. This means your toolchain's .pc files must contain"
--            echo >&2 "the paths to the toolchain's libraries & headers. If configure"
--            echo >&2 "tests are failing, please check these files."
--            echo >&2 ""
--        fi
--    else
--        echo >&2 ""
--        echo >&2 "You have not explicitly asked to use pkg-config and are cross-compiling."
--        echo >&2 "pkg-config will not be used to automatically query cflag/lib parameters for"
--        echo >&2 "dependencies"
--        echo >&2 ""
--        PKG_CONFIG=""
--    fi
--fi
--
--if [ ! -n "$PKG_CONFIG" ]; then
--    QT_CONFIG="$QT_CONFIG no-pkg-config"
--fi
--
- # process CFG_MAC_ARCHS
- if [ "$PLATFORM_MAC" = "yes" ]; then
- #   check -arch arguments for validity.
-@@ -5058,6 +5003,61 @@ if true; then ###[ '!' -f "$outpath/bin/qmake" ];
- fi # Build qmake
- 
- #-------------------------------------------------------------------------------
-+# write out device config before we run the test.
-+#-------------------------------------------------------------------------------
-+DEVICE_VARS_OUTFILE="$outpath/mkspecs/qdevice.pri"
-+if cmp -s "$DEVICE_VARS_FILE" "$DEVICE_VARS_OUTFILE"; then
-+    rm -f "$DEVICE_VARS_FILE"
-+else
-+    mv -f $DEVICE_VARS_FILE "$DEVICE_VARS_OUTFILE"
-+    DEVICE_VARS_FILE="$DEVICE_VARS_OUTFILE"
-+fi
-+
-+if [ -z "$PKG_CONFIG" ]; then
-+    # See if PKG_CONFIG is set in the mkspec:
-+    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
-+fi
-+if [ -z "$PKG_CONFIG" ]; then
-+    PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
-+fi
-+
-+# Work out if we can use pkg-config
-+if [ "$QT_CROSS_COMPILE" = "yes" ]; then
-+    if [ "$QT_FORCE_PKGCONFIG" = "yes" ]; then
-+        echo >&2 ""
-+        echo >&2 "You have asked to use pkg-config and are cross-compiling."
-+        echo >&2 "Please make sure you have a correctly set-up pkg-config"
-+        echo >&2 "environment!"
-+        echo >&2 ""
-+        if [ -z "$PKG_CONFIG_PATH" ]; then
-+            echo >&2 ""
-+            echo >&2 "Warning: PKG_CONFIG_PATH has not been set.  This could mean"
-+            echo >&2 "the host compiler's .pc files will be used. This is probably"
-+            echo >&2 "not what you want."
-+            echo >&2 ""
-+        elif [ -z "$PKG_CONFIG_SYSROOT" ] && [ -z "$PKG_CONFIG_SYSROOT_DIR" ]; then
-+            echo >&2 ""
-+            echo >&2 "Warning: PKG_CONFIG_SYSROOT/PKG_CONFIG_SYSROOT_DIR has not"
-+            echo >&2 "been set. This means your toolchain's .pc files must contain"
-+            echo >&2 "the paths to the toolchain's libraries & headers. If configure"
-+            echo >&2 "tests are failing, please check these files."
-+            echo >&2 ""
-+        fi
-+    else
-+        echo >&2 ""
-+        echo >&2 "You have not explicitly asked to use pkg-config and are cross-compiling."
-+        echo >&2 "pkg-config will not be used to automatically query cflag/lib parameters for"
-+        echo >&2 "dependencies"
-+        echo >&2 ""
-+        PKG_CONFIG=""
-+    fi
-+fi
-+
-+if [ ! -n "$PKG_CONFIG" ]; then
-+    QT_CONFIG="$QT_CONFIG no-pkg-config"
-+fi
-+
-+#-------------------------------------------------------------------------------
- # tests that need qmake
- #-------------------------------------------------------------------------------
+-#if defined(Q_OS_WIN64) && !defined(Q_CC_GNU)
++#if defined(Q_OS_WIN64)
+ #include <intrin.h>
+ #endif
  
 -- 
-1.7.10.4
-
-
-From b0638daae7481b9770e4a88bb7509f6cbbfee0e8 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Fri, 14 Sep 2012 10:03:18 +0200
-Subject: [PATCH 22/24] use qmake to get PKG_CONFIG in configure script
-
-The value of PKG_CONFIG might depend on device options.
-For example, "-device-option PKG_CONFIG" might be used with configure
-or a mkspec might prefix PKG_CONFIG with CROSS_COMPILE which is
-specified as a device option.
-
-The shell functions of configure for parsing mkspecs do not take
-device options into account, but qmake is pretty good at it now.
-
-backport of qt5/qtbase 01864d4854557d2cf8b067e229d77cd7c9c553ee
-
-Change-Id: I1c9558e550c48e8441ebdac34b82066473c2ce3a
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@digia.com>
-(cherry picked from commit d8f1f7a29c277c9a643fd048b87f530e37773676)
-
-diff --git a/configure b/configure
-index 53d0506..723502e 100755
---- a/configure
-+++ b/configure
-@@ -5014,8 +5014,12 @@ else
- fi
- 
- if [ -z "$PKG_CONFIG" ]; then
--    # See if PKG_CONFIG is set in the mkspec:
--    PKG_CONFIG=`getXQMakeConf PKG_CONFIG`
-+    # See if PKG_CONFIG is set in the mkspec or device options
-+    (echo TEMPLATE = subdirs
-+     echo 'message($$PKG_CONFIG)') > "$outpath/dummy.pro"
-+    echo "QT_BUILD_TREE = $outpath" > "$outpath/.qmake.cache.pkgconfig"
-+    PKG_CONFIG=`"$outpath/bin/qmake" -cache "$outpath/.qmake.cache.pkgconfig" -spec "$XQMAKESPEC" "$outpath/dummy.pro" -o /dev/null 2>&1 > /dev/null | sed -n -e 's,Project MESSAGE: \(.*\),\1,p'`
-+    rm "$outpath/.qmake.cache.pkgconfig" "$outpath/dummy.pro"
- fi
- if [ -z "$PKG_CONFIG" ]; then
-     PKG_CONFIG=`"$WHICH" pkg-config 2>/dev/null`
--- 
-1.7.10.4
-
-
-From 4814e4ff8a6d245eff8761113ac2ae8f37abf71a Mon Sep 17 00:00:00 2001
-From: Richard Moore <rich@kde.org>
-Date: Fri, 14 Sep 2012 00:13:08 +0100
-Subject: [PATCH 23/24] Disable SSL compression by default.
-
-Disable SSL compression by default since this appears to be the a likely
-cause of the currently hyped CRIME attack.
-
-This is a backport of 5ea896fbc63593f424a7dfbb11387599c0025c74
-
-Change-Id: I6eeefb23c6b140a9633b28ed85879459c474348a
-Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
-Reviewed-by: Peter Hartmann <phartmann@rim.com>
-(cherry picked from commit d41dc3e101a694dec98d7bbb582d428d209e5401)
-
-diff --git a/src/network/ssl/qssl.cpp b/src/network/ssl/qssl.cpp
-index 49e086f..9578178 100644
---- a/src/network/ssl/qssl.cpp
-+++ b/src/network/ssl/qssl.cpp
-@@ -148,8 +148,9 @@ QT_BEGIN_NAMESPACE
- 
-     By default, SslOptionDisableEmptyFragments is turned on since this causes
-     problems with a large number of servers. SslOptionDisableLegacyRenegotiation
--    is also turned on, since it introduces a security risk. The other options
--    are turned off.
-+    is also turned on, since it introduces a security risk.
-+    SslOptionDisableCompression is turned on to prevent the attack publicised by
-+    CRIME. The other options are turned off.
- 
-     Note: Availability of above options depends on the version of the SSL
-     backend in use.
-diff --git a/src/network/ssl/qsslconfiguration.cpp b/src/network/ssl/qsslconfiguration.cpp
-index 24c7b77..3a05f54 100644
---- a/src/network/ssl/qsslconfiguration.cpp
-+++ b/src/network/ssl/qsslconfiguration.cpp
-@@ -201,7 +201,9 @@ bool QSslConfiguration::isNull() const
-             d->privateKey.isNull() &&
-             d->peerCertificate.isNull() &&
-             d->peerCertificateChain.count() == 0 &&
--            d->sslOptions == (QSsl::SslOptionDisableEmptyFragments|QSsl::SslOptionDisableLegacyRenegotiation));
-+            d->sslOptions == ( QSsl::SslOptionDisableEmptyFragments
-+                              |QSsl::SslOptionDisableLegacyRenegotiation
-+                              |QSsl::SslOptionDisableCompression));
- }
- 
- /*!
-diff --git a/src/network/ssl/qsslconfiguration_p.h b/src/network/ssl/qsslconfiguration_p.h
-index 74f17cd..c36b651 100644
---- a/src/network/ssl/qsslconfiguration_p.h
-+++ b/src/network/ssl/qsslconfiguration_p.h
-@@ -83,7 +83,9 @@ public:
-         : protocol(QSsl::SecureProtocols),
-           peerVerifyMode(QSslSocket::AutoVerifyPeer),
-           peerVerifyDepth(0),
--          sslOptions(QSsl::SslOptionDisableEmptyFragments|QSsl::SslOptionDisableLegacyRenegotiation)
-+          sslOptions(QSsl::SslOptionDisableEmptyFragments
-+                     |QSsl::SslOptionDisableLegacyRenegotiation
-+                     |QSsl::SslOptionDisableCompression)
-     { }
- 
-     QSslCertificate peerCertificate;
--- 
-1.7.10.4
-
-
-From 08f8d25243a021fb17bfce06cd2b1f96dea7454d Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Tue, 18 Sep 2012 21:40:22 +0200
-Subject: [PATCH 24/24] configure: mac features don't belong on cross mingw
- target
-
-CFG_MAC_DWARF2 and CFG_MAC_XARCH options are for targetting macs, not
-bulding on them.
-
-qt5/qtbase commit 7a67c822e3e552d0d881f0409a5316de07dbb8c7
-removed CFG_MAC_DWARF2.
-
-qt5/qtbase commit 59d5c26075724a581ed276d62d884b44d2ca4489
-removed CFG_MAC_XARCH.
-
-Change-Id: Idb789ed9a8aa9b824a4c2191a9c39e741ca49574
-
-diff --git a/configure b/configure
-index 723502e..0978939 100755
---- a/configure
-+++ b/configure
-@@ -3421,6 +3421,11 @@ elif [ "$CFG_PRECOMPILE" = "yes" ] && [ `echo "$CFG_MAC_ARCHS" | wc -w` -gt 1 ];
-     CFG_PRECOMPILE=no
- fi
- 
-+if [ "$XPLATFORM_MINGW" = "yes" ]; then
-+    CFG_MAC_DWARF2=no
-+    CFG_MAC_XARCH=no
-+fi
-+
- #auto-detect DWARF2 on the mac
- if [ "$PLATFORM_MAC" = "yes" ] && [ "$CFG_MAC_DWARF2" = "auto" ]; then
-     if "$mactests/dwarf2.test" "$TEST_COMPILER" "$OPT_VERBOSE" "$mactests" ; then
--- 
-1.7.10.4
+1.8.1.4
 
