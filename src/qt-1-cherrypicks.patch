@@ -4,7 +4,7 @@ See index.html for further information.
 Commits backported (cherry-picked) from upstream branch or merge requests.
 http://qt.gitorious.org/qt
 Also contains MXE specific fixes.
-From 6dfcbf0d99d76dbade4e3b427c9826e171382ca4 Mon Sep 17 00:00:00 2001
+From 0739b3c86b95eae282113c15800e1840eb3027f1 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
 Subject: [PATCH 01/17] remove trailing whitespace
@@ -28,10 +28,10 @@ index 9090773..859ec8d 100644
                          ../plugins/codecs/tw/qbig5codec.h \
                          ../plugins/codecs/jp/qfontjpcodec.h
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From f35425afd4ab61c9d5b806223d58292aa519997b Mon Sep 17 00:00:00 2001
+From 32c83f9219a8300d8949622dbb946ca60bc50359 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
 Subject: [PATCH 02/17] do not detect or configure iconv for Windows
@@ -49,10 +49,10 @@ Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 9fa2b641ba6ff4f4b3f474b87ddb642cfa5c3d83)
 
 diff --git a/configure b/configure
-index 460b446..e337dc0 100755
+index a9ba7c8..2e495a4 100755
 --- a/configure
 +++ b/configure
-@@ -5770,7 +5770,7 @@ fi
+@@ -5810,7 +5810,7 @@ fi
  
  # auto-detect iconv(3) support
  if [ "$CFG_ICONV" != "no" ]; then
@@ -62,10 +62,10 @@ index 460b446..e337dc0 100755
      elif compileTest "unix/iconv" "POSIX iconv"; then
          CFG_ICONV=yes
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 4dcf10f5beed5fbe74201f06a750bf18643dd716 Mon Sep 17 00:00:00 2001
+From 595e8d4d50d792cfc644c665763ec425ec746e56 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
 Subject: [PATCH 03/17] fix whitespace
@@ -136,10 +136,10 @@ index 859ec8d..70cd890 100644
                          ../plugins/codecs/tw/qbig5codec.cpp \
                          ../plugins/codecs/jp/qfontjpcodec.cpp
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From b3bf93f2b38902cabdd203ad0362e3a90977e118 Mon Sep 17 00:00:00 2001
+From d91e9ac5812dd55be30ac2649e091e7a275e4653 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
 Subject: [PATCH 04/17] build and load text codecs regardless of iconv and
@@ -223,7 +223,7 @@ index 70cd890..c847264 100644
  }
  symbian:LIBS += -lcharconv
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 7c513a0..517ac87 100644
+index 58ffb00..1ee586e 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -66,15 +66,14 @@
@@ -278,10 +278,10 @@ index 7c513a0..517ac87 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 73d43da5b39105d52511036c3bef3a391d0f19ae Mon Sep 17 00:00:00 2001
+From 1fc30f6f3fe9351907016c2dec74b0114be64619 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
 Subject: [PATCH 05/17] move plugin text codecs to QtCore
@@ -362,13 +362,13 @@ index c847264..a1271b9 100644
  	SOURCES += codecs/qfontlaocodec.cpp
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
 new file mode 100644
-index 0000000..a291677
+index 0000000..7e1af4e
 --- /dev/null
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -0,0 +1,637 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -1005,13 +1005,13 @@ index 0000000..a291677
 +#endif // CP494CODETBL_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
 new file mode 100644
-index 0000000..0c673f8
+index 0000000..2d37f56
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -0,0 +1,12788 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -13799,13 +13799,13 @@ index 0000000..0c673f8
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
 new file mode 100644
-index 0000000..19f470c
+index 0000000..334764c
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -0,0 +1,124 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -13929,13 +13929,13 @@ index 0000000..19f470c
 +#endif // QBIG5CODEC_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
 new file mode 100644
-index 0000000..2c68919
+index 0000000..6e1be4a
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -0,0 +1,261 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -14196,13 +14196,13 @@ index 0000000..2c68919
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
 new file mode 100644
-index 0000000..400cb03
+index 0000000..bc3cbc7
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -14308,13 +14308,13 @@ index 0000000..400cb03
 +#endif // QEUCJPCODEC_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
 new file mode 100644
-index 0000000..307b0f3
+index 0000000..cb51181
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -0,0 +1,3571 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -17885,13 +17885,13 @@ index 0000000..307b0f3
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
 new file mode 100644
-index 0000000..31c3b1b
+index 0000000..c7a9b15
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -0,0 +1,129 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -18020,13 +18020,13 @@ index 0000000..31c3b1b
 +#endif // QEUCKRCODEC_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
 new file mode 100644
-index 0000000..11917ed
+index 0000000..d5139aa
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -0,0 +1,145 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -18171,13 +18171,13 @@ index 0000000..11917ed
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
 new file mode 100644
-index 0000000..bedac58
+index 0000000..e905cd1
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -0,0 +1,93 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -18270,13 +18270,13 @@ index 0000000..bedac58
 +#endif // QFONTJPCODEC_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
 new file mode 100644
-index 0000000..73d51fc
+index 0000000..06345ff
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -0,0 +1,9265 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -27541,13 +27541,13 @@ index 0000000..73d51fc
 +#endif // QT_NO_TEXTCODEC
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
 new file mode 100644
-index 0000000..5d231d5
+index 0000000..e3dd386
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -0,0 +1,159 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -27706,13 +27706,13 @@ index 0000000..5d231d5
 +#endif // QGB18030CODEC_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
 new file mode 100644
-index 0000000..007dea1
+index 0000000..2c9be691
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -0,0 +1,367 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -28079,13 +28079,13 @@ index 0000000..007dea1
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
 new file mode 100644
-index 0000000..db2ce54
+index 0000000..f6ba975
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -28191,13 +28191,13 @@ index 0000000..db2ce54
 +#endif // QJISCODEC_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
 new file mode 100644
-index 0000000..fab366f
+index 0000000..66f2e34
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -0,0 +1,10700 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -38897,13 +38897,13 @@ index 0000000..fab366f
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
 new file mode 100644
-index 0000000..1e7af75
+index 0000000..83bb8e1
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -0,0 +1,174 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -39077,13 +39077,13 @@ index 0000000..1e7af75
 +#endif // QJPUNICODE_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
 new file mode 100644
-index 0000000..aa4997f
+index 0000000..977f38f
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -0,0 +1,229 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -39312,13 +39312,13 @@ index 0000000..aa4997f
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
 new file mode 100644
-index 0000000..054fbe5
+index 0000000..a4c0981
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
++** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 +** Contact: http://www.qt-project.org/legal
 +**
 +** This file is part of the plugins of the Qt Toolkit.
@@ -39423,7 +39423,7 @@ index 0000000..054fbe5
 +
 +#endif // QSJISCODEC_H
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 517ac87..2eaff80 100644
+index 1ee586e..1376b67 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -67,16 +67,16 @@
@@ -39474,13 +39474,13 @@ index b0a8a91..0000000
 -symbian:TARGET.UID3=0x2001E615
 diff --git a/src/plugins/codecs/cn/main.cpp b/src/plugins/codecs/cn/main.cpp
 deleted file mode 100644
-index 9414e55..0000000
+index 12421a9..0000000
 --- a/src/plugins/codecs/cn/main.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -39625,13 +39625,13 @@ index 9414e55..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/cn/qgb18030codec.cpp b/src/plugins/codecs/cn/qgb18030codec.cpp
 deleted file mode 100644
-index 73d51fc..0000000
+index 06345ff..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.cpp
 +++ /dev/null
 @@ -1,9265 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -48896,13 +48896,13 @@ index 73d51fc..0000000
 -#endif // QT_NO_TEXTCODEC
 diff --git a/src/plugins/codecs/cn/qgb18030codec.h b/src/plugins/codecs/cn/qgb18030codec.h
 deleted file mode 100644
-index 5d231d5..0000000
+index e3dd386..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.h
 +++ /dev/null
 @@ -1,159 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -49104,13 +49104,13 @@ index 6480e43..0000000
 -symbian:TARGET.UID3=0x2001E614
 diff --git a/src/plugins/codecs/jp/main.cpp b/src/plugins/codecs/jp/main.cpp
 deleted file mode 100644
-index 3e53fc8..0000000
+index 04b129a..0000000
 --- a/src/plugins/codecs/jp/main.cpp
 +++ /dev/null
 @@ -1,149 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -49259,13 +49259,13 @@ index 3e53fc8..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.cpp b/src/plugins/codecs/jp/qeucjpcodec.cpp
 deleted file mode 100644
-index 2c68919..0000000
+index 6e1be4a..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.cpp
 +++ /dev/null
 @@ -1,261 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -49526,13 +49526,13 @@ index 2c68919..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.h b/src/plugins/codecs/jp/qeucjpcodec.h
 deleted file mode 100644
-index 400cb03..0000000
+index bc3cbc7..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -49638,13 +49638,13 @@ index 400cb03..0000000
 -#endif // QEUCJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.cpp b/src/plugins/codecs/jp/qfontjpcodec.cpp
 deleted file mode 100644
-index 11917ed..0000000
+index d5139aa..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -49789,13 +49789,13 @@ index 11917ed..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.h b/src/plugins/codecs/jp/qfontjpcodec.h
 deleted file mode 100644
-index bedac58..0000000
+index e905cd1..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.h
 +++ /dev/null
 @@ -1,93 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -49888,13 +49888,13 @@ index bedac58..0000000
 -#endif // QFONTJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qjiscodec.cpp b/src/plugins/codecs/jp/qjiscodec.cpp
 deleted file mode 100644
-index 007dea1..0000000
+index 2c9be691..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.cpp
 +++ /dev/null
 @@ -1,367 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -50261,13 +50261,13 @@ index 007dea1..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjiscodec.h b/src/plugins/codecs/jp/qjiscodec.h
 deleted file mode 100644
-index db2ce54..0000000
+index f6ba975..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -50373,13 +50373,13 @@ index db2ce54..0000000
 -#endif // QJISCODEC_H
 diff --git a/src/plugins/codecs/jp/qjpunicode.cpp b/src/plugins/codecs/jp/qjpunicode.cpp
 deleted file mode 100644
-index fab366f..0000000
+index 66f2e34..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.cpp
 +++ /dev/null
 @@ -1,10700 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -61079,13 +61079,13 @@ index fab366f..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjpunicode.h b/src/plugins/codecs/jp/qjpunicode.h
 deleted file mode 100644
-index 1e7af75..0000000
+index 83bb8e1..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.h
 +++ /dev/null
 @@ -1,174 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -61259,13 +61259,13 @@ index 1e7af75..0000000
 -#endif // QJPUNICODE_H
 diff --git a/src/plugins/codecs/jp/qsjiscodec.cpp b/src/plugins/codecs/jp/qsjiscodec.cpp
 deleted file mode 100644
-index aa4997f..0000000
+index 977f38f..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.cpp
 +++ /dev/null
 @@ -1,229 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -61494,13 +61494,13 @@ index aa4997f..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qsjiscodec.h b/src/plugins/codecs/jp/qsjiscodec.h
 deleted file mode 100644
-index 054fbe5..0000000
+index a4c0981..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -61606,13 +61606,13 @@ index 054fbe5..0000000
 -#endif // QSJISCODEC_H
 diff --git a/src/plugins/codecs/kr/cp949codetbl.h b/src/plugins/codecs/kr/cp949codetbl.h
 deleted file mode 100644
-index a291677..0000000
+index 7e1af4e..0000000
 --- a/src/plugins/codecs/kr/cp949codetbl.h
 +++ /dev/null
 @@ -1,637 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -62275,13 +62275,13 @@ index 1cc28d8..0000000
 -symbian:TARGET.UID3=0x2001B2E5
 diff --git a/src/plugins/codecs/kr/main.cpp b/src/plugins/codecs/kr/main.cpp
 deleted file mode 100644
-index 87ccd6c..0000000
+index 918b8bd..0000000
 --- a/src/plugins/codecs/kr/main.cpp
 +++ /dev/null
 @@ -1,131 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -62412,13 +62412,13 @@ index 87ccd6c..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.cpp b/src/plugins/codecs/kr/qeuckrcodec.cpp
 deleted file mode 100644
-index 307b0f3..0000000
+index cb51181..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.cpp
 +++ /dev/null
 @@ -1,3571 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -65989,13 +65989,13 @@ index 307b0f3..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.h b/src/plugins/codecs/kr/qeuckrcodec.h
 deleted file mode 100644
-index 31c3b1b..0000000
+index c7a9b15..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.h
 +++ /dev/null
 @@ -1,129 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -66124,13 +66124,13 @@ index 31c3b1b..0000000
 -#endif // QEUCKRCODEC_H
 diff --git a/src/plugins/codecs/tw/main.cpp b/src/plugins/codecs/tw/main.cpp
 deleted file mode 100644
-index e12ad21..0000000
+index 30e6d8c..0000000
 --- a/src/plugins/codecs/tw/main.cpp
 +++ /dev/null
 @@ -1,138 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -66268,13 +66268,13 @@ index e12ad21..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.cpp b/src/plugins/codecs/tw/qbig5codec.cpp
 deleted file mode 100644
-index 0c673f8..0000000
+index 2d37f56..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.cpp
 +++ /dev/null
 @@ -1,12788 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79062,13 +79062,13 @@ index 0c673f8..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.h b/src/plugins/codecs/tw/qbig5codec.h
 deleted file mode 100644
-index 19f470c..0000000
+index 334764c..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.h
 +++ /dev/null
 @@ -1,124 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79229,10 +79229,10 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From aa4d579e9393c0f9b1be42c3b37c9feb04ad42d6 Mon Sep 17 00:00:00 2001
+From 4a97b4b52b58070afb2de01fc59a524977475a43 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
 Subject: [PATCH 06/17] update private header references
@@ -79244,7 +79244,7 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 15e4df7d83fd30e16f014bc1ddc5d55884b388aa)
 
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index 0c673f8..ea3fe52 100644
+index 2d37f56..1b46859 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -39,7 +39,7 @@
@@ -79257,7 +79257,7 @@ index 0c673f8..ea3fe52 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 2c68919..64b5e8f 100644
+index 6e1be4a..6f09059 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -73,7 +73,7 @@
@@ -79270,7 +79270,7 @@ index 2c68919..64b5e8f 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index 400cb03..aa672fa 100644
+index bc3cbc7..c717050 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -71,7 +71,7 @@
@@ -79283,7 +79283,7 @@ index 400cb03..aa672fa 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index 307b0f3..5e2daac 100644
+index cb51181..a66d4e2 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -65,8 +65,8 @@
@@ -79298,7 +79298,7 @@ index 307b0f3..5e2daac 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index 11917ed..3e62b7b 100644
+index d5139aa..fdd594a 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -39,9 +39,9 @@
@@ -79314,7 +79314,7 @@ index 11917ed..3e62b7b 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 73d51fc..091f9ce 100644
+index 06345ff..01682d8 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -44,7 +44,7 @@
@@ -79327,7 +79327,7 @@ index 73d51fc..091f9ce 100644
  #ifndef QT_NO_TEXTCODEC
  
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index 007dea1..e11431f 100644
+index 2c9be691..af9a32c 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79340,7 +79340,7 @@ index 007dea1..e11431f 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index db2ce54..7e0a2d7 100644
+index f6ba975..0d14b48 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79353,7 +79353,7 @@ index db2ce54..7e0a2d7 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index fab366f..240af89 100644
+index 66f2e34..304d26e 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -44,7 +44,7 @@
@@ -79366,7 +79366,7 @@ index fab366f..240af89 100644
  #include "qbytearray.h"
  #include <stdlib.h>
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index aa4997f..8519147 100644
+index 977f38f..5c69748 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79379,7 +79379,7 @@ index aa4997f..8519147 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index 054fbe5..c1e4689 100644
+index a4c0981..5025968 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79392,10 +79392,10 @@ index 054fbe5..c1e4689 100644
  #include <QtCore/qlist.h>
  
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 1461f769066a4e73a421f88c57f6ebd5de279f9d Mon Sep 17 00:00:00 2001
+From 335262793a24a8444ad181c7e744cb29cff06e58 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
 Subject: [PATCH 07/17] cosmetic adjustments for files moved to core/codecs
@@ -79411,11 +79411,11 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 712cfb509484599f1586f68cc379e3e7464e9967)
 
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
-index a291677..336b0b7 100644
+index 7e1af4e..952090a 100644
 --- a/src/corelib/codecs/cp949codetbl_p.h
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79452,11 +79452,11 @@ index a291677..336b0b7 100644
 -#endif // CP494CODETBL_H
 +#endif // CP494CODETBL_P_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index ea3fe52..e55af06 100644
+index 1b46859..d48ccaf 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79465,11 +79465,11 @@ index ea3fe52..e55af06 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
-index 19f470c..9e1d678 100644
+index 334764c..ba3b345 100644
 --- a/src/corelib/codecs/qbig5codec_p.h
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79506,11 +79506,11 @@ index 19f470c..9e1d678 100644
 -#endif // QBIG5CODEC_H
 +#endif // QBIG5CODEC_P_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 64b5e8f..4466496 100644
+index 6f09059..f4cb649 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79519,11 +79519,11 @@ index 64b5e8f..4466496 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index aa672fa..2102b71 100644
+index c717050..b6d6c6b 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79560,11 +79560,11 @@ index aa672fa..2102b71 100644
 -#endif // QEUCJPCODEC_H
 +#endif // QEUCJPCODEC_P_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index 5e2daac..7a01ef7 100644
+index a66d4e2..33e6786 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79573,11 +79573,11 @@ index 5e2daac..7a01ef7 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
-index 31c3b1b..e74b9c9 100644
+index c7a9b15..ebe334d 100644
 --- a/src/corelib/codecs/qeuckrcodec_p.h
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79614,11 +79614,11 @@ index 31c3b1b..e74b9c9 100644
 -#endif // QEUCKRCODEC_H
 +#endif // QEUCKRCODEC_P_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index 3e62b7b..4b267bb 100644
+index fdd594a..c79d9d5 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79627,11 +79627,11 @@ index 3e62b7b..4b267bb 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
-index bedac58..f8aa810 100644
+index e905cd1..0eea2cd 100644
 --- a/src/corelib/codecs/qfontjpcodec_p.h
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79668,11 +79668,11 @@ index bedac58..f8aa810 100644
 -#endif // QFONTJPCODEC_H
 +#endif // QFONTJPCODEC_P_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 091f9ce..cf60424 100644
+index 01682d8..37bc141 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79681,11 +79681,11 @@ index 091f9ce..cf60424 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
-index 5d231d5..fe53d49 100644
+index e3dd386..826edf7 100644
 --- a/src/corelib/codecs/qgb18030codec_p.h
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79722,11 +79722,11 @@ index 5d231d5..fe53d49 100644
 -#endif // QGB18030CODEC_H
 +#endif // QGB18030CODEC_P_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index e11431f..6135776 100644
+index af9a32c..dd7e1ee 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79735,11 +79735,11 @@ index e11431f..6135776 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index 7e0a2d7..e2b6cf2 100644
+index 0d14b48..e75dbd6 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79776,11 +79776,11 @@ index 7e0a2d7..e2b6cf2 100644
 -#endif // QJISCODEC_H
 +#endif // QJISCODEC_P_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index 240af89..ffe6b3f 100644
+index 304d26e..0c24168 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79789,11 +79789,11 @@ index 240af89..ffe6b3f 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
-index 1e7af75..da45ceb 100644
+index 83bb8e1..9497911 100644
 --- a/src/corelib/codecs/qjpunicode_p.h
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79830,11 +79830,11 @@ index 1e7af75..da45ceb 100644
 -#endif // QJPUNICODE_H
 +#endif // QJPUNICODE_P_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index 8519147..fdb94f6 100644
+index 5c69748..cc87d1a 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79843,11 +79843,11 @@ index 8519147..fdb94f6 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index c1e4689..d5cbd74 100644
+index 5025968..6dd8902 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+ ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
  ** Contact: http://www.qt-project.org/legal
  **
 -** This file is part of the plugins of the Qt Toolkit.
@@ -79884,10 +79884,10 @@ index c1e4689..d5cbd74 100644
 -#endif // QSJISCODEC_H
 +#endif // QSJISCODEC_P_H
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From d2258c0533b501f36842f99fc7e32d44e5321fd8 Mon Sep 17 00:00:00 2001
+From 6c3ced5e40b06c68ee50b297dcb7d3a3f5a63429 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
 Subject: [PATCH 08/17] remove obsolete codec plugin loading code
@@ -79933,7 +79933,7 @@ index a1271b9..9274eda 100644
      codecs/qjpunicode.cpp \
      codecs/qeucjpcodec.cpp \
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 2eaff80..85403dc 100644
+index 1376b67..efce435 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -48,11 +48,6 @@
@@ -80081,13 +80081,13 @@ index 2eaff80..85403dc 100644
  
 diff --git a/src/corelib/codecs/qtextcodecplugin.cpp b/src/corelib/codecs/qtextcodecplugin.cpp
 deleted file mode 100644
-index a2102f2..0000000
+index 6cfa84e..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.cpp
 +++ /dev/null
 @@ -1,161 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
@@ -80248,13 +80248,13 @@ index a2102f2..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/corelib/codecs/qtextcodecplugin.h b/src/corelib/codecs/qtextcodecplugin.h
 deleted file mode 100644
-index 8c7fae6..0000000
+index 3258207..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.h
 +++ /dev/null
 @@ -1,96 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 -** Contact: http://www.qt-project.org/legal
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
@@ -80349,7 +80349,7 @@ index 8c7fae6..0000000
 -
 -#endif // QTEXTCODECPLUGIN_H
 diff --git a/src/corelib/global/qconfig-medium.h b/src/corelib/global/qconfig-medium.h
-index 5547736..60909d5 100644
+index b23f601..effe986 100644
 --- a/src/corelib/global/qconfig-medium.h
 +++ b/src/corelib/global/qconfig-medium.h
 @@ -91,9 +91,6 @@
@@ -80363,7 +80363,7 @@ index 5547736..60909d5 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-minimal.h b/src/corelib/global/qconfig-minimal.h
-index 36e3401..7edf746 100644
+index 54f7a31..af4bd5f 100644
 --- a/src/corelib/global/qconfig-minimal.h
 +++ b/src/corelib/global/qconfig-minimal.h
 @@ -167,9 +167,6 @@
@@ -80377,7 +80377,7 @@ index 36e3401..7edf746 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
-index 446a98a..f760761 100644
+index adeb249..d18797b 100644
 --- a/src/corelib/global/qconfig-nacl.h
 +++ b/src/corelib/global/qconfig-nacl.h
 @@ -128,9 +128,6 @@
@@ -80391,7 +80391,7 @@ index 446a98a..f760761 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-small.h b/src/corelib/global/qconfig-small.h
-index 8e41875..f4d651b 100644
+index d602fb5..957d7ee 100644
 --- a/src/corelib/global/qconfig-small.h
 +++ b/src/corelib/global/qconfig-small.h
 @@ -128,9 +128,6 @@
@@ -80405,7 +80405,7 @@ index 8e41875..f4d651b 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index 1642947..36c09f1 100644
+index 038912f..437d4f2 100644
 --- a/src/corelib/global/qfeatures.h
 +++ b/src/corelib/global/qfeatures.h
 @@ -643,11 +643,6 @@
@@ -80421,10 +80421,10 @@ index 1642947..36c09f1 100644
  #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
  #define QT_NO_COLORDIALOG
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 18bb9c4ba6b8d08af061a5465da5db16260a309d Mon Sep 17 00:00:00 2001
+From c60cb4f5cedaddc7b951cf57c3f5a55916d2c830 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
 Subject: [PATCH 09/17] remove vestiges of text codec plugins
@@ -80455,10 +80455,10 @@ index dea05e0..12cd8ea 100644
  Description: Supports translations using QObject::tr().
  Section: Internationalization
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 4fc126e7430559acb80a5c8891d5f237be0409b3 Mon Sep 17 00:00:00 2001
+From 2e5dd882e30f4568fab102e65bbb9663451e22bc Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
 Subject: [PATCH 10/17] use pkg-config for libmng (MXE specific)
@@ -80481,10 +80481,10 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 2e6ae6495c5ec5a52b4de2473a6a6ad7b1e0fbb2 Mon Sep 17 00:00:00 2001
+From 664cbb6e0a0ee4ad68ec4f940a698f171e5cbc9f Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
 Subject: [PATCH 11/17] use pkg-config for libtiff-4 (MXE specific)
@@ -80507,116 +80507,13 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 7040eedeada1f2e73e76b6ced8badd403138ed62 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Sat, 5 Jun 2010 23:41:04 +0200
-Subject: [PATCH 12/17] restore support for static linking of QtWebKit (MXE
- specific)
-
-Support was removed by 4221d629e2cf37ee8c5ba7cb595b05ab8c82f113.
-
-For static Qt on win32-g++*, applications using webkit link to jscore and webcore.
-
-Added INSTALLS and pkg-config for static jscore and webcore.
-
-Don't build Qt WebKit tests to avoid static linking problems.
-
-Change-Id: Ia969b8e3f2b656a5057c7ebf748f272d74f014da
-
-diff --git a/configure b/configure
-index e337dc0..e54782e 100755
---- a/configure
-+++ b/configure
-@@ -7769,12 +7769,6 @@ if [ "$CFG_GUI" = "no" ]; then
-     canBuildWebKit="no"
- fi
- 
--if [ "$CFG_SHARED" = "no" ]; then
--    echo
--    echo "WARNING: Using static linking will disable the WebKit module."
--    echo
--    canBuildWebKit="no"
--fi
- 
- CFG_CONCURRENT="yes"
- if [ "$canBuildQtConcurrent" = "no" ]; then
-diff --git a/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri b/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
-index d8290cf..28080f9 100644
---- a/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
-+++ b/src/3rdparty/webkit/Source/JavaScriptCore/JavaScriptCore.pri
-@@ -109,3 +109,15 @@ defineTest(prependJavaScriptCoreLib) {
-     return(true)
- }
- 
-+static {
-+    # applications must link to static libjscore
-+    target.path = $$[QT_INSTALL_LIBS]
-+    INSTALLS += target
-+
-+    CONFIG += create_pc
-+    QMAKE_PKGCONFIG_LIBDIR = $$[QT_INSTALL_LIBS]
-+    QMAKE_PKGCONFIG_INCDIR = $$[QT_INSTALL_HEADERS]/$$TARGET
-+    QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
-+    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
-+}
-+
-diff --git a/src/3rdparty/webkit/Source/WebCore/WebCore.pri b/src/3rdparty/webkit/Source/WebCore/WebCore.pri
-index d83eec7..33c0b1f 100644
---- a/src/3rdparty/webkit/Source/WebCore/WebCore.pri
-+++ b/src/3rdparty/webkit/Source/WebCore/WebCore.pri
-@@ -365,3 +365,15 @@ defineTest(prependWebCoreLib) {
- 
-     return(true)
- }
-+
-+static {
-+    # applications must link to static libwebcore
-+    target.path = $$[QT_INSTALL_LIBS]
-+    INSTALLS += target
-+
-+    CONFIG += create_pc
-+    QMAKE_PKGCONFIG_LIBDIR = $$[QT_INSTALL_LIBS]
-+    QMAKE_PKGCONFIG_INCDIR = $$[QT_INSTALL_HEADERS]/$$TARGET
-+    QMAKE_PKGCONFIG_CFLAGS = -I$$[QT_INSTALL_HEADERS]
-+    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
-+}
-diff --git a/src/3rdparty/webkit/Source/WebCore/WebCore.pro b/src/3rdparty/webkit/Source/WebCore/WebCore.pro
-index ceceee8..6609944 100644
---- a/src/3rdparty/webkit/Source/WebCore/WebCore.pro
-+++ b/src/3rdparty/webkit/Source/WebCore/WebCore.pro
-@@ -16,7 +16,7 @@ CONFIG += staticlib
- DESTDIR = $$WEBCORE_DESTDIR
- 
- DEFINES += BUILDING_WEBKIT
--DEFINES += QT_MAKEDLL
-+!static:DEFINES += QT_MAKEDLL
- 
- contains(DEFINES, WTF_USE_QT_MOBILE_THEME=1) {
-     DEFINES += ENABLE_NO_LISTBOX_RENDERING=1
-diff --git a/src/3rdparty/webkit/Source/WebKit.pro b/src/3rdparty/webkit/Source/WebKit.pro
-index 9be0f4a..6744f58 100644
---- a/src/3rdparty/webkit/Source/WebKit.pro
-+++ b/src/3rdparty/webkit/Source/WebKit.pro
-@@ -22,7 +22,7 @@ contains(QT_CONFIG, declarative) {
-     exists($$PWD/WebKit/qt/declarative): SUBDIRS += WebKit/qt/declarative
- }
- 
--exists($$PWD/WebKit/qt/tests): SUBDIRS += WebKit/qt/tests
-+#exists($$PWD/WebKit/qt/tests): SUBDIRS += WebKit/qt/tests
- 
- build-qtscript {
-     SUBDIRS += \
--- 
-1.8.1.4
-
-
-From 63506d7ad0ce09e8d1a28db6b76324c4a7576ed4 Mon Sep 17 00:00:00 2001
+From 2cd7578f3872cea2a849dd42b5155133278c80a9 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
-Subject: [PATCH 13/17] fix building on GNU/kFreeBSD (MXE specific)
+Subject: [PATCH 12/17] fix building on GNU/kFreeBSD (MXE specific)
 
 This patch has been taken from:
 
@@ -80628,7 +80525,7 @@ Description: Fixes FTBFS on GNU/kFreeBSD by creating new Q_OS_FREEBSD_KERNEL.
 Last-Update: 2010-10-06
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
-index e914ede..d4d06c8 100644
+index 799729c..2a76787 100644
 --- a/src/corelib/global/qglobal.h
 +++ b/src/corelib/global/qglobal.h
 @@ -226,6 +226,8 @@ namespace QT_NAMESPACE {}
@@ -80641,13 +80538,13 @@ index e914ede..d4d06c8 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 7dda90d3a9e0bb86bea079a225e245f031d2de36 Mon Sep 17 00:00:00 2001
+From b3713a30b270cb5998f617b3e726d9ea985068da Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
-Subject: [PATCH 14/17] fix missing platform when building on GNU/kFreeBSD (MXE
+Subject: [PATCH 13/17] fix missing platform when building on GNU/kFreeBSD (MXE
  specific)
 
 This patch is inspired by:
@@ -80658,7 +80555,7 @@ For the time being, glibc-g++ is simply a copy of linux-g++.
 Change-Id: I1bebe2e6eef878318142ca5ed3525afc167b0a95
 
 diff --git a/configure b/configure
-index e54782e..707f55a 100755
+index 2e495a4..4965d90 100755
 --- a/configure
 +++ b/configure
 @@ -2877,6 +2877,9 @@ if [ -z "$PLATFORM" ]; then
@@ -80672,13 +80569,13 @@ index e54782e..707f55a 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 9c9244e24c767378429c70b6b85198fd8e91718f Mon Sep 17 00:00:00 2001
+From 0c3ab6553ae4834100f864e0bc636ae23f22988a Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
-Subject: [PATCH 15/17] fix building on dragonfly (MXE specific)
+Subject: [PATCH 14/17] fix building on dragonfly (MXE specific)
 
 This patch is inspired by:
 http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27&content-type=text/x-cvsweb-markup
@@ -80686,7 +80583,7 @@ http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27
 Change-Id: I9743a39ac35950cb15af915c3ae527433bc6b56d
 
 diff --git a/configure b/configure
-index 707f55a..8c48f51 100755
+index 4965d90..e1e7384 100755
 --- a/configure
 +++ b/configure
 @@ -2889,7 +2889,7 @@ if [ -z "$PLATFORM" ]; then
@@ -80699,58 +80596,74 @@ index 707f55a..8c48f51 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
 
 
-From 780cdd78482a95a44ae204588577e150e8c34ef3 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Sat, 17 Aug 2013 20:34:36 +0200
-Subject: [PATCH 16/17] libmng 2 config.test compatibility
-
-Change-Id: I6de90a0f51087c7927bd978f605f4960d3f8ee87
-
-diff --git a/config.tests/unix/libmng/libmng.cpp b/config.tests/unix/libmng/libmng.cpp
-index 0fbe554..2559132 100644
---- a/config.tests/unix/libmng/libmng.cpp
-+++ b/config.tests/unix/libmng/libmng.cpp
-@@ -46,9 +46,11 @@ int main(int, char **)
-     mng_handle hMNG;
-     mng_cleanup(&hMNG);
- 
-+#ifdef MNG_VERSION_MAJOR
- #if MNG_VERSION_MAJOR < 1 || (MNG_VERSION_MAJOR == 1 && MNG_VERSION_MINOR == 0 && MNG_VERSION_RELEASE < 9)
- #error System libmng version is less than 1.0.9; using built-in version instead.
- #endif
-+#endif
- 
-     return 0;
- }
--- 
-1.8.1.4
-
-
-From 1b3fcce36a1301406bf35507352de7205e49158a Mon Sep 17 00:00:00 2001
+From dc91fc7307b24bf746005c83984e2d3bf6099af8 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
-Date: Sat, 19 Oct 2013 19:37:30 +0200
-Subject: [PATCH 17/17] mingw-w64 compatibility
+Date: Wed, 30 Apr 2014 22:12:35 +0200
+Subject: [PATCH 15/17] fix for designer in shared build (MXE specific)
 
-taken from https://raw.github.com/ant32/pkgbuild/master/mingw-w64-qt4/qt-include-intrin-h-on-mingw-w64.patch
+Change-Id: I23afe70c17e88d63b649d851f89e187da9b79d96
 
-Change-Id: I0f49c7f9d280dfacc33870643d39909cf0917d79
-
-diff --git a/src/corelib/tools/qsimd.cpp b/src/corelib/tools/qsimd.cpp
-index 540b615..dc95ac9 100644
---- a/src/corelib/tools/qsimd.cpp
-+++ b/src/corelib/tools/qsimd.cpp
-@@ -47,7 +47,7 @@
- #include <windows.h>
- #endif
+diff --git a/tools/designer/src/plugins/activeqt/activeqt.pro b/tools/designer/src/plugins/activeqt/activeqt.pro
+index f58df8a..0c25ed4 100644
+--- a/tools/designer/src/plugins/activeqt/activeqt.pro
++++ b/tools/designer/src/plugins/activeqt/activeqt.pro
+@@ -10,6 +10,8 @@ build_all:!build_pass {
  
--#if defined(Q_OS_WIN64) && !defined(Q_CC_GNU)
-+#if defined(Q_OS_WIN64)
- #include <intrin.h>
- #endif
+ INCLUDEPATH += $$QT_SOURCE_TREE/src/activeqt/shared/ \
+                $$QT_BUILD_TREE/src/activeqt/container \
++               $$QT_BUILD_TREE/src/activeqt/container/.uic/release-shared \
++               $$QT_BUILD_TREE/src/activeqt/container/.uic/debug-shared \
+                ../../lib/uilib
  
+ # Input
 -- 
-1.8.1.4
+1.8.5.2 (Apple Git-48)
+
+
+From 5b44e1b9ac91a9f2647a7a870792cfb40a896ada Mon Sep 17 00:00:00 2001
+From: Mark Brand <mabrand@mabrand.nl>
+Date: Wed, 30 Apr 2014 23:17:58 +0200
+Subject: [PATCH 16/17] fix include of private header
+
+Change-Id: I0554933de2536231d7d416d8df5b96eaa459fc51
+Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@digia.com>
+(cherry picked from commit b7a67ca944ae5f16a03b2992e9f6989e5e831edc)
+
+diff --git a/src/gui/dialogs/qfiledialog.cpp b/src/gui/dialogs/qfiledialog.cpp
+index e933112..3868c21 100644
+--- a/src/gui/dialogs/qfiledialog.cpp
++++ b/src/gui/dialogs/qfiledialog.cpp
+@@ -58,7 +58,7 @@
+ #include <qdebug.h>
+ #include <qapplication.h>
+ #include <qstylepainter.h>
+-#include <itemviews/qfileiconprovider_p.h>
++#include <private/qfileiconprovider_p.h>
+ #if !defined(Q_WS_WINCE) && !defined(Q_OS_SYMBIAN)
+ #include "ui_qfiledialog.h"
+ #else
+-- 
+1.8.5.2 (Apple Git-48)
+
+
+From a337b16522f513d387c93901c4a2e7da6d6eea22 Mon Sep 17 00:00:00 2001
+From: Tony Theodore <tonyt@logyst.com>
+Date: Thu, 8 May 2014 00:24:25 +1000
+Subject: [PATCH 17/17] fix include path with current dir
+
+
+diff --git a/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro b/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro
+index 9e80870..98c7dad 100644
+--- a/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro
++++ b/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro
+@@ -9,3 +9,4 @@ HEADERS += widget.h
+ FORMS += widget.ui
+ RESOURCES += resources.qrc
+ CONFIG += console
++INCLUDEPATH += .
+-- 
+1.8.5.2 (Apple Git-48)
 
