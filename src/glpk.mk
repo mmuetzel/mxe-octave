@@ -3,16 +3,17 @@
 
 PKG             := glpk
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.52.1
-$(PKG)_CHECKSUM := 63fd6788f95adb52789767b19e38cfb58dda331e
+$(PKG)_VERSION  := 4.54
+$(PKG)_CHECKSUM := 69d9c5d83271d34de1a58d2de2f7ababab975492
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := glpk-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/glpk/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    echo 'Warning: Updates are temporarily disabled for package glpk.' >&2;
-    echo $(glpk_VERSION)
+    $(WGET) -q -O- 'http://ftp.gnu.org/gnu/glpk/?C=M;O=D' | \
+    $(SED) -n 's,.*<a href="glpk-\([0-9][^"]*\)\.tar.*,\1,p' | \
+    head -1
 endef
 
 define $(PKG)_BUILD
@@ -23,5 +24,6 @@ define $(PKG)_BUILD
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' && $(CONFIGURE_POST_HOOK)
-    $(MAKE) -C '$(1)/.build' -j '$(JOBS)' install DESTDIR='$(3)'
+    $(MAKE) -C '$(1)/.build' -j '$(JOBS)'
+    $(MAKE) -C '$(1)/.build' -j 1 install DESTDIR='$(3)'
 endef

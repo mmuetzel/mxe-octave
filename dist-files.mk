@@ -26,10 +26,11 @@ SRC_FILES_1 := \
   build-cmake.mk \
   build-flex.mk \
   build-gawk.mk \
+  build-gcc-1-mingw-float.patch \
+  build-gcc-2-intrinsics.patch \
   build-gcc.mk \
   build-gperf.mk \
   build-libtool.mk \
-  build-m4-1-fixes.patch \
   build-m4.mk \
   build-msvctools.mk \
   build-pkg-config-1-fixes.patch \
@@ -54,10 +55,14 @@ SRC_FILES_1 := \
   cunit.mk \
   curl-test.c \
   curl.mk \
+  damageproto.mk \
   dbus.mk \
   dcmtk-1-fixes.patch \
   dcmtk-2-ming64.patch \
   dcmtk.mk \
+  default-octave-1-docinstall.patch \
+  default-octave-1-fixes.patch \
+  default-octave.mk \
   devil-1-png.patch \
   devil.mk \
   eigen.mk \
@@ -71,6 +76,7 @@ SRC_FILES_1 := \
   fftw.mk \
   file-test.c \
   file.mk \
+  fixesproto.mk \
   flac.mk \
   fltk-1-darwin-cross-compile.patch \
   fltk-2-uuid-mod.patch \
@@ -103,8 +109,9 @@ SRC_FILES_1 := \
   gd-test.c \
   gd.mk \
   gdal.mk \
-  gdb-1-fix-shell.patch \
+  gdb-1-fix-termcap.patch \
   gdb.mk \
+  gdcm-1-nosecapi.patch \
   gdcm.mk \
   gdk-pixbuf-1-fixes.patch \
   gdk-pixbuf.mk \
@@ -128,6 +135,7 @@ SRC_FILES_1 := \
   gnu-linux-ghostscript-configure.patch \
   gnuplot-1-fixes.patch \
   gnuplot-2-win64.patch \
+  gnuplot-3-iconv.patch \
   gnuplot.mk \
   gnutls-1-fixes.patch \
   gnutls-test.c \
@@ -164,13 +172,16 @@ SRC_FILES_1 := \
   guile-test.c \
   guile.mk \
   harfbuzz.mk \
+  hdf5-1-fixes.patch \
   hdf5.mk \
   hunspell-test.cpp \
   hunspell.mk \
+  ice.mk \
   id3lib-1-win32.patch \
   id3lib.mk \
   ilmbase.mk \
   imagemagick.mk \
+  inputproto.mk \
   intltool.mk \
   isl-1-fixes.patch \
   isl.mk \
@@ -184,6 +195,7 @@ SRC_FILES_1 := \
   json-c-2-patch-remove-rpl.patch \
   json-c-test.c \
   json-c.mk \
+  kbproto.mk \
   lame-1-fix-xmmintrin-errors.patch  \
   lame-2-update-autotools.patch \
   lame.mk \
@@ -313,14 +325,13 @@ SRC_FILES_1 := \
   mingw-transfig-1-fixes.patch \
   mingw-units-1-fixes.patch \
   mingw-utils-1-portability-fix.patch \
-  mingw-w64-1-math-h.patch \
-  mingw-w64-2-float-h.patch \
+  mingw-w64-1-float-h.patch \
   mingw-w64.mk \
   mingwrt.mk \
-  mpc.mk \
-  mpfr.mk \
   mman-win32-1-include_name_change.patch \
   mman-win32.mk \
+  mpc.mk \
+  mpfr.mk \
   msitools.mk \
   msvc-atk-1.patch \
   msvc-build-cmake-1.patch \
@@ -424,6 +435,7 @@ SRC_FILES_1 := \
   ocaml-native.mk \
   octave-1-docinstall.patch \
   octave-1-fixes.patch \
+  octave-1-gnulib-isatty.patch \
   octave.mk \
   of-actuarial.mk \
   of-communications.mk \
@@ -439,6 +451,8 @@ SRC_FILES_1 := \
   of-image.mk \
   of-io.mk \
   of-linear-algebra.mk \
+  of-ltfat-1-mingw-fixes.patch \
+  of-ltfat.mk \
   of-miscellaneous.mk \
   of-netcdf.mk \
   of-odepkg.mk \
@@ -501,7 +515,9 @@ SRC_FILES_1 := \
   protobuf.mk \
   pstoedit-1-fixes.patch \
   pstoedit-2-gs.patch \
+  pstoedit-3-nosecapi.patch \
   pstoedit.mk \
+  pthread-stubs.mk \
   pthreads-1-fixes.patch \
   pthreads-test.c \
   pthreads.mk \
@@ -514,6 +530,7 @@ SRC_FILES_1 := \
   qjson.mk \
   qrupdate-1-fixes.patch \
   qrupdate.mk \
+  qscintilla-1-transpose-fix.patch \
   qscintilla-2-bang-fix.patch \
   qscintilla.mk \
   qt-1-cherrypicks.patch \
@@ -532,6 +549,7 @@ SRC_FILES_1 := \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
   readline.mk \
+  renderproto.mk \
   sdl-test.c \
   sdl.mk \
   sdl_image-test.c \
@@ -547,17 +565,41 @@ SRC_FILES_1 := \
   sdl_sound-test.c \
   sdl_sound.mk \
   sdl_ttf.mk \
+  sm.mk \
   smpeg-test.c \
   smpeg.mk \
   sox-test.c \
   sox.mk \
   speex.mk \
   sqlite.mk \
+  src-msys-bash.mk \
+  src-msys-coreutils.mk \
+  src-msys-diffutils.mk \
+  src-msys-dos2unix.mk \
+  src-msys-file.mk \
+  src-msys-findutils.mk \
+  src-msys-gawk.mk \
+  src-msys-grep.mk \
+  src-msys-gzip.mk \
+  src-msys-less.mk \
+  src-msys-libiconv.mk \
+  src-msys-libintl.mk \
+  src-msys-libmagic.mk \
+  src-msys-make.mk \
+  src-msys-msys-core.mk \
+  src-msys-patch.mk \
+  src-msys-regex.mk \
+  src-msys-sed.mk \
+  src-msys-tar.mk \
+  src-msys-termcap.mk \
+  src-msys-unzip.mk \
+  src-msys-wget.mk \
+  src-msys-zip.mk \
   stable-octave-1-docinstall.patch \
   stable-octave-1-fixes.patch \
-  stable-octave-1-xerror.patch \
-  stable-octave-2-xerror.patch \
-  stable-octave-3-termfocus.patch \
+  stable-octave-1-gnulib-isatty.patch \
+  stable-octave-2-winbelloff.patch \
+  stable-octave-3-fixes.patch \
   stable-octave.mk \
   suitesparse-1.patch \
   suitesparse.mk \
@@ -605,12 +647,23 @@ SRC_FILES_1 := \
   wt.mk \
   wxwidgets-test.cpp \
   wxwidgets.mk \
+  x11.mk \
   x264-1-fix-bin-bash.patch \
   x264.mk \
   xapian-core.mk \
+  xau.mk \
+  xcb-proto.mk \
+  xcb.mk \
+  xdamage.mk \
+  xdmcp.mk \
   xerces-1-fix-pkgconfig.patch \
   xerces-test.cpp \
   xerces.mk \
+  xext.mk \
+  xextproto.mk \
+  xf86vidmodeproto.mk \
+  xfixes.mk \
+  xft.mk \
   xine-lib-1-configure_ac.patch \
   xine-lib-2-build_fixes.patch \
   xine-lib-3-more_build_fixes.patch \
@@ -618,11 +671,15 @@ SRC_FILES_1 := \
   xine-lib-5-change_mma_h_to_mma_win32_h.patch \
   xine-lib.mk \
   xmlwrapp.mk \
+  xproto.mk \
+  xrender.mk \
+  xt.mk \
+  xtrans.mk \
   xvidcore.mk \
+  xxf86vm.mk \
   xz.mk \
   yasm.mk \
   zenity.mk \
-  zeromq-1.patch \
   zeromq.mk \
   zlib-1-win32-static.patch \
   zlib.mk \
@@ -760,6 +817,7 @@ FILES := \
 
 INSTALL_FILES_1 := \
   gpl-3.0.txt \
+  octave.bat \
   octave.bmp \
   octave-hdr.bmp \
   octave-logo.ico \

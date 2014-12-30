@@ -3,8 +3,8 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.9.0
-$(PKG)_CHECKSUM := fbde8eb49f2b9e6961a870887cf7337d31cd4917
+$(PKG)_VERSION  := 4.9.2
+$(PKG)_CHECKSUM := 79dbcb09f44232822460d80b033c962c0237c6d8
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -34,7 +34,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     --disable-win32-registry \
     --with-native-system-header-dir='/include' \
     --enable-threads=win32
-  ifneq ($(ENABLE_64),yes)
+  ifneq ($(TARGET),x86_64-w64-mingw32)
     $(PKG)_SYSDEP_CONFIGURE_OPTIONS += \
       --disable-sjlj-exceptions
   endif
@@ -80,10 +80,10 @@ define $(PKG)_CONFIGURE
         --prefix='$(BUILD_TOOLS_PREFIX)' \
         --enable-languages='c,c++,fortran' \
         --disable-multilib \
+        --disable-libsanitizer \
         $($(PKG)_SYSDEP_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-libgomp \
-        --disable-libmudflap \
         --with-cloog='$(BUILD_TOOLS_PREFIX)' \
         --with-gmp='$(BUILD_TOOLS_PREFIX)' \
         --with-isl='$(BUILD_TOOLS_PREFIX)' \

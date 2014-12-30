@@ -761,20 +761,19 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
     </p>
 
     <h3 id="requirements-mingw">MingW</h3>
-    Make sure to update and upgrade packages as some of the default versions
-    of packages are too old to work correctly.
-    <pre>mingw-get update</pre>
-    <pre>mingw-get upgrade</pre>
     <p>
-    And then get required packages.
-    <pre>mingw-get install autoconf bash msys-bison msys-flex gcc gcc-c++ \
-	      gcc-fortran gettext msys-m4 msys-make msys-sed \
-	      libiconv msys-openssl msys-patch msys-perl \
-              msys-libarchive msys-unzip msys-wget msys-bsdtar
+    Get required packages by running:
+    </p>
+    <pre>mingw-get install gcc gcc-c++ gcc-fortran mingw32-make \
+              msys-autoconf msys-bash msys-bison msys-bsdtar \
+              msys-flex msys-gettext mysys-libiconv \
+              msys-libarchive msys-libz msys-m4 msys-make \
+              msys-openssl msys-patch msys-perl msys-sed \
+              msys-unzip msys-wget 
     </pre>
     <p>
     You will also need to install Windows versions of python  
-    and ghostscript and ensure they are in visisble in the PATH.
+    and ensure it is visisble in the PATH.
     <p>
 
     <h3 id="requirements-opensuse">openSUSE</h3>
@@ -1091,12 +1090,20 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://curl.haxx.se/libcurl/">cURL</a></td>
     </tr>
     <tr>
+        <td class="package">damageproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">damageproto</a></td>
+    </tr>
+    <tr>
         <td class="package">dbus</td>
         <td class="website"><a href="http://dbus.freedesktop.org/">dbus</a></td>
     </tr>
     <tr>
         <td class="package">dcmtk</td>
         <td class="website"><a href="http://dicom.offis.de/dcmtk.php.en">DCMTK</a></td>
+    </tr>
+    <tr>
+        <td class="package">default-octave</td>
+        <td class="website"><a href="http://octave.org/">Octave</a></td>
     </tr>
     <tr>
         <td class="package">devil</td>
@@ -1129,6 +1136,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
     <tr>
         <td class="package">file</td>
         <td class="website"><a href="http://www.darwinsys.com/file/">file</a></td>
+    </tr>
+    <tr>
+        <td class="package">fixesproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">fixesproto</a></td>
     </tr>
     <tr>
         <td class="package">flac</td>
@@ -1339,6 +1350,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://hunspell.sourceforge.net/">Hunspell</a></td>
     </tr>
     <tr>
+        <td class="package">ice</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">ice</a></td>
+    </tr>
+    <tr>
         <td class="package">id3lib</td>
         <td class="website"><a href="http://id3lib.sourceforge.net/">id3lib</a></td>
     </tr>
@@ -1349,6 +1364,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
     <tr>
         <td class="package">imagemagick</td>
         <td class="website"><a href="http://www.imagemagick.org/">ImageMagick</a></td>
+    </tr>
+    <tr>
+        <td class="package">inputproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">inputproto></a></td>
     </tr>
     <tr>
         <td class="package">intltool</td>
@@ -1377,6 +1396,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
     <tr>
         <td class="package">json-c</td>
         <td class="website"><a href="http://oss.metaparadigm.com/json-c/">json-c</a></td>
+    </tr>
+    <tr>
+        <td class="package">kbproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org">kbproto></a></td>
     </tr>
     <tr>
         <td class="package">lame</td>
@@ -1855,6 +1878,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://octave.sf.net/">Octave Forge linear-algebra package</a></td>
     </tr>
     <tr>
+        <td class="package">of-ltfat</td>
+        <td class="website"><a href="http://octave.sf.net/">Octave Forge ltfat package</a></td>
+    </tr>
+    <tr>
         <td class="package">of-miscellaneous</td>
         <td class="website"><a href="http://octave.sf.net/">Octave Forge miscellaneous package</a></td>
     </tr>
@@ -2027,6 +2054,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://www.pstoedit.net"</a></td>
     </tr>
     <tr>
+        <td class="package">pthread-stubs</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">pthread-stubs</a></td>
+    </tr>
+    <tr>
         <td class="package">pthreads</td>
         <td class="website"><a href="http://sourceware.org/pthreads-win32/">Pthreads-w32</a></td>
     </tr>
@@ -2067,6 +2098,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://tiswww.case.edu/php/chet/readline/rltop.html">Readline</a></td>
     </tr>
     <tr>
+        <td class="package">renderproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">renderproto></a></td>
+    </tr>
+    <tr>
         <td class="package">sdl</td>
         <td class="website"><a href="http://www.libsdl.org/">SDL</a></td>
     </tr>
@@ -2093,6 +2128,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
     <tr>
         <td class="package">sdl_ttf</td>
         <td class="website"><a href="http://www.libsdl.org/projects/SDL_ttf/">SDL_ttf</a></td>
+    </tr>
+    <tr>
+        <td class="package">sm</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">sm</a></td>
     </tr>
     <tr>
         <td class="package">smpeg</td>
@@ -2207,6 +2246,10 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://www.wxwidgets.org/">wxWidgets</a></td>
     </tr>
     <tr>
+        <td class="package">x11</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">X11</a></td>
+    </tr>
+    <tr>
         <td class="package">x264</td>
         <td class="website"><a href="http://www.videolan.org/developers/x264.html">x264</a></td>
     </tr>
@@ -2215,8 +2258,48 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://xapian.org/">Xapian-Core</a></td>
     </tr>
     <tr>
+        <td class="package">xau</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xau</a></td>
+    </tr>
+    <tr>
+        <td class="package">xcb</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xcb</a></td>
+    </tr>
+    <tr>
+        <td class="package">xcb-proto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xcb-proto</a></td>
+    </tr>
+    <tr>
+        <td class="package">xdamage</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xdamage</a></td>
+    </tr>
+    <tr>
+        <td class="package">xdmcp</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xdmcp</a></td>
+    </tr>
+    <tr>
         <td class="package">xerces</td>
         <td class="website"><a href="http://xerces.apache.org/xerces-c/">Xerces-C++</a></td>
+    </tr>
+    <tr>
+        <td class="package">xext</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xext</a></td>
+    </tr>
+    <tr>
+        <td class="package">xextproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xextproto</a></td>
+    </tr>
+    <tr>
+        <td class="package">xfixes</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xfixes</a></td>
+    </tr>
+    <tr>
+        <td class="package">xf86vidmodeproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xf86vidmodeproto</a></td>
+    </tr>
+    <tr>
+        <td class="package">xft</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xft</a></td>
     </tr>
     <tr>
         <td class="package">xine-lib</td>
@@ -2227,8 +2310,28 @@ USE_OSGPLUGIN(&lt;plugin2&gt;)
         <td class="website"><a href="http://sourceforge.net/projects/xmlwrapp/">xmlwrapp</a></td>
     </tr>
     <tr>
+        <td class="package">xproto</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xproto></a></td>
+    </tr>
+    <tr>
+        <td class="package">xrender</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xrender</a></td>
+    </tr>
+    <tr>
+        <td class="package">xt</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xt</a></td>
+    </tr>
+    <tr>
+        <td class="package">xtrans</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xtrans</a></td>
+    </tr>
+    <tr>
         <td class="package">xvidcore</td>
         <td class="website"><a href="http://www.xvid.org/">xvidcore</a></td>
+    </tr>
+    <tr>
+        <td class="package">xxf86vm</td>
+        <td class="website"><a href="http://xorg.freedesktop.org/">xxf86vm</a></td>
     </tr>
     <tr>
         <td class="package">xz</td>

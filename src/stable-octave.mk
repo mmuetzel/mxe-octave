@@ -3,15 +3,21 @@
 
 PKG             := stable-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.8.1
-$(PKG)_CHECKSUM := 2951aeafe58d562672feb80dd8c3cfe0643a5087
+$(PKG)_VERSION  := 3.8.2
+$(PKG)_CHECKSUM := 02c38e0f69bce4e6dd7be7d301898347085d9c2d
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/octave/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
-$(PKG)_DEPS     := blas arpack curl fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack pcre pstoedit qhull qrupdate qscintilla qt readline suitesparse texinfo zlib
+$(PKG)_DEPS     := blas arpack curl fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack pcre pstoedit qrupdate qscintilla qt readline suitesparse texinfo zlib
+ifeq ($(MXE_WINDOWS_BUILD),no)
+  $(PKG)_DEPS += x11 xext
+endif
+ifeq ($(ENABLE_64),no)
+  $(PKG)_DEPS += qhull
+endif
 ifeq ($(ENABLE_JIT),yes)
   $(PKG)_DEPS += llvm
   $(PKG)_ENABLE_JIT_CONFIGURE_OPTIONS := --enable-jit
@@ -37,7 +43,7 @@ endif
 ifeq ($(MXE_NATIVE_BUILD),yes)
   $(PKG)_CONFIGURE_ENV := LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)
   ifeq ($(ENABLE_64),yes)
-    $(PKG)_ENABLE_64_CONFIGURE_OPTIONS := --enable-64 F77_INTEGER_8_FLAG=-fdefault-integer-8
+    $(PKG)_ENABLE_64_CONFIGURE_OPTIONS := --enable-64 --without-qhull F77_INTEGER_8_FLAG=-fdefault-integer-8
   endif
 else
   ifeq ($(MXE_SYSTEM),mingw)
@@ -45,7 +51,7 @@ else
       FLTK_CONFIG='$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)fltk-config' \
       gl_cv_func_gettimeofday_clobber=no
     ifeq ($(ENABLE_64),yes)
-      $(PKG)_ENABLE_64_CONFIGURE_OPTIONS := --enable-64 F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes
+      $(PKG)_ENABLE_64_CONFIGURE_OPTIONS := --enable-64 --without-qhull F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes
     endif
   endif
 endif

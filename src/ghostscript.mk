@@ -8,7 +8,14 @@ $(PKG)_CHECKSUM := 550a85e73b7213d8ae41ea06523661638b4bc1a2
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://downloads.ghostscript.com/public/$($(PKG)_FILE)
-$(PKG)_DEPS     := jpeg libpng tiff zlib
+$(PKG)_DEPS     := jpeg lcms libpng tiff zlib
+ifeq ($(MXE_WINDOWS_BUILD),no)
+  $(PKG)_DEPS += x11 xext
+endif
+
+ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
+    $(PKG)_DEPS += lcms
+endif
 
 define $(PKG)_UPDATE
     echo 'Warning: Updates are temporarily disabled for package ghostscript.' >&2;
@@ -19,6 +26,10 @@ endef
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
   define $(PKG)_BUILD
+    # in native mingw, force it to use external lcm2
+    if [ "$(MXE_SYSTEM)" == "mingw" ]; then \
+        rm -rf '$(1)/lcms2'; \
+    fi
     cd '$(1)' && autoreconf
     cd '$(1)' && '$(1)/configure' \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
@@ -27,7 +38,11 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
         --with-system-libtiff \
         && $(CONFIGURE_POST_HOOK)
 
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
+    if [ "$(MXE_SYSTEM)" == "mingw" ]; then \
+        $(MAKE) -C '$(1)' -j '$(JOBS)' GS_LIB_DEFAULT=""; \
+    else \
+        $(MAKE) -C '$(1)' -j '$(JOBS)'; \
+    fi
     $(MAKE) -C '$(1)' install
   endef
 else

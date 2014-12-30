@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.62])
-AC_INIT([MXE-Octave], [0.0.29], [http://octave.org/bugs.html], [mxe-octave])
+AC_INIT([MXE-Octave], [0.0.34], [http://octave.org/bugs.html], [mxe-octave])
 
 AC_CONFIG_SRCDIR([src/octave.mk])
 AC_CONFIG_AUX_DIR([tools])
@@ -53,14 +53,25 @@ case $with_shell in
 esac
 AC_SUBST(SHELL)
 
-### If possible, use a 64-bit integer type for array dimensions and indexing.
+ENABLE_WINDOWS_64=no
+AC_ARG_ENABLE(windows-64,
+  [AS_HELP_STRING([--enable-windows-64],
+    [build a Windows 64 cross compiler; resulting build will work only on 64-bit Windows systems])],
+  [if test "$enableval" = yes; then ENABLE_WINDOWS_64=yes; fi], [])
 
 ENABLE_64=no
 AC_ARG_ENABLE(64,
   [AS_HELP_STRING([--enable-64],
     [(EXPERIMENTAL) use 64-bit integers for array dimensions and indexing])],
   [if test "$enableval" = yes; then ENABLE_64=yes; fi], [])
+
+if test "$ENABLE_64" = yes && test "$ENABLE_WINDOWS_64" = no; then
+  AC_MSG_WARN([--enable-64 implies --enable-windows-64])
+  ENABLE_WINDOWS_64=yes
+fi
+
 AC_SUBST(ENABLE_64)
+AC_SUBST(ENABLE_WINDOWS_64)
 
 BUILD_SHARED=yes
 AC_ARG_ENABLE(shared,
@@ -132,19 +143,36 @@ AC_ARG_ENABLE([strip-dist-files],
   [if test "$enableval" = no; then STRIP_DIST_FILES=no; fi], [])
 AC_SUBST(STRIP_DIST_FILES)
 
-ENABLE_OPENBLAS=no
+ENABLE_OPENBLAS=yes
 AC_ARG_ENABLE([openblas],
-  [AS_HELP_STRING([--enable-openblas],
-    [(EXPERIMENTAL) enable use of openblas in Octave])],
-  [if test "$enableval" = yes; then ENABLE_OPENBLAS=yes; fi], [])
+  [AS_HELP_STRING([--disable-openblas],
+    [Disable use of openblas in Octave])],
+  [if test "$enableval" = no; then ENABLE_OPENBLAS=no; fi], [])
 AC_SUBST(ENABLE_OPENBLAS)
 
-ENABLE_STABLE=yes
-AC_ARG_ENABLE(stable,
-  [AS_HELP_STRING([--enable-stable],
-    [Enable stable build of octave instead of devel octave])],
-  [if test "$enableval" = no; then ENABLE_STABLE=no; fi], [])
-AC_SUBST(ENABLE_STABLE)
+ENABLE_OCTAVE=stable
+AC_ARG_ENABLE([octave],
+  [AS_HELP_STRING([--enable-octave=stable],
+    [Enable a specific build of octave (stable, alpha, default)])],
+  [], [enableval=$ENABLE_OCTAVE])
+
+case $enableval in
+ stable)
+   ENABLE_OCTAVE="stable-"
+   ;;
+ alpha)
+   ENABLE_OCTAVE=""
+   ;;
+ default)
+   ENABLE_OCTAVE="default-"
+   ;;
+ *)
+   ENABLE_OCTAVE="stable-"
+   AC_MSG_WARN([Unknown octave type $enableval - using enable-octave=stable])
+   ;;
+esac
+   
+AC_SUBST(ENABLE_OCTAVE)
 
 ### Default is to cross compile for mingw.
 

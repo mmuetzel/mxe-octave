@@ -41,7 +41,7 @@ echo "; octave setup script $OCTAVE_SOURCE" > $OUTFILE
 !define DESCRIPTION "GNU Octave is a high-level programming language, primarily intended for numerical computations."
 !define INSTALLER_FILES "../installer-files"
 !define INSTALLER_NAME "octave-$OCTAVE_VERSION-installer.exe"
-!define MAIN_APP_EXE "octave-gui.exe"
+!define MAIN_APP_EXE "octave.bat"
 !define INSTALL_TYPE "SetShellVarContext current"
 !define PRODUCT_ROOT_KEY "HKLM"
 !define PRODUCT_KEY "Software\\Octave-$VERSION"
@@ -104,12 +104,13 @@ Icon "\${INSTALLER_FILES}/octave-logo.ico"
 
 Page custom octaveOptionsPage octaveOptionsLeave
 
-!define MUI_PAGE_CUSTOMFUNCTION_LEAVE CheckPrevInstall
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE CheckPrevInstallAndDest
 !insertmacro MUI_PAGE_DIRECTORY
 
 !insertmacro MUI_PAGE_INSTFILES
 
-!define MUI_FINISHPAGE_RUN "\$INSTDIR\\bin\\\${MAIN_APP_EXE}"
+!define MUI_FINISHPAGE_RUN "\$WINDIR\\explorer.exe"
+!define MUI_FINISHPAGE_RUN_PARAMETERS "\$INSTDIR\\\${MAIN_APP_EXE}"
 !define MUI_FINISHPAGE_SHOWREADME "\$INSTDIR\\README.html"
 !insertmacro MUI_PAGE_FINISH
 
@@ -215,6 +216,10 @@ Section "MainFiles"
   SetOutPath "\$INSTDIR" 
   File "$OCTAVE_SOURCE/README.html"
 
+  ; include the octave.bat file
+  SetOutPath "\$INSTDIR" 
+  File "$OCTAVE_SOURCE/octave.bat"
+
   ; distro files
 EOF
 
@@ -257,13 +262,8 @@ Section "Shortcuts"
  CreateDirectory "\$SMPROGRAMS\\Octave-$VERSION"
  CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Uninstall.lnk" "\$INSTDIR\\uninstall.exe" "" "\$INSTDIR\\uninstall.exe" 0
  SetOutPath "%USERPROFILE%"
- \${If} \$IsWin8 == 1
-   CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Octave (Command Line).lnk" "\$INSTDIR\\bin\\octave-cli.exe" "-i --line-editing" "\$INSTDIR\\$ICON" 0
-   CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Octave (Experimental GUI).lnk" "\$INSTDIR\\bin\\octave-gui.exe" "-i --line-editing" "\$INSTDIR\\$ICON" 0
- \${Else}
-   CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Octave (Command Line).lnk" "\$INSTDIR\\bin\\octave-cli.exe" "" "\$INSTDIR\\$ICON" 0
-   CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Octave (Experimental GUI).lnk" "\$INSTDIR\\bin\\octave-gui.exe" "" "\$INSTDIR\\$ICON" 0
- \${EndIf}
+ CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Octave (Command Line).lnk" "\$INSTDIR\\octave.bat" "--no-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$SMPROGRAMS\\Octave-$VERSION\\Octave (Experimental GUI).lnk" "\$INSTDIR\\octave.bat" "--force-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
  SetOutPath "\$INSTDIR"
 EOF
   # if we have documentation files, create shortcuts
@@ -281,13 +281,8 @@ EOF
 
   \${If} \$InstallShortcuts == \${BST_CHECKED}
     SetOutPath "%USERPROFILE%"
-    \${If} \$IsWin8 == 1
-       CreateShortCut "\$desktop\\Octave-$VERSION (Command Line).lnk" "\$INSTDIR\\bin\\octave-cli.exe" "-i --line-editing" "\$INSTDIR\\$ICON" 0
-       CreateShortCut "\$desktop\\Octave-$VERSION (Experimental GUI).lnk" "\$INSTDIR\\bin\\octave-gui.exe" "-i --line-editing" "\$INSTDIR\\$ICON" 0
-    \${Else}
-       CreateShortCut "\$desktop\\Octave-$VERSION (Command Line).lnk" "\$INSTDIR\\bin\\octave-cli.exe" "" "\$INSTDIR\\$ICON" 0
-       CreateShortCut "\$desktop\\Octave-$VERSION (Experimental GUI).lnk" "\$INSTDIR\\bin\\octave-gui.exe" "" "\$INSTDIR\\$ICON" 0
-    \${EndIf}
+    CreateShortCut "\$desktop\\Octave-$VERSION (Command Line).lnk" "\$INSTDIR\\octave.bat" "--no-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
+    CreateShortCut "\$desktop\\Octave-$VERSION (Experimental GUI).lnk" "\$INSTDIR\\octave.bat" "--force-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
   \${Endif}
 
   ; BLAS set up
@@ -306,7 +301,7 @@ Section "FileTypeRego"
   WriteRegStr HKCR "Octave.Document.$VERSION" "" "GNU Octave Script"
   WriteRegStr HKCR "Octave.Document.$VERSION\\DefaultIcon" "" "\$INSTDIR\\$ICON"
   ; document actions
-  WriteRegStr HKCR "Octave.Document.$VERSION\\shell\\open\\command" "" "\$\\"\$INSTDIR\\bin\\octave-gui.exe\$\\" --force-gui --persist --eval \$\\"edit '%1'\$\\""
+  WriteRegStr HKCR "Octave.Document.$VERSION\\shell\\open\\command" "" "\$\\"\$INSTDIR\\octave.bat\$\\" --force-gui --persist --eval \$\\"edit '%1'\$\\""
 
   \${If} \$RegisterOctaveFileType == \${BST_CHECKED}
     ReadRegStr \$0 HKCR ".m" ""
@@ -433,13 +428,36 @@ curr_check_ok:
   Pop \$0
 FunctionEnd
 
-; Check whether prev install is here
-Function CheckPrevInstall 
+; Check whether prev install is here and no spaces in dest name
+Function CheckPrevInstallAndDest
   IfFileExists "\$INSTDIR\\bin\\octave.exe" inst_exists  inst_none
 inst_exists:
   MessageBox MB_YESNO|MB_ICONEXCLAMATION "Another Octave installation has been detected at that destination. It is recommended to uninstall it if you intend to use the same installation directory. Do you want to proceed with the installation anyway?" IDYES inst_none IDNO 0
   Abort 
+  GoTo inst_end
 inst_none:
+
+
+  ; check for spaces in dest filename
+  Push \$R0
+  Push \$R1
+
+  StrCpy \$R1 0 # r1 = counter
+space_loop:
+  StrCpy \$R0 \$INSTDIR 1 \$R1  # R0 = character in string to check
+  StrCmp \$R0 "" space_end # end of string
+  StrCmp \$R0 " " space_found
+  IntOp  \$R1 \$R1 + 1
+  GoTo space_loop
+space_found:
+  MessageBox MB_OK|MB_ICONEXCLAMATION "Octave should not be installed to a destination folder containing spaces. Please select another destination."
+  Abort 
+space_end:
+  Pop \$R1
+  Pop \$R0
+
+inst_end:
+
 FunctionEnd
 
 ; Function to check Java Runtime Environment

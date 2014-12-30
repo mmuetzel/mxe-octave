@@ -9,6 +9,9 @@ $(PKG)_SUBDIR   := $(PKG)-everywhere-opensource-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-everywhere-opensource-src-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.qt-project.org/archives/qt/4.8/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := postgresql freetds openssl zlib libpng jpeg libmng tiff sqlite dbus fontconfig
+ifeq ($(MXE_WINDOWS_BUILD),no)
+  $(PKG)_DEPS += x11 xext xfixes xdmcp xrender xfixes xdamage xt xxf86vm
+endif
 
 $(PKG)_CONFIGURE_CMD :=
 $(PKG)_CONFIGURE_CROSS_COMPILE_OPTION :=
@@ -95,6 +98,7 @@ else
       -make libs \
       -no-glib \
       -no-gstreamer \
+      -no-javascript-jit \
       -no-reduce-exports \
       -no-rpath \
       -make translations \
@@ -108,6 +112,7 @@ else
       -device-option CROSS_COMPILE=$(MXE_TOOL_PREFIX)
     $(PKG)_CONFIGURE_PLATFORM_OPTION := -xplatform win32-g++-4.6
   endif
+
 endif
 
 define $(PKG)_UPDATE
@@ -141,7 +146,6 @@ define $(PKG)_BUILD
         -no-webkit \
         -no-phonon \
         -no-phonon-backend \
-        -no-javascript-jit \
         -accessibility \
         -nomake demos \
         -nomake docs \
@@ -200,16 +204,16 @@ define $(PKG)_BUILD
     $(if $(filter-out msvc, $(MXE_SYSTEM)),
       $(if $(filter-out yes, $(MXE_NATIVE_BUILD)),
         $(INSTALL) -d '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin'
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/moc' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)moc'
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/rcc' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)rcc'
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/uic' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)uic'
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/qmake' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake'
+        mv '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/moc' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)moc'
+        mv '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/rcc' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)rcc'
+        mv '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/uic' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)uic'
+        mv '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/qmake' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake'
       )
 
       # lrelease (from linguist) needed by octave for GUI build
       $(MAKE) -C '$(1)/tools/linguist/lrelease' -j '$(JOBS)' 
       $(MAKE) -C '$(1)/tools/linguist/lrelease' -j 1 install INSTALL_ROOT='$($(PKG)_INSTALL_ROOT)'
       $(if $(filter-out yes, $(MXE_NATIVE_BUILD)),
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/lrelease' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)lrelease'))
+        mv '$($(PKG)_INSTALL_ROOT)$($(PKG)_PREFIX)/bin/lrelease' '$($(PKG)_INSTALL_ROOT)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)lrelease'))
 
 endef

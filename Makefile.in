@@ -1,13 +1,7 @@
 # This file is part of MXE.
 # See index.html for further information.
 
-STABLE_BUILD := @ENABLE_STABLE@
-
-ifeq ($(STABLE_BUILD),yes)
-  OCTAVE_TARGET := stable-octave
-else
-  OCTAVE_TARGET := octave
-endif
+OCTAVE_TARGET := @ENABLE_OCTAVE@octave
 
 PWD := $(shell pwd)
 TOP_DIR := $(PWD)
@@ -41,8 +35,16 @@ USE_SYSTEM_GCC := @USE_SYSTEM_GCC@
 # on your system (default is yes if doing native build). 
 USE_SYSTEM_FONTCONFIG := @USE_SYSTEM_FONTCONFIG@
 
+# Build compiler for 64-bit Windows.  Using this option will build
+# binaries that require a 64-bit Windows system.
+ENABLE_WINDOWS_64 := @ENABLE_WINDOWS_64@
+
 # Attempt to build Octave and dependencies with 64-bit indexing
 # enabled (experimental; requires 64-bit system and compiler).
+# Note that 64-bit indexing is NOT required simply because you have
+# 64-bit operating system.  Building Octave with 64-bit indexing is
+# still experimental, so enabling this option is discouraged unless
+# you know what you are doing.
 ENABLE_64 := @ENABLE_64@
 
 # Should match what config.guess prints for your system.
@@ -50,7 +52,7 @@ ENABLE_64 := @ENABLE_64@
 ifeq ($(MXE_NATIVE_BUILD),yes)
   TARGET := $(shell tools/config.guess)
 else
-  ifeq ($(ENABLE_64),yes)
+  ifeq ($(ENABLE_WINDOWS_64),yes)
     TARGET := x86_64-w64-mingw32
   else
     TARGET := i686-w64-mingw32
@@ -152,6 +154,7 @@ SHELL := @SHELL@
 INSTALL    := $(shell ginstall --help >/dev/null 2>&1 && echo g)install
 PATCH      := $(shell gpatch --help >/dev/null 2>&1 && echo g)patch
 SED        := $(shell gsed --help >/dev/null 2>&1 && echo g)sed
+SORT       := $(shell gsort --help >/dev/null 2>&1 && echo g)sort
 WGET       := wget --no-check-certificate \
                    --user-agent=$(shell wget --version | \
                    $(SED) -n 's,GNU \(Wget\) \([0-9.]*\).*,\1/\2,p')
@@ -209,6 +212,11 @@ ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
   BUILD_TOOLS := $(filter-out build-python, $(BUILD_TOOLS))
 endif
 
+# use the a native awk in native mingw
+ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
+  REQUIREMENTS += awk
+  BUILD_TOOLS := $(filter-out build-gawk, $(BUILD_TOOLS))
+endif
 
 ifeq ($(USE_SYSTEM_GCC),yes)
   BUILD_TOOLS := $(filter-out $(BUILD_COMPILER_TOOLS), $(BUILD_TOOLS))
@@ -292,6 +300,9 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
     MXE_PKG_CONFIG := pkg-config
     MXE_QMAKE := qmake
   endif
+
+  MXE_MOC := moc
+  MXE_UIC := uic
 else
   MXE_TOOL_PREFIX := $(TARGET)-
   MXE_AR := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)ar'
@@ -310,6 +321,8 @@ else
   endif
   MXE_PKG_CONFIG := '$(BUILD_TOOLS_PREFIX)/bin/pkg-config'
   MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake'
+  MXE_MOC := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)moc'
+  MXE_UIC := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)uic'
 endif
 
 ifeq ($(MXE_SYSTEM),mingw)
@@ -332,6 +345,8 @@ ifeq ($(MXE_SYSTEM),mingw)
     MSYS_BASE_DIR := $(TOP_DIR)/msys-base
     MSYS_EXTENSION_DIR := $(TOP_DIR)/msys-extension
     MSYS_BASE_PACKAGES := $(addprefix msys-,bash coreutils diffutils dos2unix file findutils gawk grep gzip less libiconv libintl libmagic make msys-core patch regex sed tar termcap unzip zip wget)
+    MSYS_BASE_SOURCES := $(addprefix src-,$(MSYS_BASE_PACKAGES))
+    PKGS += $(MSYS_BASE_SOURCES)
 
     NOTEPAD_BASE_DIR := $(TOP_DIR)/notepad++
   endif
@@ -380,7 +395,9 @@ ifeq ($(MXE_SYSTEM),msvc)
 endif
 
 OCTAVE_FORGE_BASE_URL := 'http://sourceforge.net/projects/octave/files/Octave Forge Packages/Individual Package Releases'
-OCTAVE_FORGE_PACKAGES := $(addprefix of-,miscellaneous struct optim specfun general signal communications image io statistics control geometry windows odepkg linear-algebra sockets zenity actuarial data-smoothing fuzzy-logic-toolkit quaternion fits fl-core tsa dicom netcdf)
+OCTAVE_FORGE_PACKAGES := $(addprefix of-,miscellaneous struct optim specfun general signal communications image io statistics control geometry windows odepkg linear-algebra sockets zenity actuarial data-smoothing fuzzy-logic-toolkit quaternion fits fl-core tsa dicom netcdf ltfat)
+# get ALL deps for all of- packages, regardless of whethe building the actual forge package in the installer
+OCTAVE_FORGE_DEPS:= $(sort $(foreach p,$(wildcard $(TOP_DIR)/src/of-*.mk),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
 
 BLAS_PACKAGES := blas
 ifeq ($(ENABLE_OPENBLAS),yes)
@@ -457,8 +474,11 @@ $(PKGS): $(BUILD_TOOLS) cmake-toolchain-file.stamp
 .PHONY: msys-base
 msys-base:  $(MSYS_BASE_PACKAGES)
 
+.PHONY: msys-base-sources
+msys-base-sources:  $(MSYS_BASE_SOURCES)
+
 .PHONY: octave-forge-packages
-octave-forge-packages: $(OCTAVE_FORGE_PACKAGES)
+octave-forge-packages: $(OCTAVE_FORGE_DEPS) $(OCTAVE_FORGE_PACKAGES)
 
 .PHONY: blas-packages
 blas-packages: $(BLAS_PACKAGES)
