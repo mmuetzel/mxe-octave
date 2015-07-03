@@ -1,10 +1,7 @@
 This file is part of MXE.
 See index.html for further information.
 
-Commits backported (cherry-picked) from upstream branch or merge requests.
-http://qt.gitorious.org/qt
-Also contains MXE specific fixes.
-From 0739b3c86b95eae282113c15800e1840eb3027f1 Mon Sep 17 00:00:00 2001
+From 71fbc365fe7bbdaaac533599970e5da6058c0d01 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:17:48 +0100
 Subject: [PATCH 01/17] remove trailing whitespace
@@ -28,10 +25,10 @@ index 9090773..859ec8d 100644
                          ../plugins/codecs/tw/qbig5codec.h \
                          ../plugins/codecs/jp/qfontjpcodec.h
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 32c83f9219a8300d8949622dbb946ca60bc50359 Mon Sep 17 00:00:00 2001
+From 8ec190bf3f9973060e24e6d91e7730878f55bd27 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 30 Jun 2011 10:22:33 +0200
 Subject: [PATCH 02/17] do not detect or configure iconv for Windows
@@ -49,10 +46,10 @@ Reviewed-by: Friedemann Kleint <Friedemann.Kleint@nokia.com>
 (cherry picked from commit 9fa2b641ba6ff4f4b3f474b87ddb642cfa5c3d83)
 
 diff --git a/configure b/configure
-index a9ba7c8..2e495a4 100755
+index 10ad7ca..25f16a5 100755
 --- a/configure
 +++ b/configure
-@@ -5810,7 +5810,7 @@ fi
+@@ -5815,7 +5815,7 @@ fi
  
  # auto-detect iconv(3) support
  if [ "$CFG_ICONV" != "no" ]; then
@@ -62,10 +59,10 @@ index a9ba7c8..2e495a4 100755
      elif compileTest "unix/iconv" "POSIX iconv"; then
          CFG_ICONV=yes
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 595e8d4d50d792cfc644c665763ec425ec746e56 Mon Sep 17 00:00:00 2001
+From 1c62eae8be7321710c2bf47185da2ee3ec4c3613 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 11:43:10 +0100
 Subject: [PATCH 03/17] fix whitespace
@@ -136,10 +133,10 @@ index 859ec8d..70cd890 100644
                          ../plugins/codecs/tw/qbig5codec.cpp \
                          ../plugins/codecs/jp/qfontjpcodec.cpp
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From d91e9ac5812dd55be30ac2649e091e7a275e4653 Mon Sep 17 00:00:00 2001
+From 1f3cca35dff62451a1e06cf6db3894e77afcaadd Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 4 Jul 2011 00:42:24 +0200
 Subject: [PATCH 04/17] build and load text codecs regardless of iconv and
@@ -223,7 +220,7 @@ index 70cd890..c847264 100644
  }
  symbian:LIBS += -lcharconv
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 58ffb00..1ee586e 100644
+index dacf5e4..c837c26 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -66,15 +66,14 @@
@@ -278,10 +275,10 @@ index 58ffb00..1ee586e 100644
  #endif // QT_NO_CODECS
  
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 1fc30f6f3fe9351907016c2dec74b0114be64619 Mon Sep 17 00:00:00 2001
+From e7cdbb9b7f3d98cab328e1e815041f0f486ef70d Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Fri, 13 Jan 2012 00:24:13 +0100
 Subject: [PATCH 05/17] move plugin text codecs to QtCore
@@ -362,14 +359,14 @@ index c847264..a1271b9 100644
  	SOURCES += codecs/qfontlaocodec.cpp
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
 new file mode 100644
-index 0000000..7e1af4e
+index 0000000..fba4e60
 --- /dev/null
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -0,0 +1,637 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -378,20 +375,21 @@ index 0000000..7e1af4e
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -401,7 +399,6 @@ index 0000000..7e1af4e
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -1005,14 +1002,14 @@ index 0000000..7e1af4e
 +#endif // CP494CODETBL_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
 new file mode 100644
-index 0000000..2d37f56
+index 0000000..e5919e9
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -0,0 +1,12788 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -1021,20 +1018,21 @@ index 0000000..2d37f56
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -1044,7 +1042,6 @@ index 0000000..2d37f56
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -13799,14 +13796,14 @@ index 0000000..2d37f56
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
 new file mode 100644
-index 0000000..334764c
+index 0000000..ee95d25
 --- /dev/null
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -0,0 +1,124 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -13815,20 +13812,21 @@ index 0000000..334764c
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -13838,7 +13836,6 @@ index 0000000..334764c
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -13929,14 +13926,14 @@ index 0000000..334764c
 +#endif // QBIG5CODEC_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
 new file mode 100644
-index 0000000..6e1be4a
+index 0000000..7fa4dc3
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -0,0 +1,261 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -13945,20 +13942,21 @@ index 0000000..6e1be4a
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -13968,7 +13966,6 @@ index 0000000..6e1be4a
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -14196,14 +14193,14 @@ index 0000000..6e1be4a
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
 new file mode 100644
-index 0000000..bc3cbc7
+index 0000000..759ebb3
 --- /dev/null
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -14212,20 +14209,21 @@ index 0000000..bc3cbc7
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -14235,7 +14233,6 @@ index 0000000..bc3cbc7
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -14308,14 +14305,14 @@ index 0000000..bc3cbc7
 +#endif // QEUCJPCODEC_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
 new file mode 100644
-index 0000000..cb51181
+index 0000000..4e16179
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -0,0 +1,3571 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -14324,20 +14321,21 @@ index 0000000..cb51181
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -14347,7 +14345,6 @@ index 0000000..cb51181
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -17885,14 +17882,14 @@ index 0000000..cb51181
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
 new file mode 100644
-index 0000000..c7a9b15
+index 0000000..622e1a6
 --- /dev/null
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -0,0 +1,129 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -17901,20 +17898,21 @@ index 0000000..c7a9b15
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -17924,7 +17922,6 @@ index 0000000..c7a9b15
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -18020,14 +18017,14 @@ index 0000000..c7a9b15
 +#endif // QEUCKRCODEC_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
 new file mode 100644
-index 0000000..d5139aa
+index 0000000..f472fdd
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -0,0 +1,145 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18036,20 +18033,21 @@ index 0000000..d5139aa
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -18059,7 +18057,6 @@ index 0000000..d5139aa
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -18171,14 +18168,14 @@ index 0000000..d5139aa
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
 new file mode 100644
-index 0000000..e905cd1
+index 0000000..67c4810
 --- /dev/null
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -0,0 +1,93 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18187,20 +18184,21 @@ index 0000000..e905cd1
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -18210,7 +18208,6 @@ index 0000000..e905cd1
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -18270,14 +18267,14 @@ index 0000000..e905cd1
 +#endif // QFONTJPCODEC_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
 new file mode 100644
-index 0000000..06345ff
+index 0000000..b7dec3b
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -0,0 +1,9265 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -18286,20 +18283,21 @@ index 0000000..06345ff
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -18309,7 +18307,6 @@ index 0000000..06345ff
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -27541,14 +27538,14 @@ index 0000000..06345ff
 +#endif // QT_NO_TEXTCODEC
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
 new file mode 100644
-index 0000000..e3dd386
+index 0000000..91aa151
 --- /dev/null
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -0,0 +1,159 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -27557,20 +27554,21 @@ index 0000000..e3dd386
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -27580,7 +27578,6 @@ index 0000000..e3dd386
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -27706,14 +27703,14 @@ index 0000000..e3dd386
 +#endif // QGB18030CODEC_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
 new file mode 100644
-index 0000000..2c9be691
+index 0000000..c637832
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -0,0 +1,367 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -27722,20 +27719,21 @@ index 0000000..2c9be691
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -27745,7 +27743,6 @@ index 0000000..2c9be691
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -28079,14 +28076,14 @@ index 0000000..2c9be691
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
 new file mode 100644
-index 0000000..f6ba975
+index 0000000..3cc48dc
 --- /dev/null
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -28095,20 +28092,21 @@ index 0000000..f6ba975
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -28118,7 +28116,6 @@ index 0000000..f6ba975
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -28191,14 +28188,14 @@ index 0000000..f6ba975
 +#endif // QJISCODEC_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
 new file mode 100644
-index 0000000..66f2e34
+index 0000000..6e8b2f5
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -0,0 +1,10700 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -28207,20 +28204,21 @@ index 0000000..66f2e34
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -28230,7 +28228,6 @@ index 0000000..66f2e34
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -38897,14 +38894,14 @@ index 0000000..66f2e34
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
 new file mode 100644
-index 0000000..83bb8e1
+index 0000000..07b9b23
 --- /dev/null
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -0,0 +1,174 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -38913,20 +38910,21 @@ index 0000000..83bb8e1
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -38936,7 +38934,6 @@ index 0000000..83bb8e1
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -39077,14 +39074,14 @@ index 0000000..83bb8e1
 +#endif // QJPUNICODE_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
 new file mode 100644
-index 0000000..977f38f
+index 0000000..a9bc11a
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -0,0 +1,229 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -39093,20 +39090,21 @@ index 0000000..977f38f
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -39116,7 +39114,6 @@ index 0000000..977f38f
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -39312,14 +39309,14 @@ index 0000000..977f38f
 +QT_END_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
 new file mode 100644
-index 0000000..a4c0981
+index 0000000..49a77f7
 --- /dev/null
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -0,0 +1,106 @@
 +/****************************************************************************
 +**
-+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-+** Contact: http://www.qt-project.org/legal
++** Copyright (C) 2015 The Qt Company Ltd.
++** Contact: http://www.qt.io/licensing/
 +**
 +** This file is part of the plugins of the Qt Toolkit.
 +**
@@ -39328,20 +39325,21 @@ index 0000000..a4c0981
 +** Licensees holding valid commercial Qt licenses may use this file in
 +** accordance with the commercial license agreement provided with the
 +** Software or, alternatively, in accordance with the terms contained in
-+** a written agreement between you and Digia.  For licensing terms and
-+** conditions see http://qt.digia.com/licensing.  For further information
-+** use the contact form at http://qt.digia.com/contact-us.
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see http://www.qt.io/terms-conditions. For further
++** information use the contact form at http://www.qt.io/contact-us.
 +**
 +** GNU Lesser General Public License Usage
 +** Alternatively, this file may be used under the terms of the GNU Lesser
-+** General Public License version 2.1 as published by the Free Software
-+** Foundation and appearing in the file LICENSE.LGPL included in the
-+** packaging of this file.  Please review the following information to
-+** ensure the GNU Lesser General Public License version 2.1 requirements
-+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
++** General Public License version 2.1 or version 3 as published by the Free
++** Software Foundation and appearing in the file LICENSE.LGPLv21 and
++** LICENSE.LGPLv3 included in the packaging of this file. Please review the
++** following information to ensure the GNU Lesser General Public License
++** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
++** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 +**
-+** In addition, as a special exception, Digia gives you certain additional
-+** rights.  These rights are described in the Digia Qt LGPL Exception
++** As a special exception, The Qt Company gives you certain additional
++** rights. These rights are described in The Qt Company LGPL Exception
 +** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 +**
 +** GNU General Public License Usage
@@ -39351,7 +39349,6 @@ index 0000000..a4c0981
 +** packaging of this file.  Please review the following information to
 +** ensure the GNU General Public License version 3.0 requirements will be
 +** met: http://www.gnu.org/copyleft/gpl.html.
-+**
 +**
 +** $QT_END_LICENSE$
 +**
@@ -39423,7 +39420,7 @@ index 0000000..a4c0981
 +
 +#endif // QSJISCODEC_H
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 1ee586e..1376b67 100644
+index c837c26..ee34492 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -67,16 +67,16 @@
@@ -39474,14 +39471,14 @@ index b0a8a91..0000000
 -symbian:TARGET.UID3=0x2001E615
 diff --git a/src/plugins/codecs/cn/main.cpp b/src/plugins/codecs/cn/main.cpp
 deleted file mode 100644
-index 12421a9..0000000
+index 968f11f..0000000
 --- a/src/plugins/codecs/cn/main.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -39490,20 +39487,21 @@ index 12421a9..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -39513,7 +39511,6 @@ index 12421a9..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -39625,14 +39622,14 @@ index 12421a9..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/cn/qgb18030codec.cpp b/src/plugins/codecs/cn/qgb18030codec.cpp
 deleted file mode 100644
-index 06345ff..0000000
+index b7dec3b..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.cpp
 +++ /dev/null
 @@ -1,9265 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -39641,20 +39638,21 @@ index 06345ff..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -39664,7 +39662,6 @@ index 06345ff..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -48896,14 +48893,14 @@ index 06345ff..0000000
 -#endif // QT_NO_TEXTCODEC
 diff --git a/src/plugins/codecs/cn/qgb18030codec.h b/src/plugins/codecs/cn/qgb18030codec.h
 deleted file mode 100644
-index e3dd386..0000000
+index 91aa151..0000000
 --- a/src/plugins/codecs/cn/qgb18030codec.h
 +++ /dev/null
 @@ -1,159 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -48912,20 +48909,21 @@ index e3dd386..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -48935,7 +48933,6 @@ index e3dd386..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -49104,14 +49101,14 @@ index 6480e43..0000000
 -symbian:TARGET.UID3=0x2001E614
 diff --git a/src/plugins/codecs/jp/main.cpp b/src/plugins/codecs/jp/main.cpp
 deleted file mode 100644
-index 04b129a..0000000
+index e1abe8b..0000000
 --- a/src/plugins/codecs/jp/main.cpp
 +++ /dev/null
 @@ -1,149 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49120,20 +49117,21 @@ index 04b129a..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -49143,7 +49141,6 @@ index 04b129a..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -49259,14 +49256,14 @@ index 04b129a..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.cpp b/src/plugins/codecs/jp/qeucjpcodec.cpp
 deleted file mode 100644
-index 6e1be4a..0000000
+index 7fa4dc3..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.cpp
 +++ /dev/null
 @@ -1,261 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49275,20 +49272,21 @@ index 6e1be4a..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -49298,7 +49296,6 @@ index 6e1be4a..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -49526,14 +49523,14 @@ index 6e1be4a..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qeucjpcodec.h b/src/plugins/codecs/jp/qeucjpcodec.h
 deleted file mode 100644
-index bc3cbc7..0000000
+index 759ebb3..0000000
 --- a/src/plugins/codecs/jp/qeucjpcodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49542,20 +49539,21 @@ index bc3cbc7..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -49565,7 +49563,6 @@ index bc3cbc7..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -49638,14 +49635,14 @@ index bc3cbc7..0000000
 -#endif // QEUCJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.cpp b/src/plugins/codecs/jp/qfontjpcodec.cpp
 deleted file mode 100644
-index d5139aa..0000000
+index f472fdd..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.cpp
 +++ /dev/null
 @@ -1,145 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49654,20 +49651,21 @@ index d5139aa..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -49677,7 +49675,6 @@ index d5139aa..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -49789,14 +49786,14 @@ index d5139aa..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qfontjpcodec.h b/src/plugins/codecs/jp/qfontjpcodec.h
 deleted file mode 100644
-index e905cd1..0000000
+index 67c4810..0000000
 --- a/src/plugins/codecs/jp/qfontjpcodec.h
 +++ /dev/null
 @@ -1,93 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49805,20 +49802,21 @@ index e905cd1..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -49828,7 +49826,6 @@ index e905cd1..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -49888,14 +49885,14 @@ index e905cd1..0000000
 -#endif // QFONTJPCODEC_H
 diff --git a/src/plugins/codecs/jp/qjiscodec.cpp b/src/plugins/codecs/jp/qjiscodec.cpp
 deleted file mode 100644
-index 2c9be691..0000000
+index c637832..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.cpp
 +++ /dev/null
 @@ -1,367 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -49904,20 +49901,21 @@ index 2c9be691..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -49927,7 +49925,6 @@ index 2c9be691..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -50261,14 +50258,14 @@ index 2c9be691..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjiscodec.h b/src/plugins/codecs/jp/qjiscodec.h
 deleted file mode 100644
-index f6ba975..0000000
+index 3cc48dc..0000000
 --- a/src/plugins/codecs/jp/qjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -50277,20 +50274,21 @@ index f6ba975..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -50300,7 +50298,6 @@ index f6ba975..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -50373,14 +50370,14 @@ index f6ba975..0000000
 -#endif // QJISCODEC_H
 diff --git a/src/plugins/codecs/jp/qjpunicode.cpp b/src/plugins/codecs/jp/qjpunicode.cpp
 deleted file mode 100644
-index 66f2e34..0000000
+index 6e8b2f5..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.cpp
 +++ /dev/null
 @@ -1,10700 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -50389,20 +50386,21 @@ index 66f2e34..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -50412,7 +50410,6 @@ index 66f2e34..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -61079,14 +61076,14 @@ index 66f2e34..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qjpunicode.h b/src/plugins/codecs/jp/qjpunicode.h
 deleted file mode 100644
-index 83bb8e1..0000000
+index 07b9b23..0000000
 --- a/src/plugins/codecs/jp/qjpunicode.h
 +++ /dev/null
 @@ -1,174 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61095,20 +61092,21 @@ index 83bb8e1..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -61118,7 +61116,6 @@ index 83bb8e1..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -61259,14 +61256,14 @@ index 83bb8e1..0000000
 -#endif // QJPUNICODE_H
 diff --git a/src/plugins/codecs/jp/qsjiscodec.cpp b/src/plugins/codecs/jp/qsjiscodec.cpp
 deleted file mode 100644
-index 977f38f..0000000
+index a9bc11a..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.cpp
 +++ /dev/null
 @@ -1,229 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61275,20 +61272,21 @@ index 977f38f..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -61298,7 +61296,6 @@ index 977f38f..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -61494,14 +61491,14 @@ index 977f38f..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/jp/qsjiscodec.h b/src/plugins/codecs/jp/qsjiscodec.h
 deleted file mode 100644
-index a4c0981..0000000
+index 49a77f7..0000000
 --- a/src/plugins/codecs/jp/qsjiscodec.h
 +++ /dev/null
 @@ -1,106 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61510,20 +61507,21 @@ index a4c0981..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -61533,7 +61531,6 @@ index a4c0981..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -61606,14 +61603,14 @@ index a4c0981..0000000
 -#endif // QSJISCODEC_H
 diff --git a/src/plugins/codecs/kr/cp949codetbl.h b/src/plugins/codecs/kr/cp949codetbl.h
 deleted file mode 100644
-index 7e1af4e..0000000
+index fba4e60..0000000
 --- a/src/plugins/codecs/kr/cp949codetbl.h
 +++ /dev/null
 @@ -1,637 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -61622,20 +61619,21 @@ index 7e1af4e..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -61645,7 +61643,6 @@ index 7e1af4e..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -62275,14 +62272,14 @@ index 1cc28d8..0000000
 -symbian:TARGET.UID3=0x2001B2E5
 diff --git a/src/plugins/codecs/kr/main.cpp b/src/plugins/codecs/kr/main.cpp
 deleted file mode 100644
-index 918b8bd..0000000
+index d15830c..0000000
 --- a/src/plugins/codecs/kr/main.cpp
 +++ /dev/null
 @@ -1,131 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -62291,20 +62288,21 @@ index 918b8bd..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -62314,7 +62312,6 @@ index 918b8bd..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -62412,14 +62409,14 @@ index 918b8bd..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.cpp b/src/plugins/codecs/kr/qeuckrcodec.cpp
 deleted file mode 100644
-index cb51181..0000000
+index 4e16179..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.cpp
 +++ /dev/null
 @@ -1,3571 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -62428,20 +62425,21 @@ index cb51181..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -62451,7 +62449,6 @@ index cb51181..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -65989,14 +65986,14 @@ index cb51181..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/kr/qeuckrcodec.h b/src/plugins/codecs/kr/qeuckrcodec.h
 deleted file mode 100644
-index c7a9b15..0000000
+index 622e1a6..0000000
 --- a/src/plugins/codecs/kr/qeuckrcodec.h
 +++ /dev/null
 @@ -1,129 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -66005,20 +66002,21 @@ index c7a9b15..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -66028,7 +66026,6 @@ index c7a9b15..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -66124,14 +66121,14 @@ index c7a9b15..0000000
 -#endif // QEUCKRCODEC_H
 diff --git a/src/plugins/codecs/tw/main.cpp b/src/plugins/codecs/tw/main.cpp
 deleted file mode 100644
-index 30e6d8c..0000000
+index 8f8e84a..0000000
 --- a/src/plugins/codecs/tw/main.cpp
 +++ /dev/null
 @@ -1,138 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -66140,20 +66137,21 @@ index 30e6d8c..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -66163,7 +66161,6 @@ index 30e6d8c..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -66268,14 +66265,14 @@ index 30e6d8c..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.cpp b/src/plugins/codecs/tw/qbig5codec.cpp
 deleted file mode 100644
-index 2d37f56..0000000
+index e5919e9..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.cpp
 +++ /dev/null
 @@ -1,12788 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -66284,20 +66281,21 @@ index 2d37f56..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -66307,7 +66305,6 @@ index 2d37f56..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -79062,14 +79059,14 @@ index 2d37f56..0000000
 -QT_END_NAMESPACE
 diff --git a/src/plugins/codecs/tw/qbig5codec.h b/src/plugins/codecs/tw/qbig5codec.h
 deleted file mode 100644
-index 334764c..0000000
+index ee95d25..0000000
 --- a/src/plugins/codecs/tw/qbig5codec.h
 +++ /dev/null
 @@ -1,124 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the plugins of the Qt Toolkit.
 -**
@@ -79078,20 +79075,21 @@ index 334764c..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -79101,7 +79099,6 @@ index 334764c..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -79229,10 +79226,10 @@ index 94ce675..c4af49b 100644
  !embedded:!qpa:!contains(QT_CONFIG, no-gui):SUBDIRS *= graphicssystems
  embedded:SUBDIRS *=  gfxdrivers decorations mousedrivers kbddrivers
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 4a97b4b52b58070afb2de01fc59a524977475a43 Mon Sep 17 00:00:00 2001
+From c0127a5e399f9483cf3738d96f819913bec0fea2 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Wed, 18 Jan 2012 21:01:26 +0100
 Subject: [PATCH 06/17] update private header references
@@ -79244,7 +79241,7 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 15e4df7d83fd30e16f014bc1ddc5d55884b388aa)
 
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index 2d37f56..1b46859 100644
+index e5919e9..a3b1ff8 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -39,7 +39,7 @@
@@ -79257,7 +79254,7 @@ index 2d37f56..1b46859 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 6e1be4a..6f09059 100644
+index 7fa4dc3..8e3a600 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -73,7 +73,7 @@
@@ -79270,7 +79267,7 @@ index 6e1be4a..6f09059 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index bc3cbc7..c717050 100644
+index 759ebb3..fe02c4c 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -71,7 +71,7 @@
@@ -79283,7 +79280,7 @@ index bc3cbc7..c717050 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index cb51181..a66d4e2 100644
+index 4e16179..4212707 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -65,8 +65,8 @@
@@ -79298,7 +79295,7 @@ index cb51181..a66d4e2 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index d5139aa..fdd594a 100644
+index f472fdd..6219603 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -39,9 +39,9 @@
@@ -79314,7 +79311,7 @@ index d5139aa..fdd594a 100644
  QT_BEGIN_NAMESPACE
  
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 06345ff..01682d8 100644
+index b7dec3b..4cc8f1b 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -44,7 +44,7 @@
@@ -79327,7 +79324,7 @@ index 06345ff..01682d8 100644
  #ifndef QT_NO_TEXTCODEC
  
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index 2c9be691..af9a32c 100644
+index c637832..e9747e3 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79340,7 +79337,7 @@ index 2c9be691..af9a32c 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index f6ba975..0d14b48 100644
+index 3cc48dc..a320d61 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79353,7 +79350,7 @@ index f6ba975..0d14b48 100644
  #include <QtCore/qlist.h>
  
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index 66f2e34..304d26e 100644
+index 6e8b2f5..b4d7bf7 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -44,7 +44,7 @@
@@ -79366,7 +79363,7 @@ index 66f2e34..304d26e 100644
  #include "qbytearray.h"
  #include <stdlib.h>
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index 977f38f..5c69748 100644
+index a9bc11a..00baca1 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -48,7 +48,7 @@
@@ -79379,7 +79376,7 @@ index 977f38f..5c69748 100644
  
  QT_BEGIN_NAMESPACE
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index a4c0981..5025968 100644
+index 49a77f7..098a590 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -71,7 +71,7 @@
@@ -79392,10 +79389,10 @@ index a4c0981..5025968 100644
  #include <QtCore/qlist.h>
  
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 335262793a24a8444ad181c7e744cb29cff06e58 Mon Sep 17 00:00:00 2001
+From 1c897873ed8ffe564c101e621afadb63b241ff57 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Sun, 3 Jul 2011 21:53:27 +0200
 Subject: [PATCH 07/17] cosmetic adjustments for files moved to core/codecs
@@ -79411,12 +79408,12 @@ Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
 (cherry picked from commit 712cfb509484599f1586f68cc379e3e7464e9967)
 
 diff --git a/src/corelib/codecs/cp949codetbl_p.h b/src/corelib/codecs/cp949codetbl_p.h
-index 7e1af4e..952090a 100644
+index fba4e60..1c678d8 100644
 --- a/src/corelib/codecs/cp949codetbl_p.h
 +++ b/src/corelib/codecs/cp949codetbl_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79452,12 +79449,12 @@ index 7e1af4e..952090a 100644
 -#endif // CP494CODETBL_H
 +#endif // CP494CODETBL_P_H
 diff --git a/src/corelib/codecs/qbig5codec.cpp b/src/corelib/codecs/qbig5codec.cpp
-index 1b46859..d48ccaf 100644
+index a3b1ff8..526ff51 100644
 --- a/src/corelib/codecs/qbig5codec.cpp
 +++ b/src/corelib/codecs/qbig5codec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79465,12 +79462,12 @@ index 1b46859..d48ccaf 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qbig5codec_p.h b/src/corelib/codecs/qbig5codec_p.h
-index 334764c..ba3b345 100644
+index ee95d25..50de2bb 100644
 --- a/src/corelib/codecs/qbig5codec_p.h
 +++ b/src/corelib/codecs/qbig5codec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79506,12 +79503,12 @@ index 334764c..ba3b345 100644
 -#endif // QBIG5CODEC_H
 +#endif // QBIG5CODEC_P_H
 diff --git a/src/corelib/codecs/qeucjpcodec.cpp b/src/corelib/codecs/qeucjpcodec.cpp
-index 6f09059..f4cb649 100644
+index 8e3a600..29b4fc1 100644
 --- a/src/corelib/codecs/qeucjpcodec.cpp
 +++ b/src/corelib/codecs/qeucjpcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79519,12 +79516,12 @@ index 6f09059..f4cb649 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qeucjpcodec_p.h b/src/corelib/codecs/qeucjpcodec_p.h
-index c717050..b6d6c6b 100644
+index fe02c4c..e07e424 100644
 --- a/src/corelib/codecs/qeucjpcodec_p.h
 +++ b/src/corelib/codecs/qeucjpcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79560,12 +79557,12 @@ index c717050..b6d6c6b 100644
 -#endif // QEUCJPCODEC_H
 +#endif // QEUCJPCODEC_P_H
 diff --git a/src/corelib/codecs/qeuckrcodec.cpp b/src/corelib/codecs/qeuckrcodec.cpp
-index a66d4e2..33e6786 100644
+index 4212707..9475c85 100644
 --- a/src/corelib/codecs/qeuckrcodec.cpp
 +++ b/src/corelib/codecs/qeuckrcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79573,12 +79570,12 @@ index a66d4e2..33e6786 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qeuckrcodec_p.h b/src/corelib/codecs/qeuckrcodec_p.h
-index c7a9b15..ebe334d 100644
+index 622e1a6..300d4d3 100644
 --- a/src/corelib/codecs/qeuckrcodec_p.h
 +++ b/src/corelib/codecs/qeuckrcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79614,12 +79611,12 @@ index c7a9b15..ebe334d 100644
 -#endif // QEUCKRCODEC_H
 +#endif // QEUCKRCODEC_P_H
 diff --git a/src/corelib/codecs/qfontjpcodec.cpp b/src/corelib/codecs/qfontjpcodec.cpp
-index fdd594a..c79d9d5 100644
+index 6219603..371b47d 100644
 --- a/src/corelib/codecs/qfontjpcodec.cpp
 +++ b/src/corelib/codecs/qfontjpcodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79627,12 +79624,12 @@ index fdd594a..c79d9d5 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qfontjpcodec_p.h b/src/corelib/codecs/qfontjpcodec_p.h
-index e905cd1..0eea2cd 100644
+index 67c4810..33e8e57 100644
 --- a/src/corelib/codecs/qfontjpcodec_p.h
 +++ b/src/corelib/codecs/qfontjpcodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79668,12 +79665,12 @@ index e905cd1..0eea2cd 100644
 -#endif // QFONTJPCODEC_H
 +#endif // QFONTJPCODEC_P_H
 diff --git a/src/corelib/codecs/qgb18030codec.cpp b/src/corelib/codecs/qgb18030codec.cpp
-index 01682d8..37bc141 100644
+index 4cc8f1b..1278b1e 100644
 --- a/src/corelib/codecs/qgb18030codec.cpp
 +++ b/src/corelib/codecs/qgb18030codec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79681,12 +79678,12 @@ index 01682d8..37bc141 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qgb18030codec_p.h b/src/corelib/codecs/qgb18030codec_p.h
-index e3dd386..826edf7 100644
+index 91aa151..0406c41 100644
 --- a/src/corelib/codecs/qgb18030codec_p.h
 +++ b/src/corelib/codecs/qgb18030codec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79722,12 +79719,12 @@ index e3dd386..826edf7 100644
 -#endif // QGB18030CODEC_H
 +#endif // QGB18030CODEC_P_H
 diff --git a/src/corelib/codecs/qjiscodec.cpp b/src/corelib/codecs/qjiscodec.cpp
-index af9a32c..dd7e1ee 100644
+index e9747e3..1b78eca 100644
 --- a/src/corelib/codecs/qjiscodec.cpp
 +++ b/src/corelib/codecs/qjiscodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79735,12 +79732,12 @@ index af9a32c..dd7e1ee 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qjiscodec_p.h b/src/corelib/codecs/qjiscodec_p.h
-index 0d14b48..e75dbd6 100644
+index a320d61..6831e8b 100644
 --- a/src/corelib/codecs/qjiscodec_p.h
 +++ b/src/corelib/codecs/qjiscodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79776,12 +79773,12 @@ index 0d14b48..e75dbd6 100644
 -#endif // QJISCODEC_H
 +#endif // QJISCODEC_P_H
 diff --git a/src/corelib/codecs/qjpunicode.cpp b/src/corelib/codecs/qjpunicode.cpp
-index 304d26e..0c24168 100644
+index b4d7bf7..57ac03e 100644
 --- a/src/corelib/codecs/qjpunicode.cpp
 +++ b/src/corelib/codecs/qjpunicode.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79789,12 +79786,12 @@ index 304d26e..0c24168 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qjpunicode_p.h b/src/corelib/codecs/qjpunicode_p.h
-index 83bb8e1..9497911 100644
+index 07b9b23..1a43db9 100644
 --- a/src/corelib/codecs/qjpunicode_p.h
 +++ b/src/corelib/codecs/qjpunicode_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79830,12 +79827,12 @@ index 83bb8e1..9497911 100644
 -#endif // QJPUNICODE_H
 +#endif // QJPUNICODE_P_H
 diff --git a/src/corelib/codecs/qsjiscodec.cpp b/src/corelib/codecs/qsjiscodec.cpp
-index 5c69748..cc87d1a 100644
+index 00baca1..c31f9c8 100644
 --- a/src/corelib/codecs/qsjiscodec.cpp
 +++ b/src/corelib/codecs/qsjiscodec.cpp
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79843,12 +79840,12 @@ index 5c69748..cc87d1a 100644
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial License Usage
 diff --git a/src/corelib/codecs/qsjiscodec_p.h b/src/corelib/codecs/qsjiscodec_p.h
-index 5025968..6dd8902 100644
+index 098a590..951c248 100644
 --- a/src/corelib/codecs/qsjiscodec_p.h
 +++ b/src/corelib/codecs/qsjiscodec_p.h
 @@ -3,7 +3,7 @@
- ** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
- ** Contact: http://www.qt-project.org/legal
+ ** Copyright (C) 2015 The Qt Company Ltd.
+ ** Contact: http://www.qt.io/licensing/
  **
 -** This file is part of the plugins of the Qt Toolkit.
 +** This file is part of the QtCore module of the Qt Toolkit.
@@ -79884,10 +79881,10 @@ index 5025968..6dd8902 100644
 -#endif // QSJISCODEC_H
 +#endif // QSJISCODEC_P_H
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 6c3ced5e40b06c68ee50b297dcb7d3a3f5a63429 Mon Sep 17 00:00:00 2001
+From 5dc34d557dc3f6ade4ac02e543f0b43cf15c92ba Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 12 Jan 2012 10:43:29 +0100
 Subject: [PATCH 08/17] remove obsolete codec plugin loading code
@@ -79933,7 +79930,7 @@ index a1271b9..9274eda 100644
      codecs/qjpunicode.cpp \
      codecs/qeucjpcodec.cpp \
 diff --git a/src/corelib/codecs/qtextcodec.cpp b/src/corelib/codecs/qtextcodec.cpp
-index 1376b67..efce435 100644
+index ee34492..d04b6e0 100644
 --- a/src/corelib/codecs/qtextcodec.cpp
 +++ b/src/corelib/codecs/qtextcodec.cpp
 @@ -48,11 +48,6 @@
@@ -80081,14 +80078,14 @@ index 1376b67..efce435 100644
  
 diff --git a/src/corelib/codecs/qtextcodecplugin.cpp b/src/corelib/codecs/qtextcodecplugin.cpp
 deleted file mode 100644
-index 6cfa84e..0000000
+index 0c55974..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.cpp
 +++ /dev/null
 @@ -1,161 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
 -**
@@ -80097,20 +80094,21 @@ index 6cfa84e..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -80120,7 +80118,6 @@ index 6cfa84e..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -80248,14 +80245,14 @@ index 6cfa84e..0000000
 -#endif // QT_NO_TEXTCODECPLUGIN
 diff --git a/src/corelib/codecs/qtextcodecplugin.h b/src/corelib/codecs/qtextcodecplugin.h
 deleted file mode 100644
-index 3258207..0000000
+index baf4a08..0000000
 --- a/src/corelib/codecs/qtextcodecplugin.h
 +++ /dev/null
 @@ -1,96 +0,0 @@
 -/****************************************************************************
 -**
--** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
--** Contact: http://www.qt-project.org/legal
+-** Copyright (C) 2015 The Qt Company Ltd.
+-** Contact: http://www.qt.io/licensing/
 -**
 -** This file is part of the QtCore module of the Qt Toolkit.
 -**
@@ -80264,20 +80261,21 @@ index 3258207..0000000
 -** Licensees holding valid commercial Qt licenses may use this file in
 -** accordance with the commercial license agreement provided with the
 -** Software or, alternatively, in accordance with the terms contained in
--** a written agreement between you and Digia.  For licensing terms and
--** conditions see http://qt.digia.com/licensing.  For further information
--** use the contact form at http://qt.digia.com/contact-us.
+-** a written agreement between you and The Qt Company. For licensing terms
+-** and conditions see http://www.qt.io/terms-conditions. For further
+-** information use the contact form at http://www.qt.io/contact-us.
 -**
 -** GNU Lesser General Public License Usage
 -** Alternatively, this file may be used under the terms of the GNU Lesser
--** General Public License version 2.1 as published by the Free Software
--** Foundation and appearing in the file LICENSE.LGPL included in the
--** packaging of this file.  Please review the following information to
--** ensure the GNU Lesser General Public License version 2.1 requirements
--** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+-** General Public License version 2.1 or version 3 as published by the Free
+-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
+-** following information to ensure the GNU Lesser General Public License
+-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 -**
--** In addition, as a special exception, Digia gives you certain additional
--** rights.  These rights are described in the Digia Qt LGPL Exception
+-** As a special exception, The Qt Company gives you certain additional
+-** rights. These rights are described in The Qt Company LGPL Exception
 -** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 -**
 -** GNU General Public License Usage
@@ -80287,7 +80285,6 @@ index 3258207..0000000
 -** packaging of this file.  Please review the following information to
 -** ensure the GNU General Public License version 3.0 requirements will be
 -** met: http://www.gnu.org/copyleft/gpl.html.
--**
 -**
 -** $QT_END_LICENSE$
 -**
@@ -80349,7 +80346,7 @@ index 3258207..0000000
 -
 -#endif // QTEXTCODECPLUGIN_H
 diff --git a/src/corelib/global/qconfig-medium.h b/src/corelib/global/qconfig-medium.h
-index b23f601..effe986 100644
+index a143762..cfe6bb5 100644
 --- a/src/corelib/global/qconfig-medium.h
 +++ b/src/corelib/global/qconfig-medium.h
 @@ -91,9 +91,6 @@
@@ -80363,7 +80360,7 @@ index b23f601..effe986 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-minimal.h b/src/corelib/global/qconfig-minimal.h
-index 54f7a31..af4bd5f 100644
+index 3f1e467..31f2b11 100644
 --- a/src/corelib/global/qconfig-minimal.h
 +++ b/src/corelib/global/qconfig-minimal.h
 @@ -167,9 +167,6 @@
@@ -80377,7 +80374,7 @@ index 54f7a31..af4bd5f 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-nacl.h b/src/corelib/global/qconfig-nacl.h
-index adeb249..d18797b 100644
+index 572a0a2..359fd90 100644
 --- a/src/corelib/global/qconfig-nacl.h
 +++ b/src/corelib/global/qconfig-nacl.h
 @@ -128,9 +128,6 @@
@@ -80391,7 +80388,7 @@ index adeb249..d18797b 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qconfig-small.h b/src/corelib/global/qconfig-small.h
-index d602fb5..957d7ee 100644
+index b0f0e61..52af4ef 100644
 --- a/src/corelib/global/qconfig-small.h
 +++ b/src/corelib/global/qconfig-small.h
 @@ -128,9 +128,6 @@
@@ -80405,7 +80402,7 @@ index d602fb5..957d7ee 100644
  #  define QT_NO_TRANSLATION
  #endif
 diff --git a/src/corelib/global/qfeatures.h b/src/corelib/global/qfeatures.h
-index 038912f..437d4f2 100644
+index 9048248..c24f24d 100644
 --- a/src/corelib/global/qfeatures.h
 +++ b/src/corelib/global/qfeatures.h
 @@ -643,11 +643,6 @@
@@ -80421,10 +80418,10 @@ index 038912f..437d4f2 100644
  #if !defined(QT_NO_COLORDIALOG) && (defined(QT_NO_SPINBOX))
  #define QT_NO_COLORDIALOG
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From c60cb4f5cedaddc7b951cf57c3f5a55916d2c830 Mon Sep 17 00:00:00 2001
+From ca1433726aa600258482ff19e7e06bb7579d2bea Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Mon, 23 Jan 2012 23:12:46 +0100
 Subject: [PATCH 09/17] remove vestiges of text codec plugins
@@ -80455,10 +80452,10 @@ index dea05e0..12cd8ea 100644
  Description: Supports translations using QObject::tr().
  Section: Internationalization
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 2e5dd882e30f4568fab102e65bbb9663451e22bc Mon Sep 17 00:00:00 2001
+From 91a40f0dad01ff86e2a20877d2bd7843ee0bc0f2 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 15:10:26 +0100
 Subject: [PATCH 10/17] use pkg-config for libmng (MXE specific)
@@ -80481,10 +80478,10 @@ index ffb98de..6aab68f 100644
  } else {
      include($$PWD/../../3rdparty/libmng.pri)
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 664cbb6e0a0ee4ad68ec4f940a698f171e5cbc9f Mon Sep 17 00:00:00 2001
+From cf3d3e0cba6d3825700000315c7d55c0b5e8e834 Mon Sep 17 00:00:00 2001
 From: Mark Brand <mabrand@mabrand.nl>
 Date: Thu, 3 Nov 2011 14:11:02 +0100
 Subject: [PATCH 11/17] use pkg-config for libtiff-4 (MXE specific)
@@ -80507,10 +80504,10 @@ index e1cc3ee..71cbab1 100644
  } else {
      include($$PWD/../../3rdparty/libtiff.pri)
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 2cd7578f3872cea2a849dd42b5155133278c80a9 Mon Sep 17 00:00:00 2001
+From 3114536d3f81070801d20f7918009da5d19903bc Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:47:10 +0200
 Subject: [PATCH 12/17] fix building on GNU/kFreeBSD (MXE specific)
@@ -80525,7 +80522,7 @@ Description: Fixes FTBFS on GNU/kFreeBSD by creating new Q_OS_FREEBSD_KERNEL.
 Last-Update: 2010-10-06
 
 diff --git a/src/corelib/global/qglobal.h b/src/corelib/global/qglobal.h
-index 799729c..2a76787 100644
+index 7b69922..44efb01 100644
 --- a/src/corelib/global/qglobal.h
 +++ b/src/corelib/global/qglobal.h
 @@ -226,6 +226,8 @@ namespace QT_NAMESPACE {}
@@ -80538,10 +80535,10 @@ index 799729c..2a76787 100644
  #  define Q_OS_NETBSD
  #  define Q_OS_BSD4
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From b3713a30b270cb5998f617b3e726d9ea985068da Mon Sep 17 00:00:00 2001
+From 361a81da244071ed138b03f15e8673f4039635eb Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:49:47 +0200
 Subject: [PATCH 13/17] fix missing platform when building on GNU/kFreeBSD (MXE
@@ -80555,10 +80552,10 @@ For the time being, glibc-g++ is simply a copy of linux-g++.
 Change-Id: I1bebe2e6eef878318142ca5ed3525afc167b0a95
 
 diff --git a/configure b/configure
-index 2e495a4..4965d90 100755
+index 25f16a5..d044883 100755
 --- a/configure
 +++ b/configure
-@@ -2877,6 +2877,9 @@ if [ -z "$PLATFORM" ]; then
+@@ -2881,6 +2881,9 @@ if [ -z "$PLATFORM" ]; then
       GNU:*)
          PLATFORM=hurd-g++
          ;;
@@ -80569,10 +80566,10 @@ index 2e495a4..4965d90 100755
          PLATFORM=dgux-g++
          ;;
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 0c3ab6553ae4834100f864e0bc636ae23f22988a Mon Sep 17 00:00:00 2001
+From 7e6725606c223301139f990e5633e03dae058cef Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 1 Sep 2011 13:51:50 +0200
 Subject: [PATCH 14/17] fix building on dragonfly (MXE specific)
@@ -80583,10 +80580,10 @@ http://cvsweb.NetBSD.org/bsdweb.cgi/pkgsrc/x11/qt4-libs/Makefile.common?rev=1.27
 Change-Id: I9743a39ac35950cb15af915c3ae527433bc6b56d
 
 diff --git a/configure b/configure
-index 4965d90..e1e7384 100755
+index d044883..dee735b 100755
 --- a/configure
 +++ b/configure
-@@ -2889,7 +2889,7 @@ if [ -z "$PLATFORM" ]; then
+@@ -2893,7 +2893,7 @@ if [ -z "$PLATFORM" ]; then
       ULTRIX:*)
          PLATFORM=ultrix-g++
          ;;
@@ -80596,10 +80593,10 @@ index 4965d90..e1e7384 100755
          PLATFORM_NOTES="
              - Also available for FreeBSD: freebsd-icc
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From dc91fc7307b24bf746005c83984e2d3bf6099af8 Mon Sep 17 00:00:00 2001
+From b5124ae6ecba4444614b01600979c692015766e8 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Wed, 30 Apr 2014 22:12:35 +0200
 Subject: [PATCH 15/17] fix for designer in shared build (MXE specific)
@@ -80620,43 +80617,17 @@ index f58df8a..0c25ed4 100644
  
  # Input
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
 
 
-From 5b44e1b9ac91a9f2647a7a870792cfb40a896ada Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Wed, 30 Apr 2014 23:17:58 +0200
-Subject: [PATCH 16/17] fix include of private header
-
-Change-Id: I0554933de2536231d7d416d8df5b96eaa459fc51
-Reviewed-by: Oswald Buddenhagen <oswald.buddenhagen@digia.com>
-(cherry picked from commit b7a67ca944ae5f16a03b2992e9f6989e5e831edc)
-
-diff --git a/src/gui/dialogs/qfiledialog.cpp b/src/gui/dialogs/qfiledialog.cpp
-index e933112..3868c21 100644
---- a/src/gui/dialogs/qfiledialog.cpp
-+++ b/src/gui/dialogs/qfiledialog.cpp
-@@ -58,7 +58,7 @@
- #include <qdebug.h>
- #include <qapplication.h>
- #include <qstylepainter.h>
--#include <itemviews/qfileiconprovider_p.h>
-+#include <private/qfileiconprovider_p.h>
- #if !defined(Q_WS_WINCE) && !defined(Q_OS_SYMBIAN)
- #include "ui_qfiledialog.h"
- #else
--- 
-1.8.5.2 (Apple Git-48)
-
-
-From a337b16522f513d387c93901c4a2e7da6d6eea22 Mon Sep 17 00:00:00 2001
+From b56a4996a5babd1a6f5c97c826dfd9f38d128698 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
 Date: Thu, 8 May 2014 00:24:25 +1000
-Subject: [PATCH 17/17] fix include path with current dir
+Subject: [PATCH 16/17] fix include path with current dir
 
 
 diff --git a/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro b/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro
-index 9e80870..98c7dad 100644
+index 9e80870..4fa0ea2 100644
 --- a/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro
 +++ b/src/3rdparty/webkit/Source/WebKit/qt/tests/hybridPixmap/hybridPixmap.pro
 @@ -9,3 +9,4 @@ HEADERS += widget.h
@@ -80665,5 +80636,36 @@ index 9e80870..98c7dad 100644
  CONFIG += console
 +INCLUDEPATH += .
 -- 
-1.8.5.2 (Apple Git-48)
+2.1.4
+
+
+From 819d2791359bb5454c7a9350fbcbded092db4109 Mon Sep 17 00:00:00 2001
+From: Daniel Burr <dburr@topcon.com>
+Date: Mon, 1 Sep 2014 15:27:12 +0200
+Subject: [PATCH 17/17] qt dont perform ipc checks for win32
+
+Taken from:
+http://pkgs.fedoraproject.org/cgit/mingw-qt.git/plain/qt-dont-perform-ipc-checks-for-win32.patch?id2=HEAD
+
+"The configure script thinks that there is no IPC/shared memory
+support for this platform, while there is support. Fix the configure
+script"
+
+Change-Id: I066d52a5b0d3058793a65f95fad339f5785bfaa1
+
+diff --git a/configure b/configure
+index dee735b..14cf433 100755
+--- a/configure
++++ b/configure
+@@ -5360,7 +5360,7 @@ if [ "$XPLATFORM_INTEGRITY" = "yes" ]; then
+ fi
+ 
+ # check IPC support
+-if [ "$XPLATFORM_SYMBIAN_SBSV2" = "no" ]; then
++if [ "$XPLATFORM_SYMBIAN_SBSV2" = "no" -a "$XPLATFORM_MINGW" = "no" ]; then
+     # Raptor does not support configure tests.
+     if ! compileTest unix/ipc_sysv "ipc_sysv" ; then
+         # SYSV IPC is not supported - check POSIX IPC
+-- 
+2.1.4
 
