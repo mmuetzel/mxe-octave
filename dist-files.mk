@@ -41,6 +41,7 @@ SRC_FILES_1 := \
   build-texinfo.mk \
   build-xz.mk \
   build-yasm.mk \
+  bzip2-1-fixes.patch \
   bzip2.mk \
   cairo-2-static-init.patch \
   cairo.mk \
@@ -323,7 +324,6 @@ SRC_FILES_1 := \
   mingw-pango-1-fixes.patch \
   mingw-portaudio-1-pkgconfig.patch \
   mingw-texinfo-1-fixes.patch \
-  mingw-transfig-1-fixes.patch \
   mingw-units-1-fixes.patch \
   mingw-utils-1-portability-fix.patch \
   mingw-w64-1-float-h.patch \
@@ -654,7 +654,7 @@ SRC_FILES_1 := \
   tiff.mk \
   tinyxml-test.cpp \
   tinyxml.mk \
-  transfig-1-configure.patch \
+  transfig-1-fixes.patch \
   transfig.mk \
   tre.mk \
   units-1-fixes.patch \
@@ -681,6 +681,7 @@ SRC_FILES_1 := \
   wavpack-1-exec_prefix.patch \
   wavpack.mk \
   wget.mk \
+  win7appid.patch \
   win64-nsis.patch \
   winpcap-1-fixes.patch \
   winpcap.mk \
