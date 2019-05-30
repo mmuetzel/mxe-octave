@@ -1,7 +1,7 @@
 PKG             := icu4c
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 63.1
-$(PKG)_CHECKSUM := ad523232f19af1c698c6489f8e15f7e9824f1662
+$(PKG)_VERSION  := 64.2
+$(PKG)_CHECKSUM := 3127155ecf2b75ab4835f501b7478e39c07bb852
 $(PKG)_SUBDIR   := icu
 $(PKG)_FILE     := $(PKG)-$(subst .,_,$($(PKG)_VERSION))-src.tgz
 $(PKG)_URL      := http://download.icu-project.org/files/icu4c/$($(PKG)_VERSION)/$($(PKG)_FILE)

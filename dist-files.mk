@@ -69,6 +69,8 @@ SRC_FILES_1 := \
   dbus.mk \
   dcmtk-1-fixes.patch \
   dcmtk-2-ming64.patch \
+  dcmtk-3-pointer-fixes.patch \
+  dcmtk-4-c++11-related-fixes.patch \
   dcmtk.mk \
   default-octave-1-gnulib.patch \
   default-octave.mk \
@@ -182,7 +184,6 @@ SRC_FILES_1 := \
   hunspell-test.cpp \
   hunspell.mk \
   ice.mk \
-  icu4c-1-fixes.patch \
   icu4c.mk \
   id3lib-1-win32.patch \
   id3lib.mk \
@@ -216,6 +217,8 @@ SRC_FILES_1 := \
   libarchive.mk \
   libass-test.c \
   libass.mk \
+  libbiosig-1-fixes.patch \
+  libbiosig.mk \
   libcdio.mk \
   libcroco.mk \
   libdnet-1-fixes.patch \
@@ -278,6 +281,7 @@ SRC_FILES_1 := \
   libodbc++.mk \
   liboil.mk \
   libpano13.mk \
+  libpaper-1-noundefined.patch \
   libpaper.mk \
   libpng-test.c \
   libpng.mk \
@@ -456,13 +460,11 @@ SRC_FILES_1 := \
   of-communications-5-fixes.patch \
   of-communications-6-deprecated.patch \
   of-communications.mk \
-  of-control-1-deprecated.patch \
   of-control.mk \
   of-data-smoothing.mk \
   of-database-1-fixes.patch \
   of-database.mk \
   of-dataframe.mk \
-  of-dicom-1-fixes.patch \
   of-dicom.mk \
   of-financial.mk \
   of-fits-1-cross-fixes.patch \
@@ -511,8 +513,6 @@ SRC_FILES_1 := \
   of-odepkg-2-fixes.patch \
   of-odepkg-3-deprecated.patch \
   of-odepkg.mk \
-  of-optim-1-fixes.patch \
-  of-optim-2-deprecated.patch \
   of-optim.mk \
   of-optiminterp-1-dev-fixes.patch \
   of-optiminterp.mk \
@@ -520,9 +520,6 @@ SRC_FILES_1 := \
   of-quaternion-2-dev-fixes.patch \
   of-quaternion.mk \
   of-queueing.mk \
-  of-signal-1-fixes.patch \
-  of-signal-2-fixes.patch \
-  of-signal-3-fixes.patch \
   of-signal.mk \
   of-sockets-1-cross-fixes.patch \
   of-sockets.mk \
@@ -536,15 +533,12 @@ SRC_FILES_1 := \
   of-stk.mk \
   of-strings-1-fixes.patch \
   of-strings.mk \
-  of-struct-1-fixes.patch \
-  of-struct-2-devfixes.patch \
   of-struct.mk \
   of-tisean-1-fixes.patch \
   of-tisean.mk \
   of-tsa.mk \
   of-video-1-fixes.patch \
   of-video.mk \
-  of-windows-1-fixes.patch \
   of-windows.mk \
   of-zenity.mk \
   of-zeromq.mk \
@@ -633,7 +627,12 @@ SRC_FILES_1 := \
   qwt.mk \
   qwtplot3d-1-fixes.patch \
   qwtplot3d.mk \
+  readline-1-display.patch \
   readline-1-fixes.patch \
+  readline-1-input.patch \
+  readline-1-sigwinch.patch \
+  readline-2-event-hook.patch \
+  readline-2-history.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
   release-octave.mk \
