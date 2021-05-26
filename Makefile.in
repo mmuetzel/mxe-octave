@@ -478,7 +478,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     MSYS2_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\([^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html' | $(GREP) msys2-)
     MSYS2_SOURCES := $(addprefix src-,$(MSYS2_PACKAGES))
     PKGS += $(MSYS2_SOURCES)
-    MSYS2_BASE_URL := http://repo.msys2.org/msys
+    MSYS2_BASE_URL := https://repo.msys2.org/msys
     MSYS2_URL := $(MSYS2_BASE_URL)/$(MSYS2_ARCH)
     MSYS2_SRC_URL := $(MSYS2_BASE_URL)/sources
     MSYS2_DIR := $(TOP_BUILD_DIR)/msys2
