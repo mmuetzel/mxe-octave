@@ -247,6 +247,7 @@ SRC_FILES_1 := \
   libglade.mk \
   libgnurx-1-build-static-lib.patch \
   libgnurx.mk \
+  libgomp-1-fixes.patch \
   libgomp-test.c \
   libgomp.mk \
   libgpg_error-1-fixes.patch \
@@ -347,6 +348,7 @@ SRC_FILES_1 := \
   mingw-libgcrypt-1-fixes.patch \
   mingw-libmng-1-noundefines.patch \
   mingw-openblas-1-xerbla.patch \
+  mingw-pkg-config-1-gnu-printf.patch \
   mingw-portaudio-1-pkgconfig.patch \
   mingw-s2tc-1-fixes.patch \
   mingw-texinfo-1-fixes.patch \
