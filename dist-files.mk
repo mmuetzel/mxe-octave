@@ -33,7 +33,6 @@ SRC_FILES_1 := \
   build-gperf.mk \
   build-libtool.mk \
   build-lzip.mk \
-  build-m4-glibc2-28.patch \
   build-m4.mk \
   build-mako.mk \
   build-markupsafe.mk \
