@@ -32,7 +32,7 @@ define $(PKG)_BUILD
         $($(PKG)_CONFIGURE_OPTIONS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
-         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
+        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         --prefix='$(HOST_PREFIX)' \
         --disable-openmp \
         --with-modules \
@@ -55,14 +55,24 @@ define $(PKG)_BUILD
         --with-xml \
         --with-zlib \
         --without-x \
-       --with-quantum-depth=16 \
+        --with-quantum-depth=16 \
         ac_cv_prog_xml2_config='$(HOST_BINDIR)/xml2-config' \
         ac_cv_path_xml2_config='$(HOST_BINDIR)/xml2-config' \
-	&& $(CONFIGURE_POST_HOOK)
+        && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' bin_PROGRAMS=
     $(MAKE) -C '$(1)' -j 1 install bin_PROGRAMS= DESTDIR='$(3)'
 
     if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
       rm -rf "$(3)$(HOST_PREFIX)/share/doc/GraphicsMagick"; \
     fi
+
+    # Build (and install) fork of dcraw
+    if [ "x$(MXE_WINDOWS_BUILD)" == "xyes" ]; then \
+      cd '$(1)/dcraw' && $(MXE_CC) -O4 -o $(3)$(HOST_PREFIX)/bin/dcraw dcraw.c \
+        -Wall -Wno-unused-result -Wno-array-bounds -Wno-maybe-uninitialized \
+        -Wno-unused-but-set-variable \
+        -I$(HOST_PREFIX)/include -L$(HOST_PREFIX)/lib \
+        -lm -ljasper -ljpeg -llcms2 -lws2_32 -s; \
+    fi
+
 endef

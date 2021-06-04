@@ -343,6 +343,7 @@ SRC_FILES_1 := \
   mingw-cfitsio-1-fixes.patch \
   mingw-epstool-1-fixes.patch \
   mingw-glpk-1-fixes.patch \
+  mingw-graphicsmagick-1-dcraw.patch \
   mingw-hdf5-1.patch \
   mingw-lapack-1-xerbla.patch \
   mingw-libgcrypt-1-fixes.patch \
