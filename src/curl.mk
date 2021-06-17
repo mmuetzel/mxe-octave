@@ -3,8 +3,8 @@
 
 PKG             := curl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.76.1
-$(PKG)_CHECKSUM := d38ab79ef7a6d92df91ca8dfcf9a5eaf7e25b725
+$(PKG)_VERSION  := 7.77.0
+$(PKG)_CHECKSUM := 0fc212cfe9544866f98571898ceb6d70b91ed9f0
 $(PKG)_SUBDIR   := curl-$($(PKG)_VERSION)
 $(PKG)_FILE     := curl-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://curl.haxx.se/download/$($(PKG)_FILE)
@@ -12,7 +12,7 @@ $(PKG)_DEPS     := gnutls libidn2 libssh2 pthreads
 
 $(PKG)_CONFIGURE_OPTS :=
 ifeq ($(MXE_WINDOWS_BUILD),yes)
-    $(PKG)_CONFIGURE_OPTS := --with-winssl --with-default-ssl-backend=schannel
+    $(PKG)_CONFIGURE_OPTS := --with-schannel --with-default-ssl-backend=schannel
 endif
 
 define $(PKG)_UPDATE
