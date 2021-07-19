@@ -17,11 +17,10 @@ index 872a315..9ad3055 100644
  /* Major version of the LLVM API */
  #define LLVM_VERSION_MAJOR ${LLVM_VERSION_MAJOR}
  
-diff --git "a/tools/llvm-config/llvm-config.cpp" "b/tools/llvm-config/llvm-config.cpp"
-index bec89fe..a1be375 100644
---- "a/tools/llvm-config/llvm-config.cpp"	
-+++ "b/tools/llvm-config/llvm-config.cpp"
-@@ -37,7 +37,12 @@ using namespace llvm;
+diff -up "./tools/llvm-config/llvm-config.cpp.orig" "./tools/llvm-config/llvm-config.cpp"
+--- ./tools/llvm-config/llvm-config.cpp.orig	2021-06-28 18:23:38.000000000 +0200
++++ ./tools/llvm-config/llvm-config.cpp	2021-07-19 17:23:35.059439097 +0200
+@@ -36,7 +36,12 @@ using namespace llvm;
  
  // Include the build time variables we can report to the user. This is generated
  // at build time from the BuildVariables.inc.in file by the build system.
@@ -35,9 +34,9 @@ index bec89fe..a1be375 100644
  
  // Include the component table. This creates an array of struct
  // AvailableComponent entries, which record the component name, library name,
-@@ -352,14 +352,16 @@ int main(int argc, char **argv) {
-   StringRef SharedExt, SharedVersionedExt, SharedDir, SharedPrefix, StaticExt,
-       StaticPrefix, StaticDir = "lib", DirSep = "/";
+@@ -377,15 +382,17 @@ int main(int argc, char **argv) {
+       StaticPrefix, StaticDir = "lib";
+   std::string DirSep = "/";
    const Triple HostTriple(Triple::normalize(LLVM_HOST_TRIPLE));
 -  if (HostTriple.isOSWindows()) {
 +  const Triple TargetTriple(Triple::normalize(LLVM_DEFAULT_TARGET_TRIPLE));
@@ -46,6 +45,7 @@ index bec89fe..a1be375 100644
      SharedVersionedExt = LLVM_DYLIB_VERSION ".dll";
 -    if (HostTriple.isOSCygMing()) {
 +    if (TargetTriple.isOSCygMing()) {
+       SharedPrefix = "lib";
        StaticExt = "a";
        StaticPrefix = "lib";
      } else {
@@ -54,7 +54,7 @@ index bec89fe..a1be375 100644
        DirSep = "\\";
        std::replace(ActiveObjRoot.begin(), ActiveObjRoot.end(), '/', '\\');
        std::replace(ActivePrefix.begin(), ActivePrefix.end(), '/', '\\');
-@@ -368,10 +370,11 @@ int main(int argc, char **argv) {
+@@ -394,10 +401,11 @@ int main(int argc, char **argv) {
        std::replace(ActiveCMakeDir.begin(), ActiveCMakeDir.end(), '/', '\\');
        std::replace(ActiveIncludeOption.begin(), ActiveIncludeOption.end(), '/',
                     '\\');
@@ -67,7 +67,7 @@ index bec89fe..a1be375 100644
      SharedExt = "dylib";
      SharedVersionedExt = LLVM_DYLIB_VERSION ".dylib";
      StaticExt = "a";
-@@ -670,7 +673,7 @@ int main(int argc, char **argv) {
+@@ -694,7 +703,7 @@ int main(int argc, char **argv) {
          } else if (PrintLibs) {
            // On Windows, output full path to library without parameters.
            // Elsewhere, if this is a typical library name, include it using -l.
