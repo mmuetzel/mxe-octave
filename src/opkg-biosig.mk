@@ -3,8 +3,8 @@
 
 PKG             := opkg-biosig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.2.1
-$(PKG)_CHECKSUM := bfcc2095b59bebfd3d7a8de40fb6855256e4af1c
+$(PKG)_VERSION  := 2.3.1
+$(PKG)_CHECKSUM := 69b317a5a1ee973e46d7d1eb76467d5ee4a3f92a
 $(PKG)_SUBDIR   := biosig4octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).src.tar.gz
 $(PKG)_URL      := https://pub.ist.ac.at/~schloegl/biosig/prereleases/$($(PKG)_FILE)
