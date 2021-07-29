@@ -3,8 +3,8 @@
 
 PKG             := of-tsa
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.6.2
-$(PKG)_CHECKSUM := cf4ba9ebb1ad80d5ea8bddacdb3681dec8986c80
+$(PKG)_VERSION  := 4.6.3
+$(PKG)_CHECKSUM := 46b39fc968edb2d4e7c2cf9116f8635eca700ca3
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := tsa-$($(PKG)_VERSION)
 $(PKG)_FILE     := tsa-$($(PKG)_VERSION).tar.gz
