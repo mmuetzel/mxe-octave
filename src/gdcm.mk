@@ -3,11 +3,11 @@
 
 PKG             := gdcm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0.8
-$(PKG)_CHECKSUM := 520d57530d20d5a0f5bb99a040cd261304902c89
+$(PKG)_VERSION  := 3.0.9
+$(PKG)_CHECKSUM := d49fa5b037fb93994d416bcd33b1fbf7fd5aad6d
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG) 3.x/GDCM $($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG) 3.x/GDCM $($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := expat zlib
 
 $(PKG)_CMAKE_OPTS :=
