@@ -4,8 +4,8 @@
 PKG             := libbiosig
 $(PKG)_WEBSITE  := http://biosig.sf.net/
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.3.1
-$(PKG)_CHECKSUM := adaa0c2f8fb4e8ae0f7d96a79967b7ffae6a9848
+$(PKG)_VERSION  := 2.3.2
+$(PKG)_CHECKSUM := 51b20ea75e927966cc14cf5d88e6cc9aa7ab06ea
 $(PKG)_SUBDIR   := biosig-$($(PKG)_VERSION)
 $(PKG)_FILE     := biosig-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := https://sourceforge.net/projects/biosig/files/BioSig%20for%20C_C%2B%2B/src/$($(PKG)_FILE)
@@ -52,12 +52,9 @@ define $(PKG)_BUILD
   $($(PKG)_MAKE_FLAGS) $(MAKE) -C '$(1)' lib tools
   $($(PKG)_MAKE_FLAGS) $(MAKE) -C '$(1)/biosig4c++' install DESTDIR='$(3)'
 
-  # FIXME: These files aren't installed by the Makefile rule.
-  # Do we really need them?
+  # FIXME: These files should be installed by the Makefile rule.
   if [ "x$(MXE_SYSTEM)" == "xmingw" ]; then \
     $(INSTALL) '$(1)/biosig4c++/libbiosig.dll.a' '$(3)$(HOST_LIBDIR)'; \
-    $(INSTALL) '$(1)/biosig4c++/libgdf.dll' '$(3)$(HOST_BINDIR)'; \
-    $(INSTALL) '$(1)/biosig4c++/libgdf.dll.a' '$(3)$(HOST_LIBDIR)'; \
     $(INSTALL) '$(1)/biosig4c++/libphysicalunits.dll' '$(3)$(HOST_BINDIR)'; \
     $(INSTALL) '$(1)/biosig4c++/libphysicalunits.dll.a' '$(3)$(HOST_LIBDIR)'; \
   fi
