@@ -125,6 +125,7 @@ SRC_FILES_1 := \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
+  gdcm-3-gcc11.patch \
   gdcm.mk \
   gdk-pixbuf-1-fixes.patch \
   gdk-pixbuf.mk \
