@@ -119,6 +119,7 @@ SRC_FILES_1 := \
   gd-1-libpng15.patch \
   gd-test.c \
   gd.mk \
+  gdal-1-gcc11.patch \
   gdal.mk \
   gdb-1-gnulib.patch \
   gdb.mk \
