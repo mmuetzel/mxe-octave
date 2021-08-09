@@ -22,7 +22,8 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)' \
         --disable-perf \
         --with-libsodium \
-        $(ENABLE_SHARED_OR_STATIC) 
+        $(ENABLE_SHARED_OR_STATIC) \
+        CXXFLAGS="-std=c++14"
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
