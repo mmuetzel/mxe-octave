@@ -9,7 +9,7 @@ $(PKG)_CHECKSUM := f5fbf0e8b643c4029a069faca32dd0df2c7dd0a2
 $(PKG)_SUBDIR   := $(_PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(_PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(_PKG)/$(_PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     :=
+$(PKG)_DEPS     := build-libtool
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://github.com/libffi/libffi/tags' | \
