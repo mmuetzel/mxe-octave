@@ -31,6 +31,7 @@ SRC_FILES_1 := \
   build-gcc.mk \
   build-gettext.mk \
   build-gperf.mk \
+  build-libffi.mk \
   build-libtool.mk \
   build-lzip.mk \
   build-m4.mk \
