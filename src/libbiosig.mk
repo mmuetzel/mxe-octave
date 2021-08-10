@@ -24,10 +24,17 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
     ac_cv_func_realloc_0_nonnull=yes
 else
   $(PKG)_MAKE_FLAGS := \
-  LDLIBS='-liconv -lm -ltinyxml' \
+  LDLIBS='-liconv -lm -ltinyxml'
+endif
+
+$(PKG)_MAKE_FLAGS += \
+  CC='$(MXE_CC)' \
+  CXX='$(MXE_CXX) -std=c++14' \
+  RANLIB='$(MXE_RANLIB)' \
+  AR='$(MXE_AR)' \
+  ARFLAGS=rcs \
   LDFLAGS=$(MXE_LDFLAGS) \
   CFLAGS=$(MXE_CFLAGS)
-endif
 
 
 define $(PKG)_BUILD
@@ -35,13 +42,7 @@ define $(PKG)_BUILD
     $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
     $($(PKG)_AUTOCONF_CROSS_FLAGS) \
     --prefix=$(HOST_PREFIX) \
-    CC='$(MXE_CC)' \
-    CXX='$(MXE_CXX)' \
-    RANLIB='$(MXE_RANLIB)' \
-    AR='$(MXE_AR)' \
-    ARFLAGS=rcs \
-    LDFLAGS=$(MXE_LDFLAGS) \
-    CFLAGS=$(MXE_CFLAGS) \
+    $($(PKG)_MAKE_FLAGS) \
     LIBTOOL=$(LIBTOOL) \
     PKG_CONFIG='$(MXE_PKG_CONFIG)' \
     PKG_CONFIG_PATH='$(HOST_LIBDIR)/pkgconfig'
@@ -49,7 +50,7 @@ define $(PKG)_BUILD
   # make sure NDEBUG is defined
   $(SED) -i '/NDEBUG/ s|#||g' '$(1)'/biosig4c++/Makefile
 
-  $($(PKG)_MAKE_FLAGS) $(MAKE) -C '$(1)' lib tools
+  $($(PKG)_MAKE_FLAGS) $(MAKE) -C '$(1)/biosig4c++' lib tools
   $($(PKG)_MAKE_FLAGS) $(MAKE) -C '$(1)/biosig4c++' install DESTDIR='$(3)'
 
   # FIXME: These files should be installed by the Makefile rule.
