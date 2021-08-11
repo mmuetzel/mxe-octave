@@ -36,4 +36,15 @@ Last-Update: 2021-01-26
  QT_BEGIN_NAMESPACE
  
  
+$ diff -Naup ./src/corelib/tools/qoffsetstringarray_p.h.orig ./src/corelib/tools/qoffsetstringarray_p.h
+--- ./src/corelib/tools/qoffsetstringarray_p.h.orig	2020-10-27 09:02:11.000000000 +0100
++++ ./src/corelib/tools/qoffsetstringarray_p.h	2021-08-11 18:57:24.580782075 +0200
+@@ -55,6 +55,7 @@
+ 
+ #include <tuple>
+ #include <array>
++#include <limits>
+ 
+ QT_BEGIN_NAMESPACE
+ 
 
