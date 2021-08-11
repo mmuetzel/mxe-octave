@@ -16,13 +16,14 @@ define $(PKG)_UPDATE
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),no)
-define $(PKG)_BUILD
+  define $(PKG)_BUILD
     # build some native tools
     mkdir '$(1).native' && cd '$(1).native' && '$(1)/source/configure'
     $(MAKE) -C '$(1).native' -j '$(JOBS)'
 
     # build cross
-    mkdir '$(1).cross' && cd '$(1).cross' && '$(1)/source/configure' \
+    mkdir '$(1).cross' && cd '$(1).cross' && \
+      '$(1)/source/configure' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
@@ -34,13 +35,15 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1).cross' -j '$(JOBS)' $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS)
     $(MAKE) -C '$(1).cross' -j 1 install $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     $(INSTALL) -d '$(3)$(HOST_BINDIR)'
-    #mv -fv $(3)$(HOST_LIBDIR)/icu*.dll '$(3)$(HOST_BINDIR)/'
+    # mv -fv $(3)$(HOST_LIBDIR)/icu*.dll '$(3)$(HOST_BINDIR)/'
     $(INSTALL) -d '$(3)$(BUILD_TOOLS_PREFIX)/bin/'
     $(LN_SF) '$(HOST_BINDIR)/icu-config' '$(3)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)icu-config'
-endef
+  endef
 else
-define $(PKG)_BUILD
-    mkdir '$(1).native' && cd '$(1).native' && '$(1)/source/configure' \
+  define $(PKG)_BUILD
+    mkdir '$(1).native' && cd '$(1).native' && \
+      '$(1)/source/configure' \
+        CC=$(MXE_CC) CXX=$(MXE_CXX) AR=$(MXE_AR) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         PKG_CONFIG='$(MXE_PKG_CONFIG)' \
@@ -48,6 +51,6 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)'
     $(MAKE) -C '$(1).native' -j '$(JOBS)' $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS)
     $(MAKE) -C '$(1).native' -j 1 install $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS)
-endef
+  endef
 endif
 
