@@ -13,7 +13,7 @@ $(PKG)_SUBDIR   :=
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
 
-$(PKG)_DEPS     := 
+$(PKG)_DEPS     := msys2-libassuan msys2-libgcrypt
 
 define $(PKG)_UPDATE
     $(MSYS2_PKG_UPDATE)
