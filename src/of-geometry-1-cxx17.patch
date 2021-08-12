@@ -1,0 +1,78 @@
+Make operator() const (no mutable state allowed).
+This was always implied but is required for std::set in C++17.
+
+$ diff -Naup ./src/martinez.cpp.orig ./src/martinez.cpp
+--- ./src/martinez.cpp.orig	2020-02-03 04:35:21.000000000 +0100
++++ ./src/martinez.cpp	2021-08-12 13:22:32.462499966 +0200
+@@ -26,7 +26,7 @@ void Martinez::print (SweepEvent& e)
+ 
+ // Compare two sweep events
+ // Return true means that e1 is placed at the event queue after e2, i.e,, e1 is processed by the algorithm after e2
+-bool Martinez::SweepEventComp::operator() (SweepEvent* e1, SweepEvent* e2) {
++bool Martinez::SweepEventComp::operator() (const SweepEvent* e1, const SweepEvent* e2) const {
+ 	if (e1->p.x > e2->p.x) // Different x-coordinate
+ 		return true;
+ 	if (e2->p.x > e1->p.x) // Different x-coordinate
+@@ -40,7 +40,7 @@ bool Martinez::SweepEventComp::operator(
+ }
+ 
+ // e1 and a2 are the left events of line segments (e1->p, e1->other->p) and (e2->p, e2->other->p)
+-bool Martinez::SegmentComp::operator() (SweepEvent* e1, SweepEvent* e2) {
++bool Martinez::SegmentComp::operator() (const SweepEvent* e1, const SweepEvent* e2) const {
+ 	if (e1 == e2)
+ 		return false;
+ 	if (signedArea (e1->p, e1->other->p, e2->p) != 0 || signedArea (e1->p, e1->other->p, e2->other->p) != 0) {
+
+$ diff -Naup ./src/martinez.h.orig ./src/martinez.h
+--- ./src/martinez.h.orig	2020-02-03 04:35:21.000000000 +0100
++++ ./src/martinez.h	2021-08-12 13:21:16.650607542 +0200
+@@ -38,7 +38,7 @@ private:
+ 
+ 	struct SweepEvent;
+ 	struct SegmentComp : public binary_function<SweepEvent*, SweepEvent*, bool> { // for sorting edges in the sweep line
+-		bool operator() (SweepEvent* e1, SweepEvent* e2);
++		bool operator() (const SweepEvent* e1, const SweepEvent* e2) const;
+ 	};
+ 	
+ 	struct SweepEvent {
+@@ -65,7 +65,7 @@ private:
+ 	static void print (SweepEvent& e); // This function is intended for debugging purposes
+ 
+ 	struct SweepEventComp : public binary_function<SweepEvent*, SweepEvent*, bool> { // for sortening events
+-		bool operator() (SweepEvent* e1, SweepEvent* e2);
++		bool operator() (const SweepEvent* e1, const SweepEvent* e2) const;
+ 	};
+ 
+ 	/** @brief Event Queue */
+
+$ diff -Naup ./src/polygon.cpp.orig ./src/polygon.cpp
+--- ./src/polygon.cpp.orig	2020-02-03 04:35:21.000000000 +0100
++++ ./src/polygon.cpp	2021-08-12 13:30:01.848702003 +0200
+@@ -94,7 +94,7 @@ void Polygon::move (double x, double y)
+ namespace { // start of anonymous namespace
+ 	struct SweepEvent;
+ 	struct SegmentComp : public binary_function<SweepEvent*, SweepEvent*, bool> {
+-		bool operator() (SweepEvent* e1, SweepEvent* e2);
++		bool operator() (const SweepEvent* e1, const SweepEvent* e2) const;
+ 	};
+ 
+ 	struct SweepEvent {
+@@ -117,7 +117,7 @@ namespace { // start of anonymous namesp
+ 	};
+ 
+ 	struct SweepEventComp : public binary_function<SweepEvent*, SweepEvent*, bool> {
+-		bool operator() (SweepEvent* e1, SweepEvent* e2) {
++		bool operator() (const SweepEvent* e1, const SweepEvent* e2) const {
+ 			if (e1->p.x < e2->p.x) // Different x coordinate
+ 				return true;
+ 			if (e2->p.x < e1->p.x) // Different x coordinate
+@@ -133,7 +133,7 @@ namespace { // start of anonymous namesp
+ 
+ } // end of anonymous namespace
+ 
+-bool SegmentComp::operator() (SweepEvent* e1, SweepEvent* e2) {
++bool SegmentComp::operator() (const SweepEvent* e1, const SweepEvent* e2) const {
+ 	if (e1 == e2)
+ 		return false;
+ 	if (signedArea (e1->p, e1->other->p, e2->p) != 0 || signedArea (e1->p, e1->other->p, e2->other->p) != 0) {
+
