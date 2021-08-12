@@ -39,10 +39,11 @@ define $(PKG)_BUILD
     cd '$(1)/.build' && $(1)/configure \
         CPPFLAGS='$(CPPFLAGS) -DHAVE_SYS_TIMES_H=0' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-	$($(PKG)_CONFIGURE_FLAGS) \
+        $($(PKG)_CONFIGURE_FLAGS) \
         --prefix='$(HOST_PREFIX)' \
         --without-local-zlib \
-        --with-system-libtiff
+        --with-system-libtiff \
+        --disable-openjpeg
 
     $(MAKE) -C '$(1)/.build' -j '$(JOBS)' $(if $(BUILD_STATIC),libgs,so)
     $(MAKE) -C '$(1)/.build' prefix='$(HOST_PREFIX)' install
