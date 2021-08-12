@@ -4,13 +4,13 @@
 PKG             := msys2-libcrypt
 $(PKG)_NAME     := libcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.1-2
-$(PKG)_x86_64_CS := 4e8b7747e8443209507811492bc560a2752064f3
-$(PKG)_i686_CS  := 80868955c97e2a8d0a33f491af0f66803ecafa89
+$(PKG)_VERSION  := 2.1-3
+$(PKG)_x86_64_CS := e2da3af731c026a737c39ed042f3e51e9416bab4
+$(PKG)_i686_CS  := 6fe9df8e5bfd1636c4ff84809e03047897ff6ab0
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.xz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

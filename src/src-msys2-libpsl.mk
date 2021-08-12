@@ -4,8 +4,8 @@
 PKG             := src-msys2-libpsl
 $(PKG)_NAME     := libpsl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.21.0-1
-$(PKG)_CHECKSUM := 96d498e03fa9635ba548ff53474d93e683715164
+$(PKG)_VERSION  := 0.21.1-2
+$(PKG)_CHECKSUM := a7a1626ecf9171b3d90a39140e8405a7813f59c2
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

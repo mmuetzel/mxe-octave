@@ -4,13 +4,13 @@
 PKG             := msys2-libpsl
 $(PKG)_NAME     := libpsl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.21.0-1
-$(PKG)_x86_64_CS := 54c0714d9ea362822ad1fa3663d6feb7a704bc43
-$(PKG)_i686_CS  := 60f5a4b5209d3e370e5e93ab4b69071eb16f12b3
+$(PKG)_VERSION  := 0.21.1-2
+$(PKG)_x86_64_CS := 790e9da9b3a7d5b62563946f3da0602bdbac8a75
+$(PKG)_i686_CS  := 65e5a1d26d62a4c79e8f67fa8156e646dae379d5
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.xz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

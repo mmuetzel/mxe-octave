@@ -4,8 +4,8 @@
 PKG             := src-msys2-python
 $(PKG)_NAME     := python
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.8.4-1
-$(PKG)_CHECKSUM := 2318102220163c823e9f7f2e8d4a5ee75f094b9b
+$(PKG)_VERSION  := 3.9.5-1
+$(PKG)_CHECKSUM := 1491bb730710db207210148fdb744ddb3ce7719c
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
