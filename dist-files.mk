@@ -923,6 +923,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-findutils.mk \
   msys2-gawk.mk \
   msys2-gcc-libs.mk \
+  msys2-glib2.mk \
   msys2-gmp.mk \
   msys2-gnupg.mk \
   msys2-grep.mk \
@@ -960,12 +961,14 @@ SRC_MSYS2_FILES_1 := \
   msys2-libunistring.mk \
   msys2-libutil-linux.mk \
   msys2-libxml2.mk \
+  msys2-libxslt.mk \
   msys2-make.mk \
   msys2-mintty.mk \
   msys2-mpdecimal.mk \
   msys2-mpfr.mk \
   msys2-ncurses.mk \
   msys2-openssl.mk \
+  msys2-p11-kit.mk \
   msys2-pacman-mirrors.mk \
   msys2-pacman.mk \
   msys2-patch.mk \
@@ -993,6 +996,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-findutils.mk \
   src-msys2-gawk.mk \
   src-msys2-gcc-libs.mk \
+  src-msys2-glib2.mk \
   src-msys2-gmp.mk \
   src-msys2-gnupg.mk \
   src-msys2-grep.mk \
@@ -1030,12 +1034,14 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-libunistring.mk \
   src-msys2-libutil-linux.mk \
   src-msys2-libxml2.mk \
+  src-msys2-libxslt.mk \
   src-msys2-make.mk \
   src-msys2-mintty.mk \
   src-msys2-mpdecimal.mk \
   src-msys2-mpfr.mk \
   src-msys2-ncurses.mk \
   src-msys2-openssl.mk \
+  src-msys2-p11-kit.mk \
   src-msys2-pacman-mirrors.mk \
   src-msys2-pacman.mk \
   src-msys2-patch.mk \
