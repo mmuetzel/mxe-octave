@@ -222,6 +222,8 @@ def install_pkg(pkg, env):
     save_list_file (pkg_info_dir + "/files", filelist, "%FILES%")
     save_desc_file (pkg_info_dir + "/desc", pkginfo)
     shutil.copy2(tmpdir + "/.MTREE", pkg_info_dir + "/mtree")
+    if os.path.exists(tmpdir + "/.INSTALL") == True:
+      shutil.copy2(tmpdir + "/.INSTALL", pkg_info_dir + "/install")
 
   finally:
     if env.verbose:
