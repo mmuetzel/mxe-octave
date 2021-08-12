@@ -965,6 +965,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-mpdecimal.mk \
   msys2-mpfr.mk \
   msys2-ncurses.mk \
+  msys2-openssl.mk \
   msys2-pacman-mirrors.mk \
   msys2-pacman.mk \
   msys2-patch.mk \
@@ -1034,6 +1035,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-mpdecimal.mk \
   src-msys2-mpfr.mk \
   src-msys2-ncurses.mk \
+  src-msys2-openssl.mk \
   src-msys2-pacman-mirrors.mk \
   src-msys2-pacman.mk \
   src-msys2-patch.mk \
