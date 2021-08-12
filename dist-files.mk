@@ -49,6 +49,7 @@ SRC_FILES_1 := \
   build-scons.mk \
   build-sed.mk \
   build-setuptools.mk \
+  build-zstd.mk \
   build-texinfo.mk \
   build-xz.mk \
   build-yasm.mk \
