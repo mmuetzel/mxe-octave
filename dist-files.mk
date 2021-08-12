@@ -915,6 +915,7 @@ SRC_MSVCTOOLS_MATH_FILES := \
 
 SRC_MSYS2_FILES_1 := \
   msys2-bash.mk \
+  msys2-ca-certificates.mk \
   msys2-coreutils.mk \
   msys2-diffutils.mk \
   msys2-dos2unix.mk \
@@ -974,6 +975,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-tar.mk \
   msys2-unzip.mk \
   msys2-wget.mk \
+  msys2-which.mk \
   msys2-zip.mk \
   msys2-zlib.mk
 
@@ -982,6 +984,7 @@ SRC_MSYS2_FILES := \
 
 SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-bash.mk \
+  src-msys2-ca-certificates.mk \
   src-msys2-coreutils.mk \
   src-msys2-diffutils.mk \
   src-msys2-dos2unix.mk \
@@ -1041,6 +1044,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-tar.mk \
   src-msys2-unzip.mk \
   src-msys2-wget.mk \
+  src-msys2-which.mk \
   src-msys2-zip.mk \
   src-msys2-zlib.mk
 
