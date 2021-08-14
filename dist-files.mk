@@ -454,6 +454,7 @@ SRC_FILES_1 := \
   mxml-test.c \
   mxml.mk \
   native-binutils.mk \
+  native-gcc-1-canadian-cross.patch \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \
