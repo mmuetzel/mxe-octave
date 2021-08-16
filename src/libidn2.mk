@@ -3,8 +3,8 @@
 
 PKG             := libidn2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.3.1
-$(PKG)_CHECKSUM := 00664b3e4373154caefb3e85c264e0078f269bc6
+$(PKG)_VERSION  := 2.3.2
+$(PKG)_CHECKSUM := 0a01fca61ab09f5ab3f2d7fa968d3276133f03d7
 $(PKG)_SUBDIR   := libidn2-$($(PKG)_VERSION)
 $(PKG)_FILE     := libidn2-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/libidn/$($(PKG)_FILE)
