@@ -3,8 +3,8 @@
 
 PKG             := nsis
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.06.1
-$(PKG)_CHECKSUM := 525d763d08a8c69d5541d5b025adc56907b4c5de
+$(PKG)_VERSION  := 3.07
+$(PKG)_CHECKSUM := a1f7d4de499e74413c0c9d186406a00e462093e7
 $(PKG)_SUBDIR   := nsis-$($(PKG)_VERSION)-src
 $(PKG)_FILE     := nsis-$($(PKG)_VERSION)-src.tar.bz2
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/nsis/NSIS 3/$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -19,7 +19,7 @@ endef
 ifeq ($(ENABLE_WINDOWS_64),yes)
     $(PKG)_PREBUILD = \
         $(SED) -i 's/pei-i386/pei-x86-64/' '$(1)/SCons/Config/linker_script' && \
-        $(SED) -i 's/m_target_type=TARGET_X86ANSI/m_target_type=TARGET_AMD64/' '$(1)/Source/build.cpp' 
+        $(SED) -i 's/m_target_type=TARGET_X86UNICODE/m_target_type=TARGET_AMD64/' '$(1)/Source/build.cpp' 
 
     $(PKG)_TARGET_SCON_OPTIONS := TARGET_ARCH=amd64
 endif
