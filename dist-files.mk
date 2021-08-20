@@ -477,6 +477,7 @@ SRC_FILES_1 := \
   of-audio.mk \
   of-communications-1-catop.patch \
   of-communications.mk \
+  of-control-1-deprecated-warnings.patch \
   of-control.mk \
   of-data-smoothing.mk \
   of-database.mk \
@@ -496,6 +497,7 @@ SRC_FILES_1 := \
   of-geometry.mk \
   of-gsl-1-cross-fixes.patch \
   of-gsl.mk \
+  of-image-1-namespace.patch \
   of-image-1-no-jit.patch \
   of-image.mk \
   of-instrument-control.mk \
@@ -531,6 +533,7 @@ SRC_FILES_1 := \
   of-quaternion-2-dev-fixes.patch \
   of-quaternion.mk \
   of-queueing.mk \
+  of-signal-1-deprecated-warnings.patch \
   of-signal.mk \
   of-sockets.mk \
   of-sparsersb.mk \
@@ -1123,5 +1126,3 @@ DIST_FILES := \
   $(TOOLS_FILES) \
   $(FILES) \
   $(INSTALL_FILES)
-
-
