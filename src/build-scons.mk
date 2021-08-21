@@ -11,7 +11,7 @@ $(PKG)_URL      := http://prdownloads.sourceforge.net/scons/$($(PKG)_FILE)
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
     $(PKG)_DEPS     := 
 else
-    $(PKG)_DEPS     := build-python
+    $(PKG)_DEPS     := build-python3
 endif
 
 define $(PKG)_UPDATE
@@ -21,5 +21,5 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && python setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
+    cd '$(1)' && $(PYTHON3) setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
 endef
