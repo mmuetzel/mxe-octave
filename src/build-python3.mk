@@ -30,4 +30,7 @@ define $(PKG)_BUILD
 
   $(MAKE) -C '$(1)/.build' -j '$(JOBS)'
   $(MAKE) -C '$(1)/.build' -j 1 install
+
+  # install python3 as python
+  ln -sf '$(BUILD_TOOLS_PREFIX)/bin/python3' '$(BUILD_TOOLS_PREFIX)/bin/python'
 endef
