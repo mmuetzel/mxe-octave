@@ -3,8 +3,8 @@
 
 PKG             := netcdf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.7.4
-$(PKG)_CHECKSUM := dce4851dd65bf8ec985f11711bb5a8aa299515b9
+$(PKG)_VERSION  := 4.8.0
+$(PKG)_CHECKSUM := 727a8fa93da516567106266b4a16d9fd792cf443
 $(PKG)_SUBDIR   := netcdf-c-$($(PKG)_VERSION)
 $(PKG)_FILE     := netcdf-c-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.unidata.ucar.edu/pub/netcdf/$($(PKG)_FILE)
@@ -32,7 +32,8 @@ define $(PKG)_BUILD
     fi
     cd '$(1)' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
+        CPPFLAGS='-DH5_USE_110_API -I$(HOST_PREFIX)/include' \
+        $(CONFIGURE_LDFLAGS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
         $($(PKG)_CONFIGURE_OPTIONS) \
