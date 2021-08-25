@@ -3,11 +3,11 @@
 
 PKG             := portaudio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 190700_20210406
-$(PKG)_CHECKSUM := b7e9b9c53d993f6d110487ef56a3d4529d21b2f1
-$(PKG)_SUBDIR   := portaudio
-$(PKG)_FILE     := pa_stable_v$($(PKG)_VERSION).tgz
-$(PKG)_URL      := http://files.portaudio.com/archives/$($(PKG)_FILE)
+$(PKG)_VERSION  := 19.7.0
+$(PKG)_CHECKSUM := 90676f9b7856bf100b396d8f14cc95bbfb91fa40
+$(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/PortAudio/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := 
 
 $(PKG)_SYSDEP_OPTIONS :=
@@ -19,8 +19,8 @@ ifeq ($(MXE_SYSTEM),mingw)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://files.portaudio.com/download.html' | \
-    $(SED) -n 's,.*pa_stable_v\([0-9][^>]*\)\.tgz.*,\1,p' | \
+    $(WGET) -q -O- 'https://github.com/PortAudio/portaudio/tags' | \
+    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
     head -1
 endef
 
