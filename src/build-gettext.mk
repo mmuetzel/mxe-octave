@@ -17,18 +17,28 @@ define $(PKG)_UPDATE
     tail -1
 endef
 
-## Use -j 1 instead of -j $(JOBS) to avoid failures with parallel builds.
-
 define $(PKG)_BUILD
-    mkdir '$(1).build'
-    cd    '$(1).build' && '$(1)/configure' \
+    mkdir '$(1)/gettext-runtime/.build'
+    cd    '$(1)/gettext-runtime/.build' && '$(1)/gettext-runtime/configure' \
         --prefix='$(BUILD_TOOLS_PREFIX)' \
         --without-libexpat-prefix \
         --without-libxml2-prefix \
 	$($(PKG)_CONFIGURE_OPTIONS)
-    $(MAKE) -C '$(1).build' -j 1
+    $(MAKE) -C '$(1)/gettext-runtime/.build/intl' -j $(JOBS)
     if test x$(MXE_SYSTEM) = xmsvc; then \
-        cd '$(1).build' && $(CONFIGURE_POST_HOOK); \
+        cd '$(1)/gettext-runtime/.build/intl' && $(CONFIGURE_POST_HOOK); \
     fi
-    $(MAKE) -C '$(1).build' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
+    $(MAKE) -C '$(1)/gettext-runtime/.build/intl' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
+
+    mkdir '$(1)/gettext-tools/.build'
+    cd    '$(1)/gettext-tools/.build' && '$(1)/gettext-tools/configure' \
+        --prefix='$(BUILD_TOOLS_PREFIX)' \
+        --without-libexpat-prefix \
+        --without-libxml2-prefix \
+	$($(PKG)_CONFIGURE_OPTIONS)
+    $(MAKE) -C '$(1)/gettext-tools/.build/intl' -j $(JOBS)
+    if test x$(MXE_SYSTEM) = xmsvc; then \
+        cd '$(1)/gettext-tools/.build/intl' && $(CONFIGURE_POST_HOOK); \
+    fi
+    $(MAKE) -C '$(1)/gettext-tools/.build/intl' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
 endef
