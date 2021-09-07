@@ -18,6 +18,8 @@ define $(PKG)_UPDATE
     head -1
 endef
 
+## Use -j 1 instead of -j $(JOBS) to avoid failures with parallel builds.
+
 define $(PKG)_BUILD
     cd '$(1)/gettext-runtime' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
@@ -27,7 +29,7 @@ define $(PKG)_BUILD
         --without-libexpat-prefix \
         --without-libxml2-prefix \
         CONFIG_SHELL=$(SHELL) && $(CONFIGURE_POST_HOOK)
-    $(MAKE) -C '$(1)/gettext-runtime/intl' -j '$(JOBS)' 
+    $(MAKE) -C '$(1)/gettext-runtime/intl' -j 1
     $(MAKE) -C '$(1)/gettext-runtime/intl' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
 
     cd '$(1)/gettext-tools' && ./configure \
@@ -39,7 +41,7 @@ define $(PKG)_BUILD
         --without-libxml2-prefix \
         $(if $(filter msvc,$(MXE_SYSTEM)),ac_cv_func_memset=yes) \
         CONFIG_SHELL=$(SHELL) && $(CONFIGURE_POST_HOOK)
-     $(MAKE) -C '$(1)/gettext-tools/intl' -j '$(JOBS)' 
+     $(MAKE) -C '$(1)/gettext-tools/intl' -j 1
      $(MAKE) -C '$(1)/gettext-tools/intl' -j 1 install DESTDIR='$(3)' $(MXE_DISABLE_DOCS) bin_PROGRAMS=
      if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
        rm -rf $(3)$(HOST_PREFIX)/share/doc/$(PKG); \
