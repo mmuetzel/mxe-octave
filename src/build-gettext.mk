@@ -17,6 +17,8 @@ define $(PKG)_UPDATE
     tail -1
 endef
 
+## Use -j 1 instead of -j $(JOBS) to avoid failures with parallel builds.
+
 define $(PKG)_BUILD
     mkdir '$(1).build'
     cd    '$(1).build' && '$(1)/configure' \
@@ -24,7 +26,7 @@ define $(PKG)_BUILD
         --without-libexpat-prefix \
         --without-libxml2-prefix \
 	$($(PKG)_CONFIGURE_OPTIONS)
-    $(MAKE) -C '$(1).build' -j '$(JOBS)'
+    $(MAKE) -C '$(1).build' -j 1
     if test x$(MXE_SYSTEM) = xmsvc; then \
         cd '$(1).build' && $(CONFIGURE_POST_HOOK); \
     fi
