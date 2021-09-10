@@ -24,6 +24,9 @@ define $(PKG)_BUILD
         --without-libexpat-prefix \
         --without-libxml2-prefix \
 	$($(PKG)_CONFIGURE_OPTIONS)
+    $(MAKE) -C '$(1).build/gnulib-local' -j $(JOBS)
+    $(MAKE) -C '$(1).build/gettext-runtime/gnulib-lib' -j $(JOBS)
+    $(MAKE) -C '$(1).build/gettext-tools/gnulib-lib' -j $(JOBS)
     $(MAKE) -C '$(1).build' -j $(JOBS)
     $(MAKE) -C '$(1).build' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
 endef
