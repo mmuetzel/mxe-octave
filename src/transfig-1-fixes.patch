@@ -1,20 +1,33 @@
-diff -ur fig2dev-3.2.8.orig/fig2dev/dev/genbitmaps.c fig2dev-3.2.8/fig2dev/dev/genbitmaps.c
---- fig2dev-3.2.8.orig/fig2dev/dev/genbitmaps.c	2020-12-24 07:58:17.831822681 -0500
-+++ fig2dev-3.2.8/fig2dev/dev/genbitmaps.c	2020-12-24 07:59:41.971440443 -0500
-@@ -493,8 +493,9 @@
- 		err_msg("Cannot write command for conversion to bitmap");
+diff -ur fig2dev-3.2.8b.orig/fig2dev/dev/genbitmaps.c fig2dev-3.2.8b/fig2dev/dev/genbitmaps.c
+--- fig2dev-3.2.8b.orig/fig2dev/dev/genbitmaps.c	2021-09-06 12:57:54.175751149 -0400
++++ fig2dev-3.2.8b/fig2dev/dev/genbitmaps.c	2021-09-06 13:10:27.022794005 -0400
+@@ -95,6 +95,13 @@
+ static int	border_margin = 0;
+ static int	smooth = 0;
+ 
++#if defined (__WIN32__) || !defined (__CYGWIN__)
++  #define WEXITSTATUS(w)  (w)
++  #define WIFEXITED(w)	  (true)
++  #define WIFSIGNALED(w)  (false)
++  #define WTERMSIG(w)     (0)
++#endif
++
+ void
+ genbitmaps_option(char opt, char *optarg)
+ {
+@@ -498,7 +505,9 @@
  		BITMAP_EXIT_FAILURE;
  	}
--
+ 
 +#if !defined (__WIN32__) || defined (__CYGWIN__)
  	(void) signal(SIGPIPE, bitmaps_broken_pipe);
 +#endif
  	if ((tfp = popen(com, "w")) == NULL) {
  		fprintf(stderr, "fig2dev: Cannot open pipe to ghostscript\n");
  		fprintf(stderr, "command was: %s\n", com);
-@@ -534,8 +535,9 @@
- 
- 	status = pclose(tfp);
+@@ -542,8 +551,9 @@
+ 	else
+ 		status = -1;
  	tfp = NULL;	/* Otherwise main() tries to close tfp again */
 +#if !defined (__WIN32__) || defined (__CYGWIN__)
  	(void) signal(SIGPIPE, SIG_DFL);
@@ -23,9 +36,9 @@ diff -ur fig2dev-3.2.8.orig/fig2dev/dev/genbitmaps.c fig2dev-3.2.8/fig2dev/dev/g
  	if (status != 0) {
  		FILE	*f;
  
-diff -ur fig2dev-3.2.8.orig/fig2dev/dev/genpdf.c fig2dev-3.2.8/fig2dev/dev/genpdf.c
---- fig2dev-3.2.8.orig/fig2dev/dev/genpdf.c	2020-12-24 07:58:17.831822681 -0500
-+++ fig2dev-3.2.8/fig2dev/dev/genpdf.c	2020-12-24 08:01:13.368456502 -0500
+diff -ur fig2dev-3.2.8b.orig/fig2dev/dev/genpdf.c fig2dev-3.2.8b/fig2dev/dev/genpdf.c
+--- fig2dev-3.2.8b.orig/fig2dev/dev/genpdf.c	2021-09-06 12:57:54.174751090 -0400
++++ fig2dev-3.2.8b/fig2dev/dev/genpdf.c	2021-09-06 13:00:15.862053203 -0400
 @@ -111,7 +111,9 @@
  		exit(EXIT_FAILURE);
  	}
@@ -46,3 +59,39 @@ diff -ur fig2dev-3.2.8.orig/fig2dev/dev/genpdf.c fig2dev-3.2.8/fig2dev/dev/genpd
  	}
  
  	if (com != com_buf)
+diff -ur fig2dev-3.2.8b.orig/fig2dev/dev/readeps.c fig2dev-3.2.8b/fig2dev/dev/readeps.c
+--- fig2dev-3.2.8b.orig/fig2dev/dev/readeps.c	2021-09-06 12:57:54.173751032 -0400
++++ fig2dev-3.2.8b/fig2dev/dev/readeps.c	2021-09-06 13:13:39.700059768 -0400
+@@ -35,6 +35,13 @@
+ #include "messages.h"
+ #include "readpics.h"
+ 
++#if defined (__WIN32__) || !defined (__CYGWIN__)
++  #define WEXITSTATUS(w)  (w)
++  #define WIFEXITED(w)	  (true)
++  #define WIFSIGNALED(w)  (false)
++  #define WTERMSIG(w)     (0)
++#endif
++
+ int	read_eps(F_pic *pic, struct xfig_stream *restrict pic_stream,
+ 		int *llx, int *lly);
+ 
+diff -ur fig2dev-3.2.8b.orig/fig2dev/dev/readpics.c fig2dev-3.2.8b/fig2dev/dev/readpics.c
+--- fig2dev-3.2.8b.orig/fig2dev/dev/readpics.c	2021-09-06 12:57:54.173751032 -0400
++++ fig2dev-3.2.8b/fig2dev/dev/readpics.c	2021-09-06 13:11:49.848636802 -0400
+@@ -36,6 +36,15 @@
+ #include "xtmpfile.h"
+ 
+ 
++#if defined (__WIN32__) || !defined (__CYGWIN__)
++  #define WEXITSTATUS(w)  (w)
++  #define WIFEXITED(w)	  (true)
++  #define WIFSIGNALED(w)  (false)
++  #define WTERMSIG(w)     (0)
++#endif
++
++
++
+ void
+ init_stream(struct xfig_stream *restrict xf_stream)
+ {
