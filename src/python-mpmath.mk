@@ -2,11 +2,11 @@
 # See index.html for further information.
 
 PKG             := python-mpmath
-$(PKG)_VERSION  := 1.1.0
-$(PKG)_CHECKSUM := 3f479408ea65b08bc23eeebe5dac2f2293dfec9d
+$(PKG)_VERSION  := 1.2.1
+$(PKG)_CHECKSUM := ce8bd24606eeb02218b26304e6d99228919021f8
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := mpmath-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://files.pythonhosted.org/packages/ca/63/3384ebb3b51af9610086b23ea976e6d27d6d97bf140a76a365bd77a3eb32/$($(PKG)_FILE)
+$(PKG)_URL      := https://files.pythonhosted.org/packages/95/ba/7384cb4db4ed474d4582944053549e02ec25da630810e4a23454bc9fa617/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
