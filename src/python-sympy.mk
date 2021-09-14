@@ -2,9 +2,9 @@
 # See index.html for further information.
 
 PKG             := python-sympy
-$(PKG)_VERSION  := 1.4
-$(PKG)_CHECKSUM := 9485daf9e29f4ffa20e04111bea940a917eb3a69
-$(PKG)_SUBDIR   := 
+$(PKG)_VERSION  := 1.5
+$(PKG)_CHECKSUM := be2e740860f7900f0ee2a8102d2943fded44125c
+$(PKG)_SUBDIR   :=
 $(PKG)_FILE     := sympy-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/sympy/sympy/releases/download/sympy-$($(PKG)_VERSION)/$($(PKG)_FILE)
 
