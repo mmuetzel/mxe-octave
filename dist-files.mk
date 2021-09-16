@@ -339,7 +339,6 @@ SRC_FILES_1 := \
   matio.mk \
   mdbtools.mk \
   mesa-1-meson.patch \
-  mesa-2-uninitalized.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
