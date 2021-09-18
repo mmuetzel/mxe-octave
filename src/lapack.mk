@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := lapack
-$(PKG)_VERSION  := 3.9.1
-$(PKG)_CHECKSUM := ccb1e9cb6e7fa7db8a680292457d7d990f25d286
+$(PKG)_VERSION  := 3.10.0
+$(PKG)_CHECKSUM := 4a9384523bf236c83568884e8c62d9517e41ac42
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/Reference-LAPACK/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
