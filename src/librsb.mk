@@ -3,8 +3,8 @@
 
 PKG             := librsb
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.0.9
-$(PKG)_CHECKSUM := b35201470e6691d55c32e941969cd890c1076520
+$(PKG)_VERSION  := 1.2.0.10
+$(PKG)_CHECKSUM := 44856577ab31080951f2b18fa9f84d7dc626b2cd
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$($(PKG)_FILE)
@@ -20,10 +20,6 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    # This is a work-around for a bug in version 1.2.0.9.
-    # Remove the following command once this is fixed upstream.
-    $(SED) -i 's/.A.=.rsb__real.*\([,;]\)/1\1/g' $(1)/rsb_eps.c
-
     cd '$(1)' && autoreconf -fi && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
