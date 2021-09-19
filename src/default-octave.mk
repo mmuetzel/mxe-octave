@@ -182,12 +182,12 @@ define $(PKG)_BUILD
       && [ "$(ENABLE_JAVA)" == "yes" ]; then \
       if [ ! -f $(HOST_INCDIR)/java/jni.h ]; then \
         mkdir -p '$(HOST_INCDIR)/java'; \
-        $(WGET) -N https://raw.github.com/openjdk/jdk/master/src/java.base/share/native/include/jni.h \
+        $(WGET) -N https://raw.github.com/openjdk/jdk/7b2e99178f7cf41ecd86b2ccfba38ea653e815e7/jdk/src/share/javavm/export/jni.h \
           -O $(HOST_INCDIR)/java/jni.h; \
       fi; \
       if [ ! -f $(HOST_INCDIR)/java/win32/jni_md.h ]; then \
         mkdir -p '$(HOST_INCDIR)/java/win32'; \
-        $(WGET) -N https://raw.github.com/openjdk/jdk/master/src/java.base/windows/native/include/jni_md.h \
+        $(WGET) -N https://raw.github.com/openjdk/jdk/7b2e99178f7cf41ecd86b2ccfba38ea653e815e7/jdk/src/windows/javavm/export/jni_md.h \
           -O $(HOST_INCDIR)/java/win32/jni_md.h; \
       fi; \
     fi
