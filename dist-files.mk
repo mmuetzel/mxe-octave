@@ -44,7 +44,6 @@ SRC_FILES_1 := \
   build-perl.mk \
   build-pkg-config-1-fixes.patch \
   build-pkg-config.mk \
-  build-python.mk \
   build-python3.mk \
   build-scons.mk \
   build-sed.mk \
