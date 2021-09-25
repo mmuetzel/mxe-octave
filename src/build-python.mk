@@ -1,7 +1,7 @@
 # This file is part of MXE.
 # See index.html for further information.
 
-PKG             := build-python3
+PKG             := build-python
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 3.8.3
 $(PKG)_CHECKSUM := 3bafa40df1cd069c112761c388a9f2e94b5d33dd

@@ -272,7 +272,7 @@ BUILD_TOOLS := $(ALL_BUILD_TOOLS)
 # to packages that need them
 BUILD_TOOLS_OPT := \
   build-libffi build-mako build-markupsafe build-meson build-ninja \
-  build-python3 build-octave build-setuptools build-scons
+  build-python build-octave build-setuptools build-scons
 BUILD_TOOLS := $(filter-out $(BUILD_TOOLS_OPT), $(BUILD_TOOLS))
 # Building flex for native mingw fails, so disable it.
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -298,9 +298,9 @@ endif
 # use a native python in native mingw
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
   REQUIREMENTS += python3
-  BUILD_TOOLS := $(filter-out build-python3, $(BUILD_TOOLS))
+  BUILD_TOOLS := $(filter-out build-python, $(BUILD_TOOLS))
 endif
-PYTHON3 ?= python3
+MXE_PYTHON ?= python3
 
 # use the a native awk in native mingw
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)

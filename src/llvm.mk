@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 619fe668e0972d11d0fa2db670a57a42d02fb8ca
 $(PKG)_SUBDIR   := llvm-$($(PKG)_VERSION).src
 $(PKG)_FILE     := llvm-$($(PKG)_VERSION).src.tar.xz
 $(PKG)_URL      := https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-cmake build-ninja build-python3
+$(PKG)_DEPS     := build-cmake build-ninja build-python
 
 define $(PKG)_UPDATE
     wget -q -O- 'http://releases.llvm.org/download.html?' | \

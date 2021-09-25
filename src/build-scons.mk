@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 47bb89c546804fd76724fd206817ae9a19d4f2bd
 $(PKG)_SUBDIR   := SCons-$($(PKG)_VERSION)
 $(PKG)_FILE     := scons-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://sourceforge.net/projects/scons/files/scons/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-python3
+$(PKG)_DEPS     := build-python
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- https://sourceforge.net/projects/scons/files/scons/ | \
@@ -17,5 +17,5 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && $(PYTHON3) setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
+    cd '$(1)' && $(MXE_PYTHON) setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
 endef

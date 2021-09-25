@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 2ab17a1bb2a44e0a9cb0b26bcf899689ba1bbb3b
 $(PKG)_SUBDIR   := libxcb-$($(PKG)_VERSION)
 $(PKG)_FILE     := libxcb-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-python3 pthread-stubs util-macros xau xcb-proto
+$(PKG)_DEPS     := build-python pthread-stubs util-macros xau xcb-proto
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://www.x.org/archive/individual/xcb/' | \
@@ -23,7 +23,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
 else
   define $(PKG)_BUILD
     mkdir '$(1)/.build'
-    cd '$(1)/.build' && $($(PKG)_CONFIGURE_ENV) PYTHON=$(PYTHON3) '$(1)/configure' \
+    cd '$(1)/.build' && $($(PKG)_CONFIGURE_ENV) PYTHON=$(MXE_PYTHON) '$(1)/configure' \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
