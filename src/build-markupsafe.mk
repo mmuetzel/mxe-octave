@@ -3,12 +3,12 @@
 
 PKG             := build-markupsafe
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0
-$(PKG)_CHECKSUM := 9072e80a7faa0f49805737a48f3d871eb1c48728
+$(PKG)_VERSION  := 2.0.1
+$(PKG)_CHECKSUM := e1b766b2b1601fde67b3b19ed2f13b9746bb1cca
 $(PKG)_SUBDIR   := MarkupSafe-$($(PKG)_VERSION)
 $(PKG)_FILE     := MarkupSafe-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://pypi.python.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-python
+$(PKG)_URL      := https://files.pythonhosted.org/packages/bf/10/ff66fea6d1788c458663a84d88787bae15d45daa16f6b3ef33322a51fc7e/$($(PKG)_FILE)
+$(PKG)_DEPS     := build-python build-setuptools
 
 define $(PKG)_UPDATE
     echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
