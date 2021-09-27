@@ -122,7 +122,6 @@ SRC_FILES_1 := \
   gd.mk \
   gdal-1-gcc11.patch \
   gdal.mk \
-  gdb-1-gnulib.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
