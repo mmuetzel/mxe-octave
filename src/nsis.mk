@@ -3,8 +3,8 @@
 
 PKG             := nsis
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.07
-$(PKG)_CHECKSUM := a1f7d4de499e74413c0c9d186406a00e462093e7
+$(PKG)_VERSION  := 3.08
+$(PKG)_CHECKSUM := 784061fd42bf5e838e40e9f4504fd3e696d5d9a1
 $(PKG)_SUBDIR   := nsis-$($(PKG)_VERSION)-src
 $(PKG)_FILE     := nsis-$($(PKG)_VERSION)-src.tar.bz2
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/nsis/NSIS 3/$($(PKG)_VERSION)/$($(PKG)_FILE)
