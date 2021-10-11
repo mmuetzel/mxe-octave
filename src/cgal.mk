@@ -3,18 +3,17 @@
 
 PKG             := cgal
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.0.2
-$(PKG)_CHECKSUM := 20c58ebc021754e8be35237bcda43b0084f60617
+$(PKG)_VERSION  := 4.11
+$(PKG)_CHECKSUM := 9a7963bc59997459bb456a69b2f286eb1667f28c
 $(PKG)_SUBDIR   := CGAL-$($(PKG)_VERSION)
 $(PKG)_FILE     := CGAL-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := https://gforge.inria.fr/frs/download.php/31176/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/CGAL/cgal/releases/download/releases/$($(PKG)_SUBDIR)/$($(PKG)_FILE)
 $(PKG)_DEPS     := boost gmp mpfr qt
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://gforge.inria.fr/frs/?group_id=52' | \
-    grep 'CGAL-' | \
-    $(SED) -n 's,.*CGAL-\([0-9][^>a-z]*\)\.tar.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://github.com/CGAL/cgal/tags' | \
+    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
