@@ -4,10 +4,10 @@
 PKG             := gcc-isl
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 0.22.1
-$(PKG)_CHECKSUM := 125303d52bd6226f80d23bf1f76b78c6f1115568
-$(PKG)_SUBDIR   := isl-$($(PKG)_VERSION)
-$(PKG)_FILE     := isl-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := http://isl.gforge.inria.fr/$($(PKG)_FILE)
+$(PKG)_CHECKSUM := ce66c4415906bf2c16a8f09f31383f4fe0991531
+$(PKG)_SUBDIR   := isl-isl-$($(PKG)_VERSION)-788faca
+$(PKG)_FILE     := isl-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://repo.or.cz/isl.git/snapshot/$($(PKG)_FILE)
 $(PKG)_DEPS     := gcc-gmp
 
 define $(PKG)_UPDATE
@@ -16,6 +16,7 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    cd '$(1)' && ./autogen.sh
     mkdir '$(1).build'
     cd    '$(1).build' && '$(1)/configure' \
         --prefix='$(BUILD_TOOLS_PREFIX)' \
