@@ -3,10 +3,10 @@
 
 PKG             := qscintilla
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.11.6
-$(PKG)_CHECKSUM := fe010886e59996b53e38811f67993262220c8ae5
-$(PKG)_SUBDIR   := QScintilla-$($(PKG)_VERSION)
-$(PKG)_FILE     := QScintilla-$($(PKG)_VERSION).tar.gz
+$(PKG)_VERSION  := 2.13.0
+$(PKG)_CHECKSUM := 219eb146f7e3dd17b5fa8c735b851cb70a30977c
+$(PKG)_SUBDIR   := QScintilla_src-$($(PKG)_VERSION)
+$(PKG)_FILE     := QScintilla_src-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.riverbankcomputing.com/static/Downloads/QScintilla/$($(PKG)_VERSION)/$($(PKG)_FILE)
 
 
@@ -24,7 +24,7 @@ endif
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://www.riverbankcomputing.com/software/qscintilla/download' | \
-        $(SED) -n 's,.*QScintilla-\([0-9][^>]*\)\.zip.*,\1,p' | \
+        $(SED) -n 's,.*QScintilla_src-\([0-9][^>]*\)\.zip.*,\1,p' | \
         head -n 1 
 endef
 
@@ -43,7 +43,7 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
 endif
 
 define $(PKG)_BUILD
-    cd '$(1)/Qt4Qt5' && \
+    cd '$(1)/src' && \
       '$(MXE_QMAKE)' -makefile \
         $($(PKG)_QMAKE_SPEC_OPTION) \
         QMAKE_UIC='$(MXE_UIC)' \
@@ -53,13 +53,13 @@ define $(PKG)_BUILD
 
     if [ $(MXE_SYSTEM) = msvc ]; then \
         mkdir -p '$(3)' && \
-        cd '$(1)/Qt4Qt5' && \
+        cd '$(1)/src' && \
         env -u MAKE -u MAKEFLAGS nmake && \
         env -u MAKE -u MAKEFLAGS nmake \
             INSTALL_ROOT=`cd $(3) && pwd -W | sed -e 's,^[a-zA-Z]:,,' -e 's,/,\\\\,g'` install; \
     else \
-        $(MAKE) -C '$(1)/Qt4Qt5' -j '$(JOBS)' && \
-        $(MAKE) -C '$(1)/Qt4Qt5' -j 1 install INSTALL_ROOT='$($(PKG)_INSTALL_ROOT)'; \
+        $(MAKE) -C '$(1)/src' -j '$(JOBS)' && \
+        $(MAKE) -C '$(1)/src' -j 1 install INSTALL_ROOT='$($(PKG)_INSTALL_ROOT)'; \
     fi
 
     if [ $(MXE_SYSTEM) = mingw ]; then \
