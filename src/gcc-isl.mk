@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := ce66c4415906bf2c16a8f09f31383f4fe0991531
 $(PKG)_SUBDIR   := isl-isl-$($(PKG)_VERSION)-788faca
 $(PKG)_FILE     := isl-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://repo.or.cz/isl.git/snapshot/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc-gmp
+$(PKG)_DEPS     := build-libtool gcc-gmp
 
 define $(PKG)_UPDATE
     echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
