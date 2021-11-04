@@ -26,7 +26,7 @@ endif
 
 $(PKG)_MAKE_OPTS := \
   PREFIX=$(HOST_PREFIX) \
-  DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 \
+  DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 TARGET=GENERIC \
   NO_LAPACK=1 NO_CBLAS=1 \
   USE_THREAD=1 NUM_THREADS=24 \
   CC=$($(PKG)_MXE_CC) FC=$($(PKG)_MXE_F77)
@@ -36,17 +36,9 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
   $(PKG)_MAKE_OPTS += HOSTCC=gcc HOSTFC=gfortran CROSS=1 CROSS_SUFFIX=$(MXE_TOOL_PREFIX)
 endif
 
-## Assume that native builds are for a 64bit target
-$(PKG)_TARGET := PRESCOTT
-
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   $(PKG)_MAKE_OPTS += EXTRALIB=-lxerbla
-  ifneq ($(ENABLE_WINDOWS_64),yes)
-    $(PKG)_TARGET := KATMAI
-  endif
 endif
-
-$(PKG)_MAKE_OPTS += TARGET=$($(PKG)_TARGET)
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
   $(PKG)_MAKE_OPTS += BINARY=64 INTERFACE64=1
