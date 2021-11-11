@@ -76,6 +76,12 @@ define $(PKG)_BUILD
     $(INSTALL) -d '$(3)$(HOST_PREFIX)/share/texmf/tex/generic/gnuplot/'
     $(INSTALL) -m644 "$(1)/share/LaTeX/gnuplot-lua-tikz-common.tex" '$(3)$(HOST_PREFIX)/share/texmf/tex/generic/gnuplot/';
 
+    # js files
+    $(INSTALL) -d '$(3)$(HOST_PREFIX)/share/js'
+    for f in $(1)/term/js/*.*; do \
+      $(INSTALL) -m644 "$$f" '$(3)$(HOST_PREFIX)/share/js/'; \
+    done
+
     ## MG: not sure what to do with these and how to integrate with DESTDIR
     $(INSTALL) -d '$(TOP_DIR)/gnuplot/bin'
     $(INSTALL) -m755 '$(1)/config/mingw/gnuplot.exe' '$(TOP_DIR)/gnuplot/bin/'
