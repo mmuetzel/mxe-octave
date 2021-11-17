@@ -121,9 +121,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
         (cd '$(OCTAVE_DIST_DIR)' && $(PATCH) -p1 -u) < $(TOP_DIR)/installer-files/octave-no-short-path.patch; \
       fi
       cp $(TOP_BUILD_DIR)/HG-ID $(OCTAVE_DIST_DIR)/
-      echo "  updating octave .exe to script files..."
-      rm -f $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave.exe
-      rm -f $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave-$($(OCTAVE_TARGET)_VERSION).exe
+      echo "  installing octave.bat script file..."
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave.bat
       # This patch can be dropped as soon as those lines are removed from
       # "octave.bat" for all targets (including stable and release).
@@ -165,9 +163,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/fc_update.bat $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/post-install.bat $(OCTAVE_DIST_DIR)/
-      echo "  updating octave .exe to script files..."
-      rm -f $(OCTAVE_DIST_DIR)/bin/octave.exe
-      rm -f $(OCTAVE_DIST_DIR)/bin/octave-$($(OCTAVE_TARGET)_VERSION).exe
+      echo "  installing octave.bat script files..."
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)/bin/octave.bat
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)/bin/octave-$($(OCTAVE_TARGET)_VERSION).bat
     endef
