@@ -22,6 +22,12 @@ ifeq ($(OCTAVE_TARGET),default-octave)
   $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
 endif
 
+ifneq ($(HOST_MSVCRT),ucrt)
+  $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=msvcrt
+else
+  $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=ucrt
+endif
+
 define $(PKG)_BUILD
   mkdir '$(1).headers-build'
   cd '$(1).headers-build' && '$(1)/mingw-w64-headers/configure' \
@@ -30,7 +36,8 @@ define $(PKG)_BUILD
     --enable-sdk=all \
     --enable-idl \
     --enable-secure-api \
-    $($(PKG)_WINAPI_VERSION_FLAGS)
+    $($(PKG)_WINAPI_VERSION_FLAGS) \
+    $($(PKG)_DEFAULT_MSVCRT)
 
   $(MAKE) -C '$(1).headers-build' install
 endef

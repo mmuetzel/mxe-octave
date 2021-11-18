@@ -99,6 +99,16 @@ AC_ARG_WITH([msys2],
    esac], [USE_MSYS2=yes])
 AC_SUBST(USE_MSYS2)
 
+# Use "msvcrt" or "ucrt" on Windows
+AC_ARG_WITH([windows-msvcrt],
+  [AS_HELP_STRING([--with-windows-msvcrt=msvcrt], [select C runtime for windows distribution (default: msvcrt)])],
+  [case $withval in
+     no) AC_MSG_ERROR([A runtime for Windows is required for --with-windows-msvcrt]) ;;
+     yes | "") HOST_MSVCRT=msvcrt ;;
+     *) HOST_MSVCRT="$withval" ;;
+   esac], [HOST_MSVCRT=msvcrt])
+AC_SUBST(HOST_MSVCRT)
+
 # try find pkg-config build paths
 BUILD_PKG_CONFIG_PATH=auto
 AC_ARG_WITH([build-pkg-config-path],
@@ -129,6 +139,10 @@ AC_ARG_ENABLE([windows-64],
      yes) ENABLE_WINDOWS_64=yes ;;
      *) AC_MSG_ERROR([bad value "$enableval" for --enable-windows-64]) ;;
    esac], [ENABLE_WINDOWS_64=yes])
+
+if test "$ENABLE_WINDOWS_64" = "no" && test "$HOST_MSVCRT" = "ucrt"; then
+  AC_MSG_NOTICE([UCRT is only supported with --enable-windows-64])
+fi
 
 AC_ARG_ENABLE([64],
   [AS_HELP_STRING([--enable-64],

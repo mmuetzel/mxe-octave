@@ -54,6 +54,12 @@ ifeq ($(MXE_SYSTEM),mingw)
     $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
   endif
 
+  ifneq ($(HOST_MSVCRT),ucrt)
+    $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=msvcrt
+  else
+    $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=ucrt
+  endif
+
   define $(PKG)_INSTALL_SYSTEM_HEADERS
     $($(PKG)_PRE_BUILD)
     # install mingw-w64 headers
@@ -66,6 +72,7 @@ ifeq ($(MXE_SYSTEM),mingw)
       --enable-idl \
       --enable-secure-api \
       $($(PKG)_WINAPI_VERSION_FLAGS) \
+      $($(PKG)_DEFAULT_MSVCRT) \
       $(mingw-w64-headers_CONFIGURE_OPTS)
     $(MAKE) -C '$(1).headers' install
   endef
@@ -80,7 +87,8 @@ ifeq ($(MXE_SYSTEM),mingw)
       --host='$(TARGET)' \
       --prefix='$(HOST_PREFIX)' \
       $(if $(filter $(TARGET), x86_64-w64-mingw32),--disable-lib32) \
-      --with-sysroot='$(HOST_PREFIX)'
+      --with-sysroot='$(HOST_PREFIX)' \
+      $($(PKG)_DEFAULT_MSVCRT)
     $(MAKE) -C '$(1).crt-build' -j '$(JOBS)' || $(MAKE) -C '$(1).crt-build' -j '$(JOBS)'
     $(MAKE) -C '$(1).crt-build' -j 1 install
 

@@ -80,6 +80,9 @@ ENABLE_QT5 := @ENABLE_QT5@
 # Set to "yes" to use msys2
 USE_MSYS2 := @USE_MSYS2@
 
+# Set to "ucrt" or "msvcrt"
+HOST_MSVCRT := @HOST_MSVCRT@
+
 # Should match what config.guess prints for your system.
 # If cross compiling, you must set it manually (defaults are set by configure).
 ifeq ($(MXE_NATIVE_BUILD),yes)
