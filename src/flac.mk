@@ -19,10 +19,10 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
+    cd '$(1)' && autoreconf -fi && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
-	$(CONFIGURE_LDFLAGS) $(CONFIGURE_CPPFLAGS) \
+        $(CONFIGURE_LDFLAGS) $(CONFIGURE_CPPFLAGS) \
         --prefix='$(HOST_PREFIX)' \
         --disable-doxygen-docs \
         --disable-xmms-plugin \

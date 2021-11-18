@@ -95,6 +95,7 @@ SRC_FILES_1 := \
   file-test.c \
   file.mk \
   fixesproto.mk \
+  flac-1-ucrt.patch \
   flac.mk \
   fltk-2-uuid-mod.patch \
   fltk-test.cpp \
@@ -121,6 +122,7 @@ SRC_FILES_1 := \
   gd-test.c \
   gd.mk \
   gdal-1-gcc11.patch \
+  gdal-2-ucrt.patch \
   gdal.mk \
   gdb.mk \
   gdcm-1-nosecapi.patch \
@@ -337,6 +339,7 @@ SRC_FILES_1 := \
   matio.mk \
   mdbtools.mk \
   mesa-1-meson.patch \
+  mesa-2-ucrt.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
