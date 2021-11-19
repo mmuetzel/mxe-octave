@@ -25,7 +25,9 @@ OCTAVE_ADD_PATH := /
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   TAR_H_OPTION := -h
   WINDOWS_BINARY_DIST_DEPS := \
-    win7appid blas_switch
+    octave-launch \
+    win7appid \
+    blas_switch
 
   ifeq ($(USE_MSYS2),yes)
     WINDOWS_BINARY_DIST_DEPS += \
@@ -84,6 +86,21 @@ define copy-dist-files
   fi
 endef
 
+## FIXME: Maybe we should have a uniform way of dealing with the
+## creation of build-tree directories like this?
+installer-files/.dirstamp:
+	@mkdir -p installer-files
+	@: > installer-files/.dirstamp
+
+ifeq ($(MXE_WINDOWS_BUILD),yes)
+.PHONY: octave-launch
+octave-launch: installer-files/octave-launch.exe
+
+## FIXME: We aren't using VPATH?
+installer-files/octave-launch.exe: $(TOP_DIR)/installer-files/octave-launch.c | installer-files/.dirstamp
+	$(MXE_CC) $< -o $@ -Wl,--subsystem,windows -lshlwapi
+endif
+
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   ifeq ($(MXE_NATIVE_BUILD),no)
     define copy-windows-dist-files
@@ -110,6 +127,8 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(TOP_DIR)/installer-files/README.html $(OCTAVE_DIST_DIR)/
       echo "  refblas..."
       cp $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/libblas.dll $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/librefblas.dll
+      echo "  installing octave-launch.exe..."
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch.exe $(OCTAVE_DIST_DIR)/
       echo "  octave.vbs..."
       cp $(TOP_DIR)/installer-files/octave.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/
@@ -158,6 +177,8 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(TOP_DIR)/installer-files/README.html $(OCTAVE_DIST_DIR)/
       echo "  refblas..."
       cp $(OCTAVE_DIST_DIR)/bin/libblas.dll $(OCTAVE_DIST_DIR)/bin/librefblas.dll
+      echo "  installing octave-launch.exe..."
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch.exe $(OCTAVE_DIST_DIR)/
       echo "  octave.vbs..."
       cp $(TOP_DIR)/installer-files/octave.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/
