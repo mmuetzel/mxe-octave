@@ -73,7 +73,7 @@ echo "; octave setup script $OCTAVE_SOURCE" > $OUTFILE
 !define DESCRIPTION "GNU Octave Installer"
 !define INSTALLER_FILES "$TOPDIR/installer-files"
 !define INSTALLER_NAME "$INSTALLER_NAME"
-!define MAIN_APP_EXE "octave-firsttime.vbs"
+!define MAIN_APP_EXE "octave-launch-firsttime.exe"
 !define PRODUCT_ROOT_KEY "SHCTX"
 !define PRODUCT_KEY "Software\\Octave-$VERSION"
 !define PRODUCT_UNINST_KEY "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Octave-$VERSION"
@@ -437,10 +437,12 @@ Section "MainFiles"
   SetOutPath "\$INSTDIR" 
   File "$OCTAVE_SOURCE/README.html"
 
-  ; include octave.vbs and other scripts
+  ; include octave-launch, octave.vbs and other scripts
   SetOutPath "\$INSTDIR" 
   File "$OCTAVE_SOURCE/octave.vbs"
   File "$OCTAVE_SOURCE/octave-firsttime.vbs"
+  File "$OCTAVE_SOURCE/octave-launch.exe"
+  File "$OCTAVE_SOURCE/octave-launch-firsttime.exe"
   File "$OCTAVE_SOURCE/fc_update.bat"
   File "$OCTAVE_SOURCE/post-install.bat"
 
@@ -507,8 +509,8 @@ Section "Shortcuts"
  CreateDirectory "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local"
  CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Uninstall.lnk" "\$INSTDIR\\uninstall.exe" "" "\$INSTDIR\\uninstall.exe" 0
  SetOutPath "%USERPROFILE%"
- CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (CLI).lnk" "%SYSTEMROOT%\\system32\\wscript.exe" "\$\\"\$INSTDIR\\octave.vbs\$\\" --no-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
- CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (GUI).lnk" "%SYSTEMROOT%\\system32\\wscript.exe" "\$\\"\$INSTDIR\\octave.vbs\$\\" --gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (CLI).lnk" "\$INSTDIR\\octave-launch.exe" "--no-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (GUI).lnk" "\$INSTDIR\\octave-launch.exe" "--gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
  SetOutPath "\$INSTDIR"
 
  ; fix the shortcuts for appid
@@ -580,8 +582,8 @@ set_ver_str:
 
 have_ver_str:
     SetOutPath "%USERPROFILE%"
-    CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "%SYSTEMROOT%\\system32\\wscript.exe" "\$\\"\$R0\\octave.vbs\$\\" --no-gui" "\$R2" 0 SW_SHOWMINIMIZED
-    CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "%SYSTEMROOT%\\system32\\wscript.exe" "\$\\"\$R0\\octave.vbs\$\\" --gui" "\$R2" 0 SW_SHOWMINIMIZED
+    CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "\$R0\\octave-launch.exe" "--no-gui" "\$R2" 0 SW_SHOWMINIMIZED
+    CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "\$R0\\octave-launch.exe" "--gui" "\$R2" 0 SW_SHOWMINIMIZED
 
     nsExec::Exec /TIMEOUT=30000 '"\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\win7appid.exe" "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "gnu.octave.\$R1"'
     Pop \$0
@@ -606,7 +608,7 @@ Section "FileTypeRego"
 
   WriteRegStr SHCTX "Software\\Classes\\Octave.Document.$VERSION" "FriendlyAppName" "GNU Octave $VERSION"
   WriteRegStr SHCTX "Software\\Classes\\Octave.Document.$VERSION\\DefaultIcon" "" "\$INSTDIR\\$ICON"
-  WriteRegStr SHCTX "Software\\Classes\\Octave.Document.$VERSION\\shell\\open\\command" "" "wscript \$\\"\$INSTDIR\\octave.vbs\$\\" --gui --persist --eval \$\\"edit '%1'\$\\""
+  WriteRegStr SHCTX "Software\\Classes\\Octave.Document.$VERSION\\shell\\open\\command" "" "\$\\"\$INSTDIR\\octave-launch.exe\$\\" --gui --persist --eval \$\\"edit '%1'\$\\""
 
   \${If} \$RegisterOctaveFileType == \${BST_CHECKED}
 
@@ -688,12 +690,12 @@ install_path:
 
  IfFileExists "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" 0 check_gui_shortcut 
  SetOutPath "%USERPROFILE%"
- CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "%SYSTEMROOT%\system32\wscript.exe" "\$\\"\$R0\\octave.vbs\$\\" --no-gui" "\$R2" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "\$R0\\octave-launch.exe" "--no-gui" "\$R2" 0 SW_SHOWMINIMIZED
 
 check_gui_shortcut:
  IfFileExists "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" 0 done_remove_desktop_shortcuts
  SetOutPath "%USERPROFILE%"
- CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "%SYSTEMROOT%\system32\wscript.exe" "\$\\"\$R0\\octave.vbs\$\\" --gui" "\$R2" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "\$R0\\octave-launch.exe" "--gui" "\$R2" 0 SW_SHOWMINIMIZED
  nsExec::Exec /TIMEOUT=30000 '"\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\win7appid.exe" "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "gnu.octave.\$R1"'
  Pop \$0
 
