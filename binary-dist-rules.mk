@@ -98,7 +98,7 @@ octave-launch: installer-files/octave-launch.exe
 
 ## FIXME: We aren't using VPATH?
 installer-files/octave-launch.exe: $(TOP_DIR)/installer-files/octave-launch.c | installer-files/.dirstamp
-	$(MXE_CC) $< -o $@ -Wl,--subsystem,windows -lshlwapi
+	$(MXE_CC) $< -o $@ -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE
 endif
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)

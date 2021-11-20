@@ -1,8 +1,7 @@
 /*
  * Wrapper application to set octave env variables and then run octave
- * compile with gcc -o octave-launch octave-launch.c -Wl,--subsystem,windows -lshlwapi
  *
- * Copyright (C) 2020 John Donoghue <john.donoghue@ieee.org>
+ * Copyright (C) 2020-2021 John Donoghue <john.donoghue@ieee.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -20,20 +19,21 @@
 
 #include <windows.h>
 #include <shlwapi.h>
+#include <strsafe.h>
 
-static int ParentDir (char *dir)
+static int ParentDir (wchar_t *dir)
 {
-  int len = strlen (dir);
-  while (len > 0 && dir[len] != '\\')
+  int len = lstrlenW (dir);
+  while (len > 0 && dir[len] != L'\\')
     len --;
   dir[len] = 0;
   return len;
 }
 
-char * FilePart (char *dir)
+wchar_t * FilePart (wchar_t *dir)
 {
-  int len = strlen (dir);
-  while (len > 0 && dir[len-1] != '\\')
+  int len = lstrlenW (dir);
+  while (len > 0 && dir[len-1] != L'\\')
     len --;
   return &dir[len];
 }
@@ -43,26 +43,27 @@ char * FilePart (char *dir)
 // versions of this program so any changes here may need to be made in
 // those scripts as well.
 
-int main (int argc, char **argv)
+int wmain (int argc, wchar_t **argv)
 {
   PROCESS_INFORMATION pi;
 
   // FIXME: There are currently have no checks to ensure that the
-  // following fixed-size buffers are sufficiently large.  Maybe it
-  // would be better if we used C++ and std::string objects?  For
-  // buffers that are passed to Windows library functions to hold
-  // output values, is 1024 the correct way to define the size of the
-  // buffer?  Note that the use of sizeof(path)-1 below will fail if
-  // we switch to using
+  // following fixed-size buffers are sufficiently large.  MAX_PATH is
+  // 260 on Winndows by default.  But a user might have increased that
+  // limit to 32767 characters by manually changing policy settings.
+  // Maybe it would be better if we used C++ and std::string objects?
+  // Note that the use of sizeof(path)-1 will fail if we switch to
+  // using
   //
-  //   char *path = (char *) malloc (...);
+  //   wchar_t *path = (wchar_t *) malloc (...);
   //
   // instead of literal character arrays.
 
-  char msyspath[1024];
-  char rootpath[1024];
-  char path[1024];
-  char binpath[1024];
+#define PATH_SZ 1024
+  wchar_t msyspath[PATH_SZ];
+  wchar_t rootpath[PATH_SZ];
+  wchar_t path[PATH_SZ];
+  wchar_t binpath[PATH_SZ];
 
   int gui_arg_found = 0;
   int no_gui_arg_found = 0;
@@ -71,143 +72,150 @@ int main (int argc, char **argv)
 
   /* get path of us which we will assume is the root of the install */
 
-  DWORD nSize = GetModuleFileName (NULL, path, sizeof(path)-1);
+  DWORD nSize = GetModuleFileNameW (NULL, path, PATH_SZ-1);
   if (nSize)
     {
-      while (nSize > 0 && path[nSize] != '\\')
+      while (nSize > 0 && path[nSize] != L'\\')
         nSize --;
-      path[nSize] = '\0';
+      path[nSize] = L'\0';
     }
 
-  nSize = GetShortPathName (path, rootpath, sizeof(rootpath)-1);
+  /* transform to short paths to work around issues with spaces in
+     paths */
+  /* FIXME: This won't help on systems with de-activated short paths */
+  nSize = GetShortPathNameW (path, rootpath, PATH_SZ-1);
   if (nSize == 0)
-    StrCpy (rootpath, path);
+    StringCchCopyW (rootpath, PATH_SZ, path);
 
-  SetEnvironmentVariable ("MXE_ROOT", rootpath);
+  SetEnvironmentVariableW (L"MXE_ROOT", rootpath);
 
   /* get msys path and set env */
 
-  StrCpy (msyspath, rootpath);
+  StringCchCopyW (msyspath, PATH_SZ, rootpath);
 
-  StrCpy (path, rootpath);
-  StrCat (path, "\\mingw64\\bin\\octave.exe");
-  if (PathFileExists (path))
+  StringCchCopyW (path, PATH_SZ, rootpath);
+  StringCchCatW (path, PATH_SZ, L"\\mingw64\\bin\\octave.exe");
+  if (PathFileExistsW (path))
     {
-      SetEnvironmentVariable ("MSYSTEM", "MINGW64");
-      StrCat (msyspath, "\\usr");
-      SetEnvironmentVariable ("MSYSPATH", msyspath);
+      SetEnvironmentVariableW (L"MSYSTEM", L"MINGW64");
+      StringCchCatW (msyspath, PATH_SZ, L"\\usr");
+      SetEnvironmentVariableW (L"MSYSPATH", msyspath);
 
-      StrCat (msyspath, "\\bin");
+      StringCchCatW (msyspath, PATH_SZ, L"\\bin");
 
-      StrCpy (binpath, rootpath);
-      StrCat (binpath, "\\mingw64\\bin");
+      StringCchCopyW (binpath, PATH_SZ, rootpath);
+      StringCchCatW (binpath, PATH_SZ, L"\\mingw64\\bin");
     }
   else
     {
-      StrCpy (path, rootpath);
-      StrCat (path, "\\mingw32\\bin\\octave.exe");
-      if (PathFileExists (path))
+      StringCchCopyW (path, PATH_SZ, rootpath);
+      StringCchCatW (path, PATH_SZ, L"\\mingw32\\bin\\octave.exe");
+      if (PathFileExistsW (path))
         {
-          SetEnvironmentVariable ("MSYSTEM", "MINGW32");
-          StrCat (msyspath, "\\usr");
-          SetEnvironmentVariable ("MSYSPATH", msyspath);
+          SetEnvironmentVariableW (L"MSYSTEM", L"MINGW32");
+          StringCchCatW (msyspath, PATH_SZ, L"\\usr");
+          SetEnvironmentVariableW (L"MSYSPATH", msyspath);
 
-          StrCat (msyspath, "\\bin");
+          StringCchCatW (msyspath, PATH_SZ, L"\\bin");
 
-          StrCpy (binpath, rootpath);
-          StrCat (binpath, "\\mingw32\\bin");
+          StringCchCopyW (binpath, PATH_SZ, rootpath);
+          StringCchCatW (binpath, PATH_SZ, L"\\mingw32\\bin");
         }
       else
         {
-          SetEnvironmentVariable ("MSYSTEM", "MSYS");
-          SetEnvironmentVariable ("MSYSPATH", msyspath);
+          SetEnvironmentVariableW (L"MSYSTEM", L"MSYS");
+          SetEnvironmentVariableW (L"MSYSPATH", msyspath);
 
-          StrCat (msyspath, "\\bin");
+          StringCchCatW (msyspath, PATH_SZ, L"\\bin");
 
-          StrCpy (binpath, rootpath);
-          StrCat (binpath, "\\bin");
+          StringCchCopyW (binpath, PATH_SZ, rootpath);
+          StringCchCatW (binpath, PATH_SZ, L"\\bin");
         }
     }
 
   /* binpath is to the octave bin dir so get the parent */
-  StrCpy (path, binpath);
+  StringCchCopyW (path, PATH_SZ, binpath);
   ParentDir (path);
 
- #ifdef SHOW_PATHS
-  MessageBox (NULL, rootpath, "octroot", MB_OK);
-  MessageBox (NULL, path, "octhome", MB_OK);
-  MessageBox (NULL, binpath, "octbin", MB_OK);
-  MessageBox (NULL, msyspath, "msysbin", MB_OK);
- #endif
+#ifdef SHOW_PATHS
+  MessageBoxW (NULL, rootpath, L"octroot", MB_OK);
+  MessageBoxW (NULL, path, L"octhome", MB_OK);
+  MessageBoxW (NULL, binpath, L"octbin", MB_OK);
+  MessageBoxW (NULL, msyspath, L"msysbin", MB_OK);
+#endif
 
   /* qt paths
    * either %OCT_HOME%\qt5\plugins
    * or %OCT_HOME\plugins
    */
-  nSize = strlen (path);
-  StrCat (path, "\\qt5\\plugins");
-  SetEnvironmentVariable ("QT_PLUGIN_PATH", path);
+  nSize = lstrlenW (path);
+  StringCchCatW (path, PATH_SZ, L"\\qt5\\plugins");
+  SetEnvironmentVariableW (L"QT_PLUGIN_PATH", path);
 
-  path[nSize] = '\0';
+  path[nSize] = L'\0';
 
   /* exe paths */
   {
-    char pathbuffer[8096];
-    char newpathbuffer[8096];
+#define PATHBUF_SZ 8096
+    wchar_t pathbuffer[PATHBUF_SZ];
+    wchar_t newpathbuffer[PATHBUF_SZ];
 
-    nSize = GetEnvironmentVariable ("PATH", pathbuffer, sizeof(pathbuffer)-1);
+    nSize = GetEnvironmentVariableW (L"PATH", pathbuffer, PATHBUF_SZ-1);
     pathbuffer[nSize] = '\0';
 
     /* set our paths first */
-    StrCpy (newpathbuffer, binpath);
-    StrCat (newpathbuffer, ";");
-    StrCat (newpathbuffer, msyspath);
-    StrCat (newpathbuffer, ";");
-    StrCat (newpathbuffer, pathbuffer);
+    StringCchCopyW (newpathbuffer, PATHBUF_SZ, binpath);
+    StringCchCatW (newpathbuffer, PATHBUF_SZ, L";");
+    StringCchCatW (newpathbuffer, PATHBUF_SZ, msyspath);
+    StringCchCatW (newpathbuffer, PATHBUF_SZ, L";");
+    StringCchCatW (newpathbuffer, PATHBUF_SZ, pathbuffer);
 
-    SetEnvironmentVariable ("PATH", newpathbuffer);
+    SetEnvironmentVariableW (L"PATH", newpathbuffer);
   }
 
   /* other env */
-  SetEnvironmentVariable ("TERM", "cygwin");
-  SetEnvironmentVariable ("GNUTERM", "wxt");
-  SetEnvironmentVariable ("GS", "gs.exe");
+  SetEnvironmentVariableW (L"TERM", L"cygwin");
+  SetEnvironmentVariableW (L"GNUTERM", L"wxt");
+  SetEnvironmentVariableW (L"GS", L"gs.exe");
 
   /* home set */
-  nSize = GetEnvironmentVariable ("HOME", path, sizeof(path)-1);
+  nSize = GetEnvironmentVariableW (L"HOME", path, PATH_SZ-1);
   if (nSize == 0 || path[0] == 0)
     {
-      char newhome[1024];
+      wchar_t newhome[PATH_SZ];
 
-      nSize = GetEnvironmentVariable ("USERPROFILE", path, sizeof(path)-1);
+      nSize = GetEnvironmentVariableW (L"USERPROFILE", path, PATH_SZ-1);
       if (nSize == 0 || path[0] == 0)
         {
           /* build dir from drive and path */
-          char tmpbuff[1024];
-          nSize = GetEnvironmentVariable ("HOMEDRIVE", tmpbuff, sizeof(tmpbuff)-1);
+          wchar_t tmpbuff[PATH_SZ];
+          nSize = GetEnvironmentVariableW (L"HOMEDRIVE", tmpbuff, PATH_SZ-1);
           if (nSize)
-            StrCpy (path, tmpbuff);
+            StringCchCopyW (path, PATH_SZ, tmpbuff);
           else
             path[0] = '\0';
 
-          nSize = GetEnvironmentVariable ("HOMEPATH", tmpbuff, sizeof(tmpbuff)-1);
-          if (nSize) StrCat (path, tmpbuff);
+          nSize = GetEnvironmentVariableW (L"HOMEPATH", tmpbuff, PATH_SZ-1);
+          if (nSize)
+            StringCchCopyW (path, PATH_SZ, tmpbuff);
         }
 
-      nSize = GetShortPathName (path, newhome, sizeof(newhome)-1);
+      /* transform to short paths to work around issues with spaces in
+         paths */
+      /* FIXME: This won't help on systems with de-activated short
+         paths */
+      nSize = GetShortPathNameW (path, newhome, PATH_SZ-1);
 
       if (nSize == 0)
-        {
-          StrCpy (newhome, path);
-        }
+        StringCchCopyW (newhome, PATH_SZ, path);
 
-      SetEnvironmentVariable ("HOME", newhome);
+      SetEnvironmentVariableW (L"HOME", newhome);
     }
 
   /* check for gui mode */
   for (i = 1; i < argc; i++)
     {
-      if (StrCmp (argv[i], "--no-gui-libs") == 0)
+      if (StrCmpW (argv[i], L"--no-gui-libs") == 0)
         {
           if (gui_arg_found)
             {
@@ -218,8 +226,8 @@ int main (int argc, char **argv)
 
           no_gui_libs = 1;
         }
-      else if (StrCmp (argv[i], "--gui") == 0
-               || StrCmp (argv[i], "--force-gui") == 0)
+      else if (StrCmpW (argv[i], L"--gui") == 0
+               || StrCmpW (argv[i], L"--force-gui") == 0)
         {
           if (no_gui_libs)
             {
@@ -230,7 +238,7 @@ int main (int argc, char **argv)
 
           gui_arg_found = 1;
         }
-      else if (StrCmp (argv[i], "--no-gui") == 0)
+      else if (StrCmpW (argv[i], L"--no-gui") == 0)
         no_gui_arg_found = 1;
 
       /* NOTE: specifying both --no-gui and --gui is also an
@@ -241,16 +249,17 @@ int main (int argc, char **argv)
   /* set up process args and start it */
   {
     STARTUPINFO si;
-    char argbuffer[4096];
+#define ARGBUF_SZ 4096
+    wchar_t argbuffer[ARGBUF_SZ];
 
-    ZeroMemory (&si, sizeof(si));
-    si.cb = sizeof(si);
-    ZeroMemory (&pi, sizeof(pi));
+    ZeroMemory (&si, sizeof (si));
+    si.cb = sizeof (si);
+    ZeroMemory (&pi, sizeof (pi));
 
-    StrCpy (path, binpath);
+    StringCchCopyW (path, PATH_SZ, binpath);
 
-    StrCpy (argbuffer, "octave.exe ");
-    StrCat (path, "\\octave.exe");
+    StringCchCopyW (argbuffer, ARGBUF_SZ, L"octave.exe ");
+    StringCchCatW (path, PATH_SZ, L"\\octave.exe");
 
     if (! (no_gui_libs || no_gui_arg_found))
       {
@@ -262,28 +271,28 @@ int main (int argc, char **argv)
            most Windows users would expect.  */
 
         if (! gui_arg_found)
-          StrCat (argbuffer, "--gui ");
+          StringCchCatW (argbuffer, ARGBUF_SZ, L"--gui ");
       }
 
     /* quote and append each arg */
     for (i = 1; i < argc; i++)
       {
-        StrCat (argbuffer, "\"");
-        StrCat (argbuffer, argv[i]);
-        StrCat (argbuffer, "\" ");
+        StringCchCatW (argbuffer, ARGBUF_SZ, L"\"");
+        StringCchCatW (argbuffer, ARGBUF_SZ, argv[i]);
+        StringCchCatW (argbuffer, ARGBUF_SZ, L"\" ");
       }
 
     /* Start the child process */
-    int status = CreateProcess (path,       // Module name
-                                argbuffer,  // Command line
-                                NULL,       // Process handle not inheritable
-                                NULL,       // Thread handle not inheritable
-                                FALSE,      // Set handle inheritance to FALSE
-                                0,          // No creation flags
-                                NULL,       // Use parent's environment block
-                                NULL,       // Use parent's starting directory
-                                &si,        // Pointer to STARTUPINFO
-                                &pi);       // Pointer to PROCESS_INFORMATION
+    int status = CreateProcessW (path,      // Module name
+                                 argbuffer, // Command line
+                                 NULL,      // Process handle not inheritable
+                                 NULL,      // Thread handle not inheritable
+                                 FALSE,     // Set handle inheritance to FALSE
+                                 0,         // No creation flags
+                                 NULL,      // Use parent's environment block
+                                 NULL,      // Use parent's starting directory
+                                 &si,       // Pointer to STARTUPINFO
+                                 &pi);      // Pointer to PROCESS_INFORMATION
 
     if (! status)
       return 1;
