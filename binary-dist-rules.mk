@@ -26,6 +26,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
   TAR_H_OPTION := -h
   WINDOWS_BINARY_DIST_DEPS := \
     octave-launch \
+    octave-launch-firsttime \
     win7appid \
     blas_switch
 
@@ -99,6 +100,13 @@ octave-launch: installer-files/octave-launch.exe
 ## FIXME: We aren't using VPATH?
 installer-files/octave-launch.exe: $(TOP_DIR)/installer-files/octave-launch.c | installer-files/.dirstamp
 	$(MXE_CC) $< -o $@ -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE
+
+.PHONY: octave-launch-firsttime
+octave-launch-firsttime: installer-files/octave-launch-firsttime.exe
+
+## FIXME: We aren't using VPATH?
+installer-files/octave-launch-firsttime.exe: $(TOP_DIR)/installer-files/octave-launch.c | installer-files/.dirstamp
+	$(MXE_CC) $< -o $@ -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME
 endif
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
@@ -129,6 +137,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/libblas.dll $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/librefblas.dll
       echo "  installing octave-launch.exe..."
       cp $(TOP_BUILD_DIR)/installer-files/octave-launch.exe $(OCTAVE_DIST_DIR)/
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch-firsttime.exe $(OCTAVE_DIST_DIR)/
       echo "  octave.vbs..."
       cp $(TOP_DIR)/installer-files/octave.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/
@@ -179,6 +188,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(OCTAVE_DIST_DIR)/bin/libblas.dll $(OCTAVE_DIST_DIR)/bin/librefblas.dll
       echo "  installing octave-launch.exe..."
       cp $(TOP_BUILD_DIR)/installer-files/octave-launch.exe $(OCTAVE_DIST_DIR)/
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch-firsttime.exe $(OCTAVE_DIST_DIR)/
       echo "  octave.vbs..."
       cp $(TOP_DIR)/installer-files/octave.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/

@@ -246,6 +246,18 @@ int wmain (int argc, wchar_t **argv)
          detect that.  */
     }
 
+#ifdef FIRST_TIME
+  {
+    /* change directory to USERPROFILE before starting Octave */
+    wchar_t tmpbuff[PATH_SZ];
+    nSize = GetEnvironmentVariableW (L"USERPROFILE", tmpbuff, PATH_SZ-1);
+    if (nSize)
+      StringCchCopyW (path, PATH_SZ, tmpbuff);
+
+    SetCurrentDirectoryW (path);
+  }
+#endif
+
   /* set up process args and start it */
   {
     STARTUPINFO si;
