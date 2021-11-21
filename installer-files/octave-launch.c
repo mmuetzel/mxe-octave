@@ -80,12 +80,16 @@ int wmain (int argc, wchar_t **argv)
       path[nSize] = L'\0';
     }
 
+#ifdef NO_SHORT_PATH_NAMES
+  StringCchCopyW (rootpath, PATH_SZ, path);
+#else
   /* transform to short paths to work around issues with spaces in
      paths */
   /* FIXME: This won't help on systems with de-activated short paths */
   nSize = GetShortPathNameW (path, rootpath, PATH_SZ-1);
   if (nSize == 0)
     StringCchCopyW (rootpath, PATH_SZ, path);
+#endif
 
   SetEnvironmentVariableW (L"MXE_ROOT", rootpath);
 
@@ -200,6 +204,9 @@ int wmain (int argc, wchar_t **argv)
             StringCchCopyW (path, PATH_SZ, tmpbuff);
         }
 
+#ifdef NO_SHORT_PATH_NAMES
+      StringCchCopyW (newhome, PATH_SZ, path);
+#else
       /* transform to short paths to work around issues with spaces in
          paths */
       /* FIXME: This won't help on systems with de-activated short
@@ -208,6 +215,7 @@ int wmain (int argc, wchar_t **argv)
 
       if (nSize == 0)
         StringCchCopyW (newhome, PATH_SZ, path);
+#endif
 
       SetEnvironmentVariableW (L"HOME", newhome);
     }

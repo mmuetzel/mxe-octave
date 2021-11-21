@@ -94,19 +94,24 @@ installer-files/.dirstamp:
 	@: > installer-files/.dirstamp
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
+
+  ifeq ($(OCTAVE_TARGET),default-octave)
+    OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS := -DNO_SHORT_PATH_NAMES
+  endif
+
 .PHONY: octave-launch
 octave-launch: installer-files/octave-launch.exe
 
 ## FIXME: We aren't using VPATH?
 installer-files/octave-launch.exe: $(TOP_DIR)/installer-files/octave-launch.c installer-files/octave-launch.res | installer-files/.dirstamp
-	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE
+	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
 
 .PHONY: octave-launch-firsttime
 octave-launch-firsttime: installer-files/octave-launch-firsttime.exe
 
 ## FIXME: We aren't using VPATH?
 installer-files/octave-launch-firsttime.exe: $(TOP_DIR)/installer-files/octave-launch.c installer-files/octave-launch.res | installer-files/.dirstamp
-	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME
+	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
 
 installer-files/octave-launch.res: $(TOP_DIR)/installer-files/octave-launch.rc | installer-files/.dirstamp
 	$(MXE_WINDRES) $< -o $@ -O coff
