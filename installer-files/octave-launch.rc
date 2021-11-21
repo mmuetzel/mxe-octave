@@ -1,0 +1,27 @@
+#include "winver.h"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904B0"  // US-English, Unicode
+    BEGIN
+      VALUE "CompanyName", "GNU Octave"
+      VALUE "FileDescription", "GNU Octave Launcher"
+      VALUE "FileVersion", "1.0"
+      VALUE "InternalName", "octave-launcher.exe"
+      VALUE "LegalCopyright", " Copyright (C) 2021 The Octave Project Developers"
+      VALUE "OriginalFilename", "octave-launcher.exe"
+      VALUE "ProductName", "GNU Octave Launcher"
+      VALUE "ProductVersion", "1.0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0409, 0x04B0  // US-English, Unicode
+  END
+END
+
+11 ICON "octave-logo.ico"
