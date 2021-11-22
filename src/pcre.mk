@@ -7,15 +7,13 @@ $(PKG)_VERSION  := 8.45
 $(PKG)_CHECKSUM := 8463cc88b737e2c3ce7f041922a6ff0c5abbed34
 $(PKG)_SUBDIR   := pcre-$($(PKG)_VERSION)
 $(PKG)_FILE     := pcre-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := https://ftp.pcre.org/pub/pcre/$($(PKG)_FILE)
-$(PKG)_URL_2    := http://$(SOURCEFORGE_MIRROR)/project/pcre/pcre/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_URL_3    := ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$($(PKG)_FILE)
+$(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/pcre/pcre/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://ftp.pcre.org/pub/pcre/' | \
-    $(SED) -n 's,.*pcre-\([0-9]\+\)\(\.[0-9]\+\)*\.zip.*,\1\2,p' | \
-    tail -1
+    $(WGET) -q -O- https://sourceforge.net/projects/pcre/files/pcre/ | \
+    $(SED) -n 's,.*tr title="\([0-9][^"]*\)".*,\1,p' | \
+    head -1
 endef
 
 define $(PKG)_BUILD
