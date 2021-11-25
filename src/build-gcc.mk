@@ -49,8 +49,8 @@ ifeq ($(MXE_SYSTEM),mingw)
     endef
   endif
 
-  ifeq ($(OCTAVE_TARGET),default-octave)
-    # FIXME: Adapt condition when Octave 7 moves to stable or it is released.
+  ifneq ($(OCTAVE_TARGET),release-octave)
+    # FIXME: Set unconditionally for the first release candidate of Octave 7.
     $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
   endif
 
