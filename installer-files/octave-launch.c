@@ -30,12 +30,49 @@ static int ParentDir (wchar_t *dir)
   return len;
 }
 
-wchar_t * FilePart (wchar_t *dir)
+static wchar_t * FilePart (wchar_t *dir)
 {
   int len = lstrlenW (dir);
   while (len > 0 && dir[len-1] != L'\\')
     len --;
   return &dir[len];
+}
+
+static size_t get_num_physical_cores (void)
+{
+  DWORD length;
+  PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX lpi;
+  BOOL res;
+  size_t num_physical_cores;
+  size_t offset;
+
+  length = 0;
+  GetLogicalProcessorInformationEx (RelationProcessorCore, NULL, &length);
+  if (GetLastError () != ERROR_INSUFFICIENT_BUFFER)
+    return 0;
+
+  lpi = malloc (length);
+  res = GetLogicalProcessorInformationEx (RelationProcessorCore, lpi, &length);
+  if (! res)
+    {
+      free (lpi);
+      return 0;
+    }
+
+  num_physical_cores = 0;
+  offset = 0;
+  do
+    {
+      const PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX cur_lpi =
+        (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX) (lpi + offset);
+      offset += cur_lpi->Size;
+      num_physical_cores++;
+    }
+  while (offset < length);
+
+  free (lpi);
+
+  return num_physical_cores;
 }
 
 // Set up environment and launch octave.exe with appropriate
@@ -218,6 +255,23 @@ int wmain (int argc, wchar_t **argv)
 #endif
 
       SetEnvironmentVariableW (L"HOME", newhome);
+    }
+
+  /* set number of OpenBLAS threads */
+  nSize = GetEnvironmentVariableW (L"OPENBLAS_NUM_THREADS", NULL, 0);
+  if (nSize == 0)
+    {
+      /* Only set if it wasn't already set in the environment */
+      size_t num_threads;
+      num_threads = get_num_physical_cores ();
+
+      if (num_threads > 0)
+        {
+#define THREADS_SZ 64
+          wchar_t buffer[THREADS_SZ];
+          StringCchPrintfW (buffer, THREADS_SZ, L"%zu", num_threads);
+          SetEnvironmentVariableW (L"OPENBLAS_NUM_THREADS", buffer);
+        }
     }
 
   /* check for gui mode */
