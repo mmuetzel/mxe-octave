@@ -50,18 +50,17 @@ define $(PKG)_BUILD
         $($(PKG)_ENV_FLAGS) '$(1)/configure' \
         --prefix=$(ROOT_PREFIX) \
         $($(PKG)_ENABLE_64_CONFIGURE_OPTIONS) \
-        --disable-docs --disable-fftw-threads --disable-java \
-        --disable-jit --disable-openmp --disable-readline --without-amd \
-        --without-arpack --without-bz2 --without-camd --without-ccolamd \
-        --without-cholmod --without-colamd --without-curl \
-        --without-cxsparse --without-fftw3 --without-fftw3f \
+        --disable-docs --disable-fftw-threads --disable-java --disable-openmp \
+        --disable-readline --without-amd --without-arpack  --without-bz2 \
+        --without-camd --without-ccolamd --without-cholmod --without-colamd \
+        --without-curl --without-cxsparse --without-fftw3 --without-fftw3f \
         --without-fltk --without-fontconfig --without-framework-opengl \
         --without-freetype --without-glpk --without-hdf5 --without-klu \
         --without-magick --without-opengl --without-openssl \
-        --without-portaudio --without-qhull  --without-qrupdate\
-        --without-qscintilla --without-qt --without-sndfile \
-        --without-sundials_ida --without-sundials_nvecserial \
-        --without-umfpack --without-x --without-z
+        --without-portaudio --without-qhull_r --without-qrupdate \
+        --without-qscintilla --without-qt --without-sndfile --without-spqr \
+        --without-suitesparseconfig --without-sundials_ida \
+        --without-sundials_nvecserial --without-umfpack --without-x --without-z
 
     $($(PKG)_ENV_FLAGS) $(MAKE) -C '$(1)/.build' all -j '$(JOBS)'
     $($(PKG)_ENV_FLAGS) $(MAKE) -C '$(1)/.build' install
