@@ -1,0 +1,321 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1637943467 -3600
+#      Fri Nov 26 17:17:47 2021 +0100
+# Node ID ace112d772c3be2ee53792fa9b687fe22f105fa3
+# Parent  a132b9df4944dadf0144c1eb61bffe71a706e166
+Fix compilation with Octave 8 (bug #61566).
+
+* src/genqamdemod.cc (Fgenqamdemod), src/gf.cc (make_gdiag, DATA_REDUCTION,
+Fglu, Fginv), src/ov-galois.cc (octave_galois::subsref, octave_galois::assign,
+octave_galois::load_binary): Remove usage of `error_state`. It was
+unconditionally set to 0 since about 6 years ago and will finally be removed in
+Octave 8.
+
+diff -r a132b9df4944 -r ace112d772c3 src/genqamdemod.cc
+--- a/src/genqamdemod.cc	Tue Jul 27 11:56:45 2021 -0400
++++ b/src/genqamdemod.cc	Fri Nov 26 17:17:47 2021 +0100
+@@ -79,28 +79,23 @@
+     { // Complex-valued input & constellation
+       ComplexMatrix x (args(0).complex_matrix_value ());
+       ComplexColumnVector constellation (args(1).complex_vector_value ());
+-      if (!error_state)
++      for (i = 0;i < nr1;i++)
+         {
+-          for (i = 0;i < nr1;i++)
++          for (j = 0;j < nc1;j++)
+             {
+-              for (j = 0;j < nc1;j++)
++              tmp1 = abs (x(i,j)-constellation(0));
++              y(i,j) = 0;
++              for (m = 1;m < M;m++)
+                 {
+-                  tmp1 = abs (x(i,j)-constellation(0));
+-                  y(i,j) = 0;
+-                  for (m = 1;m < M;m++)
++                  tmp2 = abs (x(i,j)-constellation(m));
++                  if (tmp2 < tmp1)
+                     {
+-                      tmp2 = abs (x(i,j)-constellation(m));
+-                      if (tmp2 < tmp1)
+-                        {
+-                          y(i,j) = m;
+-                          tmp1 = tmp2;
+-                        }
++                      y(i,j) = m;
++                      tmp1 = tmp2;
+                     }
+                 }
+             }
+         }
+-      else
+-        print_usage ();
+     }
+   else
+     {
+diff -r a132b9df4944 -r ace112d772c3 src/gf.cc
+--- a/src/gf.cc	Tue Jul 27 11:56:45 2021 -0400
++++ b/src/gf.cc	Fri Nov 26 17:17:47 2021 +0100
+@@ -180,55 +180,50 @@
+       galois m = ((const octave_galois&) a.get_rep ()).galois_value ();
+       int k = b.nint_value ();
+ 
+-      if (! error_state)
++      int nr = m.rows ();
++      int nc = m.columns ();
++
++      if (nr == 0 || nc == 0)
++        retval = new octave_galois (m);
++      else if (nr == 1 || nc == 1)
+         {
+-          int nr = m.rows ();
+-          int nc = m.columns ();
+-
+-          if (nr == 0 || nc == 0)
+-            retval = new octave_galois (m);
+-          else if (nr == 1 || nc == 1)
++          int roff = 0;
++          int coff = 0;
++          if (k > 0)
+             {
+-              int roff = 0;
+-              int coff = 0;
+-              if (k > 0)
+-                {
+-                  roff = 0;
+-                  coff = k;
+-                }
+-              else if (k < 0)
+-                {
+-                  k = -k;
+-                  roff = k;
+-                  coff = 0;
+-                }
++              roff = 0;
++              coff = k;
++            }
++          else if (k < 0)
++            {
++              k = -k;
++              roff = k;
++              coff = 0;
++            }
+ 
+-              if (nr == 1)
+-                {
+-                  int n = nc + k;
+-                  galois r (n, n, 0, m.m (), m.primpoly ());
+-                  for (int i = 0; i < nc; i++)
+-                    r (i+roff, i+coff) = m (0, i);
+-                  retval = new octave_galois (r);
+-                }
+-              else
+-                {
+-                  int n = nr + k;
+-                  galois r (n, n, 0, m.m (), m.primpoly ());
+-                  for (int i = 0; i < nr; i++)
+-                    r (i+roff, i+coff) = m (i, 0);
+-                  retval = new octave_galois (r);
+-                }
++          if (nr == 1)
++            {
++              int n = nc + k;
++              galois r (n, n, 0, m.m (), m.primpoly ());
++              for (int i = 0; i < nc; i++)
++                r (i+roff, i+coff) = m (0, i);
++              retval = new octave_galois (r);
+             }
+           else
+             {
+-              galois r = m.diag (k);
+-              if (r.numel () > 0)
+-                retval = new octave_galois (r);
++              int n = nr + k;
++              galois r (n, n, 0, m.m (), m.primpoly ());
++              for (int i = 0; i < nr; i++)
++                r (i+roff, i+coff) = m (i, 0);
++              retval = new octave_galois (r);
+             }
+         }
+       else
+-        OCTAVE__ERR_WRONG_TYPE_ARG ("gdiag", a);
++        {
++          galois r = m.diag (k);
++          if (r.numel () > 0)
++            retval = new octave_galois (r);
++        }
+     }
+   return retval;
+ }
+@@ -390,27 +385,23 @@
+  \
+       int dim = (nargin == 1 ? -1 : args(1).int_value (true) - 1); \
+  \
+-      if (! error_state) \
++      if (dim <= 1 && dim >= -1) \
+         { \
+-          if (dim <= 1 && dim >= -1) \
++          if (galois_type_loaded && (arg.type_id () == \
++                                     octave_galois::static_type_id ())) \
+             { \
+-              if (galois_type_loaded && (arg.type_id () == \
+-                                         octave_galois::static_type_id ())) \
+-                { \
+-                  galois tmp = ((const octave_galois&)arg.get_rep ()).galois_value (); \
++              galois tmp = ((const octave_galois&)arg.get_rep ()).galois_value (); \
+  \
+-                  if (! error_state) \
+-                    retval(0) = new octave_galois (tmp.FCN (dim)); \
+-                } \
+-              else \
+-                { \
+-                  OCTAVE__ERR_WRONG_TYPE_ARG (#FCN, arg); \
+-                  return retval; \
+-                } \
++              retval(0) = new octave_galois (tmp.FCN (dim)); \
+             } \
+           else \
+-            error (#FCN ": invalid dimension argument = %d", dim + 1); \
++            { \
++              OCTAVE__ERR_WRONG_TYPE_ARG (#FCN, arg); \
++              return retval; \
++            } \
+         } \
++      else \
++        error (#FCN ": invalid dimension argument = %d", dim + 1); \
+     } \
+   else \
+     print_usage (); \
+@@ -1017,32 +1008,29 @@
+       return retval;
+     }
+ 
+-  if (! error_state)
+-    {
+-      galoisLU fact (m);
++  galoisLU fact (m);
+ 
+-      switch (nargout)
+-        {
+-        case 0:
+-        case 1:
+-        case 2:
+-          {
+-            // While we don't have sparse galois matrices converting the
+-            // permutation matrix to a full matrix is the best we can do.
+-            Matrix P = Matrix (fact.P ());
+-            galois L = P.transpose () * fact.L ();
+-            retval(1) = new octave_galois (fact.U ());
+-            retval(0) = new octave_galois (L);
+-          }
+-          break;
++  switch (nargout)
++    {
++    case 0:
++    case 1:
++    case 2:
++      {
++        // While we don't have sparse galois matrices converting the
++        // permutation matrix to a full matrix is the best we can do.
++        Matrix P = Matrix (fact.P ());
++        galois L = P.transpose () * fact.L ();
++        retval(1) = new octave_galois (fact.U ());
++        retval(0) = new octave_galois (L);
++      }
++      break;
+ 
+-        case 3:
+-        default:
+-          retval(2) = fact.P ();
+-          retval(1) = new octave_galois (fact.U ());
+-          retval(0) = new octave_galois (fact.L ());
+-          break;
+-        }
++    case 3:
++    default:
++      retval(2) = fact.P ();
++      retval(1) = new octave_galois (fact.U ());
++      retval(0) = new octave_galois (fact.L ());
++      break;
+     }
+ 
+   return retval;
+@@ -1104,21 +1092,18 @@
+       return retval;
+     }
+ 
+-  if (! error_state)
+-    {
+-      int info;
+-      double rcond = 0.0;
++  int info;
++  double rcond = 0.0;
+ 
+-      galois result = m.inverse (info, 1);
++  galois result = m.inverse (info, 1);
+ 
+-      if (nargout > 1)
+-        retval(1) = rcond;
++  if (nargout > 1)
++    retval(1) = rcond;
+ 
+-      retval(0) = new octave_galois (result);
++  retval(0) = new octave_galois (result);
+ 
+-      if (nargout < 2 && info == -1)
+-        warning ("inverse: matrix singular to machine precision, rcond = %g", rcond);
+-    }
++  if (nargout < 2 && info == -1)
++    warning ("inverse: matrix singular to machine precision, rcond = %g", rcond);
+ 
+   return retval;
+ }
+diff -r a132b9df4944 -r ace112d772c3 src/ov-galois.cc
+--- a/src/ov-galois.cc	Tue Jul 27 11:56:45 2021 -0400
++++ b/src/ov-galois.cc	Fri Nov 26 17:17:47 2021 +0100
+@@ -208,8 +208,7 @@
+       panic_impossible ();
+     }
+ 
+-  if (! error_state)
+-    retval = retval.next_subsref (type, idx, skip);
++  retval = retval.next_subsref (type, idx, skip);
+ 
+   return retval;
+ }
+@@ -427,14 +426,9 @@
+     case 2:
+       {
+         idx_vector i = idx (0).index_vector ();
++        idx_vector j = idx (1).index_vector ();
+ 
+-        if (! error_state)
+-          {
+-            idx_vector j = idx (1).index_vector ();
+-
+-            if (! error_state)
+-              gval.assign (i, j, rhs);
+-          }
++        gval.assign (i, j, rhs);
+       }
+       break;
+ 
+@@ -442,8 +436,7 @@
+       {
+         idx_vector i = idx (0).index_vector ();
+ 
+-        if (! error_state)
+-          gval.assign (i, rhs);
++        gval.assign (i, rhs);
+       }
+       break;
+ 
+@@ -597,7 +590,7 @@
+       Matrix m (dv(0), dv(1));
+       double *re = m.fortran_vec ();
+       read_doubles (is, re, X_CAST (save_type, tmp), dv.numel (), swap, fmt);
+-      if (error_state || ! is)
++      if (! is)
+         return false;
+ 
+       gval = galois (m, mord, prim);
