@@ -41,7 +41,7 @@ static wchar_t * FilePart (wchar_t *dir)
 static size_t get_num_physical_cores (void)
 {
   DWORD length;
-  void *lpi;
+  char *lpi;
   BOOL res;
   size_t num_physical_cores;
   size_t offset;
