@@ -535,6 +535,7 @@ SRC_FILES_1 := \
   of-quaternion.mk \
   of-queueing.mk \
   of-signal-1-deprecated-warnings.patch \
+  of-signal-2-error_state.patch \
   of-signal.mk \
   of-sockets.mk \
   of-sparsersb-1-no-internal-mex-fcns.patch \
