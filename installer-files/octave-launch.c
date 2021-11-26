@@ -41,7 +41,7 @@ static wchar_t * FilePart (wchar_t *dir)
 static size_t get_num_physical_cores (void)
 {
   DWORD length;
-  PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX lpi;
+  void *lpi;
   BOOL res;
   size_t num_physical_cores;
   size_t offset;
@@ -52,7 +52,10 @@ static size_t get_num_physical_cores (void)
     return 0;
 
   lpi = malloc (length);
-  res = GetLogicalProcessorInformationEx (RelationProcessorCore, lpi, &length);
+  res = GetLogicalProcessorInformationEx
+          (RelationProcessorCore,
+           (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX) lpi,
+           &length);
   if (! res)
     {
       free (lpi);
