@@ -481,6 +481,7 @@ SRC_FILES_1 := \
   of-control-1-deprecated-warnings.patch \
   of-control.mk \
   of-data-smoothing.mk \
+  of-database-1-verror.patch \
   of-database.mk \
   of-dataframe.mk \
   of-dicom.mk \
