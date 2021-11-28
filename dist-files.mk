@@ -511,6 +511,7 @@ SRC_FILES_1 := \
   of-linear-algebra.mk \
   of-lssa.mk \
   of-ltfat-1-cross-fixes.patch \
+  of-ltfat-2-LDFLAGS.patch \
   of-ltfat.mk \
   of-matgeom.mk \
   of-mapping.mk \
