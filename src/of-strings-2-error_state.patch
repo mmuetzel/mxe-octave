@@ -1,0 +1,26 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1638133340 -3600
+#      Sun Nov 28 22:02:20 2021 +0100
+# Node ID 2f2695e1f4b779632465782368c89ef1c7df0d91
+# Parent  c3d5e17f6023c14b85d405aba8b1c76a8f54d02a
+Fix compilation with Octave 8 (bug #61578).
+
+* src/pcregexp.cc (Fpcregexp): Remove usage of `error_state`. It was
+unconditionally set to 0 since about 6 years ago and will finally be removed in
+Octave 8.
+
+diff -r c3d5e17f6023 -r 2f2695e1f4b7 src/pcregexp.cc
+--- a/src/pcregexp.cc	Thu Jan 09 16:50:10 2020 -0500
++++ b/src/pcregexp.cc	Sun Nov 28 22:02:20 2021 +0100
+@@ -48,10 +48,6 @@
+ 
+     std::string pattern = args(0).string_value();
+     std::string input = args(1).string_value();
+-    if (error_state) {
+-        gripe_wrong_type_arg("pcregexp", args(0));
+-        return retval;
+-    }
+ 
+     // Compile expression
+     pcre *re;
