@@ -524,6 +524,7 @@ SRC_FILES_1 := \
   of-ocs-3-break-fixes.patch \
   of-ocs-4-pkgadd-fixes.patch \
   of-ocs-5-no-odepkg.patch \
+  of-ocs-6-error_state.patch \
   of-ocs.mk \
   of-octcdf.mk \
   of-octproj.mk \
