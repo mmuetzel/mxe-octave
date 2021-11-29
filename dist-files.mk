@@ -558,6 +558,7 @@ SRC_FILES_1 := \
   of-struct.mk \
   of-symbolic.mk \
   of-tisean-1-fixes.patch \
+  of-tisean-2-error_state.patch \
   of-tisean.mk \
   of-tsa.mk \
   of-video-1-fixes.patch \
