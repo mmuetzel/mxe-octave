@@ -4,8 +4,8 @@
 PKG             := src-msys2-filesystem
 $(PKG)_NAME     := filesystem
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2020.02-2
-$(PKG)_CHECKSUM := 055d9bdc1b18f1f2028c24500ce526883ed66192
+$(PKG)_VERSION  := 2021.06-1
+$(PKG)_CHECKSUM := f07cc0b21b8ed1e4ab65464ec3c0aa6acffd47ea
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

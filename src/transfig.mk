@@ -3,8 +3,8 @@
 
 PKG             := transfig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.7b
-$(PKG)_CHECKSUM := 8097c178b7fff1023112250938cc87837c0f564e
+$(PKG)_VERSION  := 3.2.8b
+$(PKG)_CHECKSUM := 9a85b37a0770d73915584f1e75e58375b093d9bd
 $(PKG)_SUBDIR   := fig2dev-$($(PKG)_VERSION)
 $(PKG)_FILE     := fig2dev-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/mcj/$($(PKG)_FILE)

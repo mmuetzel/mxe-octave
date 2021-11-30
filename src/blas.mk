@@ -3,8 +3,8 @@
 
 PKG             := blas
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.8.0
-$(PKG)_CHECKSUM := ee21dc04e563f50ccf173c957f98d2ff47702cb4
+$(PKG)_VERSION  := 3.10.0
+$(PKG)_CHECKSUM := dbb9d61c51c322b5e19542aaa2bb4b02b95a774b
 $(PKG)_SUBDIR   := BLAS-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tgz
 $(PKG)_URL      := http://www.netlib.org/$(PKG)/$($(PKG)_FILE)
@@ -28,22 +28,27 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
 endif
 
 define $(PKG)_BUILD
-    $(SED) -i 's,$$(FORTRAN),$(MXE_F77) $(MXE_F77_PICFLAG) $($(PKG)_DEFAULT_INTEGER_8_FLAG),g' '$(1)/Makefile'
-    $(MAKE) -C '$(1)' ARCH=$(MXE_AR) RANLIB=$(MXE_RANLIB) $($(PKG)_TARGETS) -j '$(JOBS)'
+  $(MAKE) -C '$(1)' \
+    FC=$(MXE_F77) \
+    FFLAGS='$(MXE_F77_PICFLAG) $($(PKG)_DEFAULT_INTEGER_8_FLAG)' \
+    AR=$(MXE_AR) \
+    RANLIB=$(MXE_RANLIB) \
+    $($(PKG)_TARGETS) \
+    -j '$(JOBS)'
 
-    if [ $(BUILD_SHARED) = yes ]; then \
-      if [ -n "$($(PKG)_LIBXERBLA)" ]; then \
-        $(MAKE_SHARED_FROM_STATIC) --ar '$(MXE_AR)' --ld '$(MXE_F77)' '$(1)/libxerbla.a' --install '$(INSTALL)' --libdir '$(3)$(HOST_LIBDIR)' --bindir '$(3)$(HOST_BINDIR)'; \
-        $(INSTALL) '$(3)/$(HOST_BINDIR)/libxerbla.dll' '$(3)$(HOST_BINDIR)/libxerbla-blas.dll'; \
-      fi; \
-      $(MAKE_SHARED_FROM_STATIC) --ar '$(MXE_AR)' --ld '$(MXE_F77)' '$(1)/libblas.a' --install '$(INSTALL)' --libdir '$(3)$(HOST_LIBDIR)' --bindir '$(3)$(HOST_BINDIR)' $($(PKG)_LIBXERBLA); \
-    fi
+  if [ $(BUILD_SHARED) = yes ]; then \
+    if [ -n "$($(PKG)_LIBXERBLA)" ]; then \
+      $(MAKE_SHARED_FROM_STATIC) --ar '$(MXE_AR)' --ld '$(MXE_F77)' '$(1)/libxerbla.a' --install '$(INSTALL)' --libdir '$(3)$(HOST_LIBDIR)' --bindir '$(3)$(HOST_BINDIR)'; \
+      $(INSTALL) '$(3)/$(HOST_BINDIR)/libxerbla.dll' '$(3)$(HOST_BINDIR)/libxerbla-blas.dll'; \
+    fi; \
+    $(MAKE_SHARED_FROM_STATIC) --ar '$(MXE_AR)' --ld '$(MXE_F77)' '$(1)/libblas.a' --install '$(INSTALL)' --libdir '$(3)$(HOST_LIBDIR)' --bindir '$(3)$(HOST_BINDIR)' $($(PKG)_LIBXERBLA); \
+  fi
 
-    if [ $(BUILD_STATIC) = yes ]; then \
-      $(INSTALL) -d '$(3)$(HOST_LIBDIR)'; \
-      $(INSTALL) '$(1)/libblas.a' '$(3)$(HOST_LIBDIR)/'; \
-      if [ -n "$($(PKG)_LIBXERBLA)" ]; then \
-        $(INSTALL) '$(1)/libxerbla.a' '$(3)$(HOST_LIBDIR)/'; \
-      fi; \
-    fi
+  if [ $(BUILD_STATIC) = yes ]; then \
+    $(INSTALL) -d '$(3)$(HOST_LIBDIR)'; \
+    $(INSTALL) '$(1)/libblas.a' '$(3)$(HOST_LIBDIR)/'; \
+    if [ -n "$($(PKG)_LIBXERBLA)" ]; then \
+      $(INSTALL) '$(1)/libxerbla.a' '$(3)$(HOST_LIBDIR)/'; \
+    fi; \
+  fi
 endef

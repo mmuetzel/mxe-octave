@@ -3,12 +3,12 @@
 
 PKG             := hdf5
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.12.0
-$(PKG)_CHECKSUM := 6020131b6e18e6866816b1fe68980512c696c2bf
+$(PKG)_VERSION  := 1.12.1
+$(PKG)_CHECKSUM := 665eed49a004f96f852887bb2b232dd7d3d8d8a0
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://support.hdfgroup.org/ftp/HDF5/releases/$(PKG)-$(call SHORT_PKG_VERSION,$(PKG))/$(PKG)-$($(PKG)_VERSION)/src/$($(PKG)_FILE)
-$(PKG)_DEPS     := zlib
+$(PKG)_DEPS     := build-ninja zlib
 
 define $(PKG)_UPDATE
     echo 'Warning: Updates are temporarily disabled for package hdf5.' >&2;
@@ -32,7 +32,7 @@ ifeq ($(MXE_SYSTEM),mingw)
             -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN__TRYRUN_OUTPUT="" \
             -DH5_NO_ALIGNMENT_RESTRICTIONS_RUN=0 \
             -DH5_NO_ALIGNMENT_RESTRICTIONS_RUN__TRYRUN_OUTPUT="" \
-            -DH5_PRINTF_LL_TEST_RUN=1 \
+            -DH5_PRINTF_LL_TEST_RUN=0 \
             -DH5_PRINTF_LL_TEST_RUN__TRYRUN_OUTPUT="" \
             -DTEST_LFS_WORKS_RUN=0
     endif
@@ -41,26 +41,33 @@ endif
 define $(PKG)_BUILD
     if test x$(MXE_SYSTEM) = xmingw; then \
         mkdir '$(1)/pregen'; \
+        mkdir '$(1)/pregen/shared'; \
         case '$(TARGET)' in \
             x86_64-w64-mingw32) \
                 cp '$(1)/src/H5Tinit.c.mingw64' '$(1)/pregen/H5Tinit.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw64' '$(1)/pregen/H5lib_settings.c' \
+                cp '$(1)/src/H5Tinit.c.mingw64' '$(1)/pregen/shared/H5Tinit.c' & \
+                cp '$(1)/src/H5lib_settings.c.mingw64' '$(1)/pregen/H5lib_settings.c' & \
+                cp '$(1)/src/H5lib_settings.c.mingw64' '$(1)/pregen/shared/H5lib_settings.c' \
             ;; \
             i686-w64-mingw32) \
                 cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/H5Tinit.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/H5lib_settings.c' \
+                cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/shared/H5Tinit.c' & \
+                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/H5lib_settings.c' & \
+                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/shared/H5lib_settings.c' \
             ;; \
             i686-pc-mingw32) \
                 cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/H5Tinit.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/H5lib_settings.c' \
+                cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/shared/H5Tinit.c' & \
+                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/H5lib_settings.c' & \
+                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/shared/H5lib_settings.c' \
             ;; \
         esac; \
     fi
 
     mkdir '$(1)/.build'
 
-    cd '$(1)/.build' && cmake .. -G "Unix Makefiles" \
-        -DCMAKE_INSTALL_PREFIX=${prefix} \
+    cd '$(1)/.build' && cmake .. -G Ninja \
+        -DCMAKE_INSTALL_PREFIX=$(HOST_PREFIX) \
         $($(PKG)_CMAKE_FLAGS) \
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
@@ -78,19 +85,17 @@ define $(PKG)_BUILD
         $($(PKG)_CROSS_CONFIG_OPTIONS) \
         -DHDF5_USE_PREGEN_DIR='$(1)/pregen'
 
-    $(MAKE) -C '$(1)/.build' -j '$(JOBS)' 
-    $(MAKE) -C '$(1)/.build' -j 1 install DESTDIR='$(3)'
+    cmake --build '$(1)/.build' -j '$(JOBS)' 
+    DESTDIR='$(3)' cmake --install '$(1)/.build'
 
     # FIXME: Change the build rule to create the shared libs with the prefix
-    if test x$(MXE_SYSTEM) = xmingw; then \
+    if [ $(BUILD_STATIC) = yes ]; then \
+      if test x$(MXE_SYSTEM) = xmingw; then \
         mv '$(3)/$(HOST_LIBDIR)/hdf5.lib' '$(3)/$(HOST_LIBDIR)/libhdf5.lib'; \
         mv '$(3)/$(HOST_LIBDIR)/hdf5_tools.lib' '$(3)/$(HOST_LIBDIR)/libhdf5_tools.lib'; \
         mv '$(3)/$(HOST_LIBDIR)/hdf5_hl.lib' '$(3)/$(HOST_LIBDIR)/libhdf5_hl.lib'; \
+      fi; \
     fi
-    
-    # Remove version suffix from pkg-config files
-    mv '$(3)/$(HOST_LIBDIR)/pkgconfig/hdf5-$($(PKG)_VERSION).pc' '$(3)/$(HOST_LIBDIR)/pkgconfig/hdf5.pc'
-    mv '$(3)/$(HOST_LIBDIR)/pkgconfig/hdf5_hl-$($(PKG)_VERSION).pc' '$(3)/$(HOST_LIBDIR)/pkgconfig/hdf5_hl.pc'
 
     if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
         rm -rf '$(3)$(HOST_PREFIX)/share/hdf5_examples'; \

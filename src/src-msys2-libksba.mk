@@ -4,8 +4,8 @@
 PKG             := src-msys2-libksba
 $(PKG)_NAME     := libksba
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.5-1
-$(PKG)_CHECKSUM := e508a3b3f7f084c2b37d8d91bb712239fffd8bc2
+$(PKG)_VERSION  := 1.6.0-1
+$(PKG)_CHECKSUM := 35aff45eed190e57956e7abf47194a69c3c83540
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

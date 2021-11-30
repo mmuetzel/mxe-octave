@@ -3,16 +3,16 @@
 
 PKG             := mpfr
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.0.2
-$(PKG)_CHECKSUM := 52c1f2a4c9a202f46cf3275a8d46b562aa584208
+$(PKG)_VERSION  := 4.1.0
+$(PKG)_CHECKSUM := 159c3a58705662bfde4dc93f2617f3660855ead6
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/mpfr/$($(PKG)_FILE)
-$(PKG)_URL_2    := http://www.mpfr.org/mpfr-$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://www.mpfr.org/mpfr-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-gcc gmp
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://gforge.inria.fr/scm/viewvc.php/mpfr/tags/' | \
+    $(WGET) -q -O- 'https://www.mpfr.org/mpfr-current/' | \
     $(SED) -n 's,.*tags/\([0-9][^/]*\).*,\1,p' |
     $(SORT) -V | \
     tail -1

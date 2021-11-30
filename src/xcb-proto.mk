@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := f7fa35ab59af18cecadbe83fe705281dcfd82ffd
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
-$(PKG)_DEPS     := 
+$(PKG)_DEPS     := build-python
 
 
 define $(PKG)_UPDATE
@@ -24,7 +24,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
 else
   define $(PKG)_BUILD
     mkdir '$(1)/.build'
-    cd '$(1)/.build' && $($(PKG)_CONFIGURE_ENV) '$(1)/configure' \
+    cd '$(1)/.build' && $($(PKG)_CONFIGURE_ENV) PYTHON=$(MXE_PYTHON) '$(1)/configure' \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \

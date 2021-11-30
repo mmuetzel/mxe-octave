@@ -25,7 +25,10 @@ OCTAVE_ADD_PATH := /
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   TAR_H_OPTION := -h
   WINDOWS_BINARY_DIST_DEPS := \
-    win7appid blas_switch
+    octave-launch \
+    octave-launch-firsttime \
+    win7appid \
+    blas_switch
 
   ifeq ($(USE_MSYS2),yes)
     WINDOWS_BINARY_DIST_DEPS += \
@@ -49,16 +52,13 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       native-gcc \
       npp
   endif
-
-  # other packages we want to include
-  WINDOWS_BINARY_DIST_DEPS += \
-    biosig
 endif
 
 BINARY_DIST_DEPS := \
   $(OCTAVE_TARGET) \
   blas-packages \
   octave-forge-packages \
+  octave-other-packages \
   devel-packages \
   units \
   transfig \
@@ -87,6 +87,36 @@ define copy-dist-files
   fi
 endef
 
+## FIXME: Maybe we should have a uniform way of dealing with the
+## creation of build-tree directories like this?
+installer-files/.dirstamp:
+	@mkdir -p installer-files
+	@: > installer-files/.dirstamp
+
+ifeq ($(MXE_WINDOWS_BUILD),yes)
+
+  ifeq ($(OCTAVE_TARGET),default-octave)
+    OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS := -DNO_SHORT_PATH_NAMES
+  endif
+
+.PHONY: octave-launch
+octave-launch: installer-files/octave-launch.exe
+
+## FIXME: We aren't using VPATH?
+installer-files/octave-launch.exe: $(TOP_DIR)/installer-files/octave-launch.c installer-files/octave-launch.res | installer-files/.dirstamp
+	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
+
+.PHONY: octave-launch-firsttime
+octave-launch-firsttime: installer-files/octave-launch-firsttime.exe
+
+## FIXME: We aren't using VPATH?
+installer-files/octave-launch-firsttime.exe: $(TOP_DIR)/installer-files/octave-launch.c installer-files/octave-launch.res | installer-files/.dirstamp
+	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
+
+installer-files/octave-launch.res: $(TOP_DIR)/installer-files/octave-launch.rc | installer-files/.dirstamp
+	$(MXE_WINDRES) $< -o $@ -O coff
+endif
+
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   ifeq ($(MXE_NATIVE_BUILD),no)
     define copy-windows-dist-files
@@ -113,16 +143,27 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(TOP_DIR)/installer-files/README.html $(OCTAVE_DIST_DIR)/
       echo "  refblas..."
       cp $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/libblas.dll $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/librefblas.dll
+      echo "  installing octave-launch.exe..."
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch.exe $(OCTAVE_DIST_DIR)/
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch-firsttime.exe $(OCTAVE_DIST_DIR)/
       echo "  octave.vbs..."
       cp $(TOP_DIR)/installer-files/octave.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/fc_update.bat $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/post-install.bat $(OCTAVE_DIST_DIR)/
+      # This patch can be dropped as soon as those lines are removed from
+      # the startup scripts for all targets (including stable and release).
+      if [ "$(OCTAVE_TARGET)" = "default-octave" ]; then \
+        (cd '$(OCTAVE_DIST_DIR)' && $(PATCH) -p1 -u) < $(TOP_DIR)/installer-files/octave-no-short-path.patch; \
+      fi
       cp $(TOP_BUILD_DIR)/HG-ID $(OCTAVE_DIST_DIR)/
-      echo "  updating octave .exe to script files..."
-      rm -f $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave.exe
-      rm -f $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave-$($(OCTAVE_TARGET)_VERSION).exe
+      echo "  installing octave.bat script file..."
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave.bat
+      # This patch can be dropped as soon as those lines are removed from
+      # "octave.bat" for all targets (including stable and release).
+      if [ "$(OCTAVE_TARGET)" = "default-octave" ]; then \
+        (cd '$(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin' && $(PATCH) -p1 -u) < $(TOP_DIR)/installer-files/octave-bat-no-short-path.patch; \
+      fi
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin/octave-$($(OCTAVE_TARGET)_VERSION).bat
       echo "  updating libtool references..."
       find '$(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/' -type f -name "*.la" \
@@ -132,6 +173,9 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
         -exec $(SED) -i 's|$(HOST_PREFIX)|/usr|g;s|$(BUILD_TOOLS_PREFIX)|/usr|g' {} \; ;
       if [ "$(ENABLE_DEVEL_TOOLS)" = "yes" ]; then \
         cp $(TOP_DIR)/installer-files/cmdshell.bat $(OCTAVE_DIST_DIR)/; \
+        if [ "$(OCTAVE_TARGET)" = "default-octave" ]; then \
+          (cd '$(OCTAVE_DIST_DIR)' && $(PATCH) -p1 -u) < $(TOP_DIR)/installer-files/cmdshell-no-short-path.patch; \
+        fi; \
       fi
       echo "  updating script tool references..."
       #find '$(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/bin' -type f ! -name "*.*" \
@@ -150,14 +194,15 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
       cp $(TOP_DIR)/installer-files/README.html $(OCTAVE_DIST_DIR)/
       echo "  refblas..."
       cp $(OCTAVE_DIST_DIR)/bin/libblas.dll $(OCTAVE_DIST_DIR)/bin/librefblas.dll
+      echo "  installing octave-launch.exe..."
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch.exe $(OCTAVE_DIST_DIR)/
+      cp $(TOP_BUILD_DIR)/installer-files/octave-launch-firsttime.exe $(OCTAVE_DIST_DIR)/
       echo "  octave.vbs..."
       cp $(TOP_DIR)/installer-files/octave.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/octave-firsttime.vbs $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/fc_update.bat $(OCTAVE_DIST_DIR)/
       cp $(TOP_DIR)/installer-files/post-install.bat $(OCTAVE_DIST_DIR)/
-      echo "  updating octave .exe to script files..."
-      rm -f $(OCTAVE_DIST_DIR)/bin/octave.exe
-      rm -f $(OCTAVE_DIST_DIR)/bin/octave-$($(OCTAVE_TARGET)_VERSION).exe
+      echo "  installing octave.bat script files..."
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)/bin/octave.bat
       cp $(TOP_DIR)/installer-files/octave.bat $(OCTAVE_DIST_DIR)/bin/octave-$($(OCTAVE_TARGET)_VERSION).bat
     endef

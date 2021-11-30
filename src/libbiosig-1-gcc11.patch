@@ -1,0 +1,72 @@
+Change Makefile so that the values of environment variables are respected.
+
+--- ./biosig4c++/Makefile.in.orig	2021-08-10 18:35:30.301801739 +0200
++++ ./biosig4c++/Makefile.in	2021-08-10 18:37:18.338795660 +0200
+@@ -101,6 +101,9 @@ includedir    = @includedir@
+ bindir        = @bindir@
+ mandir        = @mandir@
+ 
++CC ?= @CC@
++CXX ?= @CXX@
++
+ CFLAGS       += -I$(includedir)
+ CXXFLAGS     += $(CFLAGS)
+ 
+@@ -108,7 +111,8 @@ CXXFLAGS     += $(CFLAGS)
+ ifeq (,$(TARGET))
+ 	CC      ?= gcc
+ 	CXX     ?= g++
+-	AR      := ar rcs
++	ARFLAGS ?= rcs
++	AR      ?= ar
+ 	PKGCONF := pkg-config
+ 	SHAREDLIB = -shared
+ 	DLEXT    = so
+@@ -116,14 +120,16 @@ else ifeq (intel,$(TARGET))
+ 	CC      := icc
+ 	CXX     := icc
+ 	LD      := xild
+-	AR      := xiar crs
++	ARFLAGS ?= crs
++	AR      := xiar
+ else
+ 	PREFIX  := $(subst /bin/,/,$(dir $(shell which $(TARGET)-gcc)))
+-	CC      := $(TARGET)-gcc
+-	CXX     := $(TARGET)-g++
++	CC      ?= $(TARGET)-gcc
++	CXX     ?= $(TARGET)-g++
+ 	LD      := $(TARGET)-ld
+-	AR      := $(TARGET)-ar rcs
+-	PKGCONF := $(TARGET)-pkg-config
++	AR      ?= $(TARGET)-ar
++	ARFLAGS ?= rcs
++	PKGCONF ?= $(TARGET)-pkg-config
+ 	ifneq (,$(findstring mingw,$(TARGET)))
+ 		## add gnulib's getlogin
+ 		SOURCES += win32/getlogin.c win32/getline.c win32/getdelim.c
+@@ -136,6 +142,8 @@ else
+ 	endif
+ endif
+ 
++AR := $(AR) $(ARFLAGS)
++
+ SONAMEVERSION ?= 3
+ 
+ ### TODO: DLEXT does not work correctly on MXE/MINGW
+
+
+`typeof` is a GNU extension. Use `decltype` which is part of C++11.
+--- ./biosig4c++/t230/sopen_hl7aecg.cpp.orig	2021-08-02 18:59:57.000000000 +0200
++++ ./biosig4c++/t230/sopen_hl7aecg.cpp	2021-08-10 17:41:35.500597677 +0200
+@@ -791,8 +791,8 @@ EXTERN_C int sopen_HL7aECG_read(HDRTYPE*
+ 
+                                 if ((N+3) > N_Event) {
+                                 	N_Event = max(16,2*(N+2));
+-                                	hdr->EVENT.TYP = (typeof(hdr->EVENT.TYP)) realloc(hdr->EVENT.TYP,N_Event*sizeof(*hdr->EVENT.TYP));
+-                                	hdr->EVENT.POS = (typeof(hdr->EVENT.POS)) realloc(hdr->EVENT.POS,N_Event*sizeof(*hdr->EVENT.POS));
++                                	hdr->EVENT.TYP = (decltype(hdr->EVENT.TYP)) realloc(hdr->EVENT.TYP,N_Event*sizeof(*hdr->EVENT.TYP));
++                                	hdr->EVENT.POS = (decltype(hdr->EVENT.POS)) realloc(hdr->EVENT.POS,N_Event*sizeof(*hdr->EVENT.POS));
+                                 }
+ 
+         		        TiXmlHandle Boundary = Annotation.FirstChild("support").FirstChild("supportingROI").FirstChild("component").FirstChild("boundary").FirstChild("value");
+

@@ -1,14 +1,22 @@
-diff --git "a/netcdf/ncdump/ncvalidator.c" "b/netcdf/ncdump/ncvalidator.c"
-index a0e4acb..2a7c5af 100644
---- "a/ncdump/ncvalidator.c"	
-+++ "b/ncdump/ncvalidator.c"
-@@ -76,7 +76,9 @@ THIS SOFTWARE.
- #ifdef _WIN32
- #include <io.h>
- #define snprintf _snprintf
-+#ifndef HAVE_UNISTD_H
- #include "XGetopt.h"
-+#endif
- int opterr;
- int optind;
- #endif
+From 9a8a2eb2694581f6caf103aee593ca9607be17bd Mon Sep 17 00:00:00 2001
+From: Milton Woods <miltonjwoods@gmail.com>
+Date: Mon, 23 Aug 2021 14:22:57 +1000
+Subject: [PATCH] Fix path conversions for mingw-w64
+
+---
+ libdispatch/dpathmgr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libdispatch/dpathmgr.c b/libdispatch/dpathmgr.c
+index eb450534e..6a5890423 100644
+--- a/libdispatch/dpathmgr.c
++++ b/libdispatch/dpathmgr.c
+@@ -861,7 +861,7 @@ getlocalpathkind(void)
+ 	kind = NCPD_CYGWIN;
+ #elif __MSYS__
+ 	kind = NCPD_MSYS;
+-#elif _MSC_VER /* not _WIN32 */
++#elif defined(_MSC_VER) || defined(__MINGW32__) /* not _WIN32 */
+ 	kind = NCPD_WIN;
+ #else
+ 	kind = NCPD_NIX;

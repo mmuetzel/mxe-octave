@@ -3,28 +3,41 @@
 
 PKG             := mingw-w64
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.0.0
-$(PKG)_CHECKSUM := 25940043c4541e3e59608dead9b6f75b5596d606
+$(PKG)_VERSION  := 9.0.0
+$(PKG)_CHECKSUM := 9c496ed063e085888d250cc461ec4d31d97b72f1
 $(PKG)_SUBDIR   := $(PKG)-v$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-v$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$(PKG)-release/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/' | \
-    $(SED) -n 's,.*mingw-w64-v\([0-9.]*\)\.tar.*,\1,p' | \
-    $(SORT) -V | \
-    tail -1
+  $(WGET) -q -O- 'http://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/' | \
+  $(SED) -n 's,.*mingw-w64-v\([0-9.]*\)\.tar.*,\1,p' | \
+  $(SORT) -V | \
+  tail -1
 endef
 
-define $(PKG)_BUILD
-    mkdir '$(1).headers-build'
-    cd '$(1).headers-build' && '$(1)/mingw-w64-headers/configure' \
-        --host='$(TARGET)' \
-        --prefix='$(HOST_PREFIX)' \
-        --enable-sdk=all \
-        --enable-idl \
-        --enable-secure-api
+ifneq ($(OCTAVE_TARGET),release-octave)
+  # FIXME: Set unconditionally for the first release candidate of Octave 7.
+  $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
+endif
 
-    $(MAKE) -C '$(1).headers-build' install
+ifneq ($(HOST_MSVCRT),ucrt)
+  $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=msvcrt
+else
+  $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=ucrt
+endif
+
+define $(PKG)_BUILD
+  mkdir '$(1).headers-build'
+  cd '$(1).headers-build' && '$(1)/mingw-w64-headers/configure' \
+    --host='$(TARGET)' \
+    --prefix='$(HOST_PREFIX)' \
+    --enable-sdk=all \
+    --enable-idl \
+    --enable-secure-api \
+    $($(PKG)_WINAPI_VERSION_FLAGS) \
+    $($(PKG)_DEFAULT_MSVCRT)
+
+  $(MAKE) -C '$(1).headers-build' install
 endef

@@ -3,8 +3,8 @@
 
 PKG             := of-optiminterp
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.3.6
-$(PKG)_CHECKSUM := 8d6309f389ccfadaadd0dd52e84db21aa75b82f3
+$(PKG)_VERSION  := 0.3.7
+$(PKG)_CHECKSUM := b67f1938c817ba22b49e7da1405fa93d8d9fd196
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := optiminterp-$($(PKG)_VERSION)
 $(PKG)_FILE     := optiminterp-$($(PKG)_VERSION).tar.gz

@@ -80,6 +80,9 @@ ENABLE_QT5 := @ENABLE_QT5@
 # Set to "yes" to use msys2
 USE_MSYS2 := @USE_MSYS2@
 
+# Set to "ucrt" or "msvcrt"
+HOST_MSVCRT := @HOST_MSVCRT@
+
 # Should match what config.guess prints for your system.
 # If cross compiling, you must set it manually (defaults are set by configure).
 ifeq ($(MXE_NATIVE_BUILD),yes)
@@ -271,7 +274,7 @@ BUILD_TOOLS := $(ALL_BUILD_TOOLS)
 # some build tools are optional and added as explicit dependencies
 # to packages that need them
 BUILD_TOOLS_OPT := \
-  build-mako build-markupsafe build-meson build-ninja build-python3 \
+  build-libffi build-mako build-markupsafe build-meson build-ninja \
   build-python build-octave build-setuptools build-scons
 BUILD_TOOLS := $(filter-out $(BUILD_TOOLS_OPT), $(BUILD_TOOLS))
 # Building flex for native mingw fails, so disable it.
@@ -295,12 +298,12 @@ ifeq ($(MXE_SYSTEM),msvc)
   REQUIREMENTS += makeinfo xz
   BUILD_TOOLS := $(filter-out build-texinfo build-xz, $(BUILD_TOOLS))
 endif
-# use the a native python in native mingw
+# use a native python in native mingw
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
   REQUIREMENTS += python3
-  BUILD_TOOLS := $(filter-out build-python3, $(BUILD_TOOLS))
+  BUILD_TOOLS := $(filter-out build-python, $(BUILD_TOOLS))
 endif
-PYTHON3 ?= python3
+MXE_PYTHON ?= python3
 
 # use the a native awk in native mingw
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -335,7 +338,7 @@ endif
 
 ENV_PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 
-BUILD_PKG_CONFIG_PATH ?= @BUILD_PKG_CONFIG_PATH@
+BUILD_PKG_CONFIG_PATH ?= $(BUILD_TOOLS_PREFIX)/lib/pkgconfig:@BUILD_PKG_CONFIG_PATH@
 
 CONFIGURE_CPPFLAGS := CPPFLAGS='-I$(HOST_PREFIX)/include'
 ifeq ($(MXE_USE_LIB64_DIRECTORY),yes)
@@ -478,7 +481,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     MSYS2_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\([^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html' | $(GREP) msys2-)
     MSYS2_SOURCES := $(addprefix src-,$(MSYS2_PACKAGES))
     PKGS += $(MSYS2_SOURCES)
-    MSYS2_BASE_URL := http://repo.msys2.org/msys
+    MSYS2_BASE_URL := https://repo.msys2.org/msys
     MSYS2_URL := $(MSYS2_BASE_URL)/$(MSYS2_ARCH)
     MSYS2_SRC_URL := $(MSYS2_BASE_URL)/sources
     MSYS2_DIR := $(TOP_BUILD_DIR)/msys2
@@ -532,9 +535,11 @@ endif
 OCTAVE_FORGE_BASE_URL := 'https://sourceforge.net/projects/octave/files/Octave Forge Packages/Individual Package Releases'
 ## Packages removed from list because build is broken:
 ## None.
-OCTAVE_FORGE_PACKAGES := $(addprefix of-,miscellaneous struct optim general signal communications image io statistics control geometry windows linear-algebra sockets data-smoothing fuzzy-logic-toolkit quaternion fits tsa netcdf ltfat database instrument-control generate_html nurbs strings financial stk splines dataframe lssa queueing ga interval nan ocs mapping tisean video zeromq gsl optiminterp dicom sparsersb audio symbolic matgeom octproj)
+OCTAVE_FORGE_PACKAGES := $(addprefix of-,audio communications control database dataframe data-smoothing dicom financial fits fuzzy-logic-toolkit ga general generate_html geometry gsl image instrument-control interval io linear-algebra lssa ltfat mapping matgeom miscellaneous nan netcdf nurbs ocs octproj optim optiminterp quaternion queueing signal sockets sparsersb splines statistics stk strings struct symbolic tisean tsa video windows zeromq)
+OCTAVE_OTHER_PACKAGES := $(addprefix opkg-,biosig)
 # get ALL deps for all of- packages, regardless of whether building the actual forge package in the installer
 OCTAVE_FORGE_DEPS:= $(sort $(foreach p,$(addprefix $(TOP_DIR)/src/,$(addsuffix .mk,$(OCTAVE_FORGE_PACKAGES))),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
+OCTAVE_OTHER_PKG_DEPS:= $(sort $(foreach p,$(addprefix $(TOP_DIR)/src/,$(addsuffix .mk,$(OCTAVE_OTHER_PACKAGES))),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
 
 BLAS_PACKAGES := blas
 ifeq ($(ENABLE_OPENBLAS),yes)
@@ -578,8 +583,9 @@ UNPACK_ARCHIVE = \
     $(if $(filter %.tar.lz, $(1)),$(3) xaf '$(1)', \
     $(if $(filter %.tar.lzma,$(1)),xz -dc -F lzma '$(1)' | $(3) xf -, \
     $(if $(filter %.tar.xz,$(1)),xz -dc '$(1)' | $(3) xf -, \
+    $(if $(filter %.tar.zst,$(1)),zstd -dc '$(1)' | $(3) xf -, \
     $(if $(filter %.zip,     $(1)),unzip -q '$(1)', \
-    $(error Unknown archive format for $(2): $(1)))))))))
+    $(error Unknown archive format for $(2): $(1))))))))))
 
 UNPACK_PKG_ARCHIVE = \
     $(if $(value $(1)_FILE),$(call UNPACK_ARCHIVE,$(PKG_DIR)/$($(1)_FILE),$(1),$(2)),true)
@@ -689,7 +695,7 @@ endef
 define MSYS2_PKG_UPDATE
   $(WGET) -q -O- '$(MSYS2_URL)/' | \
   $(GREP) $($(PKG)_NAME) | $(GREP) "$($(PKG)_FILTER)" | \
-  $(SED) -n 's,.*href="$($(PKG)_NAME)-\(r\?[0-9][^-]*-[0-9]*\)-[^\.]*\.pkg\.tar\.xz".*,\1,p' | \
+  $(SED) -n 's,.*href="$($(PKG)_NAME)-\(r\?[0-9][^-]*-[0-9]*\)-[^\.]*\.pkg\.tar.*,\1,p' | \
   $(SORT) -V | \
   tail -1
 endef
@@ -702,6 +708,9 @@ msys2-sources:  $(MSYS2_SOURCES)
 
 .PHONY: octave-forge-packages
 octave-forge-packages: $(OCTAVE_FORGE_DEPS) $(OCTAVE_FORGE_PACKAGES)
+
+.PHONY: octave-other-packages
+octave-other-packages: $(OCTAVE_OTHER_PKG_DEPS) $(OCTAVE_OTHER_PACKAGES)
 
 .PHONY: blas-packages
 blas-packages: $(BLAS_PACKAGES)
@@ -837,18 +846,20 @@ define OCTAVE_FORGE_PKG_BUILD_NOCOMPILE
       && $(INSTALL) -m644 '$($(PKG)_FILE)' '$(3)$(HOST_PREFIX)/src'
 endef
 
+# FIXME: The OCTAVE_FORGE_PKG_BUILD build rule probably works for *any* valid
+# Octave package (not only Octave Forge packages).  Consider renaming it.
 ifeq ($(MXE_SYSTEM),msvc)
-define OCTAVE_FORGE_PKG_BUILD
+  define OCTAVE_FORGE_PKG_BUILD
     $(INSTALL) -d '$(3)$(HOST_PREFIX)/local/octave-$(octave_VERSION)/share/octave'
     $(INSTALL) -d '$(3)$(HOST_PREFIX)/local/octave-$(octave_VERSION)/lib/octave'
     cd '$(1)/..' && tar cvfz $($(PKG)_FILE) $($(PKG)_SUBDIR)
     cd '$(1)/..' && $(HOST_PREFIX)/local/octave-$(octave_VERSION)/bin/octave-cli.exe -H -f -q \
-        --eval "more off;" \
-        --eval "pkg('prefix', '`cd "$(3)" && pwd -W`$(HOST_PREFIX)/local/octave-$(octave_VERSION)/share/octave/packages', '`cd "$(3)" && pwd -W`$(HOST_PREFIX)/local/octave-$(octave_VERSION)/lib/octave/packages');" \
-	--eval "pkg('install', '-verbose', '$($(PKG)_FILE)');"
+      --eval "more off;" \
+      --eval "pkg('prefix', '`cd "$(3)" && pwd -W`$(HOST_PREFIX)/local/octave-$(octave_VERSION)/share/octave/packages', '`cd "$(3)" && pwd -W`$(HOST_PREFIX)/local/octave-$(octave_VERSION)/lib/octave/packages');" \
+      --eval "pkg('install', '-verbose', '$($(PKG)_FILE)');"
 endef
 else
-define OCTAVE_FORGE_PKG_BUILD
+  define OCTAVE_FORGE_PKG_BUILD
     if [ $(ENABLE_BINARY_PACKAGES) = no ]; then \
       mkdir -p '$(3)$(HOST_PREFIX)/src'; \
       cd '$(1)/..' \
@@ -863,7 +874,7 @@ define OCTAVE_FORGE_PKG_BUILD
         CONFIGURE_OPTIONS="$(HOST_AND_BUILD_CONFIGURE_OPTIONS)" $(4) \
         $(PYTHON3) $(TOP_DIR)/tools/pkg-install.py install -verbose "$($(PKG)_FILE)"; \
      fi
-endef
+  endef
 endif
 
 define OCTAVE_FORGE_PKG_UPDATE
@@ -1015,6 +1026,11 @@ update-octaveforge:
 update-build-tools:
 	$(foreach PKG,$(BUILD_TOOLS),$(call UPDATE,$(PKG),$(shell $($(PKG)_UPDATE))))
 
+.PHONY: update-general-pkgs
+update-general-pkgs:
+	$(foreach PKG,$(filter-out $(MSYS2_PACKAGES) $(MSYS_BASE_PACKAGES) $(OCTAVE_FORGE_PACKAGES), $(PKGS)),\
+		$(if $($(PKG)_UPDATE),$(call UPDATE,$(PKG),$(shell $($(PKG)_UPDATE))),$(info Warning: No update rule for $(PKG))))
+
 update-checksum-%:
 	$(call DOWNLOAD_PKG_ARCHIVE,$*)
 	$(SED) -i 's/^\([^ ]*_CHECKSUM *:=\).*/\1 '"`$(call PKG_CHECKSUM,$*)`"'/' '$(TOP_DIR)/src/$*.mk'
@@ -1060,7 +1076,7 @@ endef
 define MSYS2_PKG_UPDATE_FILE
   cat $(MSYS2_UPDATE_TMP_FILE) | \
   $(GREP) $($(PKG)_NAME) | $(GREP) "$($(PKG)_FILTER)" | \
-  $(SED) -n 's,.*href="$($(PKG)_NAME)-\(r\?[0-9][^-]*-[0-9]*\)-[^\.]*\.pkg\.tar\.xz".*,\1,p' | \
+  $(SED) -n 's,.*href="$($(PKG)_NAME)-\(r\?[0-9][^-]*-[0-9]*\)-[^\.]*\.pkg\.tar.*,\1,p' | \
   $(SORT) -V | \
   tail -1
 endef

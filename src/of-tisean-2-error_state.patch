@@ -1,0 +1,637 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1638190865 -3600
+#      Mon Nov 29 14:01:05 2021 +0100
+# Node ID fdca531d6a1268500b3ebefbacb97a4a44141c43
+# Parent  7d4b181cd726d9ad0d6ee5a37d128d90fc925858
+Remove usage of `error_state` (bug #61583).
+
+* src/pcregexp.cc (many files): Remove usage of `error_state`. It was
+unconditionally set to 0 since about 6 years ago and will finally be removed in
+Octave 8.
+
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__boxcount__.cc
+--- a/src/__boxcount__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__boxcount__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -194,8 +194,6 @@
+ 
+       octave_idx_type length=LENGTH-(maxembed-1)*DELAY;
+ 
+-      if ( ! error_state)
+-        {
+           // Calculate output
+           double heps              = EPSMAX*EPSFAKTOR;
+           octave_idx_type epsi_old = 0;
+@@ -276,7 +274,6 @@
+ 
+ 
+           retval(0) = output;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__c1__.cc
+--- a/src/__c1__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__c1__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -77,10 +77,6 @@
+       bool verbose           = args(9).bool_value ();
+       octave_idx_type iverb  = verbose;
+ 
+-
+-      if (! error_state)
+-        {
+-
+           octave_idx_type lines_read   = input.rows (); //nmax in d1()
+           octave_idx_type columns_read = input.columns ();
+ 
+@@ -136,7 +132,6 @@
+             }
+ 
+           retval(0) = output;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__d2__.cc
+--- a/src/__d2__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__d2__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -365,9 +365,6 @@
+       time_t lasttime;
+       time(&lasttime);
+ 
+-      if (! error_state)
+-        {
+-
+           bool imin_too_large = false;
+           bool pause_calc     = false;
+           // Calculate the outputs
+@@ -608,7 +605,6 @@
+           // Assign outputs
+           retval(0) = values;
+           retval(1) = vars;
+-        }
+ 
+     }
+   return retval;
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__delay__.cc
+--- a/src/__delay__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__delay__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -60,8 +60,6 @@
+ 
+       OCTAVE_LOCAL_BUFFER (octave_idx_type, inddelay, alldim);
+ 
+-      if (! error_state)
+-        {
+           octave_idx_type rundel=0;
+           octave_idx_type runmdel=0;
+ 
+@@ -108,7 +106,6 @@
+               // previously fprintf(stdout,"\n");
+             }
+           retval(0) = series;
+-        }
+ 
+     }
+   return retval;
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__false_nearest__.cc
+--- a/src/__false_nearest__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__false_nearest__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -179,8 +179,6 @@
+       check_alloc(vcomp=(unsigned int*)malloc(sizeof(int)*(maxdim)));
+       check_alloc(vemb=(unsigned int*)malloc(sizeof(int)*(maxdim)));
+ 
+-      if ( ! error_state)
+-        {
+           for (i=0;i<maxdim;i++) {
+             if (comp == 1) {
+               vcomp[i]=0;
+@@ -250,7 +248,6 @@
+ 
+           for (i = 0; i < 4; i++)
+             retval(i) = output.column(i);
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__ghkss__.cc
+--- a/src/__ghkss__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__ghkss__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -203,8 +203,6 @@
+ 
+   OCTAVE_LOCAL_BUFFER (double, hav, comp);
+   OCTAVE_LOCAL_BUFFER (double, hsigma, comp);
+-  if ( ! error_state)
+-    {
+       for (j=0;j<comp;j++)
+         hav[j]=hsigma[j]=0.0;
+ 
+@@ -238,7 +236,6 @@
+       }
+ 
+       resize_eps=0;
+-    }
+ }
+ 
+ DEFUN_DLD (__ghkss__, args, , HELPTEXT)
+@@ -338,9 +335,6 @@
+         mat[i]=(double*)(matarray+dim*i);
+       check_alloc(hser=(double**)malloc(sizeof(double*)*comp));
+ 
+-      if ( ! error_state)
+-        {
+-          // Create output matrix
+           Matrix output (length, comp);
+ 
+           for (i=0;i<dim;i++) {
+@@ -423,7 +417,7 @@
+                   }
+             }
+           retval(0) = output;
+-        }
++
+     // Deallocate of all the memory
+       delete[] d_min;
+       delete[] d_max;
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lfo_ar__.cc
+--- a/src/__lfo_ar__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lfo_ar__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -168,12 +168,6 @@
+     Matrix solved_vec = mat.solve(vec);
+     double *solved_vec_arr = solved_vec.fortran_vec ();
+ 
+-    // If errors were raised, there is no sense in countinueing
+-    if (error_state)
+-      {
+-        return ;
+-      }
+-
+     double cast=foreav[i];
+     for (octave_idx_type j=0;j<dim;j++) {
+ 
+@@ -262,9 +256,6 @@
+ 
+       octave_idx_type clength=(CLENGTH <= LENGTH) ? CLENGTH-STEP : LENGTH-STEP;
+ 
+-      if ( ! error_state)
+-        {
+-
+           // Promote warnings connected with singular matrixes to errors
+           set_warning_state ("Octave:nearly-singular-matrix","error");
+           set_warning_state ("Octave:singular-matrix","error");
+@@ -313,11 +304,6 @@
+                       make_fit (series, found, error_array,
+                                 i,dim, embed, delay, STEP, actfound);
+                       // Checking if the fit was correct
+-                      // If any errors were raised: end function
+-                      if (error_state)
+-                        {
+-                          return retval;
+-                        }
+                       pfound++;
+                       avfound += (double)(actfound-1);
+                       for (octave_idx_type j=0;j<dim;j++) 
+@@ -365,7 +351,6 @@
+           output.resize (count, dim + 4);
+ 
+           retval(0) = output;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lfo_run__.cc
+--- a/src/__lfo_run__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lfo_run__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -226,13 +226,6 @@
+       Matrix solved_vec      = mat.solve (vec);
+       double *solved_vec_arr = solved_vec.fortran_vec ();
+ 
+-    // If errors were raised (a singular matrix was encountered), 
+-    // there is no sense in countinuing
+-    if (error_state)
+-      {
+-        return ;
+-      }
+-
+       newcast[i]=foreav[i];
+       for (octave_idx_type j=0;j<dim;j++) {
+         for (octave_idx_type j1=0;j1<embed;j1++) {
+@@ -330,9 +323,6 @@
+         for (octave_idx_type i=0;i<hdim;i++)
+           cast[i][j]=series[j][LENGTH-hdim+i];
+ 
+-      if ( ! error_state)
+-        {
+-
+           // Promote warnings connected with singular matrixes to errors
+           set_warning_state ("Octave:nearly-singular-matrix","error");
+           set_warning_state ("Octave:singular-matrix","error");
+@@ -377,12 +367,6 @@
+                         make_zeroth(series, found, dim, actfound,newcast);
+ 
+                       // Checking if the fit was correct
+-                      // If any errors were raised: end function
+-                      if (error_state)
+-                        {
+-                          return retval;
+-                        }
+-
+                       for (octave_idx_type j=0;j<dim;j++)
+                         {
+                       // old printf("%e ",newcast[j]*interval[j]+min_array[j]);
+@@ -410,7 +394,6 @@
+                 }
+             }
+           retval(0) = output;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lfo_test__.cc
+--- a/src/__lfo_test__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lfo_test__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -212,13 +212,6 @@
+       Matrix solved_vec      = mat.solve (vec);
+       double *solved_vec_arr = solved_vec.fortran_vec ();
+ 
+-    // If errors were raised (a singular matrix was encountered), 
+-    // there is no sense in countinueing
+-    if (error_state)
+-      {
+-        return ;
+-      }
+-
+       newcast[i]=foreav[i];
+       for (octave_idx_type j=0;j<DIM;j++) {
+         octave_idx_type hcj=indexes[0][j];
+@@ -332,9 +325,6 @@
+       for (octave_idx_type i=0;i<COMP;i++)
+         error_array[i]=0.0;
+ 
+-      if ( ! error_state)
+-        {
+-
+           // Promote warnings connected with singular matrixes to errors
+           set_warning_state ("Octave:nearly-singular-matrix","error");
+           set_warning_state ("Octave:singular-matrix","error");
+@@ -375,11 +365,6 @@
+                       make_fit(series, indexes, found, STEP, DIM, COMP,
+                                actfound,i,newcast);
+                       // Checking if the fit was correct
+-                      // If any errors were raised: end function
+-                      if (error_state)
+-                        {
+-                          return retval;
+-                        }
+                       for (octave_idx_type j=0;j<COMP;j++)
+                         error_array[j] += sqr(newcast[j]-series[j][i+STEP]);
+ 
+@@ -415,7 +400,6 @@
+ 
+           retval(0) = rel;
+           retval(1) = ind;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lyap_k__.cc
+--- a/src/__lyap_k__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lyap_k__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -211,8 +211,6 @@
+         eps_fak=pow(epsmax/epsmin,1.0/(double)(epscount-1));
+ 
+ 
+-      if (! error_state)
+-        {
+           // Calculate exponents
+           dim_vector dv (epscount ,((int)maxdim-(int)mindim + 1));
+           string_vector keys;
+@@ -274,7 +272,6 @@
+             }
+           // Assign output
+           retval(0) = output;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lyap_r__.cc
+--- a/src/__lyap_r__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lyap_r__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -167,9 +167,6 @@
+       octave_idx_type maxlength=length-delay*(dim-1)-steps-1-mindist;
+       bool alldone=0;
+ 
+-      if (! error_state)
+-        {
+-
+           // Calculate the maximum epsilon that makes sense
+           // On the basis of 'i' and 'j' from put_in_boxes ()
+           NDArray input_max = input.max ();
+@@ -224,7 +221,6 @@
+ 
+           // Assign output
+           retval(0) = output;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lyap_spec__.cc
+--- a/src/__lyap_spec__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lyap_spec__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -220,13 +220,6 @@
+       Matrix solved      = mat.solve (vec);
+       double *solved_arr = solved.fortran_vec ();
+ 
+-    // If errors were raised (a singular matrix was encountered), 
+-    // there is no sense in countinuing
+-    if (error_state)
+-      {
+-        return ;
+-      }
+-
+       double new_vec = solved_arr[0];
+       for (octave_idx_type i=1;i<=alldim;i++)
+         dynamics[d][i-1] = solved_arr[i];
+@@ -419,9 +412,6 @@
+         }
+      // end old indexes = make_multi_index();
+ 
+-      if (!error_state)
+-        {
+-
+           // Promote warnings connected with singular matrixes to errors
+           set_warning_state ("Octave:nearly-singular-matrix","error");
+           set_warning_state ("Octave:singular-matrix","error");
+@@ -463,13 +453,7 @@
+               make_dynamics(series, box, indexes, epsmin, epsset, EPSSTEP,
+                             EMBED, MINNEIGHBORS, LENGTH, DIMENSION, count,
+                             avneig, aveps, dynamics, averr, i);
+-              // If there was an error
+-              // (matrix singularity or not enough neighbors)
+-              // No sense continuing
+-              if (error_state)
+-                {
+-                  return retval;
+-                }
++
+               make_iteration(DIMENSION, alldim, dynamics, delta);
+               gram_schmidt(alldim, delta,lfactor);
+               for (octave_idx_type j=0;j<alldim;j++) {
+@@ -562,7 +546,6 @@
+               retval(0) = lyap_exp;
+               retval(1) = pars;
+             }
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lzo_gm__.cc
+--- a/src/__lzo_gm__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lzo_gm__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -110,8 +110,6 @@
+ 
+       MArray<octave_idx_type> box (dim_vector(NMAX,NMAX));
+ 
+-      if ( ! error_state)
+-        {
+           // Estimate maximum possible output size
+           octave_idx_type output_rows = (octave_idx_type)
+                                         ((log(EPS1) - log(EPS0)) / log (EPSF));
+@@ -194,8 +192,6 @@
+           output.resize (count, dim + 4);
+ 
+           retval(0) = output;
+-
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lzo_run__.cc
+--- a/src/__lzo_run__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lzo_run__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -209,8 +209,6 @@
+ 
+       MArray<octave_idx_type> box (dim_vector(NMAX,NMAX));
+ 
+-      if ( ! error_state)
+-        {
+           for (octave_idx_type j=0;j<dim;j++)
+             for (octave_idx_type i=0;i<hdim;i++)
+               cast[i][j]=input(LENGTH-hdim+i,j);
+@@ -292,7 +290,6 @@
+             }
+           else 
+             retval(0) = Matrix (0,0);
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__lzo_test__.cc
+--- a/src/__lzo_test__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__lzo_test__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -150,8 +150,6 @@
+       MArray<octave_idx_type> box (dim_vector(NMAX, NMAX));
+ 
+       // Compute forecast error
+-      if ( ! error_state)
+-        {
+           for (octave_idx_type i=0;i<LENGTH;i++)
+             done[i]=0;
+ 
+@@ -236,7 +234,6 @@
+ 
+           retval(0) = rel_forecast_err;
+           retval(1) = ind_forecast_err;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__poincare__.cc
+--- a/src/__poincare__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__poincare__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -129,8 +129,6 @@
+ 
+ 
+ 
+-        if ( ! error_state)
+-          {
+             Matrix output (out_size, embdim);
+ 
+             octave_idx_type count = poincare (input.fortran_vec(), 
+@@ -141,7 +139,6 @@
+             output.resize (count, embdim);
+ 
+             retval(0) = output;
+-          }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__polynom__.cc
+--- a/src/__polynom__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__polynom__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -222,8 +222,6 @@
+       make_coding(coding_vec,N,N,DIM-1,1,0);
+       octave_idx_type *coding = coding_vec.data();
+ 
+-      if (! error_state)
+-        {
+           // Promote warnings connected with singular matrixes to errors
+           set_warning_state ("Octave:nearly-singular-matrix","error");
+           set_warning_state ("Octave:singular-matrix","error");
+@@ -232,12 +230,6 @@
+           make_fit (series, coding, results, INSAMPLE, N, DIM, DELAY,
+                     maxencode, pars);
+ 
+-          // If error encountered during the fit there is no sense to continue
+-          if (error_state)
+-            {
+-              return retval;
+-            }
+-
+           // Create outputs
+ 
+           // Create output that contains the number of free parameters
+@@ -303,7 +295,6 @@
+           retval(2) = coeffs;
+           retval(3) = sample_err;
+           retval(4) = forecast;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__rbf__.cc
+--- a/src/__rbf__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__rbf__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -152,9 +152,6 @@
+         for (octave_idx_type j=0;j<DIM;j++)
+           center[i][j]=series[(DIM-1)*DELAY-j*DELAY+(i*cstep)/(CENTER-1)];
+ 
+-      if (! error_state)
+-        {
+-
+           // Promote warnings connected with singular matrixes to errors
+           set_warning_state ("Octave:nearly-singular-matrix","error");
+           set_warning_state ("Octave:singular-matrix","error");
+@@ -207,10 +204,6 @@
+           coefs = mat.solve(coefs);
+           coefs_arr = coefs.fortran_vec ();// coefs takes up new memory space
+ 
+-          // If solving the matrix generated errors do not continue
+-          if (error_state)
+-            return retval;
+-
+           // end make_fit()
+ 
+ 
+@@ -314,7 +307,6 @@
+           retval(2) = coeff; 
+           retval(3) = sample_error; // sample error [in sample; out of sample];
+           retval(4) = forecast; // forecast values;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__surrogates__.cc
+--- a/src/__surrogates__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__surrogates__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -63,9 +63,6 @@
+       octave_idx_type ispec = args(3).idx_type_value ();
+       double seed           = args(4).double_value ();
+ 
+-      if (! error_state)
+-        {
+-
+           octave_idx_type nmaxp = input.rows ();
+           octave_idx_type mcmax = input.columns ();
+ 
+@@ -90,8 +87,6 @@
+ 
+           retval(0) = surro_data;
+           retval(1) = pars;
+-        }
+-
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__upo__.cc
+--- a/src/__upo__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__upo__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -74,10 +74,6 @@
+       int icen        = args(9).int_value();
+ 
+ 
+-
+-      if (! error_state)
+-        {
+-
+           int lines_read = in_out1.numel();
+           // Generating output vectors with estimated lengths
+           // The extra length (+1) is to store the actual lengths
+@@ -98,7 +94,6 @@
+           retval(1) = orbit_data;
+           retval(2) = acc;
+           retval(3) = stability;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/__xzero__.cc
+--- a/src/__xzero__.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/__xzero__.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -111,8 +111,6 @@
+       double epsilon=EPS0/EPSF;
+       octave_idx_type clength=(CLENGTH <= LENGTH) ? CLENGTH-STEP : LENGTH-STEP;
+ 
+-      if (! error_state)
+-        {
+           // Calculate fit
+           while (!alldone) {
+             alldone=1;
+@@ -142,8 +140,6 @@
+               output(i,0) = sqrt(error_array[i]/(clength-(DIM-1)*DELAY))/rms2;
+             }
+           retval(0) = output;
+-        }
+-
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/lazy.cc
+--- a/src/lazy.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/lazy.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -133,8 +133,6 @@
+                        "Number of iterations (IMAX) must be a positive "
+                        "integer");
+ 
+-      if (! error_state)
+-        {
+         // If vector is in 1 row: transpose (we will transpose the output to fit)
+             transposed = 0;
+ 
+@@ -160,7 +158,6 @@
+ 
+           retval(0) = in_out1;
+           retval(1) = in_out2;
+-        }
+     }
+   return retval;
+ }
+diff -r 7d4b181cd726 -r fdca531d6a12 src/mutual.cc
+--- a/src/mutual.cc	Mon Nov 29 13:49:05 2021 +0100
++++ b/src/mutual.cc	Mon Nov 29 14:01:05 2021 +0100
+@@ -193,8 +193,6 @@
+       int32NDArray h2 (dim_vector(partitions, partitions));
+       OCTAVE_LOCAL_BUFFER (long, array, length);
+ 
+-      if (! error_state)
+-        {
+           // Load array
+ 
+           // Rescale data and load array
+@@ -246,7 +244,6 @@
+             }
+           retval(0) = delay;
+           retval(1) = mutual_inf;
+-        }
+     }
+   return retval;
+ }

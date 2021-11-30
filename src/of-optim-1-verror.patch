@@ -1,0 +1,22 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1637940821 -3600
+#      Fri Nov 26 16:33:41 2021 +0100
+# Node ID c63a32659f1f68b7ec0e3d7431746fded68594ca
+# Parent  4c32793ffd1a83e3d4d918074bdaf659508d416a
+Fix compilation with Octave 8 (bug #61562).
+
+* src/error-helpers.h: Use wrapper function.
+
+diff -r 4c32793ffd1a -r c63a32659f1f src/error-helpers.h
+--- a/src/error-helpers.h	Wed Mar 31 19:56:59 2021 +0200
++++ b/src/error-helpers.h	Fri Nov 26 16:33:41 2021 +0100
+@@ -64,7 +64,7 @@
+       } \
+     catch (OCTAVE__EXECUTION_EXCEPTION& e) \
+       { \
+-        verror (e, __VA_ARGS__); \
++        c_verror (e, __VA_ARGS__); \
+       }
+ #endif
+ 

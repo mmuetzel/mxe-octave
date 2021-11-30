@@ -12,7 +12,7 @@ $(PKG)_DEPS     := sdl libmikmod ogg vorbis flac speex
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://hg.icculus.org/icculus/SDL_sound/tags' | \
-    $(SED) -n 's,.*release-\([0-9][^<]*\).*,\1,p' | \
+    $(SED) -n 's,.*tag/release-\([0-9][^"]*\).*,\1,p' | \
     head -1
 endef
 

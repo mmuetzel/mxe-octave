@@ -4,13 +4,13 @@
 PKG             := src-msys2-gmp
 $(PKG)_NAME     := gmp
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.2.0-1
-$(PKG)_CHECKSUM := 20de4de5d414ac1636f84ea274c286d352a4276d
-$(PKG)_SUBDIR   := 
+$(PKG)_VERSION  := 6.2.1-1
+$(PKG)_CHECKSUM := 5befe32118a009a7d49c1ed9e2d56e21d60f6e2f
+$(PKG)_SUBDIR   :=
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
-$(PKG)_DEPS     := 
+$(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- '$(MSYS2_BASE_URL)/' | \

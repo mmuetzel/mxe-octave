@@ -1,0 +1,357 @@
+diff -uNr a/src/bwconncomp.cc b/src/bwconncomp.cc
+--- a/src/bwconncomp.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/bwconncomp.cc	2021-08-20 03:40:55.040903123 -0400
+@@ -30,7 +30,7 @@
+ #include <octave/oct-map.h>
+ 
+ #include "connectivity.h"
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ static std::vector<std::vector<octave_idx_type>>
+ connected_components (const boolNDArray& BW, const connectivity& conn)
+diff -uNr a/src/bwlabeln.cc b/src/bwlabeln.cc
+--- a/src/bwlabeln.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/bwlabeln.cc	2021-08-20 03:41:02.785032122 -0400
+@@ -32,7 +32,7 @@
+ #define WANTS_OCTAVE_IMAGE_VALUE 1
+ #include "octave-wrappers.h"
+ 
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ static union_find
+ pre_label (NDArray& L, const connectivity& conn)
+diff -uNr a/src/conndef.cc b/src/conndef.cc
+--- a/src/conndef.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/conndef.cc	2021-08-20 03:41:12.149188253 -0400
+@@ -19,7 +19,7 @@
+ #include "config.h"
+ 
+ #include "connectivity.h"
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ // The conndef() function is really really simple and could have easily
+ // been a m file (actually it once was, check the hg log if it ever needs
+diff -uNr a/src/connectivity.cc b/src/connectivity.cc
+--- a/src/connectivity.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/connectivity.cc	2021-08-20 03:41:18.001285906 -0400
+@@ -25,7 +25,7 @@
+ #define WANTS_OCTAVE_IMAGE_VALUE 1
+ #include "octave-wrappers.h"
+ 
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ 
+ connectivity::connectivity (const boolNDArray& mask_arg)
+@@ -296,7 +296,7 @@
+ 
+ 
+ connectivity
+-octave::image::conndef (const octave_value& _val)
++octave_image::conndef (const octave_value& _val)
+ {
+   octave_image::value val (_val);
+ 
+diff -uNr a/src/connectivity.h b/src/connectivity.h
+--- a/src/connectivity.h	2020-02-02 08:20:08.000000000 -0500
++++ b/src/connectivity.h	2021-08-20 03:41:28.897467898 -0400
+@@ -29,10 +29,8 @@
+ 
+ #include <octave/ov.h>
+ 
+-namespace octave
++namespace octave_image
+ {
+-  namespace image
+-  {
+     class connectivity
+     {
+       public:
+@@ -89,14 +87,13 @@
+     };
+ 
+     connectivity conndef (const octave_value& val);
+-  }
+ }
+ 
+ // Templated methods
+ 
+ template<class T, class P>
+ T
+-octave::image::connectivity::create_padded (const T& image, const P& val) const
++octave_image::connectivity::create_padded (const T& image, const P& val) const
+ {
+   const octave_idx_type pad_ndims = std::min (mask.ndims (), image.ndims ());
+ 
+@@ -117,7 +114,7 @@
+ 
+ template<class T>
+ void
+-octave::image::connectivity::unpad (T& image) const
++octave_image::connectivity::unpad (T& image) const
+ {
+   const octave_idx_type pad_ndims = std::min (mask.ndims (), image.ndims ());
+   const dim_vector padded_size = image.dims ();
+@@ -134,7 +131,7 @@
+ 
+ template<class P>
+ P
+-octave::image::connectivity::min_value (void)
++octave_image::connectivity::min_value (void)
+ {
+   if (typeid (P) == typeid (bool))
+     return false;
+@@ -144,7 +141,7 @@
+ 
+ template<class T, class P>
+ void
+-octave::image::connectivity::set_padding (const dim_vector& size,
++octave_image::connectivity::set_padding (const dim_vector& size,
+                                           const dim_vector& padded_size,
+                                           T& im, const P& val)
+ {
+diff -uNr a/src/imerode.cc b/src/imerode.cc
+--- a/src/imerode.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/imerode.cc	2021-08-20 03:42:06.186092277 -0400
+@@ -32,7 +32,7 @@
+ #define WANTS_OCTAVE_IMAGE_VALUE 1
+ #include "octave-wrappers.h"
+ 
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ // How this works:
+ //
+diff -uNr a/src/imreconstruct.cc b/src/imreconstruct.cc
+--- a/src/imreconstruct.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/imreconstruct.cc	2021-08-20 03:42:11.690184639 -0400
+@@ -36,7 +36,7 @@
+ 
+ #include "connectivity.h"
+ 
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ #define WANTS_OCTAVE_IMAGE_VALUE 1
+ #include "octave-wrappers.h"
+diff -uNr a/src/strel.cc b/src/strel.cc
+--- a/src/strel.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/strel.cc	2021-08-20 03:39:35.059577831 -0400
+@@ -35,7 +35,7 @@
+ 
+ // Expects a @strel object, or a boolean matrix (or something
+ // that can be converted into one with bool_matrix_value()
+-octave::image::strel::strel (const octave_value& arg)
++octave_image::strel::strel (const octave_value& arg)
+ {
+   octave_value se = arg;
+   // We are only creating a strel object here so that we can use
+@@ -105,7 +105,7 @@
+   return;
+ }
+ 
+-octave::image::strel::strel (const boolNDArray& nhood, const NDArray& height)
++octave_image::strel::strel (const boolNDArray& nhood, const NDArray& height)
+   : nhood (nhood), height (height)
+ {
+   ini_ctor ();
+@@ -114,7 +114,7 @@
+   return;
+ }
+ 
+-octave::image::strel::strel (const boolNDArray& nhood, const NDArray& height,
++octave_image::strel::strel (const boolNDArray& nhood, const NDArray& height,
+                              const Array<octave_idx_type>& origin)
+   : nhood (nhood), height (height), origin (origin)
+ {
+@@ -125,25 +125,25 @@
+ }
+ 
+ boolNDArray
+-octave::image::strel::get_nhood (void) const
++octave_image::strel::get_nhood (void) const
+ {
+   return nhood;
+ }
+ 
+ octave_idx_type
+-octave::image::strel::get_nnz (void) const
++octave_image::strel::get_nnz (void) const
+ {
+   return nnz;
+ }
+ 
+ Array<octave_idx_type>
+-octave::image::strel::get_origin (void) const
++octave_image::strel::get_origin (void) const
+ {
+   return origin;
+ }
+ 
+-octave::image::strel
+-octave::image::strel::operator () (const octave_idx_type& i) const
++octave_image::strel
++octave_image::strel::operator () (const octave_idx_type& i) const
+ {
+   assert (i >= 0 && i < octave_idx_type (decomposition.size ()));
+   return decomposition[i];
+@@ -151,7 +151,7 @@
+ 
+ // Number of strel elements after decomposition
+ octave_idx_type
+-octave::image::strel::numel (void) const
++octave_image::strel::numel (void) const
+ {
+   return octave_idx_type (decomposition.size ());
+ }
+@@ -163,8 +163,8 @@
+ // center of the matrix, there will be no change.
+ // The reason for this is so that we can keep the origin in matrices with
+ // sides with an even length.
+-octave::image::strel
+-octave::image::strel::reflect (void) const
++octave_image::strel
++octave_image::strel::reflect (void) const
+ {
+   boolNDArray ref_nhood   (size);
+   NDArray     ref_height  (size);
+@@ -178,11 +178,11 @@
+   for (octave_idx_type dim = 0; dim < ndims; dim++)
+     ref_origin(dim) = size(dim) - origin(dim) -1;
+ 
+-  return octave::image::strel (ref_nhood, ref_height, ref_origin);
++  return octave_image::strel (ref_nhood, ref_height, ref_origin);
+ }
+ 
+ void
+-octave::image::strel::set_origin (const Array<octave_idx_type>& sub)
++octave_image::strel::set_origin (const Array<octave_idx_type>& sub)
+ {
+   origin = sub;
+   validate_origin ();
+@@ -190,7 +190,7 @@
+ }
+ 
+ bool
+-octave::image::strel::flat (void) const
++octave_image::strel::flat (void) const
+ {
+   bool flat = true;
+   if (! height.all_elements_are_zero ())
+@@ -220,7 +220,7 @@
+ // linear shift is [0 1 11 21 22]
+ // The second element is the matching height for each.
+ Array<octave_idx_type>
+-octave::image::strel::offsets (const dim_vector& cum_size) const
++octave_image::strel::offsets (const dim_vector& cum_size) const
+ {
+   Array<octave_idx_type> sub (dim_vector (ndims, 1), 0);
+   Array<octave_idx_type> offsets (dim_vector (nnz, 1));
+@@ -244,7 +244,7 @@
+ // at coordinates (0,0) of the input matrix and we need enough padding for
+ // it. If the shape is "full", then we add the double.
+ Array<octave_idx_type>
+-octave::image::strel::pre_pad (const octave_idx_type& mt_ndims,
++octave_image::strel::pre_pad (const octave_idx_type& mt_ndims,
+                                const std::string& shape) const
+ {
+   Array<octave_idx_type> pad (dim_vector (mt_ndims, 1), 0);
+@@ -274,7 +274,7 @@
+ }
+ 
+ Array<octave_idx_type>
+-octave::image::strel::post_pad (const octave_idx_type& mt_ndims,
++octave_image::strel::post_pad (const octave_idx_type& mt_ndims,
+                                 const std::string& shape) const
+ {
+   Array<octave_idx_type> pad (dim_vector (mt_ndims, 1), 0);
+@@ -304,7 +304,7 @@
+ }
+ 
+ void
+-octave::image::strel::ini_ctor ()
++octave_image::strel::ini_ctor ()
+ {
+   size    = nhood.dims ();
+   ndims   = nhood.ndims ();
+@@ -313,7 +313,7 @@
+ }
+ 
+ Array<octave_idx_type>
+-octave::image::strel::default_origin ()
++octave_image::strel::default_origin ()
+ {
+   Array<octave_idx_type> origin (dim_vector (ndims, 1));
+   for (octave_idx_type dim = 0; dim < ndims; dim++)
+@@ -323,14 +323,14 @@
+ }
+ 
+ void
+-octave::image::strel::end_ctor (void)
++octave_image::strel::end_ctor (void)
+ {
+   if (decomposition.empty ())
+     decomposition.push_back (*this);
+ }
+ 
+ void
+-octave::image::strel::validate_origin (void)
++octave_image::strel::validate_origin (void)
+ {
+   assert (ndims == origin.numel ());
+   for (octave_idx_type dim = 0; dim < ndims; dim++)
+diff -uNr a/src/strel.h b/src/strel.h
+--- a/src/strel.h	2020-02-02 08:20:08.000000000 -0500
++++ b/src/strel.h	2021-08-20 03:40:39.204639691 -0400
+@@ -45,10 +45,8 @@
+ 
+ #include <octave/ov.h>
+ 
+-namespace octave
++namespace octave_image
+ {
+-  namespace image
+-  {
+     class strel
+     {
+       public:
+@@ -109,14 +107,13 @@
+         void validate_origin (void);
+ 
+     };
+-  }
+ }
+ 
+ // Define it on header or we we need to instantiate it for all
+ // possible classes in strel.cc
+ template<class P>
+ Array<P>
+-octave::image::strel::true_heights (void) const
++octave_image::strel::true_heights (void) const
+ {
+   Array<P> true_heights (dim_vector (nnz, 1));
+   for (octave_idx_type ind = 0, found = 0; found < nnz; ind++)
+diff -uNr a/src/watershed.cc b/src/watershed.cc
+--- a/src/watershed.cc	2020-02-02 08:20:08.000000000 -0500
++++ b/src/watershed.cc	2021-08-20 03:40:18.700299337 -0400
+@@ -26,7 +26,7 @@
+ #include "octave-wrappers.h"
+ 
+ #include "connectivity.h"
+-using namespace octave::image;
++using namespace octave_image;
+ 
+ template<class T>
+ static boolNDArray
+@@ -297,7 +297,7 @@
+ 
+   connectivity conn;
+   if (nargin > 1)
+-    conn = octave::image::conndef (args(1));
++    conn = octave_image::conndef (args(1));
+   else
+     {
+       try

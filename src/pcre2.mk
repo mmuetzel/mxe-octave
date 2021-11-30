@@ -3,17 +3,17 @@
 
 PKG             := pcre2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 10.35
-$(PKG)_CHECKSUM := 2e5ee2dd397fa8c3ce9aed1a986e51d66a88bdb0
+$(PKG)_VERSION  := 10.39
+$(PKG)_CHECKSUM := 9cf3ec88cd68dc76354eb0568738c47b57377042
 $(PKG)_SUBDIR   := pcre2-$($(PKG)_VERSION)
 $(PKG)_FILE     := pcre2-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/pcre/pcre2/$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/PhilipHazel/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://sourceforge.net/projects/pcre/files/pcre2/' | \
-    $(SED) -n 's,.*tr title="\([0-9][^"]*\)".*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://github.com/PhilipHazel/pcre2/tags' | \
+    $(SED) -n 's|.*releases/tag/pcre2-\([^"]*\).*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD

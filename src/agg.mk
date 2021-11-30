@@ -11,9 +11,8 @@ $(PKG)_URL      := https://web.archive.org/20150812005010/http://www.antigrain.c
 $(PKG)_DEPS     := freetype sdl
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://web.archive.org/20150812005010/http://www.antigrain.com/download/index.html' | \
-    $(SED) -n 's,.*www.antigrain.com/agg-\([0-9.]*\).tar.gz".*,\1,p' | \
-    head -1
+    echo 'Warning: Updates are disabled for package $(PKG).' >&2;
+    echo $($(PKG)_VERSION)
 endef
 
 define $(PKG)_BUILD

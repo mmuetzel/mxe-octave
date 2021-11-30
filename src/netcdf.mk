@@ -3,22 +3,23 @@
 
 PKG             := netcdf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.7.4
-$(PKG)_CHECKSUM := dce4851dd65bf8ec985f11711bb5a8aa299515b9
+$(PKG)_VERSION  := 4.8.1
+$(PKG)_CHECKSUM := ae9e8741aebdb3ba4494a78a7f5a32e92516edc1
 $(PKG)_SUBDIR   := netcdf-c-$($(PKG)_VERSION)
 $(PKG)_FILE     := netcdf-c-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://ftp.unidata.ucar.edu/pub/netcdf/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/Unidata/netcdf-c/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := curl hdf5
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'ftp://ftp.unidata.ucar.edu/pub/netcdf/' | \
-    $(SED) -n 's,.*netcdf-c-\([0-9]\.[^>]*\)\.tar.*,\1,p' | \
-    $(SORT) -V | \
-    tail -1
+    $(WGET) -q -O- 'https://github.com/Unidata/netcdf-c/tags' | \
+    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
+    head -1
 endef
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
-  $(PKG)_CONFIGURE_OPTIONS := --enable-dll
+  $(PKG)_CONFIGURE_OPTIONS := CPPFLAGS='-DH5_USE_110_API -DDLL_NETCDF -I$(HOST_PREFIX)/include'
+else
+  $(PKG)_CONFIGURE_OPTIONS := CPPFLAGS='-DH5_USE_110_API -I$(HOST_PREFIX)/include'
 endif
 
 $(PKG)_CONFIGURE_POST_HOOK := $(CONFIGURE_POST_HOOK)
@@ -32,12 +33,13 @@ define $(PKG)_BUILD
     fi
     cd '$(1)' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
+	--enable-hdf5 --disable-testsets --disable-utilities \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
         $($(PKG)_CONFIGURE_OPTIONS) \
 	&& $($(PKG)_CONFIGURE_POST_HOOK)
-    $(MAKE) -C '$(1)' -j '$(JOBS)' LDFLAGS='-no-undefined -L$(HOST_LIBDIR)'
+    $(MAKE) -C '$(1)' -j '$(JOBS)' LDFLAGS='-no-undefined -L$(HOST_LIBDIR)' $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) V=1
     $(MAKE) -C '$(1)' -j 1 install LDFLAGS='-no-undefined -L$(HOST_LIBDIR)' $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
   
     if [ ! "x$(MXE_NATIVE_BUILD)" = "xyes" ]; then \

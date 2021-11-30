@@ -3,12 +3,12 @@
 
 PKG             := build-meson
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.54.3
-$(PKG)_CHECKSUM := 741e42a3c8237abe74eb9f189cd8978897ef144d
+$(PKG)_VERSION  := 0.56.2
+$(PKG)_CHECKSUM := 88f30be08c968b0b8b9d2c6d3fe950fecff2658f
 $(PKG)_SUBDIR   := meson-$($(PKG)_VERSION)
 $(PKG)_FILE     := meson-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/mesonbuild/meson/archive/$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := build-python3 build-ninja
+$(PKG)_DEPS     := build-python
 
 define $(PKG)_UPDATE
     echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
@@ -29,7 +29,7 @@ ifeq ($(USE_CCACHE),yes)
 endif
 
 define $(PKG)_BUILD
-    cd '$(1)' && $(PYTHON3) setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
+    cd '$(1)' && $(MXE_PYTHON) setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
     
     # create file with compilation settings
     rm -f $(MESON_TOOLCHAIN_FILE) && mkdir -p '$(dir $(MESON_TOOLCHAIN_FILE))'

@@ -7,7 +7,6 @@ SRC_FILES_1 := \
   armadillo-1-staticlib.patch \
   armadillo-test.cpp \
   armadillo.mk \
-  arpack-1-gcc10.patch \
   arpack.mk \
   atk-1-DllMain.patch \
   atk.mk \
@@ -15,7 +14,6 @@ SRC_FILES_1 := \
   aubio-1-fix-pkg-config.patch \
   aubio.mk \
   bfd.mk \
-  biosig.mk \
   blas.mk \
   blas_switch.mk \
   boost-1-intrinsics-fix.patch \
@@ -33,9 +31,9 @@ SRC_FILES_1 := \
   build-gcc.mk \
   build-gettext.mk \
   build-gperf.mk \
+  build-libffi.mk \
   build-libtool.mk \
   build-lzip.mk \
-  build-m4-glibc2-28.patch \
   build-m4.mk \
   build-mako.mk \
   build-markupsafe.mk \
@@ -47,10 +45,10 @@ SRC_FILES_1 := \
   build-pkg-config-1-fixes.patch \
   build-pkg-config.mk \
   build-python.mk \
-  build-python3.mk \
   build-scons.mk \
   build-sed.mk \
   build-setuptools.mk \
+  build-zstd.mk \
   build-texinfo.mk \
   build-xz.mk \
   build-yasm.mk \
@@ -77,7 +75,6 @@ SRC_FILES_1 := \
   dcmtk-1-fixes.patch \
   dcmtk-2-mingw-w64.patch \
   dcmtk-3-pointer-fixes.patch \
-  dcmtk-4-c++11-related-fixes.patch \
   dcmtk.mk \
   default-octave-1-gnulib.patch \
   default-octave.mk \
@@ -98,6 +95,7 @@ SRC_FILES_1 := \
   file-test.c \
   file.mk \
   fixesproto.mk \
+  flac-1-ucrt.patch \
   flac.mk \
   fltk-2-uuid-mod.patch \
   fltk-test.cpp \
@@ -123,9 +121,13 @@ SRC_FILES_1 := \
   gd-1-libpng15.patch \
   gd-test.c \
   gd.mk \
+  gdal-1-gcc11.patch \
+  gdal-2-ucrt.patch \
   gdal.mk \
   gdb.mk \
   gdcm-1-nosecapi.patch \
+  gdcm-2-getopt.patch \
+  gdcm-3-gcc11.patch \
   gdcm.mk \
   gdk-pixbuf-1-fixes.patch \
   gdk-pixbuf.mk \
@@ -142,6 +144,7 @@ SRC_FILES_1 := \
   glew-test.c \
   glew.mk \
   glib-1-fixes.patch \
+  glib-2-fixes.patch \
   glib.mk \
   glibmm.mk \
   glpk-1-fixes.patch \
@@ -156,6 +159,7 @@ SRC_FILES_1 := \
   gnutls.mk \
   graphicsmagick-1-fix-xml2-config.patch \
   graphicsmagick-2-dynamicpath.patch \
+  graphicsmagick-3-user32.patch \
   graphicsmagick-test.cpp \
   graphicsmagick.mk \
   gsl-test.c \
@@ -214,7 +218,6 @@ SRC_FILES_1 := \
   lame.mk \
   lapack-test.f \
   lapack.mk \
-  lcms-1-fixes.patch \
   lcms.mk \
   lcms1-1-fixes.patch \
   lcms1.mk \
@@ -225,6 +228,8 @@ SRC_FILES_1 := \
   libass-test.c \
   libass.mk \
   libb64.mk \
+  libbiosig-1-gcc11.patch \
+  libbiosig.mk \
   libcdio.mk \
   libcroco.mk \
   libdnet-1-fixes.patch \
@@ -245,6 +250,7 @@ SRC_FILES_1 := \
   libglade.mk \
   libgnurx-1-build-static-lib.patch \
   libgnurx.mk \
+  libgomp-1-fixes.patch \
   libgomp-test.c \
   libgomp.mk \
   libgpg_error-1-fixes.patch \
@@ -306,6 +312,7 @@ SRC_FILES_1 := \
   libsndfile.mk \
   libssh2-test.c \
   libssh2.mk \
+  libsodium.mk \
   libtasn1.mk \
   libtool.mk \
   libunistring.mk \
@@ -332,6 +339,7 @@ SRC_FILES_1 := \
   matio.mk \
   mdbtools.mk \
   mesa-1-meson.patch \
+  mesa-2-ucrt.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
@@ -339,17 +347,21 @@ SRC_FILES_1 := \
   mingw-cfitsio-1-fixes.patch \
   mingw-epstool-1-fixes.patch \
   mingw-glpk-1-fixes.patch \
+  mingw-graphicsmagick-1-dcraw.patch \
   mingw-hdf5-1.patch \
   mingw-lapack-1-xerbla.patch \
   mingw-libgcrypt-1-fixes.patch \
   mingw-libmng-1-noundefines.patch \
   mingw-openblas-1-xerbla.patch \
+  mingw-pkg-config-1-gnu-printf.patch \
   mingw-portaudio-1-pkgconfig.patch \
   mingw-s2tc-1-fixes.patch \
   mingw-texinfo-1-fixes.patch \
+  mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
   mingw-utils-1-portability-fix.patch \
   mingw-w64-1-float-h.patch \
   mingw-w64.mk \
+  mingw-zeromq-1-fixes.patch \
   mingwrt.mk \
   mman-win32-1-include_name_change.patch \
   mman-win32.mk \
@@ -442,6 +454,7 @@ SRC_FILES_1 := \
   mxml-test.c \
   mxml.mk \
   native-binutils.mk \
+  native-gcc-1-canadian-cross.patch \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \
@@ -463,9 +476,12 @@ SRC_FILES_1 := \
   of-actuarial.mk \
   of-audio.mk \
   of-communications-1-catop.patch \
+  of-communications-2-error_state.patch \
   of-communications.mk \
+  of-control-1-deprecated-warnings.patch \
   of-control.mk \
   of-data-smoothing.mk \
+  of-database-1-verror.patch \
   of-database.mk \
   of-dataframe.mk \
   of-dicom.mk \
@@ -479,18 +495,23 @@ SRC_FILES_1 := \
   of-ga.mk \
   of-general.mk \
   of-generate_html.mk \
+  of-geometry-1-cxx17.patch \
   of-geometry.mk \
   of-gsl-1-cross-fixes.patch \
   of-gsl.mk \
+  of-image-1-namespace.patch \
+  of-image-1-no-jit.patch \
   of-image.mk \
   of-instrument-control.mk \
   of-interval-1-cross-fixes.patch \
   of-interval-2-subsref.patch \
+  of-interval-3-error_state.patch \
   of-interval.mk \
   of-io.mk \
   of-linear-algebra.mk \
   of-lssa.mk \
   of-ltfat-1-cross-fixes.patch \
+  of-ltfat-2-LDFLAGS.patch \
   of-ltfat.mk \
   of-matgeom.mk \
   of-mapping.mk \
@@ -503,6 +524,7 @@ SRC_FILES_1 := \
   of-ocs-3-break-fixes.patch \
   of-ocs-4-pkgadd-fixes.patch \
   of-ocs-5-no-odepkg.patch \
+  of-ocs-6-error_state.patch \
   of-ocs.mk \
   of-octcdf.mk \
   of-octproj.mk \
@@ -510,14 +532,18 @@ SRC_FILES_1 := \
   of-odepkg-2-fixes.patch \
   of-odepkg-3-deprecated.patch \
   of-odepkg.mk \
+  of-optim-1-verror.patch \
   of-optim.mk \
   of-optiminterp.mk \
   of-quaternion-1-cross-fixes.patch \
   of-quaternion-2-dev-fixes.patch \
   of-quaternion.mk \
   of-queueing.mk \
+  of-signal-1-deprecated-warnings.patch \
+  of-signal-2-error_state.patch \
   of-signal.mk \
   of-sockets.mk \
+  of-sparsersb-1-no-internal-mex-fcns.patch \
   of-sparsersb.mk \
   of-specfun-1-deprecated.patch \
   of-specfun.mk \
@@ -526,13 +552,15 @@ SRC_FILES_1 := \
   of-statistics.mk \
   of-stk.mk \
   of-strings-1-fixes.patch \
+  of-strings-2-error_state.patch \
   of-strings.mk \
+  of-struct-1-verror.patch \
   of-struct.mk \
   of-symbolic.mk \
   of-tisean-1-fixes.patch \
+  of-tisean-2-error_state.patch \
   of-tisean.mk \
   of-tsa.mk \
-  of-video-1-fixes.patch \
   of-video.mk \
   of-windows.mk \
   of-zenity.mk \
@@ -549,10 +577,13 @@ SRC_FILES_1 := \
   opencv-1-fixes.patch \
   opencv.mk \
   openexr.mk \
+  openjpeg.mk \
   openscenegraph-1-fixes.patch \
   openscenegraph.mk \
   openssl-1-fixes.patch \
   openssl.mk \
+  opkg-biosig.mk \
+  opus.mk \
   pango-1-fixes.patch \
   pango.mk \
   pangomm.mk \
@@ -579,7 +610,6 @@ SRC_FILES_1 := \
   poppler.mk \
   popt-1-win32.patch \
   popt.mk \
-  portaudio-1-win32.patch \
   portaudio-test.c \
   portaudio.mk \
   postgresql.mk \
@@ -629,16 +659,12 @@ SRC_FILES_1 := \
   qwtplot3d.mk \
   rapidjson-1-prettywriter.patch \
   rapidjson.mk \
-  readline-0-001.patch \
-  readline-0-002.patch \
-  readline-0-003.patch \
-  readline-0-004.patch \
+  readline-0-001-upstream.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-input.patch \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
-  readline-2-history.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
   release-octave.mk \
@@ -709,6 +735,7 @@ SRC_FILES_1 := \
   texinfo.mk \
   theora.mk \
   tiff.mk \
+  tinyxml-1-cmakelists.patch \
   tinyxml-test.cpp \
   tinyxml.mk \
   transfig-1-fixes.patch \
@@ -745,6 +772,7 @@ SRC_FILES_1 := \
   winpcap.mk \
   wt-1-fixes.patch \
   wt.mk \
+  wxwidgets-1-fixes.patch \
   wxwidgets-test.cpp \
   wxwidgets.mk \
   x11.mk \
@@ -901,6 +929,7 @@ SRC_MSVCTOOLS_MATH_FILES := \
 
 SRC_MSYS2_FILES_1 := \
   msys2-bash.mk \
+  msys2-ca-certificates.mk \
   msys2-coreutils.mk \
   msys2-diffutils.mk \
   msys2-dos2unix.mk \
@@ -908,6 +937,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-findutils.mk \
   msys2-gawk.mk \
   msys2-gcc-libs.mk \
+  msys2-glib2.mk \
   msys2-gmp.mk \
   msys2-gnupg.mk \
   msys2-grep.mk \
@@ -945,11 +975,14 @@ SRC_MSYS2_FILES_1 := \
   msys2-libunistring.mk \
   msys2-libutil-linux.mk \
   msys2-libxml2.mk \
+  msys2-libxslt.mk \
   msys2-make.mk \
   msys2-mintty.mk \
   msys2-mpdecimal.mk \
   msys2-mpfr.mk \
   msys2-ncurses.mk \
+  msys2-openssl.mk \
+  msys2-p11-kit.mk \
   msys2-pacman-mirrors.mk \
   msys2-pacman.mk \
   msys2-patch.mk \
@@ -960,6 +993,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-tar.mk \
   msys2-unzip.mk \
   msys2-wget.mk \
+  msys2-which.mk \
   msys2-zip.mk \
   msys2-zlib.mk
 
@@ -968,6 +1002,7 @@ SRC_MSYS2_FILES := \
 
 SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-bash.mk \
+  src-msys2-ca-certificates.mk \
   src-msys2-coreutils.mk \
   src-msys2-diffutils.mk \
   src-msys2-dos2unix.mk \
@@ -975,6 +1010,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-findutils.mk \
   src-msys2-gawk.mk \
   src-msys2-gcc-libs.mk \
+  src-msys2-glib2.mk \
   src-msys2-gmp.mk \
   src-msys2-gnupg.mk \
   src-msys2-grep.mk \
@@ -1012,11 +1048,14 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-libunistring.mk \
   src-msys2-libutil-linux.mk \
   src-msys2-libxml2.mk \
+  src-msys2-libxslt.mk \
   src-msys2-make.mk \
   src-msys2-mintty.mk \
   src-msys2-mpdecimal.mk \
   src-msys2-mpfr.mk \
   src-msys2-ncurses.mk \
+  src-msys2-openssl.mk \
+  src-msys2-p11-kit.mk \
   src-msys2-pacman-mirrors.mk \
   src-msys2-pacman.mk \
   src-msys2-patch.mk \
@@ -1027,6 +1066,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-tar.mk \
   src-msys2-unzip.mk \
   src-msys2-wget.mk \
+  src-msys2-which.mk \
   src-msys2-zip.mk \
   src-msys2-zlib.mk
 
@@ -1070,15 +1110,20 @@ FILES := \
 
 INSTALL_FILES_1 := \
   cmdshell.bat \
+  cmdshell-no-short-path.patch \
   post-install.bat \
   fc_update.bat \
   gpl-3.0.txt \
   octave.bat \
   octave.bmp \
   octave.vbs \
+  octave-bat-no-short-path.patch \
   octave-firsttime.vbs \
   octave-hdr.bmp \
+  octave-launch.c \
+  octave-launch.rc \
   octave-logo.ico \
+  octave-no-short-path.patch \
   post-install.bat \
   README.html
 INSTALL_FILES := $(addprefix installer-files/, $(INSTALL_FILES_1))
@@ -1093,5 +1138,3 @@ DIST_FILES := \
   $(TOOLS_FILES) \
   $(FILES) \
   $(INSTALL_FILES)
-
-
