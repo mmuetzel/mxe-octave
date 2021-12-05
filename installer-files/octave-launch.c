@@ -338,6 +338,12 @@ int wmain (int argc, wchar_t **argv)
     StringCchCopyW (argbuffer, ARGBUF_SZ, L"octave.exe ");
     StringCchCatW (path, PATH_SZ, L"\\octave.exe");
 
+    /* If parent process has a console, attach to it.
+       Let the function fail silently, when parent has no console
+       (e.g., when program has been started from link in start menu).
+       No console will be shown in this case. */
+    AttachConsole (ATTACH_PARENT_PROCESS);
+
     if (! (no_gui_libs || no_gui_arg_found))
       {
         /* Unless --no-gui or --no-gui-libs is specified, we will use a GUI window.  */
