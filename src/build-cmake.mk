@@ -3,8 +3,8 @@
 
 PKG             := build-cmake
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.22.0
-$(PKG)_CHECKSUM := ef8443c200873779945725e25f9fc9903374101f
+$(PKG)_VERSION  := 3.22.1
+$(PKG)_CHECKSUM := 71861ee1c487edf05061ab5f7dc4f13a74bfbcdb
 $(PKG)_SUBDIR   := cmake-$($(PKG)_VERSION)
 $(PKG)_FILE     := cmake-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.cmake.org/files/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
