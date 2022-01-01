@@ -268,6 +268,13 @@ int wmain (int argc, wchar_t **argv)
       size_t num_threads;
       num_threads = get_num_physical_cores ();
 
+      // Setting OPENBLAS_NUM_THREADS to something higher than what NUM_THREADS
+      // was set to when OpenBLAS was configured, can lead to errors.
+      // FIXME: Can/should we get that number from the library?
+#define MAX_NUM_THREADS 24
+      if (num_threads > MAX_NUM_THREADS)
+        num_threads = MAX_NUM_THREADS;
+
       if (num_threads > 0)
         {
 #define THREADS_SZ 64
