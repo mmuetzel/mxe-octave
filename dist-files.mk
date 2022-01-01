@@ -506,6 +506,7 @@ SRC_FILES_1 := \
   of-interval-2-subsref.patch \
   of-interval-3-error_state.patch \
   of-interval.mk \
+  of-io-1-fixes.patch \
   of-io.mk \
   of-linear-algebra.mk \
   of-lssa.mk \

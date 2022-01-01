@@ -1,0 +1,69 @@
+# HG changeset patch
+# User Philip Nienhuis <prnienhuis@users.sf.net>
+# Date 1641061994 -3600
+#      Sat Jan 01 19:33:14 2022 +0100
+# Node ID 5a3553396bea3eeae23c1f22e6bc21e739fded11
+# Parent  4ec046f28e6dbd845c2a49693e7f6a8941157ee6
+fromJSON.m, toJSON.m: improve Java-based BIST (re-apply, bug #60040)
+
+diff -r 4ec046f28e6d -r 5a3553396bea inst/fromJSON.m
+--- a/inst/fromJSON.m	Thu Dec 30 00:00:41 2021 +0100
++++ b/inst/fromJSON.m	Sat Jan 01 19:33:14 2022 +0100
+@@ -875,12 +875,17 @@
+ %! assert(fromJSON('"@@sin"', false), '@@sin');
+ %! assert(fromJSON('"@@(x)3*x"', false),'@@(x)3*x');
+
+-%!test	##	exotic object in structure
+-%! assert( fromJSON('{"a":"[java.math.BigDecimal]"}'),struct('a','[java.math.BigDecimal]'));
++%# exotic object in structure
++%!testif HAVE_JAVA
++%! if (usejava ("jvm"))
++%!  assert(fromJSON('{"a":"[java.math.BigDecimal]"}'),struct('a','[java.math.BigDecimal]'));
++%! endif
+
+-%!test	##	exotic object (placeholder of class name)
+-%! assert( fromJSON('"[java.math.BigDecimal]"'),
+-%!         '[java.math.BigDecimal]');
++%# exotic object (placeholder of class name)
++%!testif HAVE_JAVA
++%! if (usejava ("jvm"))
++%!  assert(fromJSON('"[java.math.BigDecimal]"'),'[java.math.BigDecimal]');
++%! endif
+
+ ############### beautified or confusing JSON BIST #####################
+
+diff -r 4ec046f28e6d -r 5a3553396bea inst/toJSON.m
+--- a/inst/toJSON.m	Thu Dec 30 00:00:41 2021 +0100
++++ b/inst/toJSON.m	Sat Jan 01 19:33:14 2022 +0100
+@@ -318,9 +318,13 @@
+ %!test  ## string
+ %! assert(toJSON("abcdefg"), '"abcdefg"');
+
+-%!test  ## unknown class
+-%! obj = javaObject ("java.math.BigDecimal", 1.0);
++%# unknown class
++%!testif HAVE_JAVA
++%! if (usejava ("jvm"))
++%!  obj = javaObject ("java.math.BigDecimal", 1.0);
+ %!  assert(toJSON(obj), '"[java.math.BigDecimal]"');
++%! endif
++
+
+ %!test  ## apparent JSON string, do not quote
+ %!  assert(toJSON('[]'),'[]');
+@@ -453,9 +457,13 @@
+ %!  assert(toJSON(@sin),'"@@(x) sin(x)"')
+ %!  assert(toJSON(@(a,b)a+b+c),'"@@(a, b) a + b + c"')
+
+-%!test  ## struct with java object
+-%! obj = javaObject ("java.math.BigDecimal", 1.0);
++%# struct with java object
++%!testif HAVE_JAVA
++%! if (usejava ("jvm"))
++%!  obj = javaObject ("java.math.BigDecimal", 1.0);
+ %!  assert(toJSON(struct('a',obj)), '{"a":"[java.math.BigDecimal]"}');
++%! endif
++
+
+ %!test   ## structure array   DEFAULT COMPACT
+ %!  s = struct("a",{3.125;3.125});
