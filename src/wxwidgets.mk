@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 406ac736f61d88a3a866aa501e01e408a642c6e7
 $(PKG)_SUBDIR   := wxWidgets-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.bz2
 $(PKG)_URL      := https://github.com/wxWidgets/wxWidgets/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := libiconv libpng jpeg tiff sdl zlib expat
+$(PKG)_DEPS     := libiconv libpng jpeg tiff sdl2 zlib expat
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://github.com//wxWidgets/wxWidgets/tags' | \

@@ -31,7 +31,7 @@ endif
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://www.netlib.org/lapack/' | \
-    $(SED) -n 's_.*>LAPACK, version \([0-9]\.[0-9]\.[0-9]\).*_\1_ip' | \
+    $(SED) -n 's_.*>lapack-\([0-9.]*\).tar.gz<.*_\1_p' | \
     head -1
 endef
 

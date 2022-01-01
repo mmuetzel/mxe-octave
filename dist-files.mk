@@ -159,7 +159,6 @@ SRC_FILES_1 := \
   gnutls.mk \
   graphicsmagick-1-fix-xml2-config.patch \
   graphicsmagick-2-dynamicpath.patch \
-  graphicsmagick-3-user32.patch \
   graphicsmagick-test.cpp \
   graphicsmagick.mk \
   gsl-test.c \
@@ -671,6 +670,7 @@ SRC_FILES_1 := \
   renderproto.mk \
   rtmidi.mk \
   s2tc.mk \
+  sdl2.k \
   sdl-1-xdata.patch \
   sdl-test.c \
   sdl.mk \

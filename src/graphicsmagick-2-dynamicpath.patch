@@ -1,7 +1,7 @@
-diff -ur GraphicsMagick-1.3.30.orig/magick/blob.c GraphicsMagick-1.3.30/magick/blob.c
---- GraphicsMagick-1.3.30.orig/magick/blob.c	2018-07-16 08:55:01.552444311 -0400
-+++ GraphicsMagick-1.3.30/magick/blob.c	2018-07-17 09:27:05.584144673 -0400
-@@ -1955,6 +1955,29 @@
+diff -ur GraphicsMagick-1.3.37.orig/magick/blob.c GraphicsMagick-1.3.37/magick/blob.c
+--- GraphicsMagick-1.3.37.orig/magick/blob.c	2021-12-14 12:59:54.946462559 -0500
++++ GraphicsMagick-1.3.37/magick/blob.c	2021-12-14 13:05:57.022604525 -0500
+@@ -1975,6 +1975,29 @@
    AddConfigurePath(path_map,&path_index,MagickLibConfigPath,exception);
  # endif /* defined(MagickLibConfigPath) */
  
@@ -31,14 +31,13 @@ diff -ur GraphicsMagick-1.3.30.orig/magick/blob.c GraphicsMagick-1.3.30/magick/b
  # if defined(MSWINDOWS) && !(defined(MagickLibConfigPath) || defined(MagickShareConfigPath))
    {
      char
-Only in GraphicsMagick-1.3.30/magick: .blob.c.swp
-diff -ur GraphicsMagick-1.3.30.orig/magick/module.c GraphicsMagick-1.3.30/magick/module.c
---- GraphicsMagick-1.3.30.orig/magick/module.c	2018-07-16 08:55:01.539443999 -0400
-+++ GraphicsMagick-1.3.30/magick/module.c	2018-07-17 08:22:22.161123799 -0400
-@@ -1021,6 +1021,33 @@
-           start += length+1;
+diff -ur GraphicsMagick-1.3.37.orig/magick/module.c GraphicsMagick-1.3.37/magick/module.c
+--- GraphicsMagick-1.3.37.orig/magick/module.c	2021-12-14 12:59:54.935462099 -0500
++++ GraphicsMagick-1.3.37/magick/module.c	2021-12-14 13:08:20.667611735 -0500
+@@ -1036,6 +1036,33 @@
          }
      }
+ 
 +#if defined(MSWINDOWS)
 +  {
 +    char buf[FILENAME_MAX+100];
@@ -65,7 +64,7 @@ diff -ur GraphicsMagick-1.3.30.orig/magick/module.c GraphicsMagick-1.3.30/magick
 +    }
 +  }
 +#endif
-+
- 
++ 
  #if defined(UseInstalledMagick)
  # if defined(MagickCoderModulesPath)
+   {
