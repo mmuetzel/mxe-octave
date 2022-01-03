@@ -1,0 +1,129 @@
+From b54b3bbdcc043dc839fcb5262c5239bb1548e02b Mon Sep 17 00:00:00 2001
+From: Martin Kroeker <martin@ruby.chemie.uni-freiburg.de>
+Date: Fri, 24 Dec 2021 22:53:39 +0100
+Subject: [PATCH 01/10] Update param.h
+
+---
+ param.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/param.h b/param.h
+index 2dffaae3c..3d592c056 100644
+--- a/param.h
++++ b/param.h
+@@ -1670,7 +1670,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ #define SGEMM_DEFAULT_UNROLL_M 16
+ #ifndef DYNAMIC_ARCH
+-#define DGEMM_DEFAULT_UNROLL_M 16
++#define DGEMM_DEFAULT_UNROLL_M 4
+ #else
+ #define DGEMM_DEFAULT_UNROLL_M 4
+ #endif
+@@ -1681,7 +1681,7 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ #define SGEMM_DEFAULT_UNROLL_N 4
+ #ifndef DYNAMIC_ARCH
+-#define DGEMM_DEFAULT_UNROLL_N 2
++#define DGEMM_DEFAULT_UNROLL_N 8
+ #else
+ #define DGEMM_DEFAULT_UNROLL_N 8
+ #endif
+
+From e62e797d3adb796275114bd894262978f30d03dc Mon Sep 17 00:00:00 2001
+From: Martin Kroeker <martin@ruby.chemie.uni-freiburg.de>
+Date: Fri, 24 Dec 2021 22:54:40 +0100
+Subject: [PATCH 02/10] Update KERNEL.SKYLAKEX
+
+---
+ kernel/x86_64/KERNEL.SKYLAKEX | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/x86_64/KERNEL.SKYLAKEX b/kernel/x86_64/KERNEL.SKYLAKEX
+index d2d7de42a..c5a2fcecb 100644
+--- a/kernel/x86_64/KERNEL.SKYLAKEX
++++ b/kernel/x86_64/KERNEL.SKYLAKEX
+@@ -20,7 +20,7 @@ SGEMM_SMALL_K_B0_TN = sgemm_small_kernel_tn_skylakex.c
+ SGEMM_SMALL_K_TT = sgemm_small_kernel_tt_skylakex.c
+ SGEMM_SMALL_K_B0_TT = sgemm_small_kernel_tt_skylakex.c
+ 
+-ifndef DYNAMIC_ARCH
++ifdef DYNAMIC_ARCHO
+ DGEMMKERNEL    =  dgemm_kernel_16x2_skylakex.c
+ DTRMMKERNEL    =  dgemm_kernel_16x2_skylakex.c
+ DGEMMINCOPY    =  ../generic/gemm_ncopy_16.c
+
+From 892ed1e53b17bdc4e367ae0697ae9a995641dbf6 Mon Sep 17 00:00:00 2001
+From: Martin Kroeker <martin@ruby.chemie.uni-freiburg.de>
+Date: Sat, 25 Dec 2021 13:26:35 +0100
+Subject: [PATCH 03/10] Update param.h
+
+---
+ param.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/param.h b/param.h
+index 3d592c056..03ab214e2 100644
+--- a/param.h
++++ b/param.h
+@@ -1670,9 +1670,9 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ #define SGEMM_DEFAULT_UNROLL_M 16
+ #ifndef DYNAMIC_ARCH
+-#define DGEMM_DEFAULT_UNROLL_M 4
++#define DGEMM_DEFAULT_UNROLL_M 16
+ #else
+-#define DGEMM_DEFAULT_UNROLL_M 4
++#define DGEMM_DEFAULT_UNROLL_M 16
+ #endif
+ #define QGEMM_DEFAULT_UNROLL_M 2
+ #define CGEMM_DEFAULT_UNROLL_M 8
+@@ -1681,9 +1681,9 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ #define SGEMM_DEFAULT_UNROLL_N 4
+ #ifndef DYNAMIC_ARCH
+-#define DGEMM_DEFAULT_UNROLL_N 8
++#define DGEMM_DEFAULT_UNROLL_N 2
+ #else
+-#define DGEMM_DEFAULT_UNROLL_N 8
++#define DGEMM_DEFAULT_UNROLL_N 2
+ #endif
+ #define QGEMM_DEFAULT_UNROLL_N 2
+ #define CGEMM_DEFAULT_UNROLL_N 2
+
+From d97a3e5a5f5b28cb5f3b8f5ce3fef05b0a81b715 Mon Sep 17 00:00:00 2001
+From: Martin Kroeker <martin@ruby.chemie.uni-freiburg.de>
+Date: Sat, 25 Dec 2021 13:27:49 +0100
+Subject: [PATCH 04/10] Update KERNEL.SKYLAKEX
+
+---
+ kernel/x86_64/KERNEL.SKYLAKEX | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/kernel/x86_64/KERNEL.SKYLAKEX b/kernel/x86_64/KERNEL.SKYLAKEX
+index c5a2fcecb..ba093d24b 100644
+--- a/kernel/x86_64/KERNEL.SKYLAKEX
++++ b/kernel/x86_64/KERNEL.SKYLAKEX
+@@ -20,19 +20,15 @@ SGEMM_SMALL_K_B0_TN = sgemm_small_kernel_tn_skylakex.c
+ SGEMM_SMALL_K_TT = sgemm_small_kernel_tt_skylakex.c
+ SGEMM_SMALL_K_B0_TT = sgemm_small_kernel_tt_skylakex.c
+ 
+-ifdef DYNAMIC_ARCHO
++
+ DGEMMKERNEL    =  dgemm_kernel_16x2_skylakex.c
+ DTRMMKERNEL    =  dgemm_kernel_16x2_skylakex.c
+ DGEMMINCOPY    =  ../generic/gemm_ncopy_16.c
+-DGEMMITCOPY    =  dgemm_tcopy_16_skylakex.c
++DGEMMITCOPY    =  ../generic/gemm_tcopy_16.c
+ DGEMMONCOPY    =  ../generic/gemm_ncopy_2.c
+ DGEMMOTCOPY    =  ../generic/gemm_tcopy_2.c
+ DTRSMKERNEL_RN =  ../generic/trsm_kernel_RN.c
+-else
+-DGEMMKERNEL    =  dgemm_kernel_4x8_skylakex_2.c
+-DGEMMONCOPY    =  dgemm_ncopy_8_skylakex.c
+-DGEMMOTCOPY    =  dgemm_tcopy_8_skylakex.c
+-endif
++
+ DGEMM_SMALL_M_PERMIT = dgemm_small_kernel_permit_skylakex.c
+ DGEMM_SMALL_K_NN = dgemm_small_kernel_nn_skylakex.c
+ DGEMM_SMALL_K_B0_NN = dgemm_small_kernel_nn_skylakex.c
