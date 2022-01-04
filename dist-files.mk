@@ -666,7 +666,7 @@ SRC_FILES_1 := \
   renderproto.mk \
   rtmidi.mk \
   s2tc.mk \
-  sdl2.k \
+  sdl2.mk \
   sdl-1-xdata.patch \
   sdl-test.c \
   sdl.mk \
