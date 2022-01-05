@@ -358,7 +358,6 @@ SRC_FILES_1 := \
   mingw-texinfo-1-fixes.patch \
   mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
   mingw-utils-1-portability-fix.patch \
-  mingw-w64-1-float-h.patch \
   mingw-w64.mk \
   mingw-zeromq-1-fixes.patch \
   mingwrt.mk \
