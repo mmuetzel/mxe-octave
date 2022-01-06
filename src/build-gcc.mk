@@ -49,10 +49,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     endef
   endif
 
-  ifneq ($(OCTAVE_TARGET),release-octave)
-    # FIXME: Set unconditionally for the first release candidate of Octave 7.
-    $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
-  endif
+  $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
 
   ifneq ($(HOST_MSVCRT),ucrt)
     $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=msvcrt
