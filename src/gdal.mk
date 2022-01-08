@@ -3,8 +3,8 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.1.4
-$(PKG)_CHECKSUM := 798e8f0c53684f5bf24921abf155f2c9345cad98
+$(PKG)_VERSION  := 3.2.3
+$(PKG)_CHECKSUM := 092eaa2194bceb63b4d8a42e8ca8154abf32918c
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://download.osgeo.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -23,6 +23,7 @@ define $(PKG)_BUILD
 	$(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
+        --with-cpp14 \
         --with-pam \
         --with-libz='$(HOST_PREFIX)' \
         --with-png='$(HOST_PREFIX)' \
@@ -61,7 +62,6 @@ define $(PKG)_BUILD
         --without-ingres \
         --without-dods-root \
         --without-idb \
-        --without-sde \
         --without-epsilon \
         --without-perl \
         --without-python \

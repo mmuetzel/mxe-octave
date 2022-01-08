@@ -121,7 +121,6 @@ SRC_FILES_1 := \
   gd-1-libpng15.patch \
   gd-test.c \
   gd.mk \
-  gdal-1-gcc11.patch \
   gdal-2-ucrt.patch \
   gdal.mk \
   gdb.mk \
