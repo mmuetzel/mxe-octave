@@ -3,10 +3,10 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.0.4
-$(PKG)_CHECKSUM := 5362ecafb9d06fa9d86beb1ab07b974256b13542
+$(PKG)_VERSION  := 3.1.4
+$(PKG)_CHECKSUM := 798e8f0c53684f5bf24921abf155f2c9345cad98
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
-$(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
+$(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://download.osgeo.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.remotesensing.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl geos postgresql gta proj pcre qhull
@@ -23,10 +23,6 @@ define $(PKG)_BUILD
 	$(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
-        --with-bsb \
-        --with-grib \
-        --with-ogr \
-        --with-vfk \
         --with-pam \
         --with-libz='$(HOST_PREFIX)' \
         --with-png='$(HOST_PREFIX)' \
@@ -39,11 +35,10 @@ define $(PKG)_BUILD
         --with-sqlite3='$(HOST_PREFIX)' \
         --with-curl='$(HOST_BINDIR)/curl-config' \
         --with-geos='$(HOST_BINDIR)/geos-config' \
-        --with-pg='$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)pg_config' \
+        --with-pg \
         --with-gta='$(HOST_PREFIX)' \
-        --with-xml2='$(HOST_BINDIR)/xml2-config' \
+        --with-xml2 \
         --without-odbc \
-        --without-static-proj4 \
         --without-xerces \
         --without-grass \
         --without-libgrass \
@@ -65,13 +60,10 @@ define $(PKG)_BUILD
         --without-mysql \
         --without-ingres \
         --without-dods-root \
-        --without-dwgdirect \
         --without-idb \
         --without-sde \
         --without-epsilon \
         --without-perl \
-        --without-php \
-        --without-ruby \
         --without-python \
         LIBS="-ljpeg `'$(MXE_PKG_CONFIG)' --libs libtiff-4`"
     $(MAKE) -C '$(1)'       -j '$(JOBS)' lib-target
