@@ -3,13 +3,13 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.2.3
-$(PKG)_CHECKSUM := 092eaa2194bceb63b4d8a42e8ca8154abf32918c
+$(PKG)_VERSION  := 3.3.3
+$(PKG)_CHECKSUM := 82221db588433e1a2f919953835c0317b5122ed8
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://download.osgeo.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.remotesensing.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl geos postgresql gta proj pcre qhull
+$(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl postgresql gta proj pcre qhull
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://trac.osgeo.org/gdal/wiki/DownloadSource' | \
@@ -35,7 +35,7 @@ define $(PKG)_BUILD
         --with-expat='$(HOST_PREFIX)' \
         --with-sqlite3='$(HOST_PREFIX)' \
         --with-curl='$(HOST_BINDIR)/curl-config' \
-        --with-geos='$(HOST_BINDIR)/geos-config' \
+        --without-geos \
         --with-pg \
         --with-gta='$(HOST_PREFIX)' \
         --with-xml2 \
