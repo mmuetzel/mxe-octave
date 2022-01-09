@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 4783aadbb397031723c80b349363a226e5827803
 $(PKG)_SUBDIR   := curl-$($(PKG)_VERSION)
 $(PKG)_FILE     := curl-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://curl.haxx.se/download/$($(PKG)_FILE)
-$(PKG)_DEPS     := gnutls libidn2 libssh2 pthreads
+$(PKG)_DEPS     := gnutls libgsasl libidn2 libssh2 pthreads
 
 $(PKG)_CONFIGURE_OPTS :=
 ifeq ($(MXE_WINDOWS_BUILD),yes)
