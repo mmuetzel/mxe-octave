@@ -253,7 +253,6 @@ SRC_FILES_1 := \
   libgomp.mk \
   libgpg_error-1-fixes.patch \
   libgpg_error.mk \
-  libgsasl-1-fixes.patch \
   libgsasl-test.c \
   libgsasl.mk \
   libgsf-1-fixes.patch \

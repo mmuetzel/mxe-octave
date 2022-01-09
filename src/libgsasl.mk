@@ -3,8 +3,8 @@
 
 PKG             := libgsasl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.8.0
-$(PKG)_CHECKSUM := 08fd5dfdd3d88154cf06cb0759a732790c47b4f7
+$(PKG)_VERSION  := 1.10.0
+$(PKG)_CHECKSUM := a16ff428bbf28fcfa681c7edd2cd2bb087bcc4e7
 $(PKG)_SUBDIR   := libgsasl-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgsasl-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://ftp.gnu.org/gnu/gsasl/$($(PKG)_FILE)
@@ -24,13 +24,11 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)' \
         --disable-nls \
         --with-libgcrypt \
+        --with-libgcrypt-prefix='$(HOST_PREFIX)' \
         --with-libiconv-prefix='$(HOST_PREFIX)' \
         --with-libidn-prefix='$(HOST_PREFIX)' \
         --with-libntlm-prefix='$(HOST_PREFIX)'
-    $(MAKE) -C '$(1)' -j '$(JOBS)' install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
 
-    '$(MXE_CC)' \
-        -W -Wall -Werror -ansi -pedantic \
-        '$(2).c' -o '$(HOST_BINDIR)/test-libgsasl.exe' \
-        `'$(MXE_PKG_CONFIG)' libgsasl --cflags --libs`
+    $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS)
+    $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
 endef
