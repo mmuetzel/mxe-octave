@@ -12,9 +12,9 @@ $(PKG)_URL_2    := ftp://ftp.remotesensing.org/gdal/$($(PKG)_VERSION)/$($(PKG)_F
 $(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl postgresql gta proj pcre qhull
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://trac.osgeo.org/gdal/wiki/DownloadSource' | \
-    $(SED) -n 's,.*gdal-\([0-9][^>]*\)\.tar.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://github.com/OSGeo/gdal/tags' | \
+    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(GREP) -v "RC" | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
