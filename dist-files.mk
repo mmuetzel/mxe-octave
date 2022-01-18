@@ -207,8 +207,6 @@ SRC_FILES_1 := \
   jasper.mk \
   jpeg-test.c \
   jpeg.mk \
-  json-c-1-patch-missingfile.patch \
-  json-c-2-patch-remove-rpl.patch \
   json-c-test.c \
   json-c.mk \
   kbproto.mk \
