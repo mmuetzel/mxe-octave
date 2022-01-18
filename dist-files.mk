@@ -361,6 +361,7 @@ SRC_FILES_1 := \
   mman-win32.mk \
   mpc.mk \
   mpfr.mk \
+  mpg123.mk \
   msitools.mk \
   msvc-atk-1.patch \
   msvc-build-cmake-1.patch \
@@ -580,6 +581,7 @@ SRC_FILES_1 := \
   openssl.mk \
   opkg-biosig.mk \
   opus.mk \
+  opusfile.mk \
   pango-1-fixes.patch \
   pango.mk \
   pangomm.mk \
@@ -668,6 +670,10 @@ SRC_FILES_1 := \
   rtmidi.mk \
   s2tc.mk \
   sdl2.mk \
+  sdl2_image.mk \
+  sdl2_mixer.mk \
+  sdl2_net.mk \
+  sdl2_ttf.mk \
   sdl-1-xdata.patch \
   sdl-test.c \
   sdl.mk \
