@@ -470,8 +470,6 @@ SRC_FILES_1 := \
   ocaml-native.mk \
   of-actuarial.mk \
   of-audio.mk \
-  of-communications-1-catop.patch \
-  of-communications-2-error_state.patch \
   of-communications.mk \
   of-control-1-deprecated-warnings.patch \
   of-control.mk \
