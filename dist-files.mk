@@ -539,6 +539,7 @@ SRC_FILES_1 := \
   of-signal.mk \
   of-sockets.mk \
   of-sparsersb-1-no-internal-mex-fcns.patch \
+  of-sparsersb-2-no-cxx11.patch \
   of-sparsersb.mk \
   of-specfun-1-deprecated.patch \
   of-specfun.mk \
