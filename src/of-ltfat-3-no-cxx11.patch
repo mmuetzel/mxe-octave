@@ -1,0 +1,27 @@
+From 0b0d59759fd3ef0f3c631047f85a2b87c687d272 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Markus=20M=C3=BCtzel?= <markus.muetzel@gmx.de>
+Date: Wed, 26 Jan 2022 18:58:46 +0100
+Subject: [PATCH] Don't force std=gnu++11. We prefer a newer standard now.
+ Ideally, this would check if some switch is necessary to enable C++11 feature
+ support in the compiler.
+
+---
+ oct/Makefile_unix | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/oct/Makefile_unix b/oct/Makefile_unix
+index 8f497297..4ecad22a 100644
+--- a/oct/Makefile_unix
++++ b/oct/Makefile_unix
+@@ -33,7 +33,7 @@ ifndef FFTW_LIBS
+ FFTW_LIBS := $(shell $(MKOCTFILE) -p FFTW_LIBS)
+ endif
+ 
+-export CXXFLAGS := $(shell $(MKOCTFILE) -p CXXFLAGS) -std=gnu++11 -Wall -DLTFAT_LARGEARRAYS $(OPTCXXFLAGS)
++export CXXFLAGS := $(shell $(MKOCTFILE) -p CXXFLAGS) -Wall -DLTFAT_LARGEARRAYS $(OPTCXXFLAGS)
+ # export is necessary, otherwise LDFLAGS won't have any effect
+ # at least on Windows and on Mac
+ export LDFLAGS := $(shell $(MKOCTFILE) -p LDFLAGS) $(FLIBS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FFTW_LIBS)
+-- 
+2.34.1.windows.1
+

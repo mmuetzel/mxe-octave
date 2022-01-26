@@ -506,6 +506,7 @@ SRC_FILES_1 := \
   of-lssa.mk \
   of-ltfat-1-cross-fixes.patch \
   of-ltfat-2-LDFLAGS.patch \
+  of-ltfat-3-no-cxx11.patch \
   of-ltfat.mk \
   of-matgeom.mk \
   of-mapping.mk \
