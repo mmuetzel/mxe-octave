@@ -201,6 +201,7 @@ define $(PKG)_BUILD
         --disable-silent-rules \
         --enable-install-build-logs \
         --enable-relocate-all \
+        --enable-std-pmr-polymorphic-allocator \
         $($(PKG)_CROSS_CONFIG_OPTIONS) \
         $($(PKG)_WITH_BLAS_CONFIGURE_OPTIONS) \
         $($(PKG)_ENABLE_64_CONFIGURE_OPTIONS) \
