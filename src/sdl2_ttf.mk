@@ -3,8 +3,8 @@
 
 PKG             := sdl2_ttf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.15
-$(PKG)_CHECKSUM := 1453c5f72f986024c5271c76d74cc232aa57dd79
+$(PKG)_VERSION  := 2.0.18
+$(PKG)_CHECKSUM := b4300bf29495adabe5a4e77af758fc9e658156c9
 $(PKG)_SUBDIR   := SDL2_ttf-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_ttf-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.libsdl.org/projects/SDL_ttf/release/$($(PKG)_FILE)
