@@ -84,8 +84,6 @@ SRC_FILES_1 := \
   dri2proto.mk \
   eigen.mk \
   epstool.mk \
-  exiv2-issue847.patch \
-  exiv2-r2796.patch \
   exiv2.mk \
   expat.mk \
   faad2-1-fixes.patch \
