@@ -80,6 +80,6 @@ index 1111111..2222222 100644
 +AM_INIT_AUTOMAKE(serial_tests dist-bzip2)
 +
 +
- AC_CONFIG_HEADER([config.h])
+ AC_CONFIG_HEADERS([config.h])
  AC_CONFIG_MACRO_DIR([m4])
  AM_SILENT_RULES
