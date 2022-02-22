@@ -3,8 +3,8 @@
 
 PKG             := of-mapping
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.1
-$(PKG)_CHECKSUM := fabefd752e5f37cbdb4b1db5219ee912367abe8b
+$(PKG)_VERSION  := 1.4.2
+$(PKG)_CHECKSUM := a9f044209d284deba0126a918af56c15df2f75aa
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := mapping-$($(PKG)_VERSION)
 $(PKG)_FILE     := mapping-$($(PKG)_VERSION).tar.gz
