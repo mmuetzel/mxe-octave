@@ -3,11 +3,11 @@
 
 PKG             := libxml2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.9.12
-$(PKG)_CHECKSUM := 339fe5bb2a7d0c13f068c26d8f7cd194c13f9a2a
-$(PKG)_SUBDIR   := libxml2-$($(PKG)_VERSION)
-$(PKG)_FILE     := libxml2-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://xmlsoft.org/libxml2/$($(PKG)_FILE)
+$(PKG)_VERSION  := 2.9.13
+$(PKG)_CHECKSUM := 156b8938fe54b024bbd8a3db319a6b8a58f9c209
+$(PKG)_SUBDIR   := libxml2-v$($(PKG)_VERSION)
+$(PKG)_FILE     := libxml2-v$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://gitlab.gnome.org/GNOME/$(PKG)/-/archive/v$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib libiconv
 
 ifneq ($(MXE_SYSTEM),msvc)
@@ -21,8 +21,8 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    $(SED) -i 's,`uname`,MinGW,g' '$(1)/xml2-config.in'
-    cd '$(1)' && ./configure \
+    #$(SED) -i 's,`uname`,MinGW,g' '$(1)/xml2-config.in'
+    cd '$(1)' && ./autogen.sh \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
