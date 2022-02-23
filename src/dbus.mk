@@ -10,6 +10,11 @@ $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(PKG).freedesktop.org/releases/$(PKG)/$($(PKG)_FILE)
 $(PKG)_DEPS     := expat
 
+$(PKG)_DISABLE_PROGS :=
+ifeq ($(MXE_SYSTEM),mingw)
+  $(PKG)_DISABLE_PROGS := $(MXE_DISABLE_PROGS)
+endif
+
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://cgit.freedesktop.org/dbus/dbus/refs/tags' | \
     $(SED) -n "s,.*<a href='[^']*/tag/?h=dbus-\\([0-9][^']*\\)'.*,\\1,p" | \
@@ -33,5 +38,5 @@ define $(PKG)_BUILD
         --disable-xml-docs \
         CFLAGS='-DPROCESS_QUERY_LIMITED_INFORMATION=0x1000' \
 	&& $(CONFIGURE_POST_HOOK)
-    $(MAKE) -C '$(1)' -j '$(JOBS)' install $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
+    $(MAKE) -C '$(1)' -j '$(JOBS)' install $(MXE_DISABLE_DOCS) $($(PKG)_DISABLE_PROGS) DESTDIR='$(3)'
 endef
