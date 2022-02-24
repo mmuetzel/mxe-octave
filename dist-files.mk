@@ -562,7 +562,6 @@ SRC_FILES_1 := \
   openal-1-fixes.patch \
   openal-test.c \
   openal.mk \
-  openblas-1-skylakex.patch \
   openblas.mk \
   opencore-amr.mk \
   opencsg-1-fixes.patch \
