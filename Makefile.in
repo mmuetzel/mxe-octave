@@ -987,6 +987,10 @@ clean:
 	rm -rf native-tools cross-tools octave gnuplot
 	rm -f Makefile cmake-toolchain-file.stamp cmake-native-toolchain-file.stamp
 	rm -f tools/set-mxe-env.sh
+	rm -f installer-files/octave-launch.exe \
+	  installer-files/octave-launch-firsttime.exe \
+	  installer-files/octave-launch.res \
+	  installer-files/.dirstamp
 
 .PHONY: realclean
 realclean: clean
