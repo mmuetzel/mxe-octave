@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 672ec927c218a3f4ece5929d7b225fce6bc38187
 $(PKG)_SUBDIR   := cmake-$($(PKG)_VERSION)
 $(PKG)_FILE     := cmake-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.cmake.org/files/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
-$(PKG)_DEPS     :=
+$(PKG)_DEPS     := bzip2 curl expat xz zlib
 
 $(PKG)_CMAKE_OPTS :=
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -17,7 +17,10 @@ ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
   endif
 else
   ifeq ($(MXE_SYSTEM),mingw)
-    $(PKG)_CMAKE_OPTS += -DKWSYS_LFS_WORKS=TRUE
+    $(PKG)_CMAKE_OPTS += -DKWSYS_LFS_WORKS=TRUE \
+        -DCMAKE_USE_SYSTEM_CURL=ON \
+        -DZLIB_WINAPI_EXITCODE=0 \
+        -DZLIB_WINAPI_EXITCODE__TRYRUN_OUTPUT=''
   endif
 endif
 
