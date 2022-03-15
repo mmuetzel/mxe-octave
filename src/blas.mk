@@ -16,7 +16,7 @@ ifeq ($(ENABLE_FORTRAN_INT64),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- ftp://ftp.eq.uc.pt/pub/software/math/netlib/blas/ | \
+    $(WGET) -q -O- 'https://www.netlib.org/blas/' | \
     $(SED) -n 's|.*>blas-\([0-9\.]*\).tgz<.*|\1|p' | $(SORT) -V | \
     tail -1
 endef

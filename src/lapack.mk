@@ -30,7 +30,7 @@ ifeq ($(ENABLE_FORTRAN_INT64),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://www.netlib.org/lapack/' | \
+    $(WGET) -q -O- 'https://www.netlib.org/lapack/' | \
     $(SED) -n 's_.*>lapack-\([0-9.]*\).tar.gz<.*_\1_p' | \
     head -1
 endef
