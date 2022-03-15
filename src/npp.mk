@@ -3,8 +3,8 @@
 
 PKG             := npp
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.3.2
-$(PKG)_CHECKSUM := 3a187c37056eb46ca878860c867ad6b9caa091db
+$(PKG)_VERSION  := 8.3.3
+$(PKG)_CHECKSUM := f155c90132029de1490c0dbfbe60e2459c657bf2
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $(PKG).$($(PKG)_VERSION).portable.zip
 $(PKG)_URL      := https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
