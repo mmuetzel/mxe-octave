@@ -331,7 +331,6 @@ SRC_FILES_1 := \
   lzo.mk \
   matio.mk \
   mdbtools.mk \
-  mesa-1-meson.patch \
   mesa-2-ucrt.patch \
   mesa-proto.mk \
   mesa.mk \
