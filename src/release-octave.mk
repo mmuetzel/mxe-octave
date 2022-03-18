@@ -34,8 +34,8 @@
 
 PKG             := release-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.0.90
-$(PKG)_CHECKSUM := 067ca5a4d3c213247660aba97d4e6d6daade2426
+$(PKG)_VERSION  := 7.0.92
+$(PKG)_CHECKSUM := bbb26a73c57b8b4a2a69603eee050d97f1545656
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.lz
 $(PKG)_URL      := ftp://alpha.gnu.org/gnu/octave/$($(PKG)_FILE)
