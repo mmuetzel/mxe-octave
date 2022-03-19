@@ -28,7 +28,7 @@ Change Makefile so that the values of environment variables are respected.
  	LD      := xild
 -	AR      := xiar crs
 +	ARFLAGS ?= crs
-+	AR      := xiar
++	AR      ?= xiar
  else
  	PREFIX  := $(subst /bin/,/,$(dir $(shell which $(TARGET)-gcc)))
 -	CC      := $(TARGET)-gcc
@@ -41,9 +41,9 @@ Change Makefile so that the values of environment variables are respected.
 +	AR      ?= $(TARGET)-ar
 +	ARFLAGS ?= rcs
 +	PKGCONF ?= $(TARGET)-pkg-config
+ 	TARGETPLATFORM = windows
  	ifneq (,$(findstring mingw,$(TARGET)))
  		## add gnulib's getlogin
- 		SOURCES += win32/getlogin.c win32/getline.c win32/getdelim.c
 @@ -136,6 +142,8 @@ else
  	endif
  endif
