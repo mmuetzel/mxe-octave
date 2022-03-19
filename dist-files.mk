@@ -574,6 +574,7 @@ SRC_FILES_1 := \
   openscenegraph.mk \
   openssl-1-fixes.patch \
   openssl.mk \
+  opkg-biosig-1-skip-test.patch \
   opkg-biosig.mk \
   opus.mk \
   opusfile.mk \
