@@ -15,19 +15,15 @@ diff --git a/SuiteSparse_config/SuiteSparse_config.mk b/SuiteSparse_config/Suite
 index 1111111..2222222 100644
 --- a/SuiteSparse_config/SuiteSparse_config.mk
 +++ b/SuiteSparse_config/SuiteSparse_config.mk
-@@ -429,10 +429,8 @@ SO_OPTS = $(LDFLAGS)
+@@ -440,7 +441,7 @@ SO_OPTS = $(LDFLAGS)
  
  ifeq ($(UNAME),Windows)
-     # Cygwin Make on Windows (untested)
+     # Cygwin Make on Windows
 -    AR_TARGET = $(LIBRARY).lib
--    SO_PLAIN  = $(LIBRARY).dll
--    SO_MAIN   = $(LIBRARY).$(SO_VERSION).dll
--    SO_TARGET = $(LIBRARY).$(VERSION).dll
 +    AR_TARGET = $(LIBRARY).a
-+    SO_TARGET = $(LIBRARY).dll
-     SO_INSTALL_NAME = echo
- else
-     # Mac or Linux/Unix
+     SO_TARGET  = $(LIBRARY).dll
+     # The following two links are just garbage copies of the real target
+     # they aren't actually supported by this OS
 
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Tony Theodore <tonyt@logyst.com>
@@ -592,11 +588,10 @@ index 1111111..2222222 100644
  	$(RM) $(INSTALL_INCLUDE)/SuiteSparse_config.h
  	$(RM) $(INSTALL_DOC)/SUITESPARSECONFIG_README.txt
  	( cd xerbla ; $(MAKE) uninstall )
-diff --git a/SuiteSparse_config/SuiteSparse_config.mk b/SuiteSparse_config/SuiteSparse_config.mk
-index 1111111..2222222 100644
---- a/SuiteSparse_config/SuiteSparse_config.mk
-+++ b/SuiteSparse_config/SuiteSparse_config.mk
-@@ -54,6 +54,7 @@ SUITESPARSE_VERSION = 4.5.6
+diff -urN SuiteSparse-5.11.0/SuiteSparse_config/SuiteSparse_config.mk.orig SuiteSparse-5.11.0/SuiteSparse_config/SuiteSparse_config.mk
+--- SuiteSparse-5.11.0/SuiteSparse_config/SuiteSparse_config.mk.orig	2022-03-15 00:33:19.000000000 +0100
++++ SuiteSparse-5.11.0/SuiteSparse_config/SuiteSparse_config.mk	2022-03-20 13:25:30.876107144 +0100
+@@ -73,6 +73,7 @@
      # and documentation in /solo/mydox.
      INSTALL ?= $(SUITESPARSE)
      INSTALL_LIB ?= $(INSTALL)/lib
@@ -604,29 +599,35 @@ index 1111111..2222222 100644
      INSTALL_INCLUDE ?= $(INSTALL)/include
      INSTALL_DOC ?= $(INSTALL)/share/doc/suitesparse-$(SUITESPARSE_VERSION)
  
-@@ -339,7 +340,7 @@ SUITESPARSE_VERSION = 4.5.6
- 
+@@ -349,7 +350,7 @@
      ifeq ($(UNAME),Linux)
-         # add the realtime library, librt, and SuiteSparse/lib
--        LDLIBS += -lrt -Wl,-rpath=$(INSTALL_LIB)
-+        LDLIBS += -lrt -Wl,-rpath=$(INSTALL_SO)
+         # add the posix realtime extensions library: librt
+         LDLIBS += -lrt
+-        LDFLAGS += -Wl,-rpath=$(INSTALL_LIB)
++        LDFLAGS += -Wl,-rpath=$(INSTALL_SO)
      endif
  
      #---------------------------------------------------------------------------
-@@ -428,10 +429,11 @@ SUITESPARSE_VERSION = 4.5.6
- SO_OPTS = $(LDFLAGS)
+@@ -365,7 +366,7 @@
+         LAPACK ?= -framework Accelerate
+         # OpenMP is not yet supported by default in clang
+         CFOPENMP =
+-        LDLIBS += -rpath $(INSTALL_LIB)
++        LDLIBS += -rpath $(INSTALL_SO)
+     endif
  
- ifeq ($(UNAME),Windows)
--    # Cygwin Make on Windows (untested)
-     AR_TARGET = $(LIBRARY).a
-     SO_TARGET = $(LIBRARY).dll
-     SO_INSTALL_NAME = echo
+     #---------------------------------------------------------------------------
+@@ -446,7 +447,8 @@
+     # they aren't actually supported by this OS
+     SO_MAIN   = $(LIBRARY).$(SO_VERSION).dll
+     SO_PLAIN = $(LIBRARY).$(VERSION).dll
+-    SO_OPTS  += -shared
 +    SO_OPTS  += -shared -Wl,--out-implib,$(INSTALL_LIB)/$(LIBRARY).dll.a
 +    INSTALL_SO = $(INSTALL)/bin
+     SO_INSTALL_NAME = echo
  else
      # Mac or Linux/Unix
-     AR_TARGET = $(LIBRARY).a
-@@ -550,6 +552,7 @@ config:
+@@ -568,6 +570,7 @@
  	@echo 'System:                   UNAME=          ' '$(UNAME)'
  	@echo 'Install directory:        INSTALL=        ' '$(INSTALL)'
  	@echo 'Install libraries in:     INSTALL_LIB=    ' '$(INSTALL_LIB)'
@@ -696,34 +697,63 @@ index 1111111..2222222 100644
  	$(RM) $(INSTALL_INCLUDE)/umfpack*.h
  	$(RM) $(INSTALL_DOC)/UMFPACK_UserGuide.pdf
  	$(RM) $(INSTALL_DOC)/UMFPACK_QuickStart.pdf
-
---- a/Makefile	2019-12-22 12:17:36.147324000 +0100
-+++ b/Makefile	2019-12-22 12:23:59.027388353 +0100
-@@ -12,7 +12,6 @@
- # Compile the default rules for each package
+diff -urN SuiteSparse-5.11.0/Makefile.orig SuiteSparse-5.11.0/Makefile
+--- SuiteSparse-5.11.0/Makefile.orig	2022-03-15 00:33:19.000000000 +0100
++++ SuiteSparse-5.11.0/Makefile	2022-03-20 13:51:19.924606309 +0100
+@@ -16,7 +16,6 @@
+ # installs all libraries SuiteSparse/lib.
  go: metis
  	( cd SuiteSparse_config && $(MAKE) )
--	( cd Mongoose  && $(MAKE) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' )
+-	( cd Mongoose && $(MAKE) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' )
  	( cd AMD && $(MAKE) )
  	( cd BTF && $(MAKE) )
  	( cd CAMD && $(MAKE) )
-@@ -38,7 +37,6 @@
+@@ -34,7 +33,6 @@
+ 	( cd GPUQREngine && $(MAKE) )
+ endif
+ 	( cd SPQR && $(MAKE) )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' )
+ 	( cd SLIP_LU && $(MAKE) )
+ #	( cd PIRO_BAND && $(MAKE) )
+ #	( cd SKYLINE_SVD && $(MAKE) )
+@@ -44,9 +42,8 @@
+ #       sudo make install INSTALL=/usr/local
+ # See SuiteSparse/README.md for more details.
  # (note that CSparse is not installed; CXSparse is installed instead)
- install: metisinstall
+-install: metisinstall gbinstall moninstall
++install: metisinstall
  	( cd SuiteSparse_config && $(MAKE) install )
--	( cd Mongoose  && $(MAKE) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' install )
+-	# ( cd Mongoose  && $(MAKE) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' install )
  	( cd AMD && $(MAKE) install )
  	( cd BTF && $(MAKE) install )
  	( cd CAMD && $(MAKE) install )
-@@ -85,7 +83,6 @@
+@@ -63,7 +60,6 @@
+ 	( cd GPUQREngine && $(MAKE) install )
+ endif
+ 	( cd SPQR && $(MAKE) install )
+-	# ( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' install )
+ #	( cd PIRO_BAND && $(MAKE) install )
+ #	( cd SKYLINE_SVD && $(MAKE) install )
+ 	( cd SLIP_LU && $(MAKE) install )
+@@ -76,7 +72,7 @@
+ 	@mkdir -p $(INSTALL_LIB)
+ 	@mkdir -p $(INSTALL_INCLUDE)
+ 	@mkdir -p $(INSTALL_DOC)
+-	- $(CP) lib/libmetis.* $(INSTALL_SO)
++	- $(CP) lib/libmetis.* $(INSTALL_SO)
+ 	- $(CP) metis-5.1.0/manual/manual.pdf $(INSTALL_DOC)/METIS_manual.pdf
+ 	- $(CP) metis-5.1.0/README.txt $(INSTALL_DOC)/METIS_README.txt
+         # the following is needed only on the Mac, so *.dylib is hardcoded:
+@@ -93,8 +89,6 @@
+ 	$(RM) $(INSTALL_DOC)/SuiteSparse_README.md
  	( cd SuiteSparse_config && $(MAKE) uninstall )
  	- ( cd metis-5.1.0 && $(MAKE) uninstall )
- 	- ( cd GraphBLAS && $(MAKE) uninstall )
+-	- ( cd GraphBLAS && $(MAKE) uninstall )
 -	- ( cd Mongoose  && $(MAKE) uninstall )
  	( cd AMD && $(MAKE) uninstall )
  	( cd CAMD && $(MAKE) uninstall )
  	( cd COLAMD && $(MAKE) uninstall )
-@@ -116,7 +113,6 @@
+@@ -126,7 +120,6 @@
  # the static library
  library: metis
  	( cd SuiteSparse_config && $(MAKE) )
@@ -731,7 +761,15 @@ index 1111111..2222222 100644
  	( cd AMD && $(MAKE) library )
  	( cd BTF && $(MAKE) library )
  	( cd CAMD && $(MAKE) library )
-@@ -143,7 +139,6 @@
+@@ -144,7 +137,6 @@
+ 	( cd GPUQREngine && $(MAKE) library )
+ endif
+ 	( cd SPQR && $(MAKE) library )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' library )
+ 	( cd SLIP_LU && $(MAKE) library )
+ #	( cd PIRO_BAND && $(MAKE) library )
+ #	( cd SKYLINE_SVD && $(MAKE) library )
+@@ -154,7 +146,6 @@
  # both the dynamic and static libraries.
  static: metis
  	( cd SuiteSparse_config && $(MAKE) static )
@@ -739,28 +777,38 @@ index 1111111..2222222 100644
  	( cd AMD && $(MAKE) static )
  	( cd BTF && $(MAKE) static )
  	( cd CAMD && $(MAKE) static )
-@@ -171,7 +166,6 @@
+@@ -172,7 +163,6 @@
+ 	( cd GPUQREngine && $(MAKE) static )
+ endif
+ 	( cd SPQR && $(MAKE) static )
+-	( cd GraphBLAS && $(MAKE) JOBS=$(JOBS) CMAKE_OPTIONS='$(CMAKE_OPTIONS)' static )
+ 	( cd SLIP_LU && $(MAKE) static )
+ #	( cd PIRO_BAND && $(MAKE) static )
+ #	( cd SKYLINE_SVD && $(MAKE) static )
+@@ -182,8 +172,6 @@
+ 	- ( cd SuiteSparse_config && $(MAKE) purge )
  	- ( cd metis-5.1.0 && $(MAKE) distclean )
  	- ( cd AMD && $(MAKE) purge )
- 	- ( cd GraphBLAS && $(MAKE) purge )
+-	- ( cd GraphBLAS && $(MAKE) purge )
 -	- ( cd Mongoose  && $(MAKE) purge )
  	- ( cd CAMD && $(MAKE) purge )
  	- ( cd COLAMD && $(MAKE) purge )
  	- ( cd BTF && $(MAKE) purge )
-@@ -198,7 +192,6 @@
+@@ -210,8 +198,6 @@
+ clean:
  	- ( cd SuiteSparse_config && $(MAKE) clean )
  	- ( cd metis-5.1.0 && $(MAKE) clean )
- 	- ( cd GraphBLAS && $(MAKE) clean )
+-	- ( cd GraphBLAS && $(MAKE) clean )
 -	- ( cd Mongoose  && $(MAKE) clean )
  	- ( cd AMD && $(MAKE) clean )
  	- ( cd CAMD && $(MAKE) clean )
  	- ( cd COLAMD && $(MAKE) clean )
-@@ -220,7 +213,6 @@
+@@ -233,8 +219,6 @@
+ 
  # Create the PDF documentation
  docs:
- 	( cd GraphBLAS && $(MAKE) docs )
+-	( cd GraphBLAS && $(MAKE) docs )
 -	( cd Mongoose  && $(MAKE) docs )
  	( cd AMD && $(MAKE) docs )
  	( cd CAMD && $(MAKE) docs )
  	( cd KLU && $(MAKE) docs )
-
