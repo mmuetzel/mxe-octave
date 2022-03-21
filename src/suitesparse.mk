@@ -9,7 +9,7 @@ $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := blas lapack
 ifeq ($(USE_SYSTEM_GCC),no)
-  $(PKG)_DEPS += libgomp
+  $(PKG)_DEPS += libgomp mpfr
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
