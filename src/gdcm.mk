@@ -3,8 +3,8 @@
 
 PKG             := gdcm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0.10
-$(PKG)_CHECKSUM := dd3543fde27351744cd31b2a80b6800d7810047d
+$(PKG)_VERSION  := 3.0.11
+$(PKG)_CHECKSUM := 26475e4e373bd548e2f838fb6a06feb7104bb306
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG) 3.x/GDCM $($(PKG)_VERSION)/$($(PKG)_FILE)
