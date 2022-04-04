@@ -3,18 +3,18 @@
 
 PKG             := fontconfig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.13.1
-$(PKG)_CHECKSUM := 75612356ef4f801735b49baf987f8942b4a7a5e1
+$(PKG)_VERSION  := 2.14.0
+$(PKG)_CHECKSUM := 9b1d4c5a61b4d25140db444e9cf56f09fb843fce
 $(PKG)_SUBDIR   := fontconfig-$($(PKG)_VERSION)
-$(PKG)_FILE     := fontconfig-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := http://fontconfig.org/release/$($(PKG)_FILE)
+$(PKG)_FILE     := fontconfig-$($(PKG)_VERSION).tar.xz
+$(PKG)_URL      := https://fontconfig.org/release/$($(PKG)_FILE)
 $(PKG)_DEPS     := freetype expat gettext libiconv
 ifeq ($(MXE_WINDOWS_BUILD),no)
   $(PKG)_DEPS += util-linux
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://fontconfig.org/release/' | \
+    $(WGET) -q -O- 'https://fontconfig.org/release/' | \
     $(SED) -n 's,.*fontconfig-\([0-9][^>]*\)\.tar.*,\1,p' | \
     tail -1
 endef
