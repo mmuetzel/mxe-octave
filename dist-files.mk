@@ -88,6 +88,7 @@ SRC_FILES_1 := \
   expat.mk \
   faad2-1-fixes.patch \
   faad2.mk \
+  ffmpeg-1-fixes.patch \
   ffmpeg.mk \
   fftw.mk \
   file-test.c \
