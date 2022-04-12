@@ -3,17 +3,17 @@
 
 PKG             := libgcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.9.4
-$(PKG)_CHECKSUM := 1bccc8393482fa1953323ff429c6b5ba5676eb1a
+$(PKG)_VERSION  := 1.10.1
+$(PKG)_CHECKSUM := de2cc32e7538efa376de7bf5d3eafa85626fb95f
 $(PKG)_SUBDIR   := libgcrypt-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgcrypt-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := ftp://ftp.gnupg.org/gcrypt/libgcrypt/$($(PKG)_FILE)
 $(PKG)_DEPS     := libgpg_error zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'ftp://ftp.gnupg.org/gcrypt/libgcrypt/' | \
+    $(WGET) -q -O- 'https://gnupg.org/ftp/gcrypt/libgcrypt/' | \
     $(SED) -n 's,.*libgcrypt-\([0-9][^>]*\)\.tar.*,\1,p' | \
-    grep -v '^1\.4\.' | \
+    $(SORT) -V | \
     tail -1
 endef
 
