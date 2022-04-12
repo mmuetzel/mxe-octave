@@ -3,8 +3,8 @@
 
 PKG             := build-lzip
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.21
-$(PKG)_CHECKSUM := 08bea2f275d639bfe85fe30887d269b96eac34e1
+$(PKG)_VERSION  := 1.23
+$(PKG)_CHECKSUM := 9793edc5e4acda46b3ea16a47ea0dca02a6f6e3d
 $(PKG)_SUBDIR   := lzip-$($(PKG)_VERSION)
 $(PKG)_FILE     := lzip-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.savannah.gnu.org/releases/lzip/$($(PKG)_FILE)
