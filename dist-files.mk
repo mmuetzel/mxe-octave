@@ -527,6 +527,7 @@ SRC_FILES_1 := \
   of-quaternion-1-cross-fixes.patch \
   of-quaternion-2-dev-fixes.patch \
   of-quaternion.mk \
+  of-queueing-1-octave7.patch \
   of-queueing.mk \
   of-signal-1-deprecated-warnings.patch \
   of-signal-2-error_state.patch \
