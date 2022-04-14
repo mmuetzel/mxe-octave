@@ -548,7 +548,6 @@ SRC_FILES_1 := \
   of-strings-1-fixes.patch \
   of-strings-2-error_state.patch \
   of-strings.mk \
-  of-struct-1-verror.patch \
   of-struct.mk \
   of-symbolic.mk \
   of-tisean-1-fixes.patch \
