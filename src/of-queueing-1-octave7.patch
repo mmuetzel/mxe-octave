@@ -1,0 +1,46 @@
+Description: Fix FTBFS against Octave 7
+ print_usage() was called within a logical expression. Since it does not return
+ a value, this fails with Octave 7 since the latter does stricter checks on
+ number of output arguments.
+ This patch uses an if/endif conditional rather than a logical short-circuit
+ expression.
+Author: Sébastien Villemot <sebastien@debian.org>
+Bug: https://savannah.gnu.org/bugs/?62314
+Bug-Debian: https://bugs.debian.org/1009135
+Last-Update: 2022-04-14
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/inst/qnmknode.m
++++ b/inst/qnmknode.m
+@@ -126,22 +126,25 @@ function Q = qnmknode( node, S, varargin
+     endif
+   elseif ( strcmp(node, "-/g/1-lcfs-pr") )
+     ## -/G/1-LCFS-PR node
+-    ( 2 == nargin || 3 == nargin ) || ...
+-	print_usage();
++    if ~( 2 == nargin || 3 == nargin )
++      print_usage();
++    endif
+     if ( 3 == nargin ) 
+       s2 = varargin{1};
+     endif
+   elseif ( strcmp(node, "-/g/1-ps") )
+     ## -/G/1-PS (processor sharing) node
+-    ( 2 == nargin || 3 == nargin ) || ...
+-	print_usage();
++    if ~( 2 == nargin || 3 == nargin )
++      print_usage();
++    endif
+     if ( 3 == nargin )
+       s2 = varargin{1};
+     endif
+   elseif ( strcmp(node, "-/g/inf") )
+     ## -/G/inf (Infinite Server) node
+-    ( 2 == nargin || 3 == nargin ) || ...
+-	print_usage();
++    if ~( 2 == nargin || 3 == nargin )
++      print_usage();
++    endif
+     if ( 3 == nargin )
+       s2 = varargin{1};
+     endif
