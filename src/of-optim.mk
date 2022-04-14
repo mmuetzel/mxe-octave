@@ -3,8 +3,8 @@
 
 PKG             := of-optim
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.6.1
-$(PKG)_CHECKSUM := 3dd4efab7acb47f815c73ad4050114d00e1daf42
+$(PKG)_VERSION  := 1.6.2
+$(PKG)_CHECKSUM := 6f29759288f7ce6df01868f99bb09bac26f8d265
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := optim-$($(PKG)_VERSION)
 $(PKG)_FILE     := optim-$($(PKG)_VERSION).tar.gz

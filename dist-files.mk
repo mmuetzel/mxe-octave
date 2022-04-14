@@ -525,7 +525,6 @@ SRC_FILES_1 := \
   of-odepkg-2-fixes.patch \
   of-odepkg-3-deprecated.patch \
   of-odepkg.mk \
-  of-optim-1-verror.patch \
   of-optim.mk \
   of-optiminterp.mk \
   of-quaternion-1-cross-fixes.patch \
