@@ -47,6 +47,9 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)' \
         --enable-threads \
         --enable-sse2 \
+        --enable-avx \
+        --enable-avx2 \
+        --enable-avx512 \
         $($(PKG)_CONFIG_OPTS) \
         && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS)
@@ -60,6 +63,9 @@ define $(PKG)_BUILD
             --prefix='$(HOST_PREFIX)' \
             --enable-threads \
             --enable-sse2 \
+            --enable-avx \
+            --enable-avx2 \
+            --enable-avx512 \
             $($(PKG)_CONFIG_OPTS) \
             --enable-long-double && $(CONFIGURE_POST_HOOK) ; \
         $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) ; \
@@ -72,7 +78,11 @@ define $(PKG)_BUILD
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
         --enable-threads \
+        --enable-sse \
         --enable-sse2 \
+        --enable-avx \
+        --enable-avx2 \
+        --enable-avx512 \
         $($(PKG)_CONFIG_OPTS) \
         --enable-float && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) 
