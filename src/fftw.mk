@@ -21,9 +21,15 @@ endif
 
 # some suggested mingw fftw settings from www.fftw.org
 ifeq ($(MXE_SYSTEM),mingw)
-    $(PKG)_CONFIG_OPTS += \
-      --with-combined-threads \
-      --with-incoming-stack-boundary=2
+  $(PKG)_CONFIG_OPTS += \
+    --with-combined-threads \
+    --with-incoming-stack-boundary=2
+endif
+
+ifneq ($(TARGET),i686-w64-mingw32)
+  # FIXME: Should be disabled for any i686 target (not just Windows).
+  $(PKG)_CONFIG_OPTS += \
+    --enable-avx512
 endif
 
 define $(PKG)_UPDATE
@@ -49,7 +55,6 @@ define $(PKG)_BUILD
         --enable-sse2 \
         --enable-avx \
         --enable-avx2 \
-        --enable-avx512 \
         $($(PKG)_CONFIG_OPTS) \
         && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS)
@@ -65,7 +70,6 @@ define $(PKG)_BUILD
             --enable-sse2 \
             --enable-avx \
             --enable-avx2 \
-            --enable-avx512 \
             $($(PKG)_CONFIG_OPTS) \
             --enable-long-double && $(CONFIGURE_POST_HOOK) ; \
         $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) ; \
@@ -82,7 +86,6 @@ define $(PKG)_BUILD
         --enable-sse2 \
         --enable-avx \
         --enable-avx2 \
-        --enable-avx512 \
         $($(PKG)_CONFIG_OPTS) \
         --enable-float && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) 
