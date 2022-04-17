@@ -39,8 +39,7 @@ ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
     define $(PKG)_BUILD
         cd '$(1)' && \
             cp INSTALL/make.inc.gfortran make.inc && \
-            sed -i -e 's/\(FORTRAN[ ]*\)=.*/\1= $(MXE_F77)/' \
-                   -e 's/\(LOADER[ ]*\)=.*/\1= $(MXE_F77)/' \
+            sed -i -e 's/\(FC[ ]*\)=.*/\1= $(MXE_F77)/' \
                    -e 's/\(CC[ ]*\)=.*/\1= $(MXE_CC)/' \
                    -e 's/\(CFLAGS[ ]*\)=.*/\1= -O2/' make.inc
 
@@ -64,13 +63,15 @@ else
             $(CMAKE_CCACHE_FLAGS) \
             $(CMAKE_BUILD_SHARED_OR_STATIC) \
             -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-            -DCMAKE_AR='$(MXE_AR)' \
-            -DCMAKE_RANLIB='$(MXE_RANLIB)' \
+            -DCMAKE_AR='$(shell which $(MXE_AR))' \
+            -DCMAKE_RANLIB='$(shell which $(MXE_RANLIB))' \
             -DCMAKE_Fortran_FLAGS='$($(PKG)_DEFAULT_INTEGER_8_FLAG)' \
             -DBUILD_DEPRECATED=ON \
             -DBUILD_SHARED_LIBS=$(if $(findstring yes,$(BUILD_SHARED)),ON,OFF) \
             $($(PKG)_BLAS_CONFIG_OPTS) \
             $(1)
-        $(MAKE) -C '$(1)/build/SRC' -j '$(JOBS)' VERBOSE=1 install DESTDIR='$(3)'
+
+        cmake --build '$(1)/build'
+        DESTDIR='$(3)' cmake --install '$(1)/build'
     endef
 endif
