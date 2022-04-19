@@ -217,6 +217,13 @@ int wmain (int argc, wchar_t **argv)
     SetEnvironmentVariableW (L"PATH", newpathbuffer);
   }
 
+  /* pkg config pc path */
+  nSize = lstrlenW (path);
+  StringCchCatW (path, PATH_SZ, L"\\lib\\pkgconfig");
+  SetEnvironmentVariableW (L"PKG_CONFIG_PATH", path);
+
+  path[nSize] = L'\0';
+
   /* other env */
   SetEnvironmentVariableW (L"TERM", L"cygwin");
   SetEnvironmentVariableW (L"GNUTERM", L"wxt");

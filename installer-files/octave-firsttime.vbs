@@ -55,6 +55,9 @@ Else
   wshSystemEnv("QT_PLUGIN_PATH") = OctavePath & "\plugins"
 End If
 
+' pkg config pc path
+wshSystemEnv("PKG_CONFIG_PATH") = OctavePath & "\lib\pkgconfig"
+
 ' set directory to users
 startpath = wshShell.ExpandEnvironmentStrings("%UserProfile%")
 wshShell.CurrentDirectory = startpath
