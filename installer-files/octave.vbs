@@ -56,6 +56,9 @@ Else
   wshSystemEnv("QT_PLUGIN_PATH") = OctavePath & "\plugins"
 End If
 
+' pkg config pc path
+wshSystemEnv("PKG_CONFIG_PATH") = OctavePath & "\lib\pkgconfig"
+
 ' check args to see if told to run gui or command line
 ' and build other args to use
 GUI_MODE=1

@@ -25,6 +25,9 @@ if EXIST "%OCTAVE_HOME%mingw64\bin\octave-cli.exe" set MSYSTEM=MINGW64
 if EXIST "%OCTAVE_HOME%mingw32\bin\octave-cli.exe" set OCTAVE_HOME=%OCTAVE_HOME%mingw32\
 if EXIST "%OCTAVE_HOME%mingw64\bin\octave-cli.exe" set OCTAVE_HOME=%OCTAVE_HOME%mingw64\
 
+Rem pkgconfig .pc path
+set PKG_CONFIG_PATH=%OCTAVE_HOME%\lib\pkgconfig
+
 Rem   Set up PATH. Make sure the octave bin dir
 Rem   comes first.
 set PATH=%OCTAVE_HOME%qt5\bin;%OCTAVE_HOME%bin;%OCTAVE_HOME%python;%PATH%

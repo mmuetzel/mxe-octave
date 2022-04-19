@@ -41,6 +41,9 @@ IF EXIST "%OCT_HOME%\qt5\bin\" (
   set QT_PLUGIN_PATH=%OCT_HOME%\plugins
 )
 
+Rem pkgconfig .pc path
+set PKG_CONFIG_PATH=%OCT_HOME%\lib\pkgconfig
+
 Rem set home if not already set
 if "%HOME%"=="" set HOME=%USERPROFILE%
 if "%HOME%"=="" set HOME=%HOMEDRIVE%%HOMEPATH%
