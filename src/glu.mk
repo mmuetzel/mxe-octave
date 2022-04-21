@@ -3,8 +3,8 @@
 
 PKG             := glu
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 9.0.1
-$(PKG)_CHECKSUM := b6ffef562ba55d3f80146d4238589cb9b1de66f5
+$(PKG)_VERSION  := 9.0.2
+$(PKG)_CHECKSUM := d56833045bf49218fbaf6047371c14ff852cecfe
 $(PKG)_SUBDIR   := glu-$($(PKG)_VERSION)
 $(PKG)_FILE     := glu-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/glu/$($(PKG)_FILE)
