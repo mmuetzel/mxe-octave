@@ -3,8 +3,8 @@
 
 PKG             := native-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 11.2.0
-$(PKG)_CHECKSUM := f902ccacecf8949978d6261e9f1d034cff73ffdb
+$(PKG)_VERSION  := 11.3.0
+$(PKG)_CHECKSUM := cf86a48278f9a6f4b03d4390550577b20353b4e9
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
