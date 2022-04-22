@@ -41,8 +41,26 @@ IF EXIST "%OCT_HOME%\qt5\bin\" (
   set QT_PLUGIN_PATH=%OCT_HOME%\plugins
 )
 
-Rem pkgconfig .pc path
+Rem pkgconfig .pc files path
 set PKG_CONFIG_PATH=%OCT_HOME%\lib\pkgconfig
+
+IF NOT x%OPENBLAS_NUM_THREADS%==x GOTO openblas_num_threads_set
+
+Rem Set OPENBLAS_NUM_THREADS to number of physical processor cores.
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET count=1
+FOR /F "tokens=* USEBACKQ" %%F IN (`wmic CPU Get NumberOfCores`) DO (
+  SET line!count!=%%F
+  SET /a count=!count!+1
+)
+Rem Check that first line contains "NumberOfCores".
+IF x%line1%==xNumberOfCores (
+  Rem The next line should contain the number of cores.
+  SET OPENBLAS_NUM_THREADS=%line2%
+)
+ENDLOCAL & SET OPENBLAS_NUM_THREADS=%OPENBLAS_NUM_THREADS%
+
+:openblas_num_threads_set
 
 Rem set home if not already set
 if "%HOME%"=="" set HOME=%USERPROFILE%
