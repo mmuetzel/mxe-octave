@@ -4,12 +4,12 @@
 PKG             := libbiosig
 $(PKG)_WEBSITE  := http://biosig.sf.net/
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.4.0
-$(PKG)_CHECKSUM := 665b64d67382c3fc21b0751e0a09026cad71c5ad
+$(PKG)_VERSION  := 2.4.1
+$(PKG)_CHECKSUM := 746d86399125d29affe6fa8683200aebc9baa3ff
 $(PKG)_SUBDIR   := biosig-$($(PKG)_VERSION)
-$(PKG)_FILE     := biosig-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := biosig-$($(PKG)_VERSION).src.tar.xz
 $(PKG)_URL      := https://sourceforge.net/projects/biosig/files/BioSig%20for%20C_C%2B%2B/src/$($(PKG)_FILE)
-$(PKG)_DEPS     := suitesparse zlib libb64 libiberty libiconv lapack tinyxml dcmtk
+$(PKG)_DEPS     := suitesparse zlib libb64 libiconv tinyxml dcmtk
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://biosig.sourceforge.io/download.html' | \
