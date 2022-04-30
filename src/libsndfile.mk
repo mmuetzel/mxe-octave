@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := dd98ff27fb66fbf1ab1e291bc8938449e90778a2
 $(PKG)_SUBDIR   := libsndfile-$($(PKG)_VERSION)
 $(PKG)_FILE     := libsndfile-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := sqlite flac ogg opus vorbis
+$(PKG)_DEPS     := sqlite flac mpg123 ogg opus vorbis
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://github.com/libsndfile/libsndfile/tags' | \
