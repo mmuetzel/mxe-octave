@@ -3,12 +3,14 @@
 
 PKG             := freeglut
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.8.0
-$(PKG)_CHECKSUM := 4debbe559c6c9841ce1abaddc9d461d17c6083b1
+$(PKG)_VERSION  := 3.2.1
+$(PKG)_CHECKSUM := 7a62e0d2caad92ff745bc5037592b2753f0b2f20
 $(PKG)_SUBDIR   := freeglut-$(word 1,$(subst -, ,$($(PKG)_VERSION)))
 $(PKG)_FILE     := freeglut-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/freeglut/freeglut/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     :=
+$(PKG)_DEPS     := mesa
+
+$(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://sourceforge.net/projects/freeglut/files/freeglut/' | \
@@ -17,19 +19,16 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./autogen.sh
-    cd '$(1)' && ./configure \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        --prefix='$(HOST_PREFIX)' \
-        --enable-replace-glut \
-        --disable-debug \
-        --without-progs \
-        --without-x
-    $(MAKE) -C '$(1)' -j '$(JOBS)' install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= EXPORT_FLAGS='-DFREEGLUT_STATIC'
+    mkdir '$(1)/build'
+    cd '$(1)/build' && cmake \
+        $($(PKG)_CMAKE_FLAGS) \
+        $(CMAKE_CCACHE_FLAGS) \
+        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+	-DFREEGLUT_REPLACE_GLUT=ON \
+	-DFREEGLUT_BUILD_DEMOS=OFF \
+	$(if $(filter $(BUILD_STATIC),no),-DFREEGLUT_BUILD_STATIC_LIBS=OFF) \
+        $(1)
 
-    '$(MXE_CC)' \
-        -W -Wall -Werror -ansi -pedantic \
-        '$(2).c' -o '$(HOST_BINDIR)/test-freeglut.exe' \
-        `'$(MXE_PKG_CONFIG)' glut --cflags --libs`
+    cmake --build  '$(1)/build'
+    DESTDIR='$(3)' cmake --install '$(1)/build'
 endef
