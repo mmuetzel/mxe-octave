@@ -9,7 +9,7 @@ $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tgz
 $(PKG)_URL      := http://geuz.org/$(PKG)/src/$($(PKG)_FILE)
 $(PKG)_DEPS     := libpng zlib
 ifeq ($(USE_SYSTEM_OPENGL),no)
-  $(PKG)_DEPS += mesa glu
+  $(PKG)_DEPS += mesa glu freeglut
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
