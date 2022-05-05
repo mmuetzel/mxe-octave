@@ -18,7 +18,8 @@ endef
 ifeq ($(MXE_NATIVE_BUILD),no)
   define $(PKG)_BUILD
     # build some native tools
-    mkdir '$(1).native' && cd '$(1).native' && '$(1)/source/configure'
+    mkdir '$(1).native' && cd '$(1).native' && \
+      '$(1)/source/configure' CC=gcc CXX=g++
     $(MAKE) -C '$(1).native' -j '$(JOBS)'
 
     # build cross
