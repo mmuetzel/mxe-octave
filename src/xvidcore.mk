@@ -3,16 +3,17 @@
 
 PKG             := xvidcore
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.3
-$(PKG)_CHECKSUM := 465763c92679ca230526d4890d17dbf6d6974b08
+$(PKG)_VERSION  := 1.3.7
+$(PKG)_CHECKSUM := e6f2f5a65bccdf8d2413557df7ba6d31b7ac9be3
 $(PKG)_SUBDIR   := xvidcore/build/generic
 $(PKG)_FILE     := xvidcore-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://downloads.xvid.org/downloads/$($(PKG)_FILE)
+$(PKG)_URL      := https://downloads.xvid.com/downloads/$($(PKG)_FILE)
 $(PKG)_DEPS     := pthreads
 
 define $(PKG)_UPDATE
-    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
-    echo $($(PKG)_VERSION)
+    $(WGET) -q -O- 'https://labs.xvid.com/source/' | \
+    $(SED) -n 's,.*xvidcore-\([0-9][^ ]*\)\.tar.*,\1,p' | \
+    head -1
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),no)
