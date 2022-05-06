@@ -28,6 +28,7 @@ SRC_FILES_1 := \
   build-flex-1-fixes.patch \
   build-flex.mk \
   build-gawk.mk \
+  build-gcc-1-msgfmt.patch \
   build-gcc.mk \
   build-gettext.mk \
   build-gperf.mk \

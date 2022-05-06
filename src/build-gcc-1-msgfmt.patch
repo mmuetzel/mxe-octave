@@ -1,0 +1,32 @@
+When `msgfmt` is called after libstdc++ was built, and that existing program
+was linked against an incompatible version of libstdc++, it must not link to
+that new version of libstdc++ but to the library installed on the system.
+The path to the new library must not be set in LD_LIBRARY_PATH to avoid an
+error. Set LD_LIBRARY_PATH to an empty string to load the libraroes installed
+on the build system instead.
+
+diff -urN gcc-11.3.0/libstdc++-v3/po/Makefile.am.orig gcc-11.3.0/libstdc++-v3/po/Makefile.am
+--- gcc-11.3.0/libstdc++-v3/po/Makefile.am.orig	2022-04-21 09:58:57.000000000 +0200
++++ gcc-11.3.0/libstdc++-v3/po/Makefile.am	2022-05-04 08:47:07.588346500 +0200
+@@ -38,7 +38,7 @@
+ EXTRA_DIST = string_literals.cc POTFILES.in $(PACKAGE).pot $(LOCALE_IN)
+ 
+ .po.mo:
+-	$(MSGFMT) -o $@ $<
++	LD_LIBRARY_PATH="" $(MSGFMT) -o $@ $<
+ 
+ all-local: all-local-$(USE_NLS)
+ all-local-no:
+
+diff -urN gcc-11.3.0/libstdc++-v3/po/Makefile.in.orig gcc-11.3.0/libstdc++-v3/po/Makefile.in
+--- gcc-11.3.0/libstdc++-v3/po/Makefile.in.orig	2022-04-21 09:58:57.000000000 +0200
++++ gcc-11.3.0/libstdc++-v3/po/Makefile.in	2022-05-04 08:46:57.356251900 +0200
+@@ -553,7 +553,7 @@
+ 
+ 
+ .po.mo:
+-	$(MSGFMT) -o $@ $<
++	LD_LIBRARY_PATH="" $(MSGFMT) -o $@ $<
+ 
+ all-local: all-local-$(USE_NLS)
+ all-local-no:
