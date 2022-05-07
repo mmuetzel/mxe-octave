@@ -24,12 +24,14 @@ endef
 ## for a discussion about the CCACHE_NODIRECT setting below.
 
 define $(PKG)_BUILD
-    mkdir '$(1).build'
-    cd    '$(1).build' && '$(1)/configure' \
-        --prefix='$(BUILD_TOOLS_PREFIX)' \
-        --without-libexpat-prefix \
-        --without-libxml2-prefix \
-	$($(PKG)_CONFIGURE_OPTIONS)
-    CCACHE_NODIRECT=1 $(MAKE) -C '$(1).build' -j '$(JOBS)'
-    $(MAKE) -C '$(1).build' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
+  mkdir '$(1)/.build'
+  cd '$(1)/.build' && \
+    '$(1)/configure' \
+      --prefix='$(BUILD_TOOLS_PREFIX)' \
+      --without-libexpat-prefix \
+      --without-libxml2-prefix \
+      --without-emacs \
+      $($(PKG)_CONFIGURE_OPTIONS)
+  CCACHE_NODIRECT=1 $(MAKE) -C '$(1)/.build' -j '$(JOBS)'
+  $(MAKE) -C '$(1)/.build' -j 1 $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
 endef
