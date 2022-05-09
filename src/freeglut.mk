@@ -8,7 +8,10 @@ $(PKG)_CHECKSUM := 7a62e0d2caad92ff745bc5037592b2753f0b2f20
 $(PKG)_SUBDIR   := freeglut-$(word 1,$(subst -, ,$($(PKG)_VERSION)))
 $(PKG)_FILE     := freeglut-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/freeglut/freeglut/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := mesa
+$(PKG)_DEPS     := mesa xi
+ifeq ($(USE_SYSTEM_X11_LIBS),no)
+  $(PKG)_DEPS += xi
+endif
 
 $(PKG)_CMAKE_FLAGS :=
 
