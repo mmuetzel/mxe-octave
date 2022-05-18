@@ -3,8 +3,8 @@
 
 PKG             := ffmpeg
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.2.3
-$(PKG)_CHECKSUM := 7be5114d169e5a1ba73ad1e844e7fb4d0fb93cc6
+$(PKG)_VERSION  := 4.2.6
+$(PKG)_CHECKSUM := 94fc4d979d7efd5fc85869300fe93fa7a275b365
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://www.ffmpeg.org/releases/$($(PKG)_FILE)
@@ -19,7 +19,12 @@ define $(PKG)_UPDATE
     head -1
 endef
 
+ifeq ($(TARGET),i686-w64-mingw32)
+  $(PKG)_CONFIG_OPTS += --disable-optimizations
+endif
+
 ifeq ($(MXE_NATIVE_BUILD),no)
+
 define $(PKG)_BUILD
     '$(SED)' -i "s^[-]lvpx^`'$(MXE_PKG_CONFIG)' --libs-only-l vpx`^g;" $(1)/configure
     cd '$(1)' && ./configure \
@@ -48,8 +53,9 @@ define $(PKG)_BUILD
         --enable-libopencore-amrnb \
         --enable-libopencore-amrwb \
         --enable-libx264 \
-        --enable-libvpx
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
+        --enable-libvpx \
+	$($(PKG)_CONFIG_OPTS)
+    $(MAKE) -C '$(1)' -j '$(JOBS)' V=1
     $(MAKE) -C '$(1)' -j 1 install
 endef
 else
