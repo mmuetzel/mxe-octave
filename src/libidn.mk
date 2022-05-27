@@ -3,8 +3,8 @@
 
 PKG             := libidn
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.36
-$(PKG)_CHECKSUM := a543823486a1077608f78de187e528a5ea833d5b
+$(PKG)_VERSION  := 1.38
+$(PKG)_CHECKSUM := f59995a07e06864b1f385dc91bd4b08bb5ea88cc
 $(PKG)_SUBDIR   := libidn-$($(PKG)_VERSION)
 $(PKG)_FILE     := libidn-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/libidn/$($(PKG)_FILE)
@@ -13,7 +13,7 @@ $(PKG)_DEPS     := gettext libiconv
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://git.savannah.gnu.org/gitweb/?p=libidn.git;a=tags' | \
     grep '<a class="list subject"' | \
-    $(SED) -n 's,.*<a[^>]*>\([0-9][^<]*\)<.*,\1,p' | \
+    $(SED) -n 's,.*<a[^>]*>libidn \([0-9][^<]*\)<.*,\1,p' | \
     $(SORT) -V | \
     tail -1
 endef

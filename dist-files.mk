@@ -262,7 +262,6 @@ SRC_FILES_1 := \
   libical-test.c \
   libical.mk \
   libiconv.mk \
-  libidn-1-fixes.patch \
   libidn-test.c \
   libidn.mk \
   libidn2.mk \
