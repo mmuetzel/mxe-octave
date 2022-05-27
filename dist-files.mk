@@ -101,7 +101,6 @@ SRC_FILES_1 := \
   fltk-test.cpp \
   fltk.mk \
   fontconfig.mk \
-  freeglut-1-fixes.patch \
   freeglut-test.c \
   freeglut.mk \
   freeimage-1-fixes.patch \

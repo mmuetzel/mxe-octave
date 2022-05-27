@@ -3,8 +3,8 @@
 
 PKG             := freeglut
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.1
-$(PKG)_CHECKSUM := 7a62e0d2caad92ff745bc5037592b2753f0b2f20
+$(PKG)_VERSION  := 3.2.2
+$(PKG)_CHECKSUM := 8e53cc0251165d02cce8d6d5054159c310958b74
 $(PKG)_SUBDIR   := freeglut-$(word 1,$(subst -, ,$($(PKG)_VERSION)))
 $(PKG)_FILE     := freeglut-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/freeglut/freeglut/$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -16,8 +16,8 @@ endif
 $(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://sourceforge.net/projects/freeglut/files/freeglut/' | \
-    $(SED) -n 's,.*freeglut-\([0-9][^>]*\)\.tar.*,\1,p' | \
+    $(WGET) -q -O- 'https://github.com/FreeGLUTProject/freeglut/tags' | \
+    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
     head -1
 endef
 
