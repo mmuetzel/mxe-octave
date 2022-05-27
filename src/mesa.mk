@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 21.3.8
-$(PKG)_CHECKSUM := a891cab170a5914cec3e8aa0a6f3ec0f490ab0e9
+$(PKG)_VERSION  := 22.0.4
+$(PKG)_CHECKSUM := 1176b18ab25596b551e7f0d1379b4b230e7ea666
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/$($(PKG)_FILE)

@@ -3,17 +3,6 @@ From: Jeremy Drake <github@jdrake.com>
 Date: Sat, 16 Oct 2021 16:50:46 -0700
 Subject: [PATCH] mesa: fixes for UCRT.
 
---- mesa-21.2.4/meson.build.orig	2021-10-16 16:02:38.021997300 -0700
-+++ mesa-21.2.4/meson.build	2021-10-16 16:03:24.287545400 -0700
-@@ -1046,8 +1046,6 @@
-       '-D_HAS_EXCEPTIONS=0', # Tell C++ STL to not use exceptions
-       '-DNOMINMAX',
-     ]
--  else
--    pre_args += ['-D__MSVCRT_VERSION__=0x0700']
-   endif
- elif host_machine.system() == 'openbsd'
-   pre_args += '-D_ISOC11_SOURCE'
 --- mesa-21.2.4/src/compiler/spirv/vtn_private.h.orig	2021-10-16 15:28:02.537761600 -0700
 +++ mesa-21.2.4/src/compiler/spirv/vtn_private.h	2021-10-16 15:28:05.959391400 -0700
 @@ -41,7 +41,7 @@
@@ -49,14 +38,3 @@ Subject: [PATCH] mesa: fixes for UCRT.
  /*
   * Remap atomic counters to SSBOs, starting from the shader's next SSBO slot
   * (info.num_ssbos).
---- mesa-21.2.4/src/gallium/drivers/swr/swr_fence.cpp.orig	2021-10-16 16:29:10.287533700 -0700
-+++ mesa-21.2.4/src/gallium/drivers/swr/swr_fence.cpp	2021-10-16 16:29:45.678206500 -0700
-@@ -29,7 +29,7 @@
- #include "swr_screen.h"
- #include "swr_fence.h"
- 
--#ifdef __APPLE__
-+#if defined(__APPLE__) || defined(__MINGW32__)
- #include <sched.h>
- #endif
- 
