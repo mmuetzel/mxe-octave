@@ -36,7 +36,7 @@ else
       PKG_CONFIG_LIBDIR=$($(PKG)_PKG_CONFIG_PATH)
 
   $(PKG)_X11_FLAGS := -Dplatforms='x11' \
-      -Dglx=gallium-xlib \
+      -Dglx=xlib \
       -Ddri-drivers='' \
       $($(PKG)_BUILD_X11_LIBS_FLAGS)
 endif
