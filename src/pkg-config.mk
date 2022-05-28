@@ -24,7 +24,7 @@ endif
 
 define $(PKG)_BUILD
     mkdir '$(1).build'
-    cd '$(1)' && autoreconf
+    cd '$(1)' && autoreconf -fi
     cd '$(1).build' && '$(1)/configure' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(CONFIGURE_CPPFLAGS) \
