@@ -3,27 +3,28 @@
 
 PKG             := gta
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.8
-$(PKG)_CHECKSUM := 795832a042be4102321d862246cc4afdb929dc57
-$(PKG)_SUBDIR   := libgta-$($(PKG)_VERSION)
-$(PKG)_FILE     := libgta-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := http://download.savannah.gnu.org/releases/gta/$($(PKG)_FILE)
+$(PKG)_VERSION  := 1.2.1
+$(PKG)_CHECKSUM := efaf3e315c6df53ece1ae1dbb23d19f703c6b62e
+$(PKG)_SUBDIR   := gta-mirror-libgta-$($(PKG)_VERSION)/libgta
+$(PKG)_FILE     := libgta-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/marlam/gta-mirror/archive/libgta-$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := zlib bzip2 xz
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://git.savannah.gnu.org/gitweb/?p=gta.git;a=tags' | \
-    grep '<a class="list subject"' | \
-    $(SED) -n 's,.*<a[^>]*>libgta-\([0-9.]*\)<.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://github.com/marlam/gta-mirror/tags' | \
+    $(SED) -n 's|.*releases/tag/libgta-\([^"]*\).*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
-        --disable-reference \
-        --prefix='$(HOST_PREFIX)'
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
+    cd '$(1)' && cmake \
+        $($(PKG)_CMAKE_FLAGS) \
+        -DGTA_BUILD_DOCUMENTATION=OFF \
+        $(CMAKE_CCACHE_FLAGS) \
+        $(CMAKE_BUILD_SHARED_OR_STATIC) \
+        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        .
+
+    $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
+    $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
 endef
