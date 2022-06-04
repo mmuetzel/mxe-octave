@@ -2,16 +2,17 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 22.0.4
-$(PKG)_CHECKSUM := 1176b18ab25596b551e7f0d1379b4b230e7ea666
+$(PKG)_VERSION  := 22.1.1
+$(PKG)_CHECKSUM := 3c6ad85c1f6542babcf96fbaa5c9315a36de478c
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-mako build-meson build-ninja expat zlib llvm s2tc
 
 define $(PKG)_UPDATE
-    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
-    echo $($(PKG)_VERSION)
+    $(WGET) -q -O- https://archive.mesa3d.org | \
+    $(SED) -n 's|.*href=\"mesa-\([0-9][0-9\.]*\)\.tar.xz\".*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 # FIXME: Should this be defined in the top-level Makefile?
