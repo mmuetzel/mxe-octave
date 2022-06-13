@@ -34,11 +34,11 @@
 
 PKG             := release-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.1.0
-$(PKG)_CHECKSUM := 1a24f88ce3b79c679a3fa8d9f8f44db058db630e
+$(PKG)_VERSION  := 7.1.90
+$(PKG)_CHECKSUM := 98ef28722682a073b06736f9c9d75b077cd29dfd
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.lz
-$(PKG)_URL      := ftp://ftp.gnu.org/gnu/octave/$($(PKG)_FILE)
+$(PKG)_URL      := ftp://alpha.gnu.org/gnu/octave/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
