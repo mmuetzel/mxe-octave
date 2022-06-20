@@ -635,7 +635,6 @@ SRC_FILES_1 := \
   qt.mk \
   qt5.mk \
   qtbase-1-fixes.patch \
-  qtbase-2-gcc11.patch \
   qtbase.mk \
   qtimageformats.mk \
   qtsvg.mk \
