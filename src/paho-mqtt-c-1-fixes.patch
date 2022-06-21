@@ -1,0 +1,24 @@
+diff -ur paho.mqtt.c-1.3.10.orig/src/CMakeLists.txt paho.mqtt.c-1.3.10/src/CMakeLists.txt
+--- paho.mqtt.c-1.3.10.orig/src/CMakeLists.txt	2022-06-21 08:35:05.709317901 -0400
++++ paho.mqtt.c-1.3.10/src/CMakeLists.txt	2022-06-21 08:36:38.005608332 -0400
+@@ -58,7 +58,7 @@
+ ENDIF()
+ 
+ IF (WIN32)
+-    SET(LIBS_SYSTEM ws2_32 crypt32 RpcRT4)
++    SET(LIBS_SYSTEM ws2_32 crypt32 rpcrt4)
+ ELSEIF (UNIX)
+     IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
+         SET(LIBS_SYSTEM c dl pthread rt)
+diff -ur paho.mqtt.c-1.3.10.orig/CMakeLists.txt paho.mqtt.c-1.3.10/CMakeLists.txt
+--- paho.mqtt.c-1.3.10.orig/CMakeLists.txt	2022-06-21 08:46:04.132058610 -0400
++++ paho.mqtt.c-1.3.10/CMakeLists.txt	2022-06-21 08:46:40.308132218 -0400
+@@ -37,7 +37,7 @@
+ MESSAGE(STATUS "Timestamp is ${BUILD_TIMESTAMP}")
+ 
+ IF(WIN32)
+-  ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE -DWIN32_LEAN_AND_MEAN)
++  ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE -DWIN32_LEAN_AND_MEAN -D_WINDOWS)
+ ELSEIF(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+   ADD_DEFINITIONS(-DOSX)
+ ENDIF()

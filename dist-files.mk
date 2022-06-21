@@ -573,6 +573,8 @@ SRC_FILES_1 := \
   opkg-biosig.mk \
   opus.mk \
   opusfile.mk \
+  paho-mqtt-c-1-fixes.patch \
+  paho-mqtt-c.mk \
   pango-1-fixes.patch \
   pango.mk \
   pangomm.mk \
