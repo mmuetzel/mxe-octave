@@ -529,6 +529,7 @@ SRC_FILES_1 := \
   of-queueing.mk \
   of-signal.mk \
   of-sockets.mk \
+  of-sparsersb-1-dev.patch \
   of-sparsersb-1-no-internal-mex-fcns.patch \
   of-sparsersb-2-no-cxx11.patch \
   of-sparsersb.mk \
