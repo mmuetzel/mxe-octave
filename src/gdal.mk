@@ -3,12 +3,11 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.4.3
-$(PKG)_CHECKSUM := dfa4d6a3046b3ce90e1186ed4744c55ee9a4aec8
+$(PKG)_VERSION  := 3.5.0.3
+$(PKG)_CHECKSUM := d96123b3216df258b64b26cb5a1225eeae7370f7
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
-$(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := http://download.osgeo.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_URL_2    := ftp://ftp.remotesensing.org/gdal/$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl postgresql gta proj pcre qhull
 
 define $(PKG)_UPDATE
@@ -18,7 +17,7 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
+    cd '$(1)' && ./autogen.sh && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
 	$(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(ENABLE_SHARED_OR_STATIC) \
@@ -74,6 +73,7 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)/alg'   -j 1 install
     $(MAKE) -C '$(1)/ogr'   -j 1 install OGR_ENABLED=
     $(MAKE) -C '$(1)/apps'  -j 1 install BIN_LIST=
+    $(MAKE) -C '$(1)/generated_headers'  -j 1 install
     $(MAKE) -C '$(1)'       -j 1 gdal.pc
     $(INSTALL) -d '$(HOST_LIBDIR)/pkgconfig'
     $(INSTALL) '$(1)/gdal.pc' '$(HOST_LIBDIR)/pkgconfig/'
