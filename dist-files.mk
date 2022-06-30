@@ -539,8 +539,6 @@ SRC_FILES_1 := \
   of-statistics-1-cross.patch \
   of-statistics.mk \
   of-stk.mk \
-  of-strings-1-fixes.patch \
-  of-strings-2-error_state.patch \
   of-strings.mk \
   of-struct.mk \
   of-symbolic.mk \

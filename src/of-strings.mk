@@ -3,8 +3,8 @@
 
 PKG             := of-strings
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.0
-$(PKG)_CHECKSUM := 5db5442b62961a490526eec5d30e6db2a008914a
+$(PKG)_VERSION  := 1.3.0
+$(PKG)_CHECKSUM := 9ee4cda53ec0b63b9e96c36a0c0f69bfb2a6c472
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := strings-$($(PKG)_VERSION)
 $(PKG)_FILE     := strings-$($(PKG)_VERSION).tar.gz
