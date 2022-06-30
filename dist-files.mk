@@ -274,6 +274,7 @@ SRC_FILES_1 := \
   libmikmod-test.c \
   libmikmod.mk \
   libmng.mk \
+  libmodbus.mk \
   libmodplug-test.c \
   libmodplug.mk \
   libmpcdec-1-configure_ac.patch \
