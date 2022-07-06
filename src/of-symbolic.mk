@@ -3,12 +3,12 @@
 
 PKG             := of-symbolic
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.9.0
-$(PKG)_CHECKSUM := 6b43b02c7ec0b9094a4846ff00500c2da33d1fa7
+$(PKG)_VERSION  := 3.0.0
+$(PKG)_CHECKSUM := efdc11c07916b92eebac93128e07806867f6f956
 $(PKG)_REMOTE_SUBDIR := 
-$(PKG)_SUBDIR   := symbolic-$($(PKG)_VERSION)
+$(PKG)_SUBDIR   := octsympy-$($(PKG)_VERSION)
 $(PKG)_FILE     := symbolic-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/cbm755/octsympy/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := 
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
