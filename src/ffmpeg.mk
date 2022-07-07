@@ -16,6 +16,7 @@ $(PKG)_CONFIG_OPTS :=
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://www.ffmpeg.org/download.html' | \
     $(SED) -n 's,.*ffmpeg-\([0-9][^>]*\)\.tar.*,\1,p' | \
+    $(GREP) "^4.2" | \
     head -1
 endef
 
