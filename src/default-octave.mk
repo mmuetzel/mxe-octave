@@ -112,9 +112,9 @@ else
 endif
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
-  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes ax_blas_integer_size=8 octave_cv_sizeof_fortran_integer=8
+  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=8 octave_cv_sizeof_fortran_integer=8
 else
-  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := ax_blas_f77_func_ok=yes ax_blas_integer_size=4 octave_cv_sizeof_fortran_integer=4
+  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=4 octave_cv_sizeof_fortran_integer=4
 endif
 
 ifeq ($(MXE_SYSTEM),mingw)
