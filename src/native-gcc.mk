@@ -45,8 +45,9 @@ endif
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://ftp.gnu.org/gnu/gcc/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="gcc-\([0-9][^"]*\)/".*,\1,p' | \
+    $(SORT) -V | \
     grep -v '^4\.[543]\.' | \
-    head -1
+    tail -1
 endef
 
 define $(PKG)_BUILD
