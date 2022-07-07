@@ -15,8 +15,9 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-  echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
-  echo $($(PKG)_VERSION)
+    $(WGET) -q -O- https://sourceforge.net/p/octave-mqtt/code/ci/default/tree/ | \
+    $(SED) -n 's|.*code/ci/release-\([0-9][0-9.]*\)/tree.*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
