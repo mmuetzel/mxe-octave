@@ -3,11 +3,11 @@
 
 PKG             := sdl2_image
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.5
-$(PKG)_CHECKSUM := c0aed07994f670a3758f6b8b93d9034a58df5781
+$(PKG)_VERSION  := 2.6.0
+$(PKG)_CHECKSUM := d3df1d3117181b0aa8d588ba7d7814daec73678f
 $(PKG)_SUBDIR   := SDL2_image-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_image-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://www.libsdl.org/projects/SDL_image/release/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/libsdl-org/SDL_image/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := sdl2 jpeg libpng libwebp tiff
 
 define $(PKG)_UPDATE
