@@ -3,11 +3,11 @@
 
 PKG             := sdl2_mixer
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.4
-$(PKG)_CHECKSUM := 242a63b1c7f38e358e94b1e0dc5120a6c1f3763b
+$(PKG)_VERSION  := 2.6.0
+$(PKG)_CHECKSUM := 9395999c652df0b7c0d7c211ffd871cafa616e0a
 $(PKG)_SUBDIR   := SDL2_mixer-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_mixer-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://www.libsdl.org/projects/SDL_mixer/release/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/libsdl-org/SDL_mixer/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := sdl2 mpg123 ogg opusfile vorbis
 
 define $(PKG)_UPDATE
