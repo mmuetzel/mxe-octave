@@ -3,11 +3,11 @@
 
 PKG             := sdl2_ttf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.18
-$(PKG)_CHECKSUM := b4300bf29495adabe5a4e77af758fc9e658156c9
+$(PKG)_VERSION  := 2.20.0
+$(PKG)_CHECKSUM := 1916aa67a3aa1bbf08ac395146a99c922ca9d1a1
 $(PKG)_SUBDIR   := SDL2_ttf-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_ttf-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://www.libsdl.org/projects/SDL_ttf/release/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/libsdl-org/SDL_ttf/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := sdl2 freetype
 
 define $(PKG)_UPDATE
