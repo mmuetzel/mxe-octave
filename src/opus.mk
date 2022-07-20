@@ -31,10 +31,8 @@ define $(PKG)_BUILD
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
 	--prefix='$(HOST_PREFIX)' \
+	--disable-doc --disable-extra-programs \
 	&& $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS)
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
-    #rm -f '$(PREFIX)/$(TARGET)'/share/man/man3/opus_*.3
-    #rm -f '$(PREFIX)/$(TARGET)'/share/man/man3/opus.h.3
-    #rm -rf '$(PREFIX)/$(TARGET)'/share/doc/opus/html
 endef
