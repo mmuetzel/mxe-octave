@@ -26,6 +26,9 @@ define $(PKG)_BUILD
         --enable-threads=win32 \
         --with-gmp-include='$(HOST_INCDIR)'
         --with-gmp-lib='$(HOST_LIBDIR)'
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j '$(JOBS)' install
+    $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_DOCS)
+    $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_DOCS) install DESTDIR='$(3)'
+    if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
+       rm -rf "$(3)$(HOST_PREFIX)/share/doc/mpfr"; \
+    fi
 endef
