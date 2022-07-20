@@ -35,9 +35,7 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
-       rm -rf "$(3)$(HOST_PREFIX)/share/doc/pcre/html"; \
-       rm -f "$(3)$(HOST_PREFIX)/share/doc/pcre2/*.txt"; \
-       rm -f "$(3)$(HOST_PREFIX)/share/doc/pcre2/ChangeLog"; \
+       rm -rf "$(3)$(HOST_PREFIX)/share/doc/pcre"; \
        rm -rf "$(3)$(HOST_PREFIX)/share/man"; \
     fi
     if [ $(MXE_NATIVE_BUILD) = no ]; then \
