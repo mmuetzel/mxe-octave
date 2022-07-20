@@ -203,6 +203,7 @@ ifeq ($(ENABLE_DEP_DOCS),no)
     dist_html_DATA= \
     pkghtml_DATA= \
     examples_DATA= \
+    dist_examples_DATA= \
     dist_examples_SCRIPTS= \
     dist_apidoc_DATA= \
     INFO_DEPS= 
