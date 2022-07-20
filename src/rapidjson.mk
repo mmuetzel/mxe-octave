@@ -23,10 +23,13 @@ define $(PKG)_BUILD
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-        -DRAPIDJSON_BUILD_DOC=Off \
-        -DRAPIDJSON_BUILD_EXAMPLES=Off \
-        -DRAPIDJSON_BUILD_TESTS=Off \
+        -DRAPIDJSON_BUILD_DOC=OFF \
+        -DRAPIDJSON_BUILD_EXAMPLES=OFF \
+        -DRAPIDJSON_BUILD_TESTS=OFF \
         '$(1)'
     $(MAKE) -C '$(1).build' -j '$(JOBS)' DESTDIR='$(3)' install
+    if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
+       rm -rf "$(3)$(HOST_PREFIX)/share/doc/RapidJSON"; \
+    fi
 endef
 
