@@ -31,4 +31,7 @@ define $(PKG)_BUILD
 
     $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
     $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
+    if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
+      rm -rf "$(3)$(HOST_PREFIX)/share/doc/Eclipse Paho C"; \
+    fi
 endef
