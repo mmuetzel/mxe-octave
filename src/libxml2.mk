@@ -36,8 +36,8 @@ define $(PKG)_BUILD
 
     if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
       rm -rf "$(3)$(HOST_PREFIX)/share/gtk-doc"; \
-      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$($(PKG)_SUBDIR)/html"; \
-      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$($(PKG)_SUBDIR)/examples"; \
+      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$($(PKG)_SUBDIR)"; \
+      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$(PKG)"; \
     fi
 endef
 
