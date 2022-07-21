@@ -3,8 +3,8 @@
 
 PKG             := opkg-mqtt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.0.1
-$(PKG)_CHECKSUM := 4b8c95fe20b4e67747b6d2712db1965d0baaba4a
+$(PKG)_VERSION  := 0.0.2
+$(PKG)_CHECKSUM := bb102f472f5aa91f006b6ccb34c746aa46dab2b3
 $(PKG)_SUBDIR   := octave-mqtt-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://downloads.sourceforge.net/project/octave-mqtt/v$($(PKG)_VERSION)/$($(PKG)_FILE)
