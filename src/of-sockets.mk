@@ -3,8 +3,8 @@
 
 PKG             := of-sockets
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.0
-$(PKG)_CHECKSUM := 58e66d53528270756547f27828b442f2c775c119
+$(PKG)_VERSION  := 1.4.0
+$(PKG)_CHECKSUM := 9a21f964220448baf1ac186f66e0806a1dbf822c
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := sockets-$($(PKG)_VERSION)
 $(PKG)_FILE     := sockets-$($(PKG)_VERSION).tar.gz
