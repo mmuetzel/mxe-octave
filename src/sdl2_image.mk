@@ -3,8 +3,8 @@
 
 PKG             := sdl2_image
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.6.0
-$(PKG)_CHECKSUM := d3df1d3117181b0aa8d588ba7d7814daec73678f
+$(PKG)_VERSION  := 2.6.1
+$(PKG)_CHECKSUM := 5bc3f346ee0e5b3bd5d52712245cb0bdd40df933
 $(PKG)_SUBDIR   := SDL2_image-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_image-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/libsdl-org/SDL_image/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
