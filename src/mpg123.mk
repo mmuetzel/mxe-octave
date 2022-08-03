@@ -3,8 +3,8 @@
 
 PKG             := mpg123
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.30.1
-$(PKG)_CHECKSUM := 004770a5926f6221bd101ef5ec740700de1d77f2
+$(PKG)_VERSION  := 1.30.2
+$(PKG)_CHECKSUM := 3838b289585a2c02bac3aa5b3963663c3e26fa24
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/mpg123/$(PKG)/$($(PKG)_VERSION)/$($(PKG)_FILE)
