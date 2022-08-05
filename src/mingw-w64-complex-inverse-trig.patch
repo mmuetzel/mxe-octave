@@ -67,7 +67,7 @@ index f4ea2da07..a3edd5288 100644
 +    /* For large z, z + sqrt(z*z - 1) is approximately 2*z.
 +    Use that approximation to avoid overflow when squaring.
 +    Additionally, use symmetries to perform the calculation in the positive
-+    half plain. */
++    half plane. */
 +    __real__ x = __real__ z;
 +    __imag__ x = __FLT_ABI(fabs) (__imag__ z);
 +    x = __FLT_ABI(clog) (x);
@@ -83,6 +83,40 @@ index f4ea2da07..a3edd5288 100644
    __real__ x = (__real__ z - __imag__ z) * (__real__ z + __imag__ z) - __FLT_CST(1.0);
    __imag__ x = __FLT_CST(2.0) * __real__ z * __imag__ z;
  
+-- 
+2.35.3.windows.1
+
+From 9fcac91fc50120a5e6acfa94ba0a917c7faf2306 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Markus=20M=C3=BCtzel?= <markus.muetzel@gmx.de>
+Date: Fri, 5 Aug 2022 18:36:49 +0200
+Subject: [PATCH] cacosh: Handle negative zero input
+
+---
+ mingw-w64-crt/complex/cacosh.def.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mingw-w64-crt/complex/cacosh.def.h b/mingw-w64-crt/complex/cacosh.def.h
+index 1f03befae..addf2958e 100644
+--- a/mingw-w64-crt/complex/cacosh.def.h
++++ b/mingw-w64-crt/complex/cacosh.def.h
+@@ -106,7 +106,7 @@ __FLT_ABI(cacosh) (__FLT_TYPE __complex__ z)
+ 
+   x = __FLT_ABI(csqrt) (x);
+ 
+-  if (__real__ z < __FLT_CST(0.0))
++  if (__FLT_ABI(signbit) (__real__ z))
+     x = -x;
+ 
+   __real__ x += __real__ z;
+@@ -114,7 +114,7 @@ __FLT_ABI(cacosh) (__FLT_TYPE __complex__ z)
+ 
+   ret = __FLT_ABI(clog) (x);
+ 
+-  if (__real__ ret < __FLT_CST(0.0))
++  if (__FLT_ABI(signbit) (__real__ ret))
+     ret = -ret;
+ 
+   return ret;
 -- 
 2.35.3.windows.1
 
