@@ -5,7 +5,12 @@ Set wshShell = CreateObject( "WScript.Shell" )
 ' If running with wscript.exe, "Exec" will flash a window for a split second.
 ' Relaunch with cscript.exe which doesn't show that window.
 If InStr(1, WScript.FullName, "wscript.exe", vbTextCompare) > 0 Then
-  WScript.Quit wshShell.Run("cscript.exe """ & WScript.ScriptFullName & """", 0, True)
+  AllArgs = ""
+  Set wshArgs = WScript.Arguments
+  For I = 0 to wshArgs.Count - 1
+    AllArgs = AllArgs & " " & chr(34) & wshArgs(I) & chr(34)
+  Next
+  WScript.Quit wshShell.Run("cscript.exe """ & WScript.ScriptFullName & """" & AllArgs, 0, True)
 End If
 
 ' get the directory that script resides in
