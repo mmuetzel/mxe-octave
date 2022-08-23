@@ -17,8 +17,9 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && './configure' \
+    cd '$(1)' && autoreconf -fi && './configure' \
         --prefix='$(BUILD_TOOLS_PREFIX)' \
+        $(ENABLE_SHARED_OR_STATIC) \
         --disable-threads \
         --disable-nls
     $(MAKE) -C '$(1)' -j '$(JOBS)' install DESTDIR='$(3)'
