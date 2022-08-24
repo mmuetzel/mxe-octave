@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := cd2db279df5716d18e961695921d7f6de629c6e9
 $(PKG)_SUBDIR   := xz-$($(PKG)_VERSION)
 $(PKG)_FILE     := xz-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://tukaani.org/xz/$($(PKG)_FILE)
-$(PKG)_DEPS     :=
+$(PKG)_DEPS     := build-gettext
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://tukaani.org/xz/' | \
