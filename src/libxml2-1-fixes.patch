@@ -6,6 +6,6 @@ diff -ur libxml2-v2.9.13.orig/libxml-2.0.pc.in libxml2-v2.9.13/libxml-2.0.pc.in
  Description: libXML library version2.
  Requires:
 +Requires.private: liblzma
- Libs: -L${libdir} -lxml2
- Libs.private: @ICU_LIBS@ @THREAD_LIBS@ @Z_LIBS@ @LZMA_LIBS@ @ICONV_LIBS@ @M_LIBS@ @WIN32_EXTRA_LIBADD@ @LIBS@
+ Libs: -L${libdir} @XML_LIBS@
+ Libs.private: @XML_PRIVATE_LIBS@ @LIBS@
  Cflags: @XML_INCLUDEDIR@ @XML_CFLAGS@
