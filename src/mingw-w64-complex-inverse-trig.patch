@@ -104,7 +104,7 @@ index 1f03befae..addf2958e 100644
    x = __FLT_ABI(csqrt) (x);
  
 -  if (__real__ z < __FLT_CST(0.0))
-+  if (__FLT_ABI(signbit) (__real__ z))
++  if (signbit (__real__ z))
      x = -x;
  
    __real__ x += __real__ z;
@@ -113,7 +113,7 @@ index 1f03befae..addf2958e 100644
    ret = __FLT_ABI(clog) (x);
  
 -  if (__real__ ret < __FLT_CST(0.0))
-+  if (__FLT_ABI(signbit) (__real__ ret))
++  if (signbit (__real__ ret))
      ret = -ret;
  
    return ret;
