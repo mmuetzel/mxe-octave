@@ -1,10 +1,10 @@
 PKG             := libmodbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.1.7
-$(PKG)_CHECKSUM := 71d0aa223f21ddfacc8a2461f2e3e0c77e128efb
+$(PKG)_VERSION  := 3.1.8
+$(PKG)_CHECKSUM := 9c18293b78217338cdbf062d3c7c6eeef3bc6822
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
-$(PKG)_URL      := https://libmodbus.org/releases/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/stephane/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
@@ -14,7 +14,7 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-  cd '$(1)' && ./configure \
+  cd '$(1)' && ./autogen.sh && ./configure \
       $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
       $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
       $(ENABLE_SHARED_OR_STATIC) \
