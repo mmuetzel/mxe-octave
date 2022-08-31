@@ -257,4 +257,5 @@ define $(PKG)_BUILD
     # create a file with latest installed octave rev in it
     mkdir -p '$(TOP_BUILD_DIR)/octave'
     echo "$($(PKG)_VERSION)" > $(TOP_BUILD_DIR)/octave/octave-version
+    $(SED) -n 's,.*"api-v\([^"]*\)".*,\1,p' $(3)$(HOST_INCDIR)/octave-$($(PKG)_VERSION)/octave/version.h > $(TOP_BUILD_DIR)/octave/octave-api
 endef
