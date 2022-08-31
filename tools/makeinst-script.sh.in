@@ -50,6 +50,7 @@ ICON=`find $OCTAVE_SOURCE -name octave-logo.ico -printf "%P\n" | head -1 | sed '
 # extract version number
 OCTAVE_VERSION=`head -1 $MXEDIR/octave/octave-version`
 VERSION=`echo $OCTAVE_VERSION | sed -n 's,\([0-9\.]*\).*,\1,p'`
+OCTAVE_API_VERSION=`head -1 $MXEDIR/octave/octave-api`
 if [ `echo $VERSION | grep -o '\.' | wc -l` -le 2 ]; then
   INSTALLER_VERSION="$VERSION.0"
 else
@@ -170,6 +171,8 @@ Page custom octaveOptionsPage octaveOptionsLeave
 
 ; uninstaller
 !insertmacro MUI_UNPAGE_CONFIRM
+
+UninstPage custom un.octaveOptionsPage un.octaveOptionsLeave
 
 !insertmacro MUI_UNPAGE_INSTFILES
 
@@ -342,6 +345,41 @@ Function octaveOptionsLeave
 FunctionEnd
 
 ######################################################################
+; custom uninstall options page functions
+
+Var UninstallLocalPackages
+Var UninstallLocalPackagesCtrl
+Var UninstallUserSettings
+Var UninstallUserSettingsCtrl
+
+Function un.octaveOptionsPage 
+
+  nsDialogs::Create 1018
+  Pop \$0
+
+  \${If} \$0 == error
+    Abort
+  \${EndIf} 
+
+  \${NSD_CreateCheckBox} 0 0 100% 12u "Uninstall Local Packages"
+  Pop \$UninstallLocalPackagesCtrl
+  \${NSD_SetState} \$UninstallLocalPackagesCtrl \$UninstallLocalPackages
+
+  \${NSD_CreateCheckBox} 0 20u 100% 12u "Remove user settings"
+  Pop \$UninstallUserSettingsCtrl
+  \${NSD_SetState} \$UninstallUserSettingsCtrl \$UninstallUserSettings
+
+  !insertmacro MUI_HEADER_TEXT "Uninstall Options" "Choose additional options for uninstalling"
+  nsDialogs::Show  
+  Pop \$0
+FunctionEnd
+
+Function un.octaveOptionsLeave
+  \${NSD_GetState} \$UninstallLocalPackagesCtrl \$UninstallLocalPackages
+  \${NSD_GetState} \$UninstallUserSettingsCtrl \$UninstallUserSettings
+FunctionEnd
+
+######################################################################
 Function un.onInit
   !insertmacro MULTIUSER_UNINIT
 
@@ -385,6 +423,29 @@ uninst_cont_un:
 \${EndIf}
 
   Pop \$R0
+
+  ; set default uninstall options
+  StrCpy \$UninstallUserSettings \${BST_UNCHECKED}
+  StrCpy \$UninstallLocalPackages \${BST_CHECKED}
+
+  ; process command line options
+  \${GetParameters} \$R0
+  ClearErrors
+  \${GetOptions} "\$R0" "/UNINSTALL_LOCALPACKAGES=" \$0
+  IfErrors un_no_local_packages_opt
+  \${If} \$0 == 0
+     StrCpy \$UninstallLocalPackages  \${BST_UNCHECKED}
+  \${EndIf}
+un_no_local_packages_opt:
+  ClearErrors
+  \${GetOptions} "\$R0" "/UNINSTALL_USERSETTINGS=" \$0
+  IfErrors un_no_user_settings_opt
+  \${If} \$0 == 1
+     StrCpy \$UninstallUserSettings \${BST_CHECKED}
+  \${EndIf}
+un_no_user_settings_opt:
+  ClearErrors
+
 FunctionEnd
 
 Function .onInit
@@ -624,6 +685,24 @@ ctx_no_back_type:
 SectionEnd
 
 Section "Uninstall"
+
+  ; remove user uninstall stuff if options chosen
+  \${If} \$UninstallLocalPackages == 1
+    \${If} \${FileExists} "\$APPDATA\\octave\\api-v$OCTAVE_API_VERSION"
+      RMDir /r "\$APPDATA\\octave\\api-v$OCTAVE_API_VERSION"
+    \${EndIf}
+    ClearErrors
+  \${EndIf}
+
+  \${If} \$UninstallUserSettings == 1
+    \${If} \${FileExists} "\$APPDATA\\octave"
+      Delete "\$APPDATA\\octave\\octave-gui.ini"
+      Delete "\$APPDATA\\octave\\octave-doc-bookmarks.xbel"
+      Delete "\$APPDATA\\octave\\history"
+      RMDir "\$APPDATA\\octave"
+    \${EndIf}
+    ClearErrors
+  \${EndIf}
 
   ReadRegDWORD \$0  \${PRODUCT_UNINST_ROOT_KEY} "\$MultiUser.UninstallKey" "RegisteredFileType"
   IfErrors not_registered_file
