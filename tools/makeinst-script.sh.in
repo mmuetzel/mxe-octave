@@ -351,6 +351,8 @@ Var UninstallLocalPackages
 Var UninstallLocalPackagesCtrl
 Var UninstallUserSettings
 Var UninstallUserSettingsCtrl
+#Var UninstallAppDirCtrl
+Var UninstallAppDir
 
 Function un.octaveOptionsPage 
 
@@ -368,6 +370,9 @@ Function un.octaveOptionsPage
   \${NSD_CreateCheckBox} 0 20u 100% 12u "Remove user settings"
   Pop \$UninstallUserSettingsCtrl
   \${NSD_SetState} \$UninstallUserSettingsCtrl \$UninstallUserSettings
+
+  #\${NSD_CreateLabel} 0 40u 110u 12u "\$UninstallAppDir"
+  #Pop \$UninstallAppDirCtrl
 
   !insertmacro MUI_HEADER_TEXT "Uninstall Options" "Choose additional options for uninstalling"
   nsDialogs::Show  
@@ -406,9 +411,16 @@ uninst_check_local:
 
   Call un.MultiUser.InstallMode.CurrentUser
 
+  # store current user app data dir
+  StrCpy \$UninstallAppDir "\$APPDATA"
+
   GoTo uninst_cont_un
 
 uninst_set_admin:
+  # store current user app data dir
+  Call un.MultiUser.InstallMode.CurrentUser
+  StrCpy \$UninstallAppDir "\$APPDATA"
+
   # if 2, was a allusers install
   Call un.MultiUser.InstallMode.AllUsers
 
@@ -688,18 +700,18 @@ Section "Uninstall"
 
   ; remove user uninstall stuff if options chosen
   \${If} \$UninstallLocalPackages == 1
-    \${If} \${FileExists} "\$APPDATA\\octave\\api-v$OCTAVE_API_VERSION"
-      RMDir /r "\$APPDATA\\octave\\api-v$OCTAVE_API_VERSION"
+    \${If} \${FileExists} "\$UninstallAppDir\\octave\\api-v$OCTAVE_API_VERSION"
+      RMDir /r "\$UninstallAppDir\\octave\\api-v$OCTAVE_API_VERSION"
     \${EndIf}
     ClearErrors
   \${EndIf}
 
   \${If} \$UninstallUserSettings == 1
-    \${If} \${FileExists} "\$APPDATA\\octave"
-      Delete "\$APPDATA\\octave\\octave-gui.ini"
-      Delete "\$APPDATA\\octave\\octave-doc-bookmarks.xbel"
-      Delete "\$APPDATA\\octave\\history"
-      RMDir "\$APPDATA\\octave"
+    \${If} \${FileExists} "\$UninstallAppDir\\octave"
+      Delete "\$UninstallAppDir\\octave\\octave-gui.ini"
+      Delete "\$UninstallAppDir\\octave\\octave-doc-bookmarks.xbel"
+      Delete "\$UninstallAppDir\\octave\\history"
+      RMDir "\$UninstallAppDir\\octave"
     \${EndIf}
     ClearErrors
   \${EndIf}
