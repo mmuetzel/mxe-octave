@@ -1,0 +1,64 @@
+diff -ur gdcm-3.0.17.orig/Utilities/gdcmext/mec_mr3_io.c gdcm-3.0.17/Utilities/gdcmext/mec_mr3_io.c
+--- gdcm-3.0.17.orig/Utilities/gdcmext/mec_mr3_io.c	2022-09-05 10:44:18.058943134 -0400
++++ gdcm-3.0.17/Utilities/gdcmext/mec_mr3_io.c	2022-09-05 11:28:44.339613356 -0400
+@@ -23,7 +23,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
+-#ifndef _MSC_VER
++#if !defined(_MSC_VER) && !defined(__MINGW32__) 
+ #include <iconv.h>
+ #endif
+ #if defined(_MSC_VER) && (_MSC_VER < 1900)
+@@ -54,7 +54,7 @@
+ 
+ struct app {
+   struct stream *in;
+-#ifndef _MSC_VER
++#if !defined(_MSC_VER) && !defined(__MINGW32__) 
+   iconv_t conv;
+ #endif
+   void *shift_jis_buffer;
+@@ -62,7 +62,7 @@
+ 
+ static struct app *create_app(struct app *self, struct stream *in) {
+   self->in = in;
+-#ifndef _MSC_VER
++#if !defined(_MSC_VER) && !defined(__MINGW32__) 
+   self->conv = iconv_open("utf-8", "shift-jis");
+   assert(self->conv != (iconv_t)-1);
+ #endif
+@@ -132,7 +132,7 @@
+ }
+ 
+ static void *aligned_alloc_impl(size_t alignment, size_t size) {
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__MINGW32__) 
+   return _aligned_malloc(size, alignment);
+ #else
+   return aligned_alloc(alignment, size);
+@@ -352,7 +352,7 @@
+   const size_t guesstimate = len < 128 ? 128 : len * 2;
+   self->shift_jis_buffer = realloc(self->shift_jis_buffer, guesstimate);
+   char *dest_str = self->shift_jis_buffer;
+-#ifndef _MSC_VER
++#if !defined(_MSC_VER) && !defined(__MINGW32__) 
+   char *in_str = str;
+   char *out_str = dest_str;
+   size_t inbytes = len;
+@@ -831,12 +831,12 @@
+     good = good && read_group(self, group, nitems, &info, &data);
+   }
+   // release memory:
+-#ifdef _MSC_VER
++#if defined(_MSC_VER) || defined(__MINGW32__) 
+   _aligned_free(data.buffer);
+ #else
+   free(data.buffer);
+ #endif
+-#ifndef _MSC_VER
++#if !defined(_MSC_VER) && !defined(__MINGW32__) 
+   iconv_close(self->conv);
+ #endif
+   free(self->shift_jis_buffer);
+Only in gdcm-3.0.17.orig/Utilities/gdcmext: .mec_mr3_io.c.swp

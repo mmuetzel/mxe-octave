@@ -126,6 +126,7 @@ SRC_FILES_1 := \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
   gdcm-3-gcc11.patch \
+  gdcm-4-iconv.patch \
   gdcm.mk \
   gdk-pixbuf-1-fixes.patch \
   gdk-pixbuf.mk \
