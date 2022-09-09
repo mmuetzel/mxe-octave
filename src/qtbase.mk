@@ -3,8 +3,8 @@
 
 PKG             := qtbase
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.15.5
-$(PKG)_CHECKSUM := ee086a58451942e4ec190f4556d7248ec542658b
+$(PKG)_VERSION  := 5.15.6
+$(PKG)_CHECKSUM := 0dd802512ede84e081e7a8052882cc4ef9e986b2
 $(PKG)_SUBDIR   := $(PKG)-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-everywhere-opensource-src-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
@@ -114,7 +114,6 @@ define $(PKG)_BUILD
             $($(PKG)_CONFIGURE_LIBPATH_OPTION) \
             -no-strip \
             -opensource \
-            -c++std c++11 \
             -confirm-license \
             $($(PKG)_CONFIGURE_PLATFORM_OPTION) \
             $($(PKG)_CONFIGURE_CROSS_COMPILE_OPTION) \
