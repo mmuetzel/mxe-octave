@@ -275,7 +275,7 @@ BUILD_TOOLS := $(ALL_BUILD_TOOLS)
 # some build tools are optional and added as explicit dependencies
 # to packages that need them
 BUILD_TOOLS_OPT := \
-  build-libffi build-mako build-markupsafe build-meson build-ninja \
+  build-libffi build-mako build-markupsafe build-meson build-nasm build-ninja \
   build-python build-octave build-setuptools build-scons
 BUILD_TOOLS := $(filter-out $(BUILD_TOOLS_OPT), $(BUILD_TOOLS))
 # Building flex for native mingw fails, so disable it.

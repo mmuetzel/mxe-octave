@@ -40,6 +40,7 @@ SRC_FILES_1 := \
   build-markupsafe.mk \
   build-meson.mk \
   build-msvctools.mk \
+  build-nasm.mk \
   build-ninja.mk \
   build-octave.mk \
   build-perl.mk \
