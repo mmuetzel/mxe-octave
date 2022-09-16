@@ -3,13 +3,13 @@
 
 PKG             := flac
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.4
-$(PKG)_CHECKSUM := 99c28482a8b2d81deaf740639e4cb55658427420
+$(PKG)_VERSION  := 1.4.0
+$(PKG)_CHECKSUM := df471fc1f33f8b00f2330c22ecbfe485f2b9715b
 $(PKG)_SUBDIR   := flac-$($(PKG)_VERSION)
 $(PKG)_FILE     := flac-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://downloads.xiph.org/releases/flac/$($(PKG)_FILE)
 
-$(PKG)_DEPS     := libiconv ogg
+$(PKG)_DEPS     := build-nasm libiconv ogg
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://downloads.xiph.org/releases/flac/' | \
