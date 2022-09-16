@@ -98,6 +98,13 @@ ifeq ($(MXE_SYSTEM),mingw)
     $(MAKE) -C '$(1).pthreads' -j '$(JOBS)' || $(MAKE) -C '$(1).pthreads' -j '$(JOBS)'
     $(MAKE) -C '$(1).pthreads' -j 1 install
   endef
+
+  define $(PKG)_POST_BUILD
+    # overwrite default specs to mimic stack protector handling of glibc
+    # ./configure above doesn't do this
+    '$(TARGET)-gcc' -dumpspecs > '$(BUILD_TOOLS_PREFIX)/lib/gcc/$(TARGET)/$($(PKG)_VERSION)/specs'
+    $(SED) -i 's,-lmingwex,-lmingwex -lssp_nonshared -lssp,' '$(BUILD_TOOLS_PREFIX)/lib/gcc/$(TARGET)/$($(PKG)_VERSION)/specs'
+  endef
 endif
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
@@ -135,6 +142,7 @@ define $(PKG)_CONFIGURE
         $($(PKG)_SYSDEP_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-libgomp \
+	--enable-default-ssp \
         --with-cloog='$(BUILD_TOOLS_PREFIX)' \
         --with-gmp='$(BUILD_TOOLS_PREFIX)' \
         --with-isl='$(BUILD_TOOLS_PREFIX)' \
