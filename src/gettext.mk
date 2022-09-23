@@ -19,6 +19,9 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    # while we are patching stuff, we may need to run reconf
+    cd '$(1)' && aclocal && libtoolize --automake --copy --force
+    cd '$(1)' && WANT_AUTOMAKE=latest ./autogen.sh --skip-gnulib
     cd '$(1)/gettext-runtime' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
