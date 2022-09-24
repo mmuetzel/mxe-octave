@@ -607,6 +607,7 @@ SRC_FILES_1 := \
   popt.mk \
   portaudio-test.c \
   portaudio.mk \
+  postgresql-1-autoconf.patch \
   postgresql.mk \
   proj.mk \
   protobuf-test.cpp \
