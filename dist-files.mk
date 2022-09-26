@@ -96,7 +96,7 @@ SRC_FILES_1 := \
   file-test.c \
   file.mk \
   fixesproto.mk \
-  flac-1-ucrt.patch \
+  flac-1-cross.patch \
   flac.mk \
   fltk-2-uuid-mod.patch \
   fltk-test.cpp \
