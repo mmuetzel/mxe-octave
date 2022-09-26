@@ -232,6 +232,7 @@ MIRROR_SITES       := GITLAB_BACKUP MXE_MIRROR PKG_MIRROR PKG_CDN MXE_OCTAVE_MIR
 SHELL := @SHELL@
 
 GREP       ?= grep
+EGREP      ?= $(shell egrep --help >/dev/null 2>&1 && echo e)grep
 INSTALL    := $(shell ginstall --help >/dev/null 2>&1 && echo g)install
 PATCH      := $(shell gpatch --help >/dev/null 2>&1 && echo g)patch
 SED        := $(shell gsed --help >/dev/null 2>&1 && echo g)sed
