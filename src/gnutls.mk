@@ -29,7 +29,10 @@ endif
 
 define $(PKG)_BUILD
     mkdir '$(1)/.build'
-    cd '$(1)' && autoreconf -fi 
+    # If an autoconf script calls GTK_DOC_CHECK, newer versions of autoreconf
+    # try to call `gtkdocize --copy`, which would require an extra dependency
+    # on `gtk-doc`, even if documentation is disabled at configure time.
+    cd '$(1)' && GTKDOCIZE=echo autoreconf -fi 
     cd '$(1)/.build' && ../configure \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
