@@ -55,9 +55,9 @@ define $(PKG)_BUILD
         --with-zlib \
         --with-system-tzdata=/dev/null \
         LIBS="$($(PKG)_LIBS)"
-    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/common           -j '$(JOBS)'         
     $(MAKE) MAKELEVEL=0 -C '$(1)'/src/interfaces/libpq -j '$(JOBS)' install DESTDIR='$(3)'
     $(MAKE) MAKELEVEL=0 -C '$(1)'/src/port             -j '$(JOBS)'         
+    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/common           -j '$(JOBS)'         
     $(MAKE) MAKELEVEL=0 -C '$(1)'/src/bin/psql         -j '$(JOBS)' install DESTDIR='$(3)'
     $(MAKE) MAKELEVEL=0 -C '$(1)'/src/bin/pg_config    -j '$(JOBS)' install DESTDIR='$(3)'
     $(INSTALL) -m644 '$(1)/src/include/pg_config.h'    '$(3)$(HOST_INCDIR)'
