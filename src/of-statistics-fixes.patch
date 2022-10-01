@@ -1,0 +1,32 @@
+diff --git a/PKG_ADD b/inst/PKG_ADD
+similarity index 88%
+rename from PKG_ADD
+rename to inst/PKG_ADD
+index 937bc41..fc0ce78 100644
+--- a/PKG_ADD
++++ b/inst/PKG_ADD
+@@ -8,7 +8,7 @@ d_2seRTE546_oyi_795jg09_dirname = fileparts (canonicalize_file_name ...
+                                              (mfilename ("fullpath")));
+ 
+ for iiII123DRT_idx = 1:length (a1_e324kporit985_itogj3_dirlist)
+-  addpath (fullfile (d_2seRTE546_oyi_795jg09_dirname, "..", ...
++  addpath (fullfile (d_2seRTE546_oyi_795jg09_dirname, ...
+            a1_e324kporit985_itogj3_dirlist{iiII123DRT_idx}));
+ endfor
+ 
+diff --git a/PKG_DEL b/inst/PKG_DEL
+similarity index 90%
+rename from PKG_DEL
+rename to inst/PKG_DEL
+index 095f782..dd619e6 100644
+--- a/PKG_DEL
++++ b/inst/PKG_DEL
+@@ -10,7 +10,7 @@ d_2seRTE546_oyi_795jg09_dirname = fileparts (canonicalize_file_name ...
+                                              (mfilename ("fullpath")));
+ 
+ for iiII123DRT_idx = 1:length (a1_e324kporit985_itogj3_dirlist)
+-  rmpath (fullfile (d_2seRTE546_oyi_795jg09_dirname, "..", ...
++  rmpath (fullfile (d_2seRTE546_oyi_795jg09_dirname, ...
+           a1_e324kporit985_itogj3_dirlist{iiII123DRT_idx}));
+ endfor
+ 

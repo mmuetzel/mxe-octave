@@ -3,26 +3,22 @@
 
 PKG             := of-statistics
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.3
-$(PKG)_CHECKSUM := 5892ebffd8298db3f9e16fcef917701ad8085ffb
+$(PKG)_VERSION  := 1.5.0
+$(PKG)_CHECKSUM := 45157ebc92edeb48913b7d7540a4b9d7cc192c6d
 $(PKG)_REMOTE_SUBDIR :=
-$(PKG)_SUBDIR   := statistics-$($(PKG)_VERSION)
+$(PKG)_SUBDIR   := statistics-release-$($(PKG)_VERSION)
 $(PKG)_FILE     := statistics-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/gnu-octave/statistics/archive/refs/tags/release-$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := of-io
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
     $(PKG)_DEPS += $(OCTAVE_TARGET)
-    ifeq ($(MXE_NATIVE_BUILD),no)
-        ifeq ($(USE_SYSTEM_OCTAVE),no)
-            # Remove this when package builds without calling Octave
-            $(PKG)_DEPS += build-octave
-        endif
-    endif
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(WGET) -q -O- 'https://github.com/gnu-octave/statistics/tags' | \
+    $(SED) -n 's|.*releases/tag/release-\([^"]*\).*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
