@@ -4,10 +4,10 @@
 PKG             := src-msys2-libidn2
 $(PKG)_NAME     := libidn2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.3.1-2
-$(PKG)_CHECKSUM := 5ed012b731189c6272b3207bacddd0b3198b2332
+$(PKG)_VERSION  := 2.3.3-1
+$(PKG)_CHECKSUM := ac0333f3c40aeec691ccbf09ae35742bd7ecf3a0
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

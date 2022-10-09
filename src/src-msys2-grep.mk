@@ -4,8 +4,8 @@
 PKG             := src-msys2-grep
 $(PKG)_NAME     := grep
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.1-1
-$(PKG)_CHECKSUM := 5c0bb2e218141ea87315891adad3c196e8dd3cd7
+$(PKG)_VERSION  := 3.6-1
+$(PKG)_CHECKSUM := f34fb6fb773e4c624913f3cbcb909e10115c60df
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

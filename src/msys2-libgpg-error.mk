@@ -4,14 +4,15 @@
 PKG             := msys2-libgpg-error
 $(PKG)_NAME     := libgpg-error
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.42-1
-$(PKG)_x86_64_CS := 0558048a188d8b9669f53881508195767962cfa2
-$(PKG)_i686_CS  := c835b44bb7864b4df8b33021e80d0f4b19b33219
+$(PKG)_VERSION  := 1.45-2
+$(PKG)_x86_64_CS := 812061ce7a3d352c0716ae86021b2c9a6c3413b9
+$(PKG)_i686_CS  := b0d40b7ece7904d0e99a53951ad3cd53746d47f2
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
+$(PKG)_URL2     := $(if $(MSYS2_URL2),$(MSYS2_URL2)/$($(PKG)_FILE),)
 
 $(PKG)_DEPS     := 
 

@@ -4,10 +4,10 @@
 PKG             := src-msys2-gmp
 $(PKG)_NAME     := gmp
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.2.1-1
-$(PKG)_CHECKSUM := 5befe32118a009a7d49c1ed9e2d56e21d60f6e2f
+$(PKG)_VERSION  := 6.2.1-2
+$(PKG)_CHECKSUM := 21eaefd397b9501abcb2c0337d98691adaa09483
 $(PKG)_SUBDIR   :=
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     :=

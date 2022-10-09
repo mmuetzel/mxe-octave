@@ -4,10 +4,10 @@
 PKG             := src-msys2-zlib
 $(PKG)_NAME     := zlib
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.11-1
-$(PKG)_CHECKSUM := 90c0447c65b09549181b90840378305b05a7695b
+$(PKG)_VERSION  := 1.2.12-2
+$(PKG)_CHECKSUM := 9e59676213634a7b0b65406318d093f05c7d4fbd
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

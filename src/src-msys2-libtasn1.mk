@@ -4,10 +4,10 @@
 PKG             := src-msys2-libtasn1
 $(PKG)_NAME     := libtasn1
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.17.0-2
-$(PKG)_CHECKSUM := 9a617aeea9dc603d96270220ea179c8ad58ca37a
+$(PKG)_VERSION  := 4.19.0-1
+$(PKG)_CHECKSUM := 6a318395f620c13ed21cbf07a911665311ef9705
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

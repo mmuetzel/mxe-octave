@@ -4,10 +4,10 @@
 PKG             := src-msys2-libiconv
 $(PKG)_NAME     := libiconv
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.16-2
-$(PKG)_CHECKSUM := ca06d6e8e87c726448fa76829415e0f5f6dc4c64
+$(PKG)_VERSION  := 1.17-1
+$(PKG)_CHECKSUM := d637f9a3c8774a3644dd5d8b4a8fafd34de1ca86
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

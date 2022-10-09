@@ -4,10 +4,10 @@
 PKG             := src-msys2-libbz2
 $(PKG)_NAME     := bzip2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.8-2
-$(PKG)_CHECKSUM := 495dcb453fbfa290fb20e5056cd5033746fdc9a3
+$(PKG)_VERSION  := 1.0.8-4
+$(PKG)_CHECKSUM := 5fe7ee808a834e314f27fdc6d1a86595474449fe
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

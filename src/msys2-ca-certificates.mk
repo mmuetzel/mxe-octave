@@ -4,14 +4,15 @@
 PKG             := msys2-ca-certificates
 $(PKG)_NAME     := ca-certificates
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 20210119-1
-$(PKG)_x86_64_CS := 5c1c4a20b87ed27ba87b8a099b246a2eee5be7e8
-$(PKG)_i686_CS  := c2b2fe6e9a80c60f564fb50e9db40e88fba80e1c
+$(PKG)_VERSION  := 20211016-1
+$(PKG)_x86_64_CS := b7642b7fc437daa94243290ec00ede1375175d6c
+$(PKG)_i686_CS  := 833c0afd851e7abbcd7ca626cbe15f7cdaf805e3
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_NAME)-$($(PKG)_VERSION)-any.pkg.tar.zst
+$(PKG)_URL2     := $(if $(MSYS2_URL2),$(MSYS2_URL2)/$($(PKG)_FILE),)
 
 $(PKG)_DEPS     := msys2-openssl
 

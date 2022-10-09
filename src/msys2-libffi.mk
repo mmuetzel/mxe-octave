@@ -4,14 +4,15 @@
 PKG             := msys2-libffi
 $(PKG)_NAME     := libffi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.3-1
-$(PKG)_x86_64_CS := 14e19984f304de251e137f27e66900b546812d90
-$(PKG)_i686_CS  := 4904e013c6180ea0c13298082cff9edd39697a61
+$(PKG)_VERSION  := 3.4.3-1
+$(PKG)_x86_64_CS := 57ea39c4c7e7571b18e7db26edf94233f4ca6822
+$(PKG)_i686_CS  := 7f4f62e24806c1dd373a9bdf3d3cfa6405ce0489
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.xz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
+$(PKG)_URL2     := $(if $(MSYS2_URL2),$(MSYS2_URL2)/$($(PKG)_FILE),)
 
 $(PKG)_DEPS     := 
 

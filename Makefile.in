@@ -484,7 +484,13 @@ ifeq ($(MXE_SYSTEM),mingw)
     MSYS2_SOURCES := $(addprefix src-,$(MSYS2_PACKAGES))
     PKGS += $(MSYS2_SOURCES)
     MSYS2_BASE_URL := https://repo.msys2.org/msys
+ifeq ($(MSYS2_ARCH), i686)
+    MSYS2_URL := https://github.com/jeremyd2019/msys2-build32/releases/download/repo
+    MSYS2_URL2 := $(MSYS2_BASE_URL)/$(MSYS2_ARCH)
+else
     MSYS2_URL := $(MSYS2_BASE_URL)/$(MSYS2_ARCH)
+    MSYS2_URL2 :=
+endif
     MSYS2_SRC_URL := $(MSYS2_BASE_URL)/sources
     MSYS2_DIR := $(TOP_BUILD_DIR)/msys2
 

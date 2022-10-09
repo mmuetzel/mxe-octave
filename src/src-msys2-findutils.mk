@@ -4,10 +4,10 @@
 PKG             := src-msys2-findutils
 $(PKG)_NAME     := findutils
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.8.0-1
-$(PKG)_CHECKSUM := 953779d5d626590686afa71de4bdf74839951b59
+$(PKG)_VERSION  := 4.9.0-3
+$(PKG)_CHECKSUM := 124b2cd8d9ab56335512360dde91809c400f9590
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 
