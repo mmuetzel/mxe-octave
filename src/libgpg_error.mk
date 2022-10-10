@@ -3,8 +3,8 @@
 
 PKG             := libgpg_error
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.45
-$(PKG)_CHECKSUM := fe724ed37b4935964059a47b7c64d5f8246659d8
+$(PKG)_VERSION  := 1.46
+$(PKG)_CHECKSUM := a6e5efdd72e848aab4064e5ef4c6835ba344bcf1
 $(PKG)_SUBDIR   := libgpg-error-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgpg-error-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := ftp://ftp.gnupg.org/gcrypt/libgpg-error/$($(PKG)_FILE)
@@ -34,6 +34,6 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)/src' -j 1 install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= DESTDIR='$(3)'
     if [ $(MXE_NATIVE_BUILD) = no ]; then \
       $(INSTALL) -d '$(3)$(BUILD_TOOLS_PREFIX)/bin'; \
-      $(INSTALL) -m755 '$(3)$(HOST_BINDIR)/gpg-error-config' '$(3)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)gpg-error-config'; \
+      $(INSTALL) -m755 '$(3)$(HOST_BINDIR)/gpgrt-config' '$(3)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)gpgrt-config'; \
     fi
 endef
