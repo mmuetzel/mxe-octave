@@ -4,8 +4,8 @@
 PKG             := src-msys2-libgpg-error
 $(PKG)_NAME     := libgpg-error
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.45-2
-$(PKG)_CHECKSUM := cca2f7069a82d8f3258f7872fa6bbd46fa058c81
+$(PKG)_VERSION  := 1.46-1
+$(PKG)_CHECKSUM := ca8003f0c70e46f42820cddb699980b9c61251fb
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

@@ -4,9 +4,9 @@
 PKG             := msys2-libsqlite
 $(PKG)_NAME     := libsqlite
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.39.2-1
-$(PKG)_x86_64_CS := 955c99b0952492b881a0074f9d3f58a51b81e8de
-$(PKG)_i686_CS  := 14439d77b42b6d8fc055eb25b71ec35621bec123
+$(PKG)_VERSION  := 3.39.4-1
+$(PKG)_x86_64_CS := 09568bab88be9bc4cc65a75404d0cb0dfa2c4448
+$(PKG)_i686_CS  := ce90b4f46ccc95d3dd9f878385ce948eb86d0686
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
