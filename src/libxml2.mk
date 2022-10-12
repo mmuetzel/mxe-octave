@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 4ffe4c4c6d4eb64feadff1664a97430c3f2dc943
 $(PKG)_SUBDIR   := libxml2-v$($(PKG)_VERSION)
 $(PKG)_FILE     := libxml2-v$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://gitlab.gnome.org/GNOME/$(PKG)/-/archive/v$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := zlib libiconv
+$(PKG)_DEPS     := zlib libiconv xz
 
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS := xz
