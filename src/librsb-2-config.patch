@@ -1,0 +1,11 @@
+--- librsb-1.3.0.1/librsb-config.in.orig	2022-04-28 19:17:05.000000000 +0200
++++ librsb-1.3.0.1/librsb-config.in	2022-10-15 14:10:34.827545946 +0200
+@@ -16,7 +16,7 @@
+ includedir="@includedir@/"
+ ldflags="@LDFLAGS@"
+ # Note: if using -lrsbpp explicitly and -stdc++ is there, optional -lasan needs to precede -stdc++ (in RSB_RSBPP_LIBS)
+-libs="-lrsb"
++libs="-lrsb -lz"
+ extra_libs="@LIBS@ @OPENMP_CFLAGS@ @LIBRSB_MKL_LIBS@ @RSB_RSBPP_LIBS@"
+ all_libs="-lrsb"
+ fclibs="@FCLIBS@"

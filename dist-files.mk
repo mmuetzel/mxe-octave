@@ -294,6 +294,8 @@ SRC_FILES_1 := \
   libpng-test.c \
   libpng.mk \
   libproxy.mk \
+  librsb-1-setenv.patch \
+  librsb-2-config.patch \
   librsb.mk \
   librsvg-1-fixes.patch \
   librsvg-test.c \
@@ -536,6 +538,7 @@ SRC_FILES_1 := \
   of-sparsersb-1-dev.patch \
   of-sparsersb-1-no-internal-mex-fcns.patch \
   of-sparsersb-2-no-cxx11.patch \
+  of-sparsersb-2-tempdir.patch \
   of-sparsersb.mk \
   of-specfun-1-deprecated.patch \
   of-specfun.mk \

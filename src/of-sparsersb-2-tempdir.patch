@@ -1,0 +1,71 @@
+# HG changeset patch
+# User michelemartone
+# Date 1665599445 -7200
+#      Wed Oct 12 20:30:45 2022 +0200
+# Node ID 676a7eac6e696233483aae873b3bac11475e7934
+# Parent  48a739069b97dbb1f2e2c059ca7ed4a1ab60d296
+fix: `pkg test sparsersb` can now in read-only directory
+
+Thanks to Markus Muetzel for telling of the defect and suggesting
+a solution (which is here implemented) on https://savannah.gnu.org/bugs/?61393
+This fix uses his solution of creating a file in a temporary directory:
+ sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
+which can persist across test cases.
+
+diff -r 48a739069b97 -r 676a7eac6e69 src/sparsersb.cc
+--- a/src/sparsersb.cc	Thu Aug 04 12:28:14 2022 +0200
++++ b/src/sparsersb.cc	Wed Oct 12 20:30:45 2022 +0200
+@@ -3421,9 +3421,11 @@
+ %! assert(sparsersb(s,"RSB_MIF_TOTAL_SIZE__TO__SIZE_T") == sparsersb(s,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"))
+ %!test
+ %! s=sparsersb([1]);
+-%! sparsersb(sparsersb([11,0;21,22]),"save","sparsersb_temporary_matrix_file.mtx")
+-%!test
+-%! [S, NROWS, NCOLS, NNZ, REPINFO, FIELD, SYMMETRY] = sparsersb("sparsersb_temporary_matrix_file.mtx"     );
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
++%! sparsersb(sparsersb([11,0;21,22]),"save",sparsersb_temporary_matrix_file)
++%!test
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
++%! [S, NROWS, NCOLS, NNZ, REPINFO, FIELD, SYMMETRY] = sparsersb(sparsersb_temporary_matrix_file     );
+ %! assert(NROWS==2)
+ %! assert(NCOLS==2)
+ %! assert(NNZ==3)
+@@ -3430,28 +3509,33 @@
+ %! assert(FIELD=="real");
+ %! assert(SYMMETRY=='U');
+ %!test
+-%! [S, NROWS, NCOLS, NNZ, REPINFO, FIELD, SYMMETRY] = sparsersb("sparsersb_temporary_matrix_file.mtx", "Z");
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");;
++%! [S, NROWS, NCOLS, NNZ, REPINFO, FIELD, SYMMETRY] = sparsersb(sparsersb_temporary_matrix_file, "Z");
+ %! assert(NROWS==2);
+ %! assert(NCOLS==2);
+ %! assert(NNZ==3);
+ %! assert(FIELD=="complex");
+ %! assert(SYMMETRY=='U');
+ %!test
+-%! [S, NROWS, NCOLS, NNZ, REPINFO, FIELD] = sparsersb("sparsersb_temporary_matrix_file.mtx", "D");
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
++%! [S, NROWS, NCOLS, NNZ, REPINFO, FIELD] = sparsersb(sparsersb_temporary_matrix_file, "D");
+ %! assert(NROWS==2);
+ %! assert(NCOLS==2);
+ %! assert(NNZ==3);
+ %! assert(FIELD=="real");
+ %!test
+-%! [S, NROWS, NCOLS, NNZ, REPINFO] = sparsersb("sparsersb_temporary_matrix_file.mtx", "D");
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
++%! [S, NROWS, NCOLS, NNZ, REPINFO] = sparsersb(sparsersb_temporary_matrix_file, "D");
+ %! assert(NROWS==2);
+ %! assert(NCOLS==2);
+ %! assert(NNZ==3);
+ %!test
+-%! [S, NROWS, NCOLS] = sparsersb("sparsersb_temporary_matrix_file.mtx", "D");
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
++%! [S, NROWS, NCOLS] = sparsersb(sparsersb_temporary_matrix_file, "D");
+ %! assert(NROWS==2);
+ %! assert(NCOLS==2);
+ %!test
+-%! [S, NROWS] = sparsersb("sparsersb_temporary_matrix_file.mtx", "D");
++%! sparsersb_temporary_matrix_file = fullfile(tempdir(),"sparsersb_temporary_matrix_file.mtx");
++%! [S, NROWS] = sparsersb(sparsersb_temporary_matrix_file, "D");
+ %! assert(NROWS==2);
+ %!test
