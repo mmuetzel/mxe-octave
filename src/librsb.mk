@@ -3,8 +3,8 @@
 
 PKG             := librsb
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.0.11
-$(PKG)_CHECKSUM := 5c4e31e3e61f5b6b21a777b2e5093861e52da852
+$(PKG)_VERSION  := 1.3.0.1
+$(PKG)_CHECKSUM := c5781cfdd137a6d442318f9f5e7b9fd18c46d8c2
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$($(PKG)_FILE)
@@ -25,9 +25,11 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)' \
         $(ENABLE_SHARED_OR_STATIC) \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
-        --disable-c-examples --disable-fortran-examples \
+        --disable-c-examples \
+        --disable-fortran-examples \
         --disable-sparse-blas-interface \
-        --disable-octave-testing
+        --disable-octave-testing \
+        --without-librsbpp
     $(MAKE) -C '$(1)' -j '$(JOBS)' 
     $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
 
