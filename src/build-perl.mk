@@ -3,8 +3,8 @@
 
 PKG             := build-perl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.30.2
-$(PKG)_CHECKSUM := e02a31cc8f536b4927d8e018d265cddb790bb4e2
+$(PKG)_VERSION  := 5.36.0
+$(PKG)_CHECKSUM := 5fa41c8dffd9700f0c8427de7dd19f06b095fa6d
 $(PKG)_SUBDIR   := perl-$($(PKG)_VERSION)
 $(PKG)_FILE     := perl-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.cpan.org/src/5.0/$($(PKG)_FILE)
