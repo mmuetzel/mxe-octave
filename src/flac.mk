@@ -3,8 +3,8 @@
 
 PKG             := flac
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.1
-$(PKG)_CHECKSUM := 6fb0458bd013eca372fb7912675be736e866f4dd
+$(PKG)_VERSION  := 1.4.2
+$(PKG)_CHECKSUM := 4297c4f7c8665705f46886403755061dd0a30289
 $(PKG)_SUBDIR   := flac-$($(PKG)_VERSION)
 $(PKG)_FILE     := flac-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://downloads.xiph.org/releases/flac/$($(PKG)_FILE)
