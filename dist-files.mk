@@ -88,7 +88,6 @@ SRC_FILES_1 := \
   epstool.mk \
   exiv2.mk \
   expat.mk \
-  faad2-1-fixes.patch \
   faad2.mk \
   ffmpeg-1-fixes.patch \
   ffmpeg.mk \
