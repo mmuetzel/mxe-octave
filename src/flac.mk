@@ -31,4 +31,8 @@ define $(PKG)_BUILD
         --disable-oggtest
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) VERBOSE=1
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
+
+    if [ "x$(ENABLE_DEP_DOCS)" == "xno" ]; then \
+      rm -rf $(3)/$(HOST_PREFIX)/share/doc/flac; \
+    fi
 endef

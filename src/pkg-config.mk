@@ -35,5 +35,5 @@ define $(PKG)_BUILD
         --with-pc_path='$(HOST_LIBDIR)/pkgconfig' \
         --prefix='$(HOST_PREFIX)'
     $(MAKE) -C '$(1).build' V=1 -j 1
-    $(MAKE) -C '$(1).build' -j 1 install DESTDIR='$(3)'
+    $(MAKE) -C '$(1).build' -j 1 install $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
 endef
