@@ -4,9 +4,9 @@
 PKG             := msys2-libksba
 $(PKG)_NAME     := libksba
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.6.1-1
-$(PKG)_x86_64_CS := ea9c6e60482b785f55dfce6f77d1df184d32d710
-$(PKG)_i686_CS  := ddc6069d7ae54d5cc3a91cdb79d4919a46bc900a
+$(PKG)_VERSION  := 1.6.2-1
+$(PKG)_x86_64_CS := 85324a77136ac3e8f4656975638de4f1d280abe1
+$(PKG)_i686_CS  := cc2a7d0c8b7ab4d3d5abba8729f3270700b8b1e7
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

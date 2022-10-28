@@ -4,9 +4,9 @@
 PKG             := msys2-libcrypt
 $(PKG)_NAME     := libcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.1-3
-$(PKG)_x86_64_CS := e2da3af731c026a737c39ed042f3e51e9416bab4
-$(PKG)_i686_CS  := 6fe9df8e5bfd1636c4ff84809e03047897ff6ab0
+$(PKG)_VERSION  := 2.1-4
+$(PKG)_x86_64_CS := 914c92b6fd282a20c64ce54bc3a992b0053327a2
+$(PKG)_i686_CS  := 16793c6a7b96cdb30454d38d49d7f3ee2bfe8cad
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
