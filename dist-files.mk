@@ -316,6 +316,7 @@ SRC_FILES_1 := \
   libusb.mk \
   libvpx-1-fixes.patch \
   libvpx.mk \
+  libwebp.mk \
   libxml++.mk \
   libxml2-1-fixes.patch \
   libxml2.mk \
