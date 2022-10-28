@@ -3,9 +3,9 @@
 
 PKG             := eigen
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.3.7
-$(PKG)_CHECKSUM := f13a31c7ec3b87cf6e58b6fb05aa8b887091b71c
-$(PKG)_SUBDIR   := $(PKG)-$(PKG)-323c052e1731
+$(PKG)_VERSION  := 3.4.0
+$(PKG)_CHECKSUM := e422a63bca97a89d8c1f63d7f47ba96d8dfcdef0
+$(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)-3147391d946bb4b6c68edd901f2add6ac1f31f8c
 $(PKG)_FILE     := $($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://gitlab.com/libeigen/$(PKG)/-/archive/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
