@@ -13,12 +13,6 @@ $(PKG)_DEPS     :=
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
     $(PKG)_DEPS += $(OCTAVE_TARGET)
-    ifeq ($(MXE_NATIVE_BUILD),no)
-        ifeq ($(USE_SYSTEM_OCTAVE),no)
-            # Remove this when package builds without calling Octave
-            $(PKG)_DEPS += build-octave
-        endif
-    endif
 endif
 
 define $(PKG)_UPDATE
