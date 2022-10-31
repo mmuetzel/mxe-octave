@@ -3,8 +3,8 @@
 
 PKG             := curl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.85.0
-$(PKG)_CHECKSUM := 5c1940ff51f6b2137b91ffe672b70d4491a23ea6
+$(PKG)_VERSION  := 7.86.0
+$(PKG)_CHECKSUM := 289a3aaec47f98a52474cd34243d6b7f51f8e525
 $(PKG)_SUBDIR   := curl-$($(PKG)_VERSION)
 $(PKG)_FILE     := curl-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://curl.haxx.se/download/$($(PKG)_FILE)
@@ -28,7 +28,6 @@ define $(PKG)_BUILD
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
         $($(PKG)_CONFIGURE_OPTS) \
-        --without-ssl \
         --with-gnutls \
         --with-libidn2 \
         --enable-sspi \
