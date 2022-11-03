@@ -3,8 +3,8 @@
 
 PKG             := lcms
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.13.1
-$(PKG)_CHECKSUM := 72d0a0b7fbaeca12eb0186ab5728eb0f26806b22
+$(PKG)_VERSION  := 2.14
+$(PKG)_CHECKSUM := 94350a2638fe58da736e8726048c859b46a69e6f
 $(PKG)_SUBDIR   := $(PKG)$(word 1,$(subst ., ,$($(PKG)_VERSION)))-$(subst a,,$($(PKG)_VERSION))
 $(PKG)_FILE     := $(PKG)$(word 1,$(subst ., ,$($(PKG)_VERSION)))-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
