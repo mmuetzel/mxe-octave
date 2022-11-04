@@ -577,6 +577,7 @@ SRC_FILES_1 := \
   openssl.mk \
   opkg-biosig-1-skip-test.patch \
   opkg-biosig.mk \
+  opkg-cfitsio.mk \
   opkg-mqtt.mk \
   opus.mk \
   opusfile.mk \
