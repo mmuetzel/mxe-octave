@@ -270,6 +270,12 @@ LIBTOOLIZE  := libtoolize
 ## They run on the build system.  Some, like gcc and binutils may
 ## generate output that runs on the host system (TARGET in MXE terms).
 ALL_BUILD_TOOLS := $(shell $(SED) -n 's/^.* class="package">\(build-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_MSYS2_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(msys2-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_MSYS1_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(msys-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_MSYS_PACKAGES := $(ALL_MSYS2_PACKAGES) $(ALL_MSYS1_PACKAGES)
+ALL_OCTAVE_FORGE_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(of-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_OCTAVE_OTHER_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(opkg-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_OCTAVE_PACKAGES := $(ALL_OCTAVE_FORGE_PACKAGES) $(ALL_OCTAVE_OTHER_PACKAGES)
 
 BUILD_COMPILER_TOOLS := build-gcc build-binutils
 BUILD_TOOLS := $(ALL_BUILD_TOOLS)
@@ -1040,7 +1046,7 @@ update-build-tools:
 
 .PHONY: update-general-pkgs
 update-general-pkgs:
-	$(foreach PKG,$(filter-out $(MSYS2_PACKAGES) $(MSYS_BASE_PACKAGES) $(OCTAVE_FORGE_PACKAGES), $(PKGS)),\
+	$(foreach PKG,$(filter-out $(ALL_MSYS_PACKAGES) $(ALL_OCTAVE_PACKAGES), $(PKGS)),\
 		$(if $($(PKG)_UPDATE),$(call UPDATE,$(PKG),$(shell $($(PKG)_UPDATE))),$(info Warning: No update rule for $(PKG))))
 
 update-checksum-%:
