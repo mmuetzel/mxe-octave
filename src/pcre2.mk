@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/PhilipHazel/$(PKG)/releases/download/$(PKG
 $(PKG)_DEPS     := zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/PhilipHazel/pcre2/tags' | \
-    $(SED) -n 's|.*releases/tag/pcre2-\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,PhilipHazel,pcre2,pcre2-)
 endef
 
 define $(PKG)_BUILD

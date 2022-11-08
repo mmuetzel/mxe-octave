@@ -13,9 +13,7 @@ $(PKG)_DEPS     :=
 $(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/libproxy/libproxy/tags' | \
-    $(SED) -n 's|.*releases/tag/\([0-9][^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,libproxy,libproxy,)
 endef
 
 define $(PKG)_BUILD

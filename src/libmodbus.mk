@@ -8,9 +8,7 @@ $(PKG)_URL      := https://github.com/stephane/$(PKG)/archive/refs/tags/v$($(PKG
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/stephane/libmodbus/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,stephane,libmodbus,v)
 endef
 
 define $(PKG)_BUILD

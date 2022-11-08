@@ -13,9 +13,7 @@ $(PKG)_DEPS     :=
 $(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/eclipse/paho.mqtt.c/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,eclipse,paho.mqtt.c,v)
 endef
 
 define $(PKG)_BUILD

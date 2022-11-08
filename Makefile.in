@@ -1018,6 +1018,15 @@ clean-pkg:
                       $(wildcard $(PKG_DIR)/*)))
 
 .PHONY: update
+
+define GITHUB_PKG_UPDATE
+  $(WGET) -q -O- "https://github.com/$(1)/$(2)/tags" | \
+  $(SED) -n 's|.*releases/tag/$(3)\([0-9][^"]*\).*|\1|p' | \
+  $(GREP) -i -v RC | $(GREP) -i -v BETA | \
+  $(SORT) -V | \
+  tail -1
+endef
+
 define UPDATE
     $(if $(2),
         $(if $(filter $(2),$($(1)_IGNORE)),

@@ -24,9 +24,7 @@ ifeq ($(MXE_NATIVE_BUILD),no)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/JuliaMath/openlibm/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,JuliaMath,openlibm,v)
 endef
 
 define $(PKG)_BUILD

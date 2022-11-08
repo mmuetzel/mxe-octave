@@ -19,9 +19,7 @@ ifeq ($(MXE_SYSTEM),mingw)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/PortAudio/portaudio/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,PortAudio,portaudio,v)
 endef
 
 define $(PKG)_BUILD

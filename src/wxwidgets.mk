@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/wxWidgets/wxWidgets/releases/download/v$($
 $(PKG)_DEPS     := libiconv libpng jpeg tiff sdl2 zlib expat
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com//wxWidgets/wxWidgets/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | grep -v '^3\.1' | grep -v 'rc' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,wxWidgets,wxWidgets,v)
 endef
 
 define $(PKG)_BUILD

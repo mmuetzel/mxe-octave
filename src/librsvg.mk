@@ -11,9 +11,7 @@ $(PKG)_URL      := http://ftp.gnome.org/pub/GNOME/sources/librsvg/$(call SHORT_P
 $(PKG)_DEPS     := glib libgsf cairo pango gtk2 libcroco
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/GNOME/librsvg/tags' | \
-    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,GNOME,librsvg,)
 endef
 
 define $(PKG)_BUILD

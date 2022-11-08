@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/xianyi/OpenBLAS/archive/v$($(PKG)_VERSION)
 $(PKG)_DEPS     := blas
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/xianyi/OpenBLAS/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -Vr | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,xianyi,OpenBLAS,v)
 endef
 
 ifeq ($(USE_CCACHE),yes)

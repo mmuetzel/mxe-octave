@@ -11,9 +11,7 @@ $(PKG)_DEPS     := eigen ffmpeg jasper jpeg libpng \
                    openblas openexr tiff xz zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/opencv/opencv/tags' | \
-    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,opencv,opencv,)
 endef
 
 # -DCMAKE_CXX_STANDARD=98 required for non-posix gcc7 build

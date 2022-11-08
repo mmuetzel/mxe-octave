@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/Tencent/$(PKG)/archive/v$($(PKG)_VERSION).
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/Tencent/$(PKG)/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,Tencent,rapidjson,v)
 endef
 
 define $(PKG)_BUILD

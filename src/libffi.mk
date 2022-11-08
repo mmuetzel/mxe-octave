@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/refs/tags/v$($(PKG)_
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/libffi/libffi/tags' | \
-    $(SED) -n 's,.*releases/tag/v\([0-9][^"]*\).*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,libffi,libffi,v)
 endef
 
 define $(PKG)_BUILD

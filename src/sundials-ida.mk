@@ -14,9 +14,7 @@ ifeq ($(USE_SYSTEM_GCC),no)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/LLNL/sundials/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,LLNL,sundials,v)
 endef
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)

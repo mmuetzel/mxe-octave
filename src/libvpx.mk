@@ -23,9 +23,7 @@ endif
 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/webmproject/libvpx/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,webmproject,libvpx,v)
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),no)

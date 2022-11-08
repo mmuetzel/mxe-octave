@@ -11,10 +11,7 @@ $(PKG)_URL      := https://github.com/emweb/wt/archive/$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := boost openssl libharu graphicsmagick pango postgresql sqlite
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/emweb/wt/tags' | \
-    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | \
-    $(SORT) -Vr | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,emweb,wt,)
 endef
 
 define $(PKG)_BUILD

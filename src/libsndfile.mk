@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/$($(PKG)_VERSION).ta
 $(PKG)_DEPS     := sqlite flac mpg123 ogg opus vorbis
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/libsndfile/libsndfile/tags' | \
-    $(SED) -n 's|.*releases/tag/[v]*\([^"]*\).*|\1|p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,libsndfile,libsndfile,[v]*)
 endef
 
 define $(PKG)_BUILD

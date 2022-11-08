@@ -12,9 +12,7 @@ $(PKG)_URL_2    := ftp://ftp.remotesensing.org/geotiff/libgeotiff/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib jpeg tiff proj
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/OSGeo/libgeotiff/tags' | \
-    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,OSGeo,libgeotiff,)
 endef
 
 define $(PKG)_BUILD
