@@ -11,12 +11,15 @@ $(PKG)_URL      := http://ftp.gnome.org/pub/gnome/sources/gtk+/$(call SHORT_PKG_
 $(PKG)_DEPS     := gettext libpng jpeg tiff jasper glib atk pango cairo gdk-pixbuf
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/GNOME/gtk/tags' | \
-    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | \
-    grep -v '^3\.9' | \
-    grep '^3\.' | \
-    $(SORT) -Vr | \
-    head -1
+    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
+    echo $($(PKG)_VERSION)
+    # last version of gtk3 no longer appears on tag list
+    #$(WGET) -q -O- 'https://github.com/GNOME/gtk/tags' | \
+    #$(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | \
+    #grep -v '^3\.9' | \
+    #grep '^3\.' | \
+    #$(SORT) -Vr | \
+    #head -1
 endef
 
 define $(PKG)_BUILD
