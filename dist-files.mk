@@ -122,6 +122,7 @@ SRC_FILES_1 := \
   gd.mk \
   gdal-2-ucrt.patch \
   gdal.mk \
+  gdb-1-readline-8.2.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
@@ -659,12 +660,12 @@ SRC_FILES_1 := \
   rapidjson-1-prettywriter.patch \
   rapidjson.mk \
   readline-0-001-upstream.patch \
-  readline-0-002-upstream.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-input.patch \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
+  readline-3-fd_set.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
   release-octave.mk \

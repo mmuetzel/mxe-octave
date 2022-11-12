@@ -1,11 +1,12 @@
 diff -ur readline-8.1.1/input.c readline-8.1.2/input.c
 --- readline-8.1.1/input.c	2020-12-19 07:54:06.883500144 -0500
 +++ readline-8.1.2/input.c	2020-12-19 07:55:29.042995655 -0500
-@@ -538,7 +538,12 @@
+@@ -819,7 +819,12 @@
  
  #if defined (__MINGW32__)
-       if (isatty (fileno (stream)))
+-      if (isatty (fd)
 -	return (_getch ());	/* "There is no error return." */
++      if (isatty (fd))
 +        {
 +          int c = _getch ();
 +          if (c == 0xe0)
@@ -14,4 +15,4 @@ diff -ur readline-8.1.1/input.c readline-8.1.2/input.c
 +        }
  #endif
        result = 0;
- #if defined (HAVE_PSELECT)
+ #if defined (HAVE_PSELECT) || defined (HAVE_SELECT)
