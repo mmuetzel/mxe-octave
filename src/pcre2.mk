@@ -7,11 +7,11 @@ $(PKG)_VERSION  := 10.40
 $(PKG)_CHECKSUM := 5a433f92b29083d0d8ccd4ec56e3afbe1fa09863
 $(PKG)_SUBDIR   := pcre2-$($(PKG)_VERSION)
 $(PKG)_FILE     := pcre2-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := https://github.com/PhilipHazel/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/PCRE2Project/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib
 
 define $(PKG)_UPDATE
-    $(call GITHUB_PKG_UPDATE,PhilipHazel,pcre2,pcre2-)
+    $(call GITHUB_PKG_UPDATE,PCRE2Project,pcre2,pcre2-)
 endef
 
 define $(PKG)_BUILD
