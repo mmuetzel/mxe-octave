@@ -2,11 +2,11 @@
 # See index.html for further information.
 
 PKG             := lapack
-$(PKG)_VERSION  := 3.10.1
-$(PKG)_CHECKSUM := c1a566cb91bf1170fb442eb2be9e1fd4005d4640
+$(PKG)_VERSION  := 3.11
+$(PKG)_CHECKSUM := 883d67542a1e39c6baf6cd52bf174aeee37418b1
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://github.com/Reference-LAPACK/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/Reference-LAPACK/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := blas
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -30,9 +30,7 @@ ifeq ($(ENABLE_FORTRAN_INT64),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://www.netlib.org/lapack/' | \
-    $(SED) -n 's_.*>lapack-\([0-9.]*\).tar.gz<.*_\1_p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,Reference-LAPACK,lapack,v)
 endef
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -67,6 +65,8 @@ else
             -DCMAKE_RANLIB='$(shell which $(MXE_RANLIB))' \
             -DCMAKE_Fortran_FLAGS='$($(PKG)_DEFAULT_INTEGER_8_FLAG)' \
             -DBUILD_DEPRECATED=ON \
+            -DBUILD_TESTING=OFF \
+            -DTEST_FORTRAN_COMPILER=OFF \
             -DBUILD_SHARED_LIBS=$(if $(findstring yes,$(BUILD_SHARED)),ON,OFF) \
             $($(PKG)_BLAS_CONFIG_OPTS) \
             $(1)

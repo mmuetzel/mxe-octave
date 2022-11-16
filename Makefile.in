@@ -1022,7 +1022,7 @@ clean-pkg:
 define GITHUB_PKG_UPDATE
   $(WGET) -q -O- "https://github.com/$(1)/$(2)/tags" | \
   $(SED) -n 's|.*releases/tag/$(3)\([0-9][^"]*\).*|\1|p' | \
-  $(GREP) -i -v RC | $(GREP) -i -v BETA | \
+  $(GREP) -i -v RC | $(GREP) -i -v BETA | $(GREP) -i -v PRE | \
   $(SORT) -V | \
   tail -1
 endef
