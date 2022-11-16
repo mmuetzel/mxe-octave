@@ -3,81 +3,99 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.5.3
-$(PKG)_CHECKSUM := 8ff34bb19570237a73a1de8d1a919f043243a521
+$(PKG)_VERSION  := 3.6.0
+$(PKG)_CHECKSUM := b031b383caba8f85d998609774f3e8d48f1442c7
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl postgresql gta proj pcre qhull
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/OSGeo/gdal/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(GREP) -v "RC" | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,OSGeo,gdal,v)
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./autogen.sh && ./configure \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-	$(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        --prefix='$(HOST_PREFIX)' \
-        --with-cpp14 \
-        --with-pam \
-        --with-libz='$(HOST_PREFIX)' \
-        --with-png='$(HOST_PREFIX)' \
-        --with-libtiff='$(HOST_PREFIX)' \
-        --with-geotiff='$(HOST_PREFIX)' \
-        --with-jpeg='$(HOST_PREFIX)' \
-        --with-jasper='$(HOST_PREFIX)' \
-        --with-gif='$(HOST_PREFIX)' \
-        --with-expat='$(HOST_PREFIX)' \
-        --with-sqlite3='$(HOST_PREFIX)' \
-        --with-curl='$(HOST_BINDIR)/curl-config' \
-        --without-geos \
-        --with-pg \
-        --with-gta='$(HOST_PREFIX)' \
-        --with-xml2 \
-        --without-odbc \
-        --without-xerces \
-        --without-grass \
-        --without-libgrass \
-        --without-spatialite \
-        --without-cfitsio \
-        --without-pcraster \
-        --without-netcdf \
-        --without-pcidsk \
-        --without-ogdi \
-        --without-fme \
-        --without-hdf4 \
-        --without-hdf5 \
-        --without-ecw \
-        --without-kakadu \
-        --without-mrsid \
-        --without-jp2mrsid \
-        --without-msg \
-        --without-oci \
-        --without-mysql \
-        --without-ingres \
-        --without-dods-root \
-        --without-idb \
-        --without-epsilon \
-        --without-perl \
-        --without-python \
-        LIBS="-ljpeg `'$(MXE_PKG_CONFIG)' --libs libtiff-4`"
-    $(MAKE) -C '$(1)'       -j '$(JOBS)' lib-target
-    $(MAKE) -C '$(1)'       -j 1 install-lib
-    $(MAKE) -C '$(1)/port'  -j 1 install
-    $(MAKE) -C '$(1)/gcore' -j 1 install
-    $(MAKE) -C '$(1)/frmts' -j 1 install
-    $(MAKE) -C '$(1)/alg'   -j 1 install
-    $(MAKE) -C '$(1)/ogr'   -j 1 install OGR_ENABLED=
-    $(MAKE) -C '$(1)/apps'  -j 1 install BIN_LIST=
-    $(MAKE) -C '$(1)/generated_headers'  -j 1 install
-    $(MAKE) -C '$(1)'       -j 1 gdal.pc
-    $(INSTALL) -d '$(HOST_LIBDIR)/pkgconfig'
-    $(INSTALL) '$(1)/gdal.pc' '$(HOST_LIBDIR)/pkgconfig/'
-    if [ $(MXE_NATIVE_BUILD) = no ]; then \
-      $(INSTALL) -m755 '$(HOST_BINDIR)/gdal-config' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)gdal-config'; \
-    fi
+    cd '$(1)' && cmake \
+        $($(PKG)_CMAKE_FLAGS) \
+        -DBUILD_TESTING=no \
+        $(CMAKE_CCACHE_FLAGS) \
+        $(CMAKE_BUILD_SHARED_OR_STATIC) \
+        -DBUILD_APPS=OFF \
+        -DGDAL_USE_ARMADILLO=OFF \
+        -DGDAL_USE_ARROW=OFF \
+        -DGDAL_USE_GDAL_BASISU=OFF \
+        -DGDAL_USE_BLOSC=OFF \
+        -DGDAL_USE_BRUNSLI=OFF \
+        -DGDAL_USE_CFITSIO=OFF \
+        -DGDAL_USE_CRNLIB=OFF \
+        -DGDAL_USE_CURL=ON \
+        -DGDAL_USE_CRYPTOPP=OFF \
+        -DGDAL_USE_DEFLATE=OFF \
+        -DGDAL_USE_ECW=OFF \
+        -DGDAL_USE_EXPAT=ON \
+        -DGDAL_USE_FILEGDB=OFF \
+        -DGDAL_USE_FREEXL=OFF \
+        -DGDAL_USE_FYBA=OFF \
+        -DGDAL_USE_GEOTIFF=ON \
+        -DGDAL_USE_GEOS=OFF \
+        -DGDAL_USE_GIF=ON \
+        -DGDAL_USE_GTA=ON \
+        -DGDAL_USE_HEIF=OFF \
+        -DGDAL_USE_HDF4=OFF \
+        -DGDAL_USE_HDF5=OFF \
+        -DGDAL_USE_ICONV=ON \
+        -DGDAL_USE_IDB=OFF \
+        -DGDAL_USE_JPEG=ON \
+        -DGDAL_USE_JSONC=OFF \
+        -DGDAL_USE_JXL=OFF \
+        -DGDAL_USE_KDU=OFF \
+        -DGDAL_USE_KEA=OFF \
+        -DGDAL_USE_LERC=OFF \
+        -DGDAL_USE_LIBKML=OFF \
+        -DGDAL_USE_LIBLZMA=ON \
+        -DGDAL_USE_LIBXML2=ON \
+        -DGDAL_USE_LURATECH=OFF \
+        -DGDAL_USE_LZ4=OFF \
+        -DGDAL_USE_MONGOCXX=OFF \
+        -DGDAL_USE_MRSID=OFF \
+        -DGDAL_USE_MSSQL_NCLI=OFF \
+        -DGDAL_USE_MSSQL_ODBC=OFF \
+        -DGDAL_USE_MYSQL=OFF \
+        -DGDAL_USE_NETCDF=OFF \
+        -DGDAL_USE_ODBC=OFF \
+        -DGDAL_USE_ODBCCPP=OFF \
+        -DGDAL_USE_OGDI=OFF \
+        -DGDAL_USE_OPENCAD=OFF \
+        -DGDAL_USE_OPENCL=OFF \
+        -DGDAL_USE_OPENEXR=OFF \
+        -DGDAL_USE_OPENJPEG=OFF \
+        -DGDAL_USE_OPENSSL=OFF \
+        -DGDAL_USE_ORACLE=OFF \
+        -DGDAL_USE_PARQUET=OFF \
+        -DGDAL_USE_PCRE2=ON \
+        -DGDAL_USE_PDFIUM=OFF \
+        -DGDAL_USE_PNG=ON \
+        -DGDAL_USE_POPPLER=OFF \
+        -DGDAL_USE_POSTGRESQL=ON \
+        -DGDAL_USE_QB3=OFF \
+        -DGDAL_USE_QHULL=ON \
+        -DGDAL_USE_RASTERLITE2=OFF \
+        -DGDAL_USE_RDB=OFF \
+        -DGDAL_USE_SPATIALITE=OFF \
+        -DGDAL_USE_SQLITE3=ON \
+        -DGDAL_USE_SFCGAL=OFF \
+        -DGDAL_USE_TEIGHA=OFF \
+        -DGDAL_USE_TIFF=ON \
+        -DGDAL_USE_TILEDB=OFF \
+        -DGDAL_USE_WEBP=OFF \
+        -DGDAL_USE_XERCESC=OFF \
+        -DGDAL_USE_ZLIB=ON \
+        -DGDAL_USE_ZSTD=OFF \
+        -DBUILD_PYTHON_BINDINGS=OFF \
+        -DBUILD_JAVA_BINDINGS=OFF \
+        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        .
+
+    $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
+    $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
 endef
