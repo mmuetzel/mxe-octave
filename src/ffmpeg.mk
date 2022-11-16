@@ -39,6 +39,7 @@ define $(PKG)_BUILD
         --extra-libs='-mconsole' \
         --disable-debug \
         --disable-doc \
+	--disable-programs \
         --enable-avresample \
         --enable-gpl \
         --enable-version3 \
@@ -57,7 +58,8 @@ define $(PKG)_BUILD
         --enable-libvpx \
 	$($(PKG)_CONFIG_OPTS)
     $(MAKE) -C '$(1)' -j '$(JOBS)' V=1
-    $(MAKE) -C '$(1)' -j 1 install
+    $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
+    rm -rf "$(3)$(HOST_PREFIX)/share/ffmpeg"
 endef
 else
 define $(PKG)_BUILD
@@ -67,6 +69,7 @@ define $(PKG)_BUILD
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-debug \
         --disable-doc \
+	--disable-programs \
         --enable-gpl \
         --enable-version3 \
         --disable-nonfree \
@@ -82,7 +85,8 @@ define $(PKG)_BUILD
         --enable-libx264 \
         --enable-libvpx
     $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install
+    $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
+    rm -rf "$(3)$(HOST_PREFIX)/share/ffmpeg"
 endef
 
 endif
