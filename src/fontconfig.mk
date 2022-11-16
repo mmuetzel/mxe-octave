@@ -37,5 +37,5 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j 1 fonts.conf
     $(SED) -i "\|^.*<cachedir>$(HOST_PREFIX).*$$|d" $(1)/fonts.conf
 
-    $(MAKE) -C '$(1)' -j 1 install sbin_PROGRAMS= noinst_PROGRAMS=
+    $(MAKE) -C '$(1)' -j 1 install sbin_PROGRAMS= noinst_PROGRAMS= DESTDIR='$(3)'
 endef
