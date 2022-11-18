@@ -554,6 +554,7 @@ SRC_FILES_1 := \
   of-symbolic.mk \
   of-tisean-1-fixes.patch \
   of-tisean-2-error_state.patch \
+  of-tisean-3-octave-9-compat.patch \
   of-tisean.mk \
   of-tsa.mk \
   of-video.mk \
