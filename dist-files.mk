@@ -485,6 +485,7 @@ SRC_FILES_1 := \
   of-financial.mk \
   of-fits-1-cross-fixes.patch \
   of-fits-2-fixes.patch \
+  of-fits-3-octave-9-compat.patch \
   of-fits.mk \
   of-fl-core-1-fixes.patch \
   of-fl-core.mk \
