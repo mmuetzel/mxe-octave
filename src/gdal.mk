@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 92252ce2aa8418a2f70b699942c053bcc179edc2
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl postgresql gta proj pcre qhull
+$(PKG)_DEPS     := zlib libpng tiff libgeotiff libiconv jpeg jasper giflib expat sqlite curl postgresql gta proj pcre2 qhull
 
 define $(PKG)_UPDATE
     $(call GITHUB_PKG_UPDATE,OSGeo,gdal,v)
