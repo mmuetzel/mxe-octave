@@ -13,7 +13,7 @@ $(PKG)_DEPS     := build-gcc gmp
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://www.mpfr.org/mpfr-current/' | \
-    $(SED) -n 's,.*tags/\([0-9][^/]*\).*,\1,p' |
+    $(SED) -n 's,<title>.*version \([0-9][^<]*\).*,\1,p' | \
     $(SORT) -V | \
     tail -1
 endef
