@@ -20,6 +20,7 @@ define $(PKG)_BUILD
         -DBUILD_TESTING=no \
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
+        -DIconv_IS_BUILT_IN=OFF \
         -DBUILD_APPS=OFF \
         -DGDAL_USE_ARMADILLO=OFF \
         -DGDAL_USE_ARROW=OFF \
