@@ -294,8 +294,6 @@ SRC_FILES_1 := \
   libpng-test.c \
   libpng.mk \
   libproxy.mk \
-  librsb-1-setenv.patch \
-  librsb-2-config.patch \
   librsb.mk \
   librsvg-1-fixes.patch \
   librsvg-test.c \
