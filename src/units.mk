@@ -17,6 +17,11 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    # install all .units files in "share" for cross mingw (no reliable symlinks)
+    if [ "$(MXE_SYSTEM)$(MXE_NATIVE_BUILD)" == "mingwno" ]; then \
+      $(SED) -i -e 's|@CDAT@|@UDAT@|g' '$(1)/Makefile.in'; \
+    fi
+
     cd '$(1)' && ./configure \
         --prefix='$(HOST_PREFIX)' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) 
