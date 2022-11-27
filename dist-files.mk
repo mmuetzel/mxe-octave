@@ -668,6 +668,7 @@ SRC_FILES_1 := \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
   readline-3-fd_set.patch \
+  readline-4-locale.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
   release-octave.mk \

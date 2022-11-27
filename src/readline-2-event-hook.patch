@@ -1,7 +1,7 @@
 diff -urN readline-8.2/input.c.orig readline-8.2/input.c
 --- readline-8.2/input.c.orig	2022-04-08 21:43:24.000000000 +0200
-+++ readline-8.2/input.c	2022-11-22 16:54:55.099070500 +0100
-@@ -176,6 +176,12 @@
++++ readline-8.2/input.c	2022-12-01 19:16:34.989739900 +0100
+@@ -176,6 +178,12 @@
  static unsigned char ibuffer[512];
  static int ibuffer_len = sizeof (ibuffer) - 1;
  
@@ -14,7 +14,7 @@ diff -urN readline-8.2/input.c.orig readline-8.2/input.c
  #define any_typein (push_index != pop_index)
  
  int
-@@ -306,7 +311,7 @@
+@@ -306,7 +314,7 @@
  #if defined (__MINGW32__)
    /* Use getch/_kbhit to check for available console input, in the same way
       that we read it normally. */
@@ -23,7 +23,7 @@ diff -urN readline-8.2/input.c.orig readline-8.2/input.c
     result = 0;
  #endif
  
-@@ -404,7 +409,7 @@
+@@ -404,7 +412,7 @@
  
  #if defined (__MINGW32__)
    if (isatty (tty))
@@ -32,7 +32,7 @@ diff -urN readline-8.2/input.c.orig readline-8.2/input.c
  #endif
  
    return 0;
-@@ -799,6 +804,139 @@
+@@ -799,6 +807,142 @@
    return (c);
  }
  
@@ -143,8 +143,11 @@ diff -urN readline-8.2/input.c.orig readline-8.2/input.c
 +          unicode[1] = _win32_getch_internal (0, &is_char);
 +          utf16_code_units++;
 +        }
-+      /* convert to UTF-8 byte sequence */
-+      int len = WideCharToMultiByte (CP_UTF8, 0,
++      /* convert to current codepage or UTF-8 byte sequence */
++      unsigned int codepage = CP_THREAD_ACP;
++      if (_rl_utf8locale)
++        codepage = CP_UTF8;
++      int len = WideCharToMultiByte (codepage, 0,
 +                                     (wchar_t *) &unicode, utf16_code_units,
 +                                     charbuf, 5, NULL, NULL);
 +      for (int i=0; i<len; i++)
@@ -172,7 +175,7 @@ diff -urN readline-8.2/input.c.orig readline-8.2/input.c
  int
  rl_getc (FILE *stream)
  {
-@@ -818,8 +937,11 @@
+@@ -818,8 +962,11 @@
        /* We know at this point that _rl_caught_signal == 0 */
  
  #if defined (__MINGW32__)
