@@ -666,7 +666,6 @@ SRC_FILES_1 := \
   readline-0-001-upstream.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
-  readline-1-input.patch \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
   readline-3-fd_set.patch \
