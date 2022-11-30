@@ -3,8 +3,8 @@
 
 PKG             := build-autoconf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.69
-$(PKG)_CHECKSUM := e891c3193029775e83e0534ac0ee0c4c711f6d23
+$(PKG)_VERSION  := 2.71
+$(PKG)_CHECKSUM := 1b5b1dbed849c6653be47c56d28d26fcf3f7238a
 $(PKG)_SUBDIR   := autoconf-$($(PKG)_VERSION)
 $(PKG)_FILE     := autoconf-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/autoconf/$($(PKG)_FILE)

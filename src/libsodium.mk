@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/jedisct1/$(PKG)/archive/$($(PKG)_VERSION).
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/jedisct1/libsodium/tags' | \
-    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,jedisct1,libsodium,)
 endef
 
 $(PKG)_EXTRA_CONFIGURE_OPTIONS :=

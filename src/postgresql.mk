@@ -3,8 +3,8 @@
 
 PKG             := postgresql
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 9.4.26
-$(PKG)_CHECKSUM := 832094c944c57ac19ddcd552ada732a77609de75
+$(PKG)_VERSION  := 14.6
+$(PKG)_CHECKSUM := 5bcf9de68a664abf11c2b7291b1c1948abbb4dd3
 $(PKG)_SUBDIR   := postgresql-$($(PKG)_VERSION)
 $(PKG)_FILE     := postgresql-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://ftp.postgresql.org/pub/source/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -21,11 +21,11 @@ endif
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://git.postgresql.org/gitweb?p=postgresql.git;a=tags' | \
-    grep 'refs/tags/REL9[0-9_]*"' | \
-    $(SED) 's,.*refs/tags/REL\(.*\)".*,\1,g;' | \
+    grep 'refs/tags/REL_14[0-9_]*"' | \
+    $(SED) 's,.*refs/tags/REL_\(.*\)".*,\1,g;' | \
     $(SED) 's,_,.,g' | \
-    grep -v '^9\.[01]' | \
-    head -1
+    $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
@@ -55,11 +55,11 @@ define $(PKG)_BUILD
         --with-zlib \
         --with-system-tzdata=/dev/null \
         LIBS="$($(PKG)_LIBS)"
-    $(MAKE) -C '$(1)'/src/common             -j '$(JOBS)'         
-    $(MAKE) -C '$(1)'/src/interfaces/libpq -j '$(JOBS)' install DESTDIR='$(3)'
-    $(MAKE) -C '$(1)'/src/port             -j '$(JOBS)'         
-    $(MAKE) -C '$(1)'/src/bin/psql         -j '$(JOBS)' install DESTDIR='$(3)'
-    $(MAKE) -C '$(1)'/src/bin/pg_config    -j '$(JOBS)' install DESTDIR='$(3)'
+    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/interfaces/libpq -j '$(JOBS)' install DESTDIR='$(3)'
+    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/port             -j '$(JOBS)'         
+    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/common           -j '$(JOBS)'         
+    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/bin/psql         -j '$(JOBS)' install DESTDIR='$(3)'
+    $(MAKE) MAKELEVEL=0 -C '$(1)'/src/bin/pg_config    -j '$(JOBS)' install DESTDIR='$(3)'
     $(INSTALL) -m644 '$(1)/src/include/pg_config.h'    '$(3)$(HOST_INCDIR)'
     $(INSTALL) -m644 '$(1)/src/include/pg_config_ext.h' '$(3)$(HOST_INCDIR)'
     $(INSTALL) -m644 '$(1)/src/include/pg_config_os.h' '$(3)$(HOST_INCDIR)'
@@ -88,8 +88,8 @@ define $(PKG)_BUILD
             --without-libxslt \
             --without-zlib \
             --with-system-tzdata=/dev/null; \
-        $(MAKE) -C '$(1).native'/src/port          -j '$(JOBS)'; \
-        $(MAKE) -C '$(1).native'/src/bin/pg_config -j '$(JOBS)' install DESTDIR=$(3); \
+        $(MAKE) MAKELEVEL=0 -C '$(1).native'/src/port          -j '$(JOBS)'; \
+        $(MAKE) MAKELEVEL=0 -C '$(1).native'/src/bin/pg_config -j '$(JOBS)' install DESTDIR=$(3); \
         $(INSTALL) -m755 '$(3)$(BUILD_TOOLS_PREFIX)/bin/pg_config' '$(3)$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)pg_config'; \
     fi
 endef

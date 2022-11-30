@@ -1,0 +1,47 @@
+# HG changeset patch
+# User John Donoghue <john.donoghue@ieee.org>
+# Date 1656010713 14400
+#      Thu Jun 23 14:58:33 2022 -0400
+# Node ID d96dbe7f078ca2753533cdea59778ce8468a4906
+# Parent  bba813604edfb3d2d50a679d6515a23c482db7c2
+* src/sparsersb.cc: check for version 8 octave changes for __get_type_info__
+
+diff -r bba813604edf -r d96dbe7f078c src/sparsersb.cc
+--- a/src/sparsersb.cc	Thu Jun 23 14:25:16 2022 -0400
++++ b/src/sparsersb.cc	Thu Jun 23 14:58:33 2022 -0400
+@@ -69,6 +69,7 @@
+ #define RSBOI_WANT_PRINT_PCT_OCTAVE_STYLE 1
+ 
+ #include <octave/oct.h>
++#define RSBOI_USE_PATCH_OCT80 (OCTAVE_MAJOR_VERSION>=8)
+ #define RSBOI_USE_PATCH_OCT44 (OCTAVE_MAJOR_VERSION>=5) || ( (OCTAVE_MAJOR_VERSION==4) && (OCTAVE_MINOR_VERSION>=4))
+ #if RSBOI_USE_PATCH_OCT44
+ #include <octave/variables.h>
+@@ -2571,6 +2572,19 @@
+ }
+ #endif /* RSBOI_WANT_DOUBLE_COMPLEX */
+ 
++#if RSBOI_USE_PATCH_OCT80
++#define RSBOI_INSTALL_BINOP(op, t1, t2, f) { \
++  	octave::type_info& type_info = octave::__get_type_info__ ();\
++	type_info.register_binary_op(octave_value::op, t1::static_type_id (), t2::static_type_id (), CONCAT2 (oct_binop_, f)); }
++
++#define RSBOI_INSTALL_ASSIGNOP(op, t1, t2, f) { \
++  	octave::type_info& type_info = octave::__get_type_info__ ();\
++	type_info.register_assign_op(octave_value::op, t1::static_type_id (), t2::static_type_id (), CONCAT2 (oct_assignop_, f)); }
++
++#define RSBOI_INSTALL_UNOP(op, t1, f) { \
++  	octave::type_info& type_info = octave::__get_type_info__ ();\
++	type_info.register_unary_op(octave_value::op, t1::static_type_id (), CONCAT2 (oct_unop_, f)); }
++#else
+ #if RSBOI_USE_PATCH_OCT44
+ #define RSBOI_INSTALL_BINOP(op, t1, t2, f) { \
+   	octave::type_info& type_info = octave::__get_type_info__ ("");\
+@@ -2593,6 +2607,7 @@
+ // deprecated; need a wrapper using octave::typeinfo::register_unary_op
+ #define RSBOI_INSTALL_UNOP INSTALL_UNOP
+ #endif /* RSBOI_USE_PATCH_OCT44 */
++#endif /* RSBOI_USE_PATCH_OCT88 */
+ 
+ static void install_sparsersb_ops (void)
+ {

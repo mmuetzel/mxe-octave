@@ -24,7 +24,7 @@ endif
 
 define $(PKG)_BUILD
     mkdir '$(1).build'
-    cd '$(1)' && autoreconf
+    cd '$(1)' && autoreconf -fi
     cd '$(1).build' && '$(1)/configure' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(CONFIGURE_CPPFLAGS) \
@@ -35,5 +35,5 @@ define $(PKG)_BUILD
         --with-pc_path='$(HOST_LIBDIR)/pkgconfig' \
         --prefix='$(HOST_PREFIX)'
     $(MAKE) -C '$(1).build' V=1 -j 1
-    $(MAKE) -C '$(1).build' -j 1 install DESTDIR='$(3)'
+    $(MAKE) -C '$(1).build' -j 1 install $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
 endef

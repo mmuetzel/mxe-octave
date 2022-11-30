@@ -1,0 +1,124 @@
+The function "set_warning_state" was moved to the "octave" namespace in Octave 7
+and the function was finally removed from the global namespace in Octave 9.
+Replace "fortran_vec" on const objects with "data".
+
+--- tisean-0.2.3/src/__lyap_spec__.cc.orig	2022-11-18 18:34:30.819911000 +0100
++++ tisean-0.2.3/src/__lyap_spec__.cc	2022-11-18 18:36:51.153582045 +0100
+@@ -413,8 +413,8 @@
+      // end old indexes = make_multi_index();
+ 
+           // Promote warnings connected with singular matrixes to errors
+-          set_warning_state ("Octave:nearly-singular-matrix","error");
+-          set_warning_state ("Octave:singular-matrix","error");
++          octave::set_warning_state ("Octave:nearly-singular-matrix", "error");
++          octave::set_warning_state ("Octave:singular-matrix", "error");
+ 
+           // Prepare data for running first time
+           if (count == 0)
+
+--- tisean-0.2.3/src/__polynom__.cc.orig	2022-11-18 18:39:15.855558000 +0100
++++ tisean-0.2.3/src/__polynom__.cc	2022-11-18 18:42:04.850651947 +0100
+@@ -223,8 +223,8 @@
+       octave_idx_type *coding = coding_vec.data();
+ 
+           // Promote warnings connected with singular matrixes to errors
+-          set_warning_state ("Octave:nearly-singular-matrix","error");
+-          set_warning_state ("Octave:singular-matrix","error");
++          octave::set_warning_state ("Octave:nearly-singular-matrix", "error");
++          octave::set_warning_state ("Octave:singular-matrix", "error");
+  
+           // Make the fit
+           make_fit (series, coding, results, INSAMPLE, N, DIM, DELAY,
+
+--- tisean-0.2.3/src/__rbf__.cc.orig	2022-11-18 18:39:15.855558000 +0100
++++ tisean-0.2.3/src/__rbf__.cc	2022-11-18 18:43:54.393150501 +0100
+@@ -153,8 +153,8 @@
+           center[i][j]=series[(DIM-1)*DELAY-j*DELAY+(i*cstep)/(CENTER-1)];
+ 
+           // Promote warnings connected with singular matrixes to errors
+-          set_warning_state ("Octave:nearly-singular-matrix","error");
+-          set_warning_state ("Octave:singular-matrix","error");
++          octave::set_warning_state ("Octave:nearly-singular-matrix","error");
++          octave::set_warning_state ("Octave:singular-matrix","error");
+ 
+           // Calculate coefficients
+           if (setdrift)
+
+--- tisean-0.2.3/src/__lfo_run__.cc.orig	2022-11-18 18:39:15.851560000 +0100
++++ tisean-0.2.3/src/__lfo_run__.cc	2022-11-18 18:45:31.538549956 +0100
+@@ -324,8 +324,8 @@
+           cast[i][j]=series[j][LENGTH-hdim+i];
+ 
+           // Promote warnings connected with singular matrixes to errors
+-          set_warning_state ("Octave:nearly-singular-matrix","error");
+-          set_warning_state ("Octave:singular-matrix","error");
++          octave::set_warning_state ("Octave:nearly-singular-matrix", "error");
++          octave::set_warning_state ("Octave:singular-matrix", "error");
+ 
+           // Calculate the maximum epsilon that makes sense
+           // On the basis of 'i' and 'j' from put_in_boxes ()
+
+--- tisean-0.2.3/src/__lfo_test__.cc.orig	2022-11-18 18:39:15.851560000 +0100
++++ tisean-0.2.3/src/__lfo_test__.cc	2022-11-18 18:47:34.600170403 +0100
+@@ -326,8 +326,8 @@
+         error_array[i]=0.0;
+ 
+           // Promote warnings connected with singular matrixes to errors
+-          set_warning_state ("Octave:nearly-singular-matrix","error");
+-          set_warning_state ("Octave:singular-matrix","error");
++          octave::set_warning_state ("Octave:nearly-singular-matrix", "error");
++          octave::set_warning_state ("Octave:singular-matrix", "error");
+ 
+           // Calculate the maximum epsilon that makes sense
+           // On the basis of 'i' and 'j' from put_in_boxes ()
+
+
+--- tisean-0.2.3/src/__lfo_ar__.cc.orig	2022-11-18 18:39:15.851560000 +0100
++++ tisean-0.2.3/src/__lfo_ar__.cc	2022-11-18 18:49:18.465577481 +0100
+@@ -257,8 +257,8 @@
+       octave_idx_type clength=(CLENGTH <= LENGTH) ? CLENGTH-STEP : LENGTH-STEP;
+ 
+           // Promote warnings connected with singular matrixes to errors
+-          set_warning_state ("Octave:nearly-singular-matrix","error");
+-          set_warning_state ("Octave:singular-matrix","error");
++          octave::set_warning_state ("Octave:nearly-singular-matrix", "error");
++          octave::set_warning_state ("Octave:singular-matrix", "error");
+ 
+           // Estimate maximum possible output size
+           octave_idx_type output_rows = (octave_idx_type)
+
+--- tisean-0.2.3/src/__lzo_test__.cc.orig	2022-11-18 18:39:15.855558000 +0100
++++ tisean-0.2.3/src/__lzo_test__.cc	2022-11-18 18:51:05.883219045 +0100
+@@ -81,7 +81,7 @@
+     {
+       casted=0.0;
+   //  old  help=series[j]+istep;
+-      help=series.fortran_vec()+j*len+istep;
++      help = series.data () + j * len + istep;
+       for (octave_idx_type i=0;i<number;i++)
+         casted += help[found[i]];
+       casted /= (double)number;
+
+--- tisean-0.2.3/src/__lzo_gm__.cc.orig	2022-11-18 18:53:07.380654000 +0100
++++ tisean-0.2.3/src/__lzo_gm__.cc	2022-11-18 18:53:27.705430278 +0100
+@@ -42,7 +42,7 @@
+   octave_idx_type LENGTH = series.rows ();
+   for (octave_idx_type i=0;i<dim;i++) 
+     {
+-      const double *si = series.fortran_vec() + LENGTH * i;
++      const double *si = series.data () + LENGTH * i;
+       double cast=si[found[0]+STEP];
+       for (octave_idx_type j=1;j<number;j++)
+         cast += si[found[j]+STEP];
+
+--- tisean-0.2.3/src/__lzo_run__.cc.orig	2022-11-18 18:39:15.855558000 +0100
++++ tisean-0.2.3/src/__lzo_run__.cc	2022-11-18 18:55:01.719648553 +0100
+@@ -136,7 +136,7 @@
+   for (octave_idx_type d=0;d<dim;d++) {
+     newcast[d]=0.0;
+ //  old   sd=series[d]+1;
+-    const double *sd = series.fortran_vec() + d*len + 1;
++    const double *sd = series.data () + d * len + 1;
+     for (octave_idx_type i=0;i<number;i++)
+       newcast[d] += sd[found[i]];
+     newcast[d] /= (double)number;

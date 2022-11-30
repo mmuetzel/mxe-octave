@@ -6,7 +6,7 @@ diff -ru gl2ps-1.4.2.orig/CMakeLists.txt gl2ps-1.4.2/CMakeLists.txt
  endif()
  
 -if(WIN32)
-+if(WIN32 AND NOT DEFINED ENV{MSYSTEM})
++if(WIN32 AND NOT DEFINED ENV{MSYSTEM} AND NOT CMAKE_CROSSCOMPILING)
    set(GL2PS_DOC .)
  else()
    set(GL2PS_DOC share/doc/gl2ps)

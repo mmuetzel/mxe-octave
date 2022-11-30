@@ -3,8 +3,8 @@
 
 PKG             := openexr
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.5.2
-$(PKG)_CHECKSUM := e4773b3da36c38052b8172c22000a8bf715808bc
+$(PKG)_VERSION  := 3.1.5
+$(PKG)_CHECKSUM := 70dc06b7bebab4c0792c902c28b53dd967ec9628
 $(PKG)_SUBDIR   := openexr-$($(PKG)_VERSION)
 $(PKG)_FILE     := openexr-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz

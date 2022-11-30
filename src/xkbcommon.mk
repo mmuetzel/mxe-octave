@@ -22,6 +22,7 @@ define $(PKG)_BUILD
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
+	--disable-selective-werror \
         && $(CONFIGURE_POST_HOOK)
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'

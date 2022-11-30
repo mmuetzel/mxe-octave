@@ -4,14 +4,15 @@
 PKG             := msys2-filesystem
 $(PKG)_NAME     := filesystem
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2021.06-1
-$(PKG)_x86_64_CS := 119b065c17f0243e91786c5ae4c33f94f70bafed
-$(PKG)_i686_CS  := c2139a15abb3c9153201f0f79e6638298f2d65ee
+$(PKG)_VERSION  := 2022.01-5
+$(PKG)_x86_64_CS := cc9accd0fc874e20a89864407def1d8e3f413c0d
+$(PKG)_i686_CS  := cee395689352e73f66223badb68e6620bec1dd03
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
+$(PKG)_URL2     := $(if $(MSYS2_URL2),$(MSYS2_URL2)/$($(PKG)_FILE),)
 
 $(PKG)_DEPS     := 
 

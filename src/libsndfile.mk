@@ -3,17 +3,15 @@
 
 PKG             := libsndfile
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.31
-$(PKG)_CHECKSUM := 4ada136ae38b08a7f17160f44ca9f0d85d53da50
+$(PKG)_VERSION  := 1.1.0
+$(PKG)_CHECKSUM := dd98ff27fb66fbf1ab1e291bc8938449e90778a2
 $(PKG)_SUBDIR   := libsndfile-$($(PKG)_VERSION)
 $(PKG)_FILE     := libsndfile-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := sqlite flac ogg opus vorbis
+$(PKG)_DEPS     := sqlite flac mpg123 ogg opus vorbis
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/libsndfile/libsndfile/tags' | \
-    $(SED) -n 's|.*releases/tag/[v]*\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,libsndfile,libsndfile,[v]*)
 endef
 
 define $(PKG)_BUILD

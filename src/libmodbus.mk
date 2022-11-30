@@ -1,20 +1,18 @@
 PKG             := libmodbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.1.7
-$(PKG)_CHECKSUM := 71d0aa223f21ddfacc8a2461f2e3e0c77e128efb
+$(PKG)_VERSION  := 3.1.8
+$(PKG)_CHECKSUM := 9c18293b78217338cdbf062d3c7c6eeef3bc6822
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
-$(PKG)_URL      := https://libmodbus.org/releases/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/stephane/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/stephane/libmodbus/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,stephane,libmodbus,v)
 endef
 
 define $(PKG)_BUILD
-  cd '$(1)' && ./configure \
+  cd '$(1)' && ./autogen.sh && ./configure \
       $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
       $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
       $(ENABLE_SHARED_OR_STATIC) \

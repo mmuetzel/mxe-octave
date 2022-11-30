@@ -3,19 +3,12 @@
 
 PKG             := gdcm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0.10
-$(PKG)_CHECKSUM := dd3543fde27351744cd31b2a80b6800d7810047d
+$(PKG)_VERSION  := 3.0.20
+$(PKG)_CHECKSUM := 7d8ce96cf468031805b119b26853a9d4e795bd72
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG) 3.x/GDCM $($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := expat zlib
-
-$(PKG)_CMAKE_OPTS :=
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-  ifeq ($(MXE_SYSTEM),mingw)
-    $(PKG)_CMAKE_OPTS := -G "MSYS Makefiles" 
-  endif
-endif
+$(PKG)_DEPS     := expat zlib build-ninja
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://sourceforge.net/projects/gdcm/files/gdcm 3.x/' | \
@@ -48,7 +41,7 @@ else
     define $(PKG)_BUILD
         mkdir '$(1)/../.build'
         cd '$(1)/../.build' && cmake \
-            $($(PKG)_CMAKE_OPTS) \
+            -GNinja \
             $(CMAKE_CCACHE_FLAGS) \
             $(CMAKE_BUILD_SHARED_OR_STATIC) \
             -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)'  \
@@ -58,8 +51,8 @@ else
             -DGDCM_BUILD_DOCBOOK_MANPAGES:BOOL=FALSE \
             ../$($(PKG)_SUBDIR)
 
-        make -C $(1)/../.build -j $(JOBS) 
-        make -C $(1)/../.build -j 1 install DESTDIR=$(3)
+        cmake --build $(1)/../.build -j $(JOBS) 
+        DESTDIR=$(3) cmake --install $(1)/../.build
     endef
 
 endif

@@ -16,9 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/gnu-octave/statistics/tags' | \
-    $(SED) -n 's|.*releases/tag/release-\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,gnu-octave,statistics,release-)
 endef
 
 define $(PKG)_BUILD

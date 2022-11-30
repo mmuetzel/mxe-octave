@@ -3,8 +3,8 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 11.2.0
-$(PKG)_CHECKSUM := f902ccacecf8949978d6261e9f1d034cff73ffdb
+$(PKG)_VERSION  := 12.2.0
+$(PKG)_CHECKSUM := 5dce6dc0091b8049b530d1587513a07201691760
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -98,6 +98,13 @@ ifeq ($(MXE_SYSTEM),mingw)
     $(MAKE) -C '$(1).pthreads' -j '$(JOBS)' || $(MAKE) -C '$(1).pthreads' -j '$(JOBS)'
     $(MAKE) -C '$(1).pthreads' -j 1 install
   endef
+
+  define $(PKG)_POST_BUILD
+    # overwrite default specs to mimic stack protector handling of glibc
+    # ./configure above doesn't do this
+    '$(TARGET)-gcc' -dumpspecs > '$(BUILD_TOOLS_PREFIX)/lib/gcc/$(TARGET)/$($(PKG)_VERSION)/specs'
+    $(SED) -i 's,-lmingwex,-lmingwex -lssp_nonshared -lssp,' '$(BUILD_TOOLS_PREFIX)/lib/gcc/$(TARGET)/$($(PKG)_VERSION)/specs'
+  endef
 endif
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
@@ -135,6 +142,7 @@ define $(PKG)_CONFIGURE
         $($(PKG)_SYSDEP_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-libgomp \
+	--enable-default-ssp \
         --with-cloog='$(BUILD_TOOLS_PREFIX)' \
         --with-gmp='$(BUILD_TOOLS_PREFIX)' \
         --with-isl='$(BUILD_TOOLS_PREFIX)' \

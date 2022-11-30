@@ -3,8 +3,8 @@
 
 PKG             := native-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 11.2.0
-$(PKG)_CHECKSUM := f902ccacecf8949978d6261e9f1d034cff73ffdb
+$(PKG)_VERSION  := 12.2.0
+$(PKG)_CHECKSUM := 5dce6dc0091b8049b530d1587513a07201691760
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -45,8 +45,9 @@ endif
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://ftp.gnu.org/gnu/gcc/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="gcc-\([0-9][^"]*\)/".*,\1,p' | \
+    $(SORT) -V | \
     grep -v '^4\.[543]\.' | \
-    head -1
+    tail -1
 endef
 
 define $(PKG)_BUILD

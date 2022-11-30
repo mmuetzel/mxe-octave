@@ -3,8 +3,8 @@
 
 PKG             := libvpx
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.8.2
-$(PKG)_CHECKSUM := 7fbc7de47f59431fa2c5b76660f115963e83193d
+$(PKG)_VERSION  := 1.12.0
+$(PKG)_CHECKSUM := e5f344d28752344d4c6e0c83b055093932b8d2c9
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/webmproject/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
@@ -23,10 +23,7 @@ endif
 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/webmproject/libvpx/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
-    $(SORT) -Vr | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,webmproject,libvpx,v)
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),no)

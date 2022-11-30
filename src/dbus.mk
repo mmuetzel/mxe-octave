@@ -3,8 +3,8 @@
 
 PKG             := dbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.13.20
-$(PKG)_CHECKSUM := 721389d265da7eaa644789efac4bcd848b11e313
+$(PKG)_VERSION  := 1.15.2
+$(PKG)_CHECKSUM := 5cb3f74b408f97e91247a8e82366a60028bf2ecb
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(PKG).freedesktop.org/releases/$(PKG)/$($(PKG)_FILE)
@@ -16,9 +16,8 @@ ifeq ($(MXE_SYSTEM),mingw)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://cgit.freedesktop.org/dbus/dbus/refs/tags' | \
-    $(SED) -n "s,.*<a href='[^']*/tag/?h=dbus-\\([0-9][^']*\\)'.*,\\1,p" | \
-    $(SORT) -V | \
+    $(WGET) -q -O- https://gitlab.freedesktop.org/dbus/dbus/-/tags | \
+    $(SED) -n 's|.*/tags/dbus-\([^"]*\).*|\1|p' | grep -v 'rc' | $(SORT) -V | \
     tail -1
 endef
 

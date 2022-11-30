@@ -7,11 +7,11 @@ $(PKG)_VERSION  := 0.7.4
 $(PKG)_CHECKSUM := 79b33bd8d89dad7436f85b9154ad35667aa37321
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://liba52.sourceforge.net/files/$(PKG)-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://liba52.sourceforge.io/files/$(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://liba52.sourceforge.net/downloads.html' | \
+    $(WGET) -q -O- 'https://liba52.sourceforge.io/downloads.html' | \
     $(SED) -n 's,.*files/a52dec-\([0-9][^"]*\)\.tar.*,\1,p' | \
     head -1
 endef

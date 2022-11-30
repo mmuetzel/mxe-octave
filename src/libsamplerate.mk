@@ -3,8 +3,8 @@
 
 PKG             := libsamplerate
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.1.8
-$(PKG)_CHECKSUM := e5fe82c4786be2fa33ca6bd4897db4868347fe70
+$(PKG)_VERSION  := 0.1.9
+$(PKG)_CHECKSUM := ed60f957a4ff87aa15cbb1f3dbd886fa7e5e9566
 $(PKG)_SUBDIR   := libsamplerate-$($(PKG)_VERSION)
 $(PKG)_FILE     := libsamplerate-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.mega-nerd.com/SRC/$($(PKG)_FILE)
@@ -23,6 +23,6 @@ define $(PKG)_BUILD
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)'
-    $(MAKE) -C '$(1)' -j '$(JOBS)' bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
-    $(MAKE) -C '$(1)' -j 1 install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
+    $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS)
+    $(MAKE) -C '$(1)' -j 1 $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS)
 endef

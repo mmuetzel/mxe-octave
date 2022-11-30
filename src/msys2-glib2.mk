@@ -4,14 +4,15 @@
 PKG             := msys2-glib2
 $(PKG)_NAME     := glib2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.68.1-1
-$(PKG)_x86_64_CS := c19bd031bc78eb488f6efefb3abd2caa3c54d34e
-$(PKG)_i686_CS  := 489f6d1a9a32e2afb63e5a6a8f1d2a139d3f17d9
+$(PKG)_VERSION  := 2.72.2-2
+$(PKG)_x86_64_CS := c66ebcbfebd463673e1fd93d6169280dc9d9ba2d
+$(PKG)_i686_CS  := 2a91c3c1140dbe74919553a31715ad414c80f6b0
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
+$(PKG)_URL2     := $(if $(MSYS2_URL2),$(MSYS2_URL2)/$($(PKG)_FILE),)
 
 $(PKG)_DEPS     := 
 

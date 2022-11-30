@@ -4,10 +4,10 @@
 PKG             := src-msys2-wget
 $(PKG)_NAME     := wget
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.21.1-2
-$(PKG)_CHECKSUM := 9de5090aa3dbdb426723062c9c6164b5f38c971f
+$(PKG)_VERSION  := 1.21.3-1
+$(PKG)_CHECKSUM := 1efe472e1a166c06fcc9e314c156f5902ac19dce
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

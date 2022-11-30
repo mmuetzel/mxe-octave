@@ -4,10 +4,10 @@
 PKG             := src-msys2-libunistring
 $(PKG)_NAME     := libunistring
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.9.10-1
-$(PKG)_CHECKSUM := 5add3e7f5ac3c8491908cdd4461b4de1b681b6e5
+$(PKG)_VERSION  := 1.0-1
+$(PKG)_CHECKSUM := 51c5ac598e77989162567549f13717445e029f45
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

@@ -3,13 +3,13 @@
 
 PKG             := flac
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.3
-$(PKG)_CHECKSUM := 6ac2e8f1dd18c9b0214c4d81bd70cdc1e943cffe
+$(PKG)_VERSION  := 1.4.2
+$(PKG)_CHECKSUM := 4297c4f7c8665705f46886403755061dd0a30289
 $(PKG)_SUBDIR   := flac-$($(PKG)_VERSION)
 $(PKG)_FILE     := flac-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://downloads.xiph.org/releases/flac/$($(PKG)_FILE)
 
-$(PKG)_DEPS     := libiconv ogg
+$(PKG)_DEPS     := build-nasm libiconv ogg
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://downloads.xiph.org/releases/flac/' | \
@@ -31,4 +31,8 @@ define $(PKG)_BUILD
         --disable-oggtest
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) VERBOSE=1
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
+
+    if [ "x$(ENABLE_DEP_DOCS)" == "xno" ]; then \
+      rm -rf $(3)/$(HOST_PREFIX)/share/doc/flac; \
+    fi
 endef

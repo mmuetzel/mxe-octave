@@ -3,25 +3,26 @@
 
 PKG             := faad2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.8.8
-$(PKG)_CHECKSUM := 0d49c516d4a83c39053a9bd214fddba72cbc34ad
+$(PKG)_VERSION  := 2.10.1
+$(PKG)_CHECKSUM := 47b9d0ad96e1b402d7ee9d72346b9670b2a81085
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/faac/$(PKG)-src/$(PKG)-2.8.0/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/knik0/$(PKG)/archive/refs/tags/$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://sourceforge.net/projects/faac/files/faad2-src/faad2-2.8.0/' | \
-    $(SED) -n 's,.*title=\"faad2-\([0-9\.]*\)\.tar\.gz\".*,\1,p' | $(SORT) -V | \
+    $(WGET) -q -O- 'https://github.com/knik0/faad2/tags' | \
+    $(SED) -n 's|.*releases/tag/\([^"]*\).*|\1|p' | $(SED) 's|_|.|g' | $(SORT) -V | \
     tail -1
 endef
 
 define $(PKG)_BUILD
+    cd '$(1)' && '$(1)/bootstrap'
     cd '$(1)' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
         $(ENABLE_SHARED_OR_STATIC)
-    $(MAKE) -C '$(1)' -j '$(JOBS)' LDFLAGS='-no-undefined'
-    $(MAKE) -C '$(1)' -j 1 install LDFLAGS='-no-undefined'
+    $(MAKE) -C '$(1)' -j '$(JOBS)' LDFLAGS='-no-undefined' DESTDIR='$(3)'
+    $(MAKE) -C '$(1)' -j 1 install LDFLAGS='-no-undefined' $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
 endef
 

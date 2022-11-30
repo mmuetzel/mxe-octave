@@ -3,8 +3,8 @@
 
 PKG             := gettext
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.21
-$(PKG)_CHECKSUM := e6c0a0cba5b00a604c9118403a8199c77a538526
+$(PKG)_VERSION  := 0.21.1
+$(PKG)_CHECKSUM := 8458f2b0d4a84b27a41cce92cacc09b3e833cedc
 $(PKG)_SUBDIR   := gettext-$($(PKG)_VERSION)
 $(PKG)_FILE     := gettext-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gettext/$($(PKG)_FILE)
@@ -19,6 +19,9 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    # while we are patching stuff, we may need to run reconf
+    cd '$(1)' && aclocal && libtoolize --automake --copy --force
+    cd '$(1)' && WANT_AUTOMAKE=latest ./autogen.sh --skip-gnulib
     cd '$(1)/gettext-runtime' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \

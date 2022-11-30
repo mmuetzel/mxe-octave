@@ -3,8 +3,8 @@
 
 PKG             := double-conversion
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.1.7
-$(PKG)_CHECKSUM := 55732a036a077624b0e6bab48652a1d98d472750
+$(PKG)_VERSION  := 3.2.1
+$(PKG)_CHECKSUM := 1739208c8ca88a6073e738a96ebde73ec9bdebe7
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/google/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
@@ -13,9 +13,7 @@ $(PKG)_DEPS     :=
 $(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/google/double-conversion/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,google,double-conversion,v)
 endef
 
 define $(PKG)_BUILD

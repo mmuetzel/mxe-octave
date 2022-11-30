@@ -203,6 +203,7 @@ ifeq ($(ENABLE_DEP_DOCS),no)
     dist_html_DATA= \
     pkghtml_DATA= \
     examples_DATA= \
+    dist_examples_DATA= \
     dist_examples_SCRIPTS= \
     dist_apidoc_DATA= \
     INFO_DEPS= 
@@ -231,6 +232,7 @@ MIRROR_SITES       := GITLAB_BACKUP MXE_MIRROR PKG_MIRROR PKG_CDN MXE_OCTAVE_MIR
 SHELL := @SHELL@
 
 GREP       ?= grep
+EGREP      ?= $(shell egrep --help >/dev/null 2>&1 && echo e)grep
 INSTALL    := $(shell ginstall --help >/dev/null 2>&1 && echo g)install
 PATCH      := $(shell gpatch --help >/dev/null 2>&1 && echo g)patch
 SED        := $(shell gsed --help >/dev/null 2>&1 && echo g)sed
@@ -268,13 +270,19 @@ LIBTOOLIZE  := libtoolize
 ## They run on the build system.  Some, like gcc and binutils may
 ## generate output that runs on the host system (TARGET in MXE terms).
 ALL_BUILD_TOOLS := $(shell $(SED) -n 's/^.* class="package">\(build-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_MSYS2_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(msys2-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_MSYS1_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(msys-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_MSYS_PACKAGES := $(ALL_MSYS2_PACKAGES) $(ALL_MSYS1_PACKAGES)
+ALL_OCTAVE_FORGE_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(of-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_OCTAVE_OTHER_PACKAGES := $(shell $(SED) -n 's/^.* class="package">\(opkg-[^<]*\)<.*$$/\1/p' '$(TOP_DIR)/index.html')
+ALL_OCTAVE_PACKAGES := $(ALL_OCTAVE_FORGE_PACKAGES) $(ALL_OCTAVE_OTHER_PACKAGES)
 
 BUILD_COMPILER_TOOLS := build-gcc build-binutils
 BUILD_TOOLS := $(ALL_BUILD_TOOLS)
 # some build tools are optional and added as explicit dependencies
 # to packages that need them
 BUILD_TOOLS_OPT := \
-  build-libffi build-mako build-markupsafe build-meson build-ninja \
+  build-libffi build-mako build-markupsafe build-meson build-nasm build-ninja \
   build-python build-octave build-setuptools build-scons
 BUILD_TOOLS := $(filter-out $(BUILD_TOOLS_OPT), $(BUILD_TOOLS))
 # Building flex for native mingw fails, so disable it.
@@ -482,7 +490,13 @@ ifeq ($(MXE_SYSTEM),mingw)
     MSYS2_SOURCES := $(addprefix src-,$(MSYS2_PACKAGES))
     PKGS += $(MSYS2_SOURCES)
     MSYS2_BASE_URL := https://repo.msys2.org/msys
+ifeq ($(MSYS2_ARCH), i686)
+    MSYS2_URL := https://github.com/jeremyd2019/msys2-build32/releases/download/repo
+    MSYS2_URL2 := $(MSYS2_BASE_URL)/$(MSYS2_ARCH)
+else
     MSYS2_URL := $(MSYS2_BASE_URL)/$(MSYS2_ARCH)
+    MSYS2_URL2 :=
+endif
     MSYS2_SRC_URL := $(MSYS2_BASE_URL)/sources
     MSYS2_DIR := $(TOP_BUILD_DIR)/msys2
 
@@ -535,8 +549,8 @@ endif
 OCTAVE_FORGE_BASE_URL := 'https://sourceforge.net/projects/octave/files/Octave Forge Packages/Individual Package Releases'
 ## Packages removed from list because build is broken:
 ## None.
-OCTAVE_FORGE_PACKAGES := $(addprefix of-,audio communications control database dataframe data-smoothing dicom financial fits fuzzy-logic-toolkit ga general generate_html geometry gsl image instrument-control interval io linear-algebra lssa ltfat mapping matgeom miscellaneous nan netcdf nurbs ocs octproj optim optiminterp quaternion queueing signal sockets sparsersb splines statistics stk strings struct symbolic tisean tsa video windows zeromq)
-OCTAVE_OTHER_PACKAGES := $(addprefix opkg-,biosig)
+OCTAVE_FORGE_PACKAGES := $(addprefix of-,audio communications control database dataframe data-smoothing dicom financial fuzzy-logic-toolkit ga general generate_html geometry gsl image instrument-control interval io linear-algebra lssa ltfat mapping matgeom miscellaneous nan netcdf nurbs ocs octproj optim optiminterp quaternion queueing signal sockets sparsersb splines statistics stk strings struct symbolic tisean tsa video windows zeromq)
+OCTAVE_OTHER_PACKAGES := $(addprefix opkg-,biosig cfitsio mqtt)
 # get ALL deps for all of- packages, regardless of whether building the actual forge package in the installer
 OCTAVE_FORGE_DEPS:= $(sort $(foreach p,$(addprefix $(TOP_DIR)/src/,$(addsuffix .mk,$(OCTAVE_FORGE_PACKAGES))),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
 OCTAVE_OTHER_PKG_DEPS:= $(sort $(foreach p,$(addprefix $(TOP_DIR)/src/,$(addsuffix .mk,$(OCTAVE_OTHER_PACKAGES))),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
@@ -1004,6 +1018,15 @@ clean-pkg:
                       $(wildcard $(PKG_DIR)/*)))
 
 .PHONY: update
+
+define GITHUB_PKG_UPDATE
+  $(WGET) -q -O- "https://github.com/$(1)/$(2)/tags" | \
+  $(SED) -n 's|.*releases/tag/$(3)\([0-9][^"]*\).*|\1|p' | \
+  $(GREP) -i -v RC | $(GREP) -i -v BETA | $(GREP) -i -v PRE | \
+  $(SORT) -V | \
+  tail -1
+endef
+
 define UPDATE
     $(if $(2),
         $(if $(filter $(2),$($(1)_IGNORE)),
@@ -1032,7 +1055,7 @@ update-build-tools:
 
 .PHONY: update-general-pkgs
 update-general-pkgs:
-	$(foreach PKG,$(filter-out $(MSYS2_PACKAGES) $(MSYS_BASE_PACKAGES) $(OCTAVE_FORGE_PACKAGES), $(PKGS)),\
+	$(foreach PKG,$(filter-out $(ALL_MSYS_PACKAGES) $(ALL_OCTAVE_PACKAGES), $(PKGS)),\
 		$(if $($(PKG)_UPDATE),$(call UPDATE,$(PKG),$(shell $($(PKG)_UPDATE))),$(info Warning: No update rule for $(PKG))))
 
 update-checksum-%:

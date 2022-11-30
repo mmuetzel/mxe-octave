@@ -1,58 +1,30 @@
 			   READLINE PATCH REPORT
 			   =====================
 
-Readline-Release: 8.1
-Patch-ID: readline81-001
+Readline-Release: 8.2
+Patch-ID: readline82-001
 
-Bug-Reported-by:	Tom Tromey <tom@tromey.com>
-Bug-Reference-ID:	<875z3u9fd0.fsf@tromey.com>
-Bug-Reference-URL:	https://lists.gnu.org/archive/html/bug-readline/2021-01/msg00009.html
+Bug-Reported-by:	Kan-Ru Chen <koster@debian.org>
+Bug-Reference-ID:
+Bug-Reference-URL:	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1021109
 
 Bug-Description:
 
-The code to check readline versions in an inputrc file had the sense of the
-comparisons reversed.
+Starting a readline application with an invalid locale specification for
+LC_ALL/LANG/LC_CTYPE can cause it crash on the first call to readline.
 
-diff -ur a/input.c b/input.c
---- a/bind.c	2020-10-26 10:03:14.000000000 -0400
-+++ b/bind.c	2021-01-18 16:38:48.000000000 -0500
-@@ -1235,5 +1235,5 @@
-   else if (_rl_strnicmp (args, "version", 7) == 0)
-     {
--      int rlversion, versionarg, op, previ, major, minor;
-+      int rlversion, versionarg, op, previ, major, minor, opresult;
- 
-       _rl_parsing_conditionalized_out = 1;
-@@ -1295,22 +1295,23 @@
- 	{
- 	case OP_EQ:
--	  _rl_parsing_conditionalized_out = rlversion == versionarg;
-+	  opresult = rlversion == versionarg;
- 	  break;
- 	case OP_NE:
--	  _rl_parsing_conditionalized_out = rlversion != versionarg;
-+	  opresult = rlversion != versionarg;
- 	  break;
- 	case OP_GT:
--	  _rl_parsing_conditionalized_out = rlversion > versionarg;
-+	  opresult = rlversion > versionarg;
- 	  break;
- 	case OP_GE:
--	  _rl_parsing_conditionalized_out = rlversion >= versionarg;
-+	  opresult = rlversion >= versionarg;
- 	  break;
- 	case OP_LT:
--	  _rl_parsing_conditionalized_out = rlversion < versionarg;
-+	  opresult = rlversion < versionarg;
- 	  break;
- 	case OP_LE:
--	  _rl_parsing_conditionalized_out = rlversion <= versionarg;
-+	  opresult = rlversion <= versionarg;
- 	  break;
- 	}
-+       _rl_parsing_conditionalized_out = 1 - opresult;
-     }
-   /* Check to see if the first word in ARGS is the same as the
+diff -ur a/nls.c b/nls.c
+--- a/nls.c	2022-08-15 09:38:51.000000000 -0400
++++ b/nls.c	2021-01-18 2022-10-05 09:23:22.000000000 -0400
+@@ -142,4 +142,8 @@
+     lspec = "";
+   ret = setlocale (LC_CTYPE, lspec);	/* ok, since it does not change locale */
++  if (ret == 0 || *ret == 0)
++    ret = setlocale (LC_CTYPE, (char *)NULL);
++  if (ret == 0 || *ret == 0)
++    ret = RL_DEFAULT_LOCALE;
+ #else
+   ret = (lspec == 0 || *lspec == 0) ? RL_DEFAULT_LOCALE : lspec;
 
 diff -ur a/patchlevel b/patchlevel
 --- a/patchlevel	2013-11-15 08:11:11.000000000 -0500

@@ -1,0 +1,22 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1643220705 -3600
+#      Wed Jan 26 19:11:45 2022 +0100
+# Node ID 47e601506819386cc03e9e412c0615cbac02aa8f
+# Parent  67a14d968d2db3ffe34474e6be1c7a2d164ad416
+Don't force std=gnu++11. We prefer a newer standard now.
+Ideally, this would check if some switch is necessary to enable C++11 feature
+support in the compiler.
+
+diff -r 67a14d968d2d -r 47e601506819 src/configure.ac
+--- a/src/configure.ac	Tue Sep 21 11:09:59 2021 +0200
++++ b/src/configure.ac	Wed Jan 26 19:11:45 2022 +0100
+@@ -225,7 +225,7 @@
+ AC_SUBST(OCTAVE)
+ AC_SUBST(TARGETS)
+ AC_SUBST(SPARSERSB_CXXFLAGS)
+-AC_SUBST(SPARSERSB_CXX11, ["-std=gnu++11"])
++AC_SUBST(SPARSERSB_CXX11)
+ AC_SUBST(SPARSERSB_LDFLAGS)
+ 
+ AC_CONFIG_FILES([Makeconf])

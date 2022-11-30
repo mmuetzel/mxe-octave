@@ -5,7 +5,7 @@ diff -ur fits-1.0.7.orig/src/Makefile fits-1.0.7/src/Makefile
 -MKOCT_FLAGS = $(shell pkg-config --libs cfitsio --cflags cfitsio)
 +MKOCTFILE ?= mkoctfile
 +PKG_CONFIG ?= pkg-config
-+MKOCT_FLAGS = $(shell $(PKG_CONFIG) --libs cfitsio --cflags cfitsio)
++MKOCT_FLAGS = $(shell $(PKG_CONFIG) --libs cfitsio --cflags cfitsio) -lz
  
  all: read_fits_image.oct save_fits_image.oct save_fits_image_multi_ext.oct
  

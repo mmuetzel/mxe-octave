@@ -3,11 +3,11 @@
 
 PKG             := sqlite
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3370100
-$(PKG)_CHECKSUM := 328bc8146e15b67752b5249b8ac688c13230c517
+$(PKG)_VERSION  := 3400000
+$(PKG)_CHECKSUM := 2aa5df983dc2d7e6b096b49e579bcc1e7b80667e
 $(PKG)_SUBDIR   := $(PKG)-autoconf-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-autoconf-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://www.sqlite.org/2021/$($(PKG)_FILE)
+$(PKG)_URL      := http://www.sqlite.org/2022/$($(PKG)_FILE)
 $(PKG)_DEPS     := readline zlib
 
 ifeq ($(MXE_SYSTEM),mingw)
@@ -30,7 +30,7 @@ define $(PKG)_BUILD
     if [ $(MXE_WINDOWS_BUILD) = yes ]; then \
       $(SED) -i 's/^Cflags/#Cflags/;' '$(1)/sqlite3.pc.in'; \
     fi
-    cd '$(1)' && autoreconf && ./configure \
+    cd '$(1)' && autoreconf -fi && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \

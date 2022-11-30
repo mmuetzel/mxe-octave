@@ -3,8 +3,8 @@
 
 PKG             := xz
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.2.5
-$(PKG)_CHECKSUM := 0b9d1e06b59f7fe0796afe1d93851b9306b4a3b6
+$(PKG)_VERSION  := 5.2.8
+$(PKG)_CHECKSUM := 8a7d724b0ba0bc57605113515dfebace9911d688
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://tukaani.org/xz/$($(PKG)_FILE)
@@ -17,7 +17,7 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
+    cd '$(1)' && autoreconf -fi && EGREP=$(EGREP) ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
         $(ENABLE_SHARED_OR_STATIC) \

@@ -13,9 +13,7 @@ $(PKG)_DEPS     := lcms libpng tiff zlib
 $(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/uclouvain/openjpeg/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([0-9][^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,uclouvain,openjpeg,v)
 endef
 
 define $(PKG)_BUILD

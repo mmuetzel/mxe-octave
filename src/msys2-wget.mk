@@ -4,14 +4,15 @@
 PKG             := msys2-wget
 $(PKG)_NAME     := wget
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.21.1-2
-$(PKG)_x86_64_CS := b1cf111e44f2a5bc5f9ffebb65154b951fbbb7e4
-$(PKG)_i686_CS  := f33a22e9e2c106b15597e58cc15e5268ed660872
+$(PKG)_VERSION  := 1.21.3-1
+$(PKG)_x86_64_CS := a0212a39dc95ef3c70f07a15f331234fc3de578b
+$(PKG)_i686_CS  := a3b882a64527e0f8c07b59db18c08def751b4e32
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)
+$(PKG)_URL2     := $(if $(MSYS2_URL2),$(MSYS2_URL2)/$($(PKG)_FILE),)
 
 $(PKG)_DEPS     := 
 

@@ -10,9 +10,7 @@ $(PKG)_URL      := http://www.tortall.net/projects/$(PKG)/releases/$($(PKG)_FILE
 $(PKG)_DEPS     := 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/yasm/yasm/tags' | \
-    $(SED) -n 's,.*href="/yasm/yasm/archive/v\([0-9][^"]*\)\.tar.*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,yasm,yasm,v)
 endef
 
 define $(PKG)_BUILD

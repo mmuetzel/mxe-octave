@@ -4,10 +4,10 @@
 PKG             := src-msys2-tar
 $(PKG)_NAME     := tar
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.34-1
-$(PKG)_CHECKSUM := 7b38d42e46e61731db29cef0cb6b4688960017b0
+$(PKG)_VERSION  := 1.34-3
+$(PKG)_CHECKSUM := eae38c62fbdc196c3e9f4d3b2f9f57725a7b873b
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

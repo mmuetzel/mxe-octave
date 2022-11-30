@@ -2,16 +2,17 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 21.2.6
-$(PKG)_CHECKSUM := b7057fa4e57ae4155248b38b5085d083689ac94c
+$(PKG)_VERSION  := 22.2.4
+$(PKG)_CHECKSUM := b131bcdd82effbbdaacfff07097bf5f0444d490c
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-mako build-meson build-ninja expat zlib llvm s2tc
 
 define $(PKG)_UPDATE
-    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
-    echo $($(PKG)_VERSION)
+    $(WGET) -q -O- https://archive.mesa3d.org | \
+    $(SED) -n 's|.*href=\"mesa-\([0-9][0-9\.]*\)\.tar.xz\".*|\1|p' | $(SORT) -V | \
+    tail -1
 endef
 
 # FIXME: Should this be defined in the top-level Makefile?
@@ -36,7 +37,7 @@ else
       PKG_CONFIG_LIBDIR=$($(PKG)_PKG_CONFIG_PATH)
 
   $(PKG)_X11_FLAGS := -Dplatforms='x11' \
-      -Dglx=gallium-xlib \
+      -Dglx=xlib \
       -Ddri-drivers='' \
       $($(PKG)_BUILD_X11_LIBS_FLAGS)
 endif

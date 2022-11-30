@@ -3,8 +3,8 @@
 
 PKG             := ffmpeg
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.2.3
-$(PKG)_CHECKSUM := 7be5114d169e5a1ba73ad1e844e7fb4d0fb93cc6
+$(PKG)_VERSION  := 4.2.8
+$(PKG)_CHECKSUM := 9ce0fd730c0c05ae636033828303e2b2eca99171
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://www.ffmpeg.org/releases/$($(PKG)_FILE)
@@ -16,10 +16,16 @@ $(PKG)_CONFIG_OPTS :=
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://www.ffmpeg.org/download.html' | \
     $(SED) -n 's,.*ffmpeg-\([0-9][^>]*\)\.tar.*,\1,p' | \
+    $(GREP) "^4.2" | \
     head -1
 endef
 
+ifeq ($(TARGET),i686-w64-mingw32)
+  $(PKG)_CONFIG_OPTS += --disable-optimizations
+endif
+
 ifeq ($(MXE_NATIVE_BUILD),no)
+
 define $(PKG)_BUILD
     '$(SED)' -i "s^[-]lvpx^`'$(MXE_PKG_CONFIG)' --libs-only-l vpx`^g;" $(1)/configure
     cd '$(1)' && ./configure \
@@ -33,6 +39,7 @@ define $(PKG)_BUILD
         --extra-libs='-mconsole' \
         --disable-debug \
         --disable-doc \
+	--disable-programs \
         --enable-avresample \
         --enable-gpl \
         --enable-version3 \
@@ -48,9 +55,11 @@ define $(PKG)_BUILD
         --enable-libopencore-amrnb \
         --enable-libopencore-amrwb \
         --enable-libx264 \
-        --enable-libvpx
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install
+        --enable-libvpx \
+	$($(PKG)_CONFIG_OPTS)
+    $(MAKE) -C '$(1)' -j '$(JOBS)' V=1
+    $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
+    rm -rf "$(3)$(HOST_PREFIX)/share/ffmpeg"
 endef
 else
 define $(PKG)_BUILD
@@ -60,6 +69,7 @@ define $(PKG)_BUILD
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-debug \
         --disable-doc \
+	--disable-programs \
         --enable-gpl \
         --enable-version3 \
         --disable-nonfree \
@@ -75,7 +85,8 @@ define $(PKG)_BUILD
         --enable-libx264 \
         --enable-libvpx
     $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install
+    $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
+    rm -rf "$(3)$(HOST_PREFIX)/share/ffmpeg"
 endef
 
 endif

@@ -4,10 +4,10 @@
 PKG             := src-msys2-gawk
 $(PKG)_NAME     := gawk
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.1.0-1
-$(PKG)_CHECKSUM := e20448a9d27125b05f36926db8638cf6b2442d3e
+$(PKG)_VERSION  := 5.1.1-1
+$(PKG)_CHECKSUM := c6731e5c6047f7eabe927dc0d5a5af3f61d17ab2
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

@@ -11,10 +11,8 @@ $(PKG)_URL      := http://www.libsdl.org/projects/SDL_image/release/$($(PKG)_FIL
 $(PKG)_DEPS     := sdl jpeg libpng tiff
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://hg.libsdl.org/SDL_image/tags' | \
-    $(SED) -n 's,.*release-\([0-9][^<"]*\).*,\1,p' | \
-    $(GREP) "^1" | \
-    head -1
+    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
+    echo $($(PKG)_VERSION)
 endef
 
 define $(PKG)_BUILD

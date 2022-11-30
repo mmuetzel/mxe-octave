@@ -2,19 +2,16 @@
 
 PKG             := opencv
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4.3
-$(PKG)_CHECKSUM := d700348b3251552ccf034e4d7dd16080e4086840
+$(PKG)_VERSION  := 4.6.0
+$(PKG)_CHECKSUM := 34394c7e2fc152eee1ce73e326bc19a99879c77c
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
-$(PKG)_FILE     := opencv-$($(PKG)_VERSION).zip
-$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)library/$(PKG)-unix/$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_URL_2    := https://distfiles.macports.org/opencv/$($(PKG)_FILE)
+$(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
+$(PKG)_URL      := https://github.com/opencv/$(PKG)/archive/$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := eigen ffmpeg jasper jpeg libpng \
                    openblas openexr tiff xz zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://sourceforge.net/projects/opencvlibrary/files/opencv-unix/' | \
-    $(SED) -n 's,.*/projects/.*/\([0-9][^"]*\)/".*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,opencv,opencv,)
 endef
 
 # -DCMAKE_CXX_STANDARD=98 required for non-posix gcc7 build

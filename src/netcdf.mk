@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/Unidata/netcdf-c/archive/v$($(PKG)_VERSION
 $(PKG)_DEPS     := curl hdf5
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/Unidata/netcdf-c/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,Unidata,netcdf-c,v)
 endef
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)

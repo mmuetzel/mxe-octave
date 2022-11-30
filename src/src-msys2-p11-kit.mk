@@ -4,10 +4,10 @@
 PKG             := src-msys2-p11-kit
 $(PKG)_NAME     := p11-kit
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.23.22-2
-$(PKG)_CHECKSUM := 156ab765aa07164231629a8d1d161d6dbf9e5e00
+$(PKG)_VERSION  := 0.24.1-4
+$(PKG)_CHECKSUM := 1e5c0177c046c5d66088c063723c5df9a36cd7db
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

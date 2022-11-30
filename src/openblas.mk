@@ -3,17 +3,15 @@
 
 PKG             := openblas
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.3.18
-$(PKG)_CHECKSUM := a9d5ce86908657f002c6566cd8f35fe882709be4
+$(PKG)_VERSION  := 0.3.21
+$(PKG)_CHECKSUM := b052d196ad694b29302e074b3eb8cc66745f6e2f
 $(PKG)_SUBDIR   := OpenBLAS-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/xianyi/OpenBLAS/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := blas
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/xianyi/OpenBLAS/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -Vr | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,xianyi,OpenBLAS,v)
 endef
 
 ifeq ($(USE_CCACHE),yes)

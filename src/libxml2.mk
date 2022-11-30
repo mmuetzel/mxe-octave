@@ -3,12 +3,12 @@
 
 PKG             := libxml2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.9.12
-$(PKG)_CHECKSUM := 339fe5bb2a7d0c13f068c26d8f7cd194c13f9a2a
-$(PKG)_SUBDIR   := libxml2-$($(PKG)_VERSION)
-$(PKG)_FILE     := libxml2-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://xmlsoft.org/libxml2/$($(PKG)_FILE)
-$(PKG)_DEPS     := zlib libiconv
+$(PKG)_VERSION  := 2.10.3
+$(PKG)_CHECKSUM := 18aa1ab0caf4ca8b092613acac992a33fa432311
+$(PKG)_SUBDIR   := libxml2-v$($(PKG)_VERSION)
+$(PKG)_FILE     := libxml2-v$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://gitlab.gnome.org/GNOME/$(PKG)/-/archive/v$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_DEPS     := zlib libiconv xz
 
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS := xz
@@ -21,8 +21,8 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    $(SED) -i 's,`uname`,MinGW,g' '$(1)/xml2-config.in'
-    cd '$(1)' && ./configure \
+    #$(SED) -i 's,`uname`,MinGW,g' '$(1)/xml2-config.in'
+    cd '$(1)' && ./autogen.sh \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
@@ -36,8 +36,8 @@ define $(PKG)_BUILD
 
     if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
       rm -rf "$(3)$(HOST_PREFIX)/share/gtk-doc"; \
-      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$($(PKG)_SUBDIR)/html"; \
-      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$($(PKG)_SUBDIR)/examples"; \
+      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$($(PKG)_SUBDIR)"; \
+      rm -rf "$(3)$(HOST_PREFIX)/share/doc/$(PKG)"; \
     fi
 endef
 

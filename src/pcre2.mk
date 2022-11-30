@@ -3,17 +3,15 @@
 
 PKG             := pcre2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 10.39
-$(PKG)_CHECKSUM := 9cf3ec88cd68dc76354eb0568738c47b57377042
+$(PKG)_VERSION  := 10.40
+$(PKG)_CHECKSUM := 5a433f92b29083d0d8ccd4ec56e3afbe1fa09863
 $(PKG)_SUBDIR   := pcre2-$($(PKG)_VERSION)
 $(PKG)_FILE     := pcre2-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := https://github.com/PhilipHazel/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/PCRE2Project/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/PhilipHazel/pcre2/tags' | \
-    $(SED) -n 's|.*releases/tag/pcre2-\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,PCRE2Project,pcre2,pcre2-)
 endef
 
 define $(PKG)_BUILD
@@ -32,9 +30,7 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     if [ "$(ENABLE_DEP_DOCS)" == "no" ]; then \
-       rm -rf "$(3)$(HOST_PREFIX)/share/doc/pcre2/html"; \
-       rm -f "$(3)$(HOST_PREFIX)/share/doc/pcre2/*.txt"; \
-       rm -f "$(3)$(HOST_PREFIX)/share/doc/pcre2/ChangeLog"; \
+       rm -rf "$(3)$(HOST_PREFIX)/share/doc/pcre2"; \
        rm -rf "$(3)$(HOST_PREFIX)/share/man"; \
     fi
     if [ $(MXE_NATIVE_BUILD) = no ]; then \

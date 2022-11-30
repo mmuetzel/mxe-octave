@@ -3,8 +3,8 @@
 
 PKG             := sundials-ida
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.7.0
-$(PKG)_CHECKSUM := c04ecc9102851955b62e626a43ad5f604e890ab0
+$(PKG)_VERSION  := 6.4.1
+$(PKG)_CHECKSUM := ce47e85aed90ddf95bf40b70842a29d1255666d2
 $(PKG)_SUBDIR   := sundials-$($(PKG)_VERSION)
 $(PKG)_FILE     := sundials-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/LLNL/sundials/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -14,8 +14,7 @@ ifeq ($(USE_SYSTEM_GCC),no)
 endif
 
 define $(PKG)_UPDATE
-    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
-    echo $($(PKG)_VERSION)
+    $(call GITHUB_PKG_UPDATE,LLNL,sundials,v)
 endef
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)

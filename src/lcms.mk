@@ -3,16 +3,16 @@
 
 PKG             := lcms
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.12
-$(PKG)_CHECKSUM := 3d0c0276fcd3930b80c424512ec0b1ed54ec1497
+$(PKG)_VERSION  := 2.14
+$(PKG)_CHECKSUM := 94350a2638fe58da736e8726048c859b46a69e6f
 $(PKG)_SUBDIR   := $(PKG)$(word 1,$(subst ., ,$($(PKG)_VERSION)))-$(subst a,,$($(PKG)_VERSION))
-$(PKG)_FILE     := $(PKG)$(word 1,$(subst ., ,$($(PKG)_VERSION)))-$(subst a,,$($(PKG)_VERSION)).tar.gz
-$(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$(subst a,,$($(PKG)_VERSION))/$($(PKG)_FILE)
+$(PKG)_FILE     := $(PKG)$(word 1,$(subst ., ,$($(PKG)_VERSION)))-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
 $(PKG)_DEPS     := jpeg tiff zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://sourceforge.net/projects/lcms/files/lcms/' | \
-    $(SED) -n 's,.*tr title="\([0-9][^"]*\)".*,\1,p' | \
+    $(WGET) -q -O- 'https://github.com/mm2/Little-CMS/tags' | \
+    $(SED) -n 's|.*releases/tag/lcms\([^"]*\).*|\1|p' | \
     head -1
 endef
 

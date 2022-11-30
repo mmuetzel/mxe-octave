@@ -3,11 +3,11 @@
 
 PKG             := qtbase
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.15.2
-$(PKG)_CHECKSUM := b5ad67fc6381ad7fae0296944734198488d096a3
+$(PKG)_VERSION  := 5.15.7
+$(PKG)_CHECKSUM := 0fe70abd7be4bf79d8a208614267321efa3ac432
 $(PKG)_SUBDIR   := $(PKG)-everywhere-src-$($(PKG)_VERSION)
-$(PKG)_FILE     := $(PKG)-everywhere-src-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := http://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
+$(PKG)_FILE     := $(PKG)-everywhere-opensource-src-$($(PKG)_VERSION).tar.xz
+$(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
@@ -114,7 +114,6 @@ define $(PKG)_BUILD
             $($(PKG)_CONFIGURE_LIBPATH_OPTION) \
             -no-strip \
             -opensource \
-            -c++std c++11 \
             -confirm-license \
             $($(PKG)_CONFIGURE_PLATFORM_OPTION) \
             $($(PKG)_CONFIGURE_CROSS_COMPILE_OPTION) \

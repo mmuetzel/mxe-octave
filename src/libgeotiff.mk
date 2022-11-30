@@ -3,8 +3,8 @@
 
 PKG             := libgeotiff
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.6.0
-$(PKG)_CHECKSUM := fa24069938ead4126d77b65a38784e1a9609e65b
+$(PKG)_VERSION  := 1.7.1
+$(PKG)_CHECKSUM := 75b2bdc9478b9e8b3c684b9ad0e9b154e75bd843
 $(PKG)_SUBDIR   := libgeotiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgeotiff-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.osgeo.org/geotiff/libgeotiff/$($(PKG)_FILE)
@@ -12,9 +12,7 @@ $(PKG)_URL_2    := ftp://ftp.remotesensing.org/geotiff/libgeotiff/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib jpeg tiff proj
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://trac.osgeo.org/geotiff/' | \
-    $(SED) -n 's,.*libgeotiff-\([0-9][^>]*\)\.tar.*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,OSGeo,libgeotiff,)
 endef
 
 define $(PKG)_BUILD

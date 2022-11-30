@@ -40,6 +40,7 @@ SRC_FILES_1 := \
   build-markupsafe.mk \
   build-meson.mk \
   build-msvctools.mk \
+  build-nasm.mk \
   build-ninja.mk \
   build-octave.mk \
   build-perl.mk \
@@ -68,6 +69,7 @@ SRC_FILES_1 := \
   cminpack.mk \
   cppunit.mk \
   cunit.mk \
+  curl-1-fixes.patch \
   curl-test.c \
   curl.mk \
   damageproto.mk \
@@ -85,24 +87,20 @@ SRC_FILES_1 := \
   dri2proto.mk \
   eigen.mk \
   epstool.mk \
-  exiv2-issue847.patch \
-  exiv2-r2796.patch \
   exiv2.mk \
   expat.mk \
-  faad2-1-fixes.patch \
   faad2.mk \
+  ffmpeg-1-fixes.patch \
   ffmpeg.mk \
   fftw.mk \
   file-test.c \
   file.mk \
   fixesproto.mk \
-  flac-1-ucrt.patch \
   flac.mk \
   fltk-2-uuid-mod.patch \
   fltk-test.cpp \
   fltk.mk \
   fontconfig.mk \
-  freeglut-1-fixes.patch \
   freeglut-test.c \
   freeglut.mk \
   freeimage-1-fixes.patch \
@@ -122,13 +120,14 @@ SRC_FILES_1 := \
   gd-1-libpng15.patch \
   gd-test.c \
   gd.mk \
-  gdal-1-gcc11.patch \
   gdal-2-ucrt.patch \
   gdal.mk \
+  gdb-1-readline-8.2.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
   gdcm-3-gcc11.patch \
+  gdcm-4-iconv.patch \
   gdcm.mk \
   gdk-pixbuf-1-fixes.patch \
   gdk-pixbuf.mk \
@@ -209,8 +208,6 @@ SRC_FILES_1 := \
   jasper.mk \
   jpeg-test.c \
   jpeg.mk \
-  json-c-1-patch-missingfile.patch \
-  json-c-2-patch-remove-rpl.patch \
   json-c-test.c \
   json-c.mk \
   kbproto.mk \
@@ -255,7 +252,6 @@ SRC_FILES_1 := \
   libgomp.mk \
   libgpg_error-1-fixes.patch \
   libgpg_error.mk \
-  libgsasl-1-fixes.patch \
   libgsasl-test.c \
   libgsasl.mk \
   libgsf-1-fixes.patch \
@@ -267,7 +263,6 @@ SRC_FILES_1 := \
   libical-test.c \
   libical.mk \
   libiconv.mk \
-  libidn-1-fixes.patch \
   libidn-test.c \
   libidn.mk \
   libidn2.mk \
@@ -322,6 +317,7 @@ SRC_FILES_1 := \
   libusb.mk \
   libvpx-1-fixes.patch \
   libvpx.mk \
+  libwebp.mk \
   libxml++.mk \
   libxml2-1-fixes.patch \
   libxml2.mk \
@@ -341,7 +337,6 @@ SRC_FILES_1 := \
   lzo.mk \
   matio.mk \
   mdbtools.mk \
-  mesa-1-meson.patch \
   mesa-2-ucrt.patch \
   mesa-proto.mk \
   mesa.mk \
@@ -362,6 +357,7 @@ SRC_FILES_1 := \
   mingw-texinfo-1-fixes.patch \
   mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
   mingw-utils-1-portability-fix.patch \
+  mingw-w64-complex-inverse-trig.patch \
   mingw-w64.mk \
   mingw-zeromq-1-fixes.patch \
   mingwrt.mk \
@@ -369,6 +365,7 @@ SRC_FILES_1 := \
   mman-win32.mk \
   mpc.mk \
   mpfr.mk \
+  mpg123.mk \
   msitools.mk \
   msvc-atk-1.patch \
   msvc-build-cmake-1.patch \
@@ -456,7 +453,6 @@ SRC_FILES_1 := \
   mxml-test.c \
   mxml.mk \
   native-binutils.mk \
-  native-gcc-1-canadian-cross.patch \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \
@@ -479,6 +475,7 @@ SRC_FILES_1 := \
   of-audio.mk \
   of-communications.mk \
   of-control-1-deprecated-warnings.patch \
+  of-control-2-octave-9-compat.patch \
   of-control.mk \
   of-data-smoothing.mk \
   of-database-1-verror.patch \
@@ -488,6 +485,7 @@ SRC_FILES_1 := \
   of-financial.mk \
   of-fits-1-cross-fixes.patch \
   of-fits-2-fixes.patch \
+  of-fits-3-octave-9-compat.patch \
   of-fits.mk \
   of-fl-core-1-fixes.patch \
   of-fl-core.mk \
@@ -509,11 +507,13 @@ SRC_FILES_1 := \
   of-lssa.mk \
   of-ltfat-1-cross-fixes.patch \
   of-ltfat-2-LDFLAGS.patch \
+  of-ltfat-3-no-cxx11.patch \
   of-ltfat.mk \
   of-matgeom.mk \
   of-mapping.mk \
   of-miscellaneous.mk \
   of-nan.mk \
+  of-netcdf-1-octave-9-compat.patch \
   of-netcdf.mk \
   of-nurbs.mk \
   of-ocs-1-cross-fixes.patch \
@@ -539,7 +539,9 @@ SRC_FILES_1 := \
   of-queueing.mk \
   of-signal.mk \
   of-sockets.mk \
+  of-sparsersb-1-dev.patch \
   of-sparsersb-1-no-internal-mex-fcns.patch \
+  of-sparsersb-2-no-cxx11.patch \
   of-sparsersb-2-tempdir.patch \
   of-sparsersb.mk \
   of-specfun-1-deprecated.patch \
@@ -553,6 +555,7 @@ SRC_FILES_1 := \
   of-symbolic.mk \
   of-tisean-1-fixes.patch \
   of-tisean-2-error_state.patch \
+  of-tisean-3-octave-9-compat.patch \
   of-tisean.mk \
   of-tsa.mk \
   of-video.mk \
@@ -572,13 +575,19 @@ SRC_FILES_1 := \
   opencv.mk \
   openexr.mk \
   openjpeg.mk \
+  openlibm.mk \
   openscenegraph-1-fixes.patch \
   openscenegraph.mk \
   openssl-1-fixes.patch \
   openssl.mk \
   opkg-biosig-1-skip-test.patch \
   opkg-biosig.mk \
+  opkg-cfitsio.mk \
+  opkg-mqtt.mk \
   opus.mk \
+  opusfile.mk \
+  paho-mqtt-c-1-fixes.patch \
+  paho-mqtt-c.mk \
   pango-1-fixes.patch \
   pango.mk \
   pangomm.mk \
@@ -607,6 +616,7 @@ SRC_FILES_1 := \
   popt.mk \
   portaudio-test.c \
   portaudio.mk \
+  postgresql-1-autoconf.patch \
   postgresql.mk \
   proj.mk \
   protobuf-test.cpp \
@@ -641,7 +651,6 @@ SRC_FILES_1 := \
   qt.mk \
   qt5.mk \
   qtbase-1-fixes.patch \
-  qtbase-2-gcc11.patch \
   qtbase.mk \
   qtimageformats.mk \
   qtsvg.mk \
@@ -657,9 +666,9 @@ SRC_FILES_1 := \
   readline-0-001-upstream.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
-  readline-1-input.patch \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
+  readline-3-fd_set.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
   release-octave.mk \
@@ -667,6 +676,10 @@ SRC_FILES_1 := \
   rtmidi.mk \
   s2tc.mk \
   sdl2.mk \
+  sdl2_image.mk \
+  sdl2_mixer.mk \
+  sdl2_net.mk \
+  sdl2_ttf.mk \
   sdl-1-xdata.patch \
   sdl-test.c \
   sdl.mk \
@@ -768,7 +781,6 @@ SRC_FILES_1 := \
   winpcap.mk \
   wt-1-fixes.patch \
   wt.mk \
-  wxwidgets-1-fixes.patch \
   wxwidgets-test.cpp \
   wxwidgets.mk \
   x11.mk \
@@ -814,6 +826,7 @@ SRC_FILES_1 := \
   xz.mk \
   yasm.mk \
   zenity.mk \
+  zeromq-1.patch \
   zeromq.mk \
   zlib-1-win32-static.patch \
   zlib.mk \

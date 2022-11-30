@@ -3,17 +3,15 @@
 
 PKG             := libffi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4.2
-$(PKG)_CHECKSUM := f5fbf0e8b643c4029a069faca32dd0df2c7dd0a2
+$(PKG)_VERSION  := 3.4.4
+$(PKG)_CHECKSUM := a41563cd30ddf8af81aa87f80e673602fc6fd602
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/libffi/libffi/tags' | \
-    $(SED) -n 's,.*releases/tag/v\([0-9][^"]*\).*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,libffi,libffi,v)
 endef
 
 define $(PKG)_BUILD

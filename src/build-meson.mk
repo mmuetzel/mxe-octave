@@ -3,8 +3,8 @@
 
 PKG             := build-meson
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.56.2
-$(PKG)_CHECKSUM := 88f30be08c968b0b8b9d2c6d3fe950fecff2658f
+$(PKG)_VERSION  := 0.62.1
+$(PKG)_CHECKSUM := 4ba6f57629e5f38ea7b82e6edcd2baa2ab9c1edb
 $(PKG)_SUBDIR   := meson-$($(PKG)_VERSION)
 $(PKG)_FILE     := meson-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/mesonbuild/meson/archive/$($(PKG)_VERSION).tar.gz
@@ -30,7 +30,7 @@ endif
 
 define $(PKG)_BUILD
     cd '$(1)' && $(MXE_PYTHON) setup.py install --prefix='$(BUILD_TOOLS_PREFIX)'
-    
+
     # create file with compilation settings
     rm -f $(MESON_TOOLCHAIN_FILE) && mkdir -p '$(dir $(MESON_TOOLCHAIN_FILE))'
     (echo "[binaries]"; \

@@ -2,14 +2,14 @@
 # See index.html for further information.
 
 PKG             := suitesparse
-$(PKG)_VERSION  := 5.7.2
-$(PKG)_CHECKSUM := ccc50177425d0d9bfe878786b8f2729c247efa90
+$(PKG)_VERSION  := 5.13.0
+$(PKG)_CHECKSUM := 71963dec82e46226eb329432069a916144fa4d98
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := blas lapack
 ifeq ($(USE_SYSTEM_GCC),no)
-  $(PKG)_DEPS += libgomp
+  $(PKG)_DEPS += libgomp mpfr
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -19,9 +19,7 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://github.com/DrTimothyAldenDavis/SuiteSparse/tags' | \
-    $(SED) -n 's|.*releases/tag/v\([^"]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,DrTimothyAldenDavis,SuiteSparse,v)
 endef
 
 

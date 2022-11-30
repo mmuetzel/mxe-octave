@@ -4,10 +4,10 @@
 PKG             := src-msys2-bash
 $(PKG)_NAME     := bash
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.1.008-1
-$(PKG)_CHECKSUM := e3b145bb312d8415d7a18b6f3a59eb6a474d6923
+$(PKG)_VERSION  := 5.1.016-2
+$(PKG)_CHECKSUM := 76c3ebc9a9ba53dcc2bf586f4f3d920a0471839a
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

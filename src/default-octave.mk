@@ -21,7 +21,7 @@ $(PKG)_URL      := http://not.a.valid.url/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
-$(PKG)_DEPS     := blas arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
+$(PKG)_DEPS     := blas arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre2 portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
 
 ifeq ($(ENABLE_QT5),yes)
     $(PKG)_DEPS += qt5
@@ -159,10 +159,6 @@ ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_EXTRA_CONFIGURE_OPTIONS += --with-x=no
 endif
 
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-  $(PKG)_EXTRA_CONFIGURE_OPTIONS += ac_cv_search_tputs=-ltermcap
-endif
-
 # if want binary packages and are cross compiling, then we need cross tools enabled
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
   ifeq ($(MXE_NATIVE_BUILD),no)
@@ -201,6 +197,7 @@ define $(PKG)_BUILD
         --disable-silent-rules \
         --enable-install-build-logs \
         --enable-relocate-all \
+        --enable-std-pmr-polymorphic-allocator \
         $($(PKG)_CROSS_CONFIG_OPTIONS) \
         $($(PKG)_WITH_BLAS_CONFIGURE_OPTIONS) \
         $($(PKG)_ENABLE_64_CONFIGURE_OPTIONS) \

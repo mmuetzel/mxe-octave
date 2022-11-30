@@ -3,10 +3,10 @@
 
 PKG             := cfitsio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3450
-$(PKG)_CHECKSUM := 85b4adeba79a7691114695e6bafd6d968e68c21f
-$(PKG)_SUBDIR   := $(PKG)
-$(PKG)_FILE     := $(PKG)$($(PKG)_VERSION).tar.gz
+$(PKG)_VERSION  := 4.2.0
+$(PKG)_CHECKSUM := 165f0af3c9931ae5ad0dc3eb396a10711b4fdd6b
+$(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/$($(PKG)_FILE)
 $(PKG)_DEPS     := curl
 
@@ -23,7 +23,7 @@ endif
 define $(PKG)_UPDATE
     $(WGET) -q -O- "http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/?C=M;O=D" | \
     grep -i '<a href="cfitsio.*tar' | \
-    $(SED) -n 's,.*cfitsio\([0-9][^>]*\)\.tar.*,\1,p' | \
+    $(SED) -n 's,.*cfitsio-\([0-9\.][^>]*\)\.tar.*,\1,p' | \
     head -1
 endef
 

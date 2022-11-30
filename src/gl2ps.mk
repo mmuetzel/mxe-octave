@@ -9,7 +9,7 @@ $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tgz
 $(PKG)_URL      := http://geuz.org/$(PKG)/src/$($(PKG)_FILE)
 $(PKG)_DEPS     := libpng zlib
 ifeq ($(USE_SYSTEM_OPENGL),no)
-  $(PKG)_DEPS += mesa glu
+  $(PKG)_DEPS += mesa glu freeglut
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -73,12 +73,6 @@ else
                 $(INSTALL) -m644 '$(1)/gl2ps.h' '$(3)$(HOST_INCDIR)'; \
             else \
                 $(MAKE) -C '$(1)' -j 1 VERBOSE=1 DESTDIR='$(3)' install; \
-                if [ $(MXE_SYSTEM) = mingw ]; then \
-                    echo "Install dll"; \
-                    $(INSTALL) -d '$(3)$(HOST_BINDIR)'; \
-                    $(INSTALL) '$(3)$(HOST_LIBDIR)/libgl2ps.dll' '$(3)$(HOST_BINDIR)/'; \
-                    rm -f '$(3)$(HOST_LIBDIR)/libgl2ps.dll'; \
-                fi; \
             fi
         endef
     else

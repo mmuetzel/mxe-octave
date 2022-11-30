@@ -9,14 +9,9 @@ $(PKG)_SUBDIR   := $(PKG)-ng-$($(PKG)_VERSION)
 $(PKG)_FILE     := arpack-ng_$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/opencollab/arpack-ng/archive/$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := blas lapack
-$(PKG)_DESTDIR  := '$(3)'
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
   $(PKG)_CONFIGURE_ENV := LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)
-endif
-
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-  $(PKG)_DESTDIR := 
 endif
 
 ifeq ($(USE_PIC_FLAG),yes)
@@ -46,5 +41,9 @@ define $(PKG)_BUILD
         $($(PKG)_ENABLE_64_CONFIGURE_OPTIONS) && $(CONFIGURE_POST_HOOK)
 
     $(MAKE) -C '$(1)/.build' -j '$(JOBS)'
-    $(MAKE) -C '$(1)/.build' -j '$(JOBS)' install DESTDIR='$($(PKG)_DESTDIR)'
+    if [ "$(MXE_NATIVE_MINGW_BUILD)" = yes ]; then \
+      $(MAKE) -C '$(1)/.build' -j '$(JOBS)' install; \
+    else \
+      $(MAKE) -C '$(1)/.build' -j '$(JOBS)' install DESTDIR='$(3)'; \
+    fi
 endef
