@@ -547,7 +547,6 @@ SRC_FILES_1 := \
   of-specfun-1-deprecated.patch \
   of-specfun.mk \
   of-splines.mk \
-  of-statistics-fixes.patch \
   of-statistics.mk \
   of-stk.mk \
   of-strings.mk \
