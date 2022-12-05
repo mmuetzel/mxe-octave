@@ -3,8 +3,8 @@
 
 PKG             := sdl2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.26.0
-$(PKG)_CHECKSUM := 788380a96075119a2ab1e5b53f2fee74fa957fa2
+$(PKG)_VERSION  := 2.26.1
+$(PKG)_CHECKSUM := 08a8cec21ffcebf44e4633a786d594a7811100d2
 $(PKG)_SUBDIR   := SDL2-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.libsdl.org/release/$($(PKG)_FILE)
