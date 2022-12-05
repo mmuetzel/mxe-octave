@@ -4,10 +4,10 @@
 PKG             := src-msys2-make
 $(PKG)_NAME     := make
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.3-3
-$(PKG)_CHECKSUM := 71f70d44070576f5896a2b83fe8729d249830bd2
+$(PKG)_VERSION  := 4.4-1
+$(PKG)_CHECKSUM := b71fc4b2bd48a4488b7dce5355efe55cf7d45ad8
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

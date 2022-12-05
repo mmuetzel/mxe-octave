@@ -4,8 +4,8 @@
 PKG             := src-msys2-mpfr
 $(PKG)_NAME     := mpfr
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.1.0.p13-1
-$(PKG)_CHECKSUM := d76bfa28c4a493749115cf2159e2fa8e3dc4e018
+$(PKG)_VERSION  := 4.1.1.p1-1
+$(PKG)_CHECKSUM := d3cbb6198cf3ebfa7e8c60930c54b7f209f43cf7
 $(PKG)_SUBDIR   :=
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
