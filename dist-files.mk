@@ -337,7 +337,6 @@ SRC_FILES_1 := \
   lzo.mk \
   matio.mk \
   mdbtools.mk \
-  mesa-2-ucrt.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
