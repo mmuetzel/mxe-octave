@@ -3,8 +3,8 @@
 
 PKG             := blas
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.10.0
-$(PKG)_CHECKSUM := dbb9d61c51c322b5e19542aaa2bb4b02b95a774b
+$(PKG)_VERSION  := 3.11.0
+$(PKG)_CHECKSUM := 2d2953000e8cb65879f6bc0d472e0f72bdccd540
 $(PKG)_SUBDIR   := BLAS-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tgz
 $(PKG)_URL      := http://www.netlib.org/$(PKG)/$($(PKG)_FILE)
