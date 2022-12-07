@@ -3,8 +3,8 @@
 
 PKG             := pcre2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 10.40
-$(PKG)_CHECKSUM := 5a433f92b29083d0d8ccd4ec56e3afbe1fa09863
+$(PKG)_VERSION  := 10.41
+$(PKG)_CHECKSUM := ea443ae87a4f5ab925a69cb3090605998061faed
 $(PKG)_SUBDIR   := pcre2-$($(PKG)_VERSION)
 $(PKG)_FILE     := pcre2-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://github.com/PCRE2Project/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
