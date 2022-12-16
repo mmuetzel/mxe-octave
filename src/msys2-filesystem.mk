@@ -4,9 +4,9 @@
 PKG             := msys2-filesystem
 $(PKG)_NAME     := filesystem
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2022.01-6
-$(PKG)_x86_64_CS := 8ce4f7bfceec565396de63f1a396faca94515cb8
-$(PKG)_i686_CS  := e79e307a88e0d45ea3c5c4c289a76c1aecad3d04
+$(PKG)_VERSION  := 2022.01-7
+$(PKG)_x86_64_CS := ba05df7bfb54ab4462a528af75cf42786c2c8c36
+$(PKG)_i686_CS  := 2a6fe78a3dee017f6e88fa5fa40b09fd7192d3de
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
