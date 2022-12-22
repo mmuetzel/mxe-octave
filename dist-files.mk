@@ -69,7 +69,6 @@ SRC_FILES_1 := \
   cminpack.mk \
   cppunit.mk \
   cunit.mk \
-  curl-1-fixes.patch \
   curl-test.c \
   curl.mk \
   damageproto.mk \
