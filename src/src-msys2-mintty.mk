@@ -4,9 +4,9 @@
 PKG             := src-msys2-mintty
 $(PKG)_NAME     := mintty
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1~3.6.2-1
+$(PKG)_VERSION  := 1~3.6.3-1
 $(PKG)_FILTER   := mintty-1~
-$(PKG)_CHECKSUM := 9aa644f22812597f89a0f66fdb13059af50c8d6c
+$(PKG)_CHECKSUM := 3cab0151201f862e5bc1797b65b1d87eeb3113f9
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

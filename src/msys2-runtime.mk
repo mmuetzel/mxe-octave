@@ -4,9 +4,9 @@
 PKG             := msys2-runtime
 $(PKG)_NAME     := msys2-runtime
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.3.6-5
-$(PKG)_x86_64_CS := 556fe34db7dd538aa35566cdf38dad2a49ab4d1d
-$(PKG)_i686_CS  := c1156a37299e44562c30a1f058d20aa8856ec717
+$(PKG)_VERSION  := 3.3.6-6
+$(PKG)_x86_64_CS := a0f810b6ef25ed10f72e91af989aebbfb8d7f089
+$(PKG)_i686_CS  := 08e966d6645268a39d0c8ddb6c5549eead34afcd
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
