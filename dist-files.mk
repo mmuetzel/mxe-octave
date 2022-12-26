@@ -569,6 +569,7 @@ SRC_FILES_1 := \
   opencv-1-fixes.patch \
   opencv.mk \
   openexr.mk \
+  opengl_switch.mk \
   openjpeg.mk \
   openlibm.mk \
   openscenegraph-1-fixes.patch \
