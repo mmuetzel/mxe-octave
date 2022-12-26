@@ -23,5 +23,8 @@ endef
 define $(PKG)_BUILD
     echo "# mount tmp to users profile temp dir" >> "$(1)/etc/fstab"
     echo "none /tmp usertemp binary,noacl,posix=0 0 0" >> "$(1)/etc/fstab"
+    if [ "$(MSYS2_ARCH)" =  "i686" ]; then \
+      $(SED) -i 's/\(.*refresh-keys.*\)/#\1/g' "$(1)/etc/post-install/07-pacman-key.post"; \
+    fi
     $(MSYS2_PKG_BUILD)
 endef

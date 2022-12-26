@@ -21,5 +21,8 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    if [ "$(MSYS2_ARCH)" =  "i686" ]; then \
+      $(SED) -i '/^\[msys\]/i \[build32\]\nServer = $(MSYS2_URL)\nSigLevel = Optional\n' "$(1)/etc/pacman.conf"; \
+    fi
     $(MSYS2_PKG_BUILD)
 endef
