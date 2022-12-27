@@ -9,7 +9,7 @@ $(PKG)_SUBDIR   := tiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := tiff-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.osgeo.org/libtiff/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.remotesensing.org/libtiff/$($(PKG)_FILE)
-$(PKG)_DEPS     := zlib libjbig jpeg
+$(PKG)_DEPS     := zlib libjbig jpeg libwebp
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS += xz
 endif
