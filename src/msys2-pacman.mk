@@ -4,9 +4,9 @@
 PKG             := msys2-pacman
 $(PKG)_NAME     := pacman
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.0.1-18
-$(PKG)_x86_64_CS := 019c7e50f0af09a3bf043953baea4d2d2792a410
-$(PKG)_i686_CS  := 66bfb5a61d72491da89329ca1edf234e4d08887d
+$(PKG)_VERSION  := 6.0.1-25
+$(PKG)_x86_64_CS := 42c624c1b541ebc43a5b095e22c0e48c961428c3
+$(PKG)_i686_CS  := dc2dccb28c40a8e712728af7c46e79d793cebd5e
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
@@ -21,5 +21,8 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    if [ "$(MSYS2_ARCH)" =  "i686" ]; then \
+      $(SED) -i '/^\[msys\]/i \[build32\]\nServer = $(MSYS2_URL)\nSigLevel = Optional\n' "$(1)/etc/pacman.conf"; \
+    fi
     $(MSYS2_PKG_BUILD)
 endef

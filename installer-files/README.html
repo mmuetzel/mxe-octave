@@ -5,11 +5,16 @@
 <body>
 <h1>Welcome</h1>
 <p>Thank you for installing GNU Octave!</p>
-<p>Octave 7.3 is a minor release which mainly fixes bugs and regressions found
-since the release of version 7.2. It should be feature and API compatible to
-Octave 7.2.</p>
-<p>Starting with Octave 7, the minimum required version of the Windows API is
-now 6.1 (Windows 7 or newer).</p>
+<p>Octave 8.1 is a major release with many new features and improvements. Among
+other things, it brings updates for Matlab compatibility, better printing,
+support for non-ASCII characters at the command prompt on Windows 8.1 or newer,
+and many general improvements since version 7.3.</p>
+<p>It is not feature or API compatible with Octave 7. Binaries
+(<code>.oct</code> or <code>.mex</code> files) need to be re-built.</p>
+<p>Octave 8 will probably be the last major version which is distributed for
+Windows 32-bit (or WoW64).</p>
+<p>Since Octave 7, the minimum required version of the Windows API is 6.1
+(Windows 7 or newer).</p>
 <p>A full list of changes can be found in the Release Notes from the News
 menu or by typing <code>news</code> on the command prompt.</p>
 
@@ -58,6 +63,13 @@ of Octave on Windows.<br />
 However, there are some (minor) limitations and idiosyncracies on that platform.
 Please, read the <a href="https://wiki.octave.org/Octave_for_Microsoft_Windows">
 corresponding article</a> for further information and possible work-arounds.</p>
+<p>The Octave GUI is currently not compatible with the new Windows Terminal App.
+Please, switch the default to the (legacy) Windows Console Host for Octave to
+work correctly.  See, e.g.,
+<a href="https://devblogs.microsoft.com/commandline/windows-terminal-as-your-default-command-line-experience/">
+these instructions by Microsoft</a> for how to change the default terminal and
+select "Windows Console Host".
+</p>
 
 <h2>Contributing to Octave</h2>
 <p>Octave has a community that lives from its users. You are welcome to share

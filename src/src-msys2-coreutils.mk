@@ -4,8 +4,8 @@
 PKG             := src-msys2-coreutils
 $(PKG)_NAME     := coreutils
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.32-4
-$(PKG)_CHECKSUM := f8949c8d0f80c0563d871adb6c80fc9e227f7f3f
+$(PKG)_VERSION  := 8.32-5
+$(PKG)_CHECKSUM := 71e71aa6a0b934e36b0d0b86bcabae754ecaa9f2
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

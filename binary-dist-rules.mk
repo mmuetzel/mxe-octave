@@ -28,7 +28,8 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
     octave-launch \
     octave-launch-firsttime \
     win7appid \
-    blas_switch
+    blas_switch \
+    opengl_switch
 
   ifeq ($(USE_MSYS2),yes)
     WINDOWS_BINARY_DIST_DEPS += \

@@ -3,13 +3,13 @@
 
 PKG             := tiff
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.4.0
-$(PKG)_CHECKSUM := e11d05db71d243a62800b4bf4479eb4859714405
+$(PKG)_VERSION  := 4.5.0
+$(PKG)_CHECKSUM := c799eb7161b6495042223d4dee0d2b3bdb12660c
 $(PKG)_SUBDIR   := tiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := tiff-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.osgeo.org/libtiff/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.remotesensing.org/libtiff/$($(PKG)_FILE)
-$(PKG)_DEPS     := zlib libjbig jpeg
+$(PKG)_DEPS     := zlib libjbig jpeg libwebp
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS += xz
 endif
@@ -26,7 +26,9 @@ define $(PKG)_BUILD
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
-        --enable-jbig --without-x && $(CONFIGURE_POST_HOOK)
+        --enable-jbig \
+        --disable-libdeflate \
+        --without-x && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'
 

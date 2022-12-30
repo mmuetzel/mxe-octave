@@ -69,7 +69,6 @@ SRC_FILES_1 := \
   cminpack.mk \
   cppunit.mk \
   cunit.mk \
-  curl-1-fixes.patch \
   curl-test.c \
   curl.mk \
   damageproto.mk \
@@ -294,8 +293,6 @@ SRC_FILES_1 := \
   libpng-test.c \
   libpng.mk \
   libproxy.mk \
-  librsb-1-setenv.patch \
-  librsb-2-config.patch \
   librsb.mk \
   librsvg-1-fixes.patch \
   librsvg-test.c \
@@ -337,7 +334,6 @@ SRC_FILES_1 := \
   lzo.mk \
   matio.mk \
   mdbtools.mk \
-  mesa-2-ucrt.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
@@ -547,7 +543,6 @@ SRC_FILES_1 := \
   of-specfun-1-deprecated.patch \
   of-specfun.mk \
   of-splines.mk \
-  of-statistics-fixes.patch \
   of-statistics.mk \
   of-stk.mk \
   of-strings.mk \
@@ -574,6 +569,7 @@ SRC_FILES_1 := \
   opencv-1-fixes.patch \
   opencv.mk \
   openexr.mk \
+  opengl_switch.mk \
   openjpeg.mk \
   openlibm.mk \
   openscenegraph-1-fixes.patch \
@@ -669,6 +665,7 @@ SRC_FILES_1 := \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
   readline-3-fd_set.patch \
+  readline-4-locale.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
   release-octave.mk \

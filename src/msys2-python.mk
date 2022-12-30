@@ -4,9 +4,9 @@
 PKG             := msys2-python
 $(PKG)_NAME     := python
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.10.6-1
-$(PKG)_x86_64_CS := 3ac7b040a22755c2c6ad9373d10a5488b752413e
-$(PKG)_i686_CS  := 08f9c0baabb12a8275129d946732d798c57e509f
+$(PKG)_VERSION  := 3.10.9-1
+$(PKG)_x86_64_CS := 269c9a7ebce56521f7b1f1ced308506adab6bed5
+$(PKG)_i686_CS  := d87fecc12e7b61191a14a6efe81ed72936e94bc6
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

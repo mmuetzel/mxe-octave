@@ -4,9 +4,9 @@
 PKG             := msys2-coreutils
 $(PKG)_NAME     := coreutils
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.32-4
-$(PKG)_x86_64_CS := f4e2e8ada6dc88ced30f9449e78a8609a36159c1
-$(PKG)_i686_CS  := 0d63128ca9b5408878e017f1a60c18b0cde5e799
+$(PKG)_VERSION  := 8.32-5
+$(PKG)_x86_64_CS := 65e44864b7a63e482f6f0f98aca8c3e3e2264ed4
+$(PKG)_i686_CS  := 5e7e6c26f7ccc7725919151a96df70057f9e564b
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

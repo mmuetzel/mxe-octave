@@ -3,8 +3,8 @@
 
 PKG             := librsb
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.0.1
-$(PKG)_CHECKSUM := c5781cfdd137a6d442318f9f5e7b9fd18c46d8c2
+$(PKG)_VERSION  := 1.3.0.2
+$(PKG)_CHECKSUM := 61e23ad6258dba602fc3bcb3cdc4d1c1b24e220c
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$($(PKG)_FILE)
@@ -25,6 +25,7 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)' \
         $(ENABLE_SHARED_OR_STATIC) \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
+        FC=' ' \
         --disable-c-examples \
         --disable-fortran-examples \
         --disable-sparse-blas-interface \

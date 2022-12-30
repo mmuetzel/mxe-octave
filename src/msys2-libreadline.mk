@@ -4,9 +4,9 @@
 PKG             := msys2-libreadline
 $(PKG)_NAME     := libreadline
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.1.002-2
-$(PKG)_x86_64_CS := 5a29a9c5606122c2d2616e17b13e2162ab06ab20
-$(PKG)_i686_CS  := 9d19610f8f4b142100a86034799315ccdb9d8a70
+$(PKG)_VERSION  := 8.2.001-1
+$(PKG)_x86_64_CS := 8f0ec3c44cc868bb93a6c00a6385a5bcaf7acdd7
+$(PKG)_i686_CS  := e3ad908ad961e55e00baf07a4d20dfe0e34d17b8
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

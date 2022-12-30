@@ -4,8 +4,8 @@
 PKG             := src-msys2-sed
 $(PKG)_NAME     := sed
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.8-3
-$(PKG)_CHECKSUM := 638fb77b52d68c9c7f0a3fc2cfc915cad8f7fb5d
+$(PKG)_VERSION  := 4.9-1
+$(PKG)_CHECKSUM := 1cac17013c0cf52476441fbb54b1a5fe2a172439
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

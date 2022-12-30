@@ -4,9 +4,9 @@
 PKG             := msys2-filesystem
 $(PKG)_NAME     := filesystem
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2022.01-5
-$(PKG)_x86_64_CS := cc9accd0fc874e20a89864407def1d8e3f413c0d
-$(PKG)_i686_CS  := cee395689352e73f66223badb68e6620bec1dd03
+$(PKG)_VERSION  := 2022.01-7
+$(PKG)_x86_64_CS := ba05df7bfb54ab4462a528af75cf42786c2c8c36
+$(PKG)_i686_CS  := 2a6fe78a3dee017f6e88fa5fa40b09fd7192d3de
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
@@ -23,5 +23,8 @@ endef
 define $(PKG)_BUILD
     echo "# mount tmp to users profile temp dir" >> "$(1)/etc/fstab"
     echo "none /tmp usertemp binary,noacl,posix=0 0 0" >> "$(1)/etc/fstab"
+    if [ "$(MSYS2_ARCH)" =  "i686" ]; then \
+      $(SED) -i 's/\(.*refresh-keys.*\)/#\1/g' "$(1)/etc/post-install/07-pacman-key.post"; \
+    fi
     $(MSYS2_PKG_BUILD)
 endef

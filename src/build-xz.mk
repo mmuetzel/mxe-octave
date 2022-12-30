@@ -3,8 +3,8 @@
 
 PKG             := build-xz
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.2.7
-$(PKG)_CHECKSUM := 9a15569a7a969c03ae621c7ecbb29c187f59355e
+$(PKG)_VERSION  := 5.4.0
+$(PKG)_CHECKSUM := 4ab7e2e8ec266f8ab3444dda27c3924aff351842
 $(PKG)_SUBDIR   := xz-$($(PKG)_VERSION)
 $(PKG)_FILE     := xz-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://tukaani.org/xz/$($(PKG)_FILE)

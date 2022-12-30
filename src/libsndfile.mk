@@ -3,8 +3,8 @@
 
 PKG             := libsndfile
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.1.0
-$(PKG)_CHECKSUM := dd98ff27fb66fbf1ab1e291bc8938449e90778a2
+$(PKG)_VERSION  := 1.2.0
+$(PKG)_CHECKSUM := 48050964a229bc53cd3e6134caedce27802f75c7
 $(PKG)_SUBDIR   := libsndfile-$($(PKG)_VERSION)
 $(PKG)_FILE     := libsndfile-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/$($(PKG)_VERSION).tar.gz
