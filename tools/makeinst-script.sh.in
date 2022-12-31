@@ -375,6 +375,8 @@ Var RegisterOctaveFileType
 Var RegisterOctaveFileTypeCtrl
 Var InstallBlasLibCtrl
 Var InstallBlasLib
+Var InstallOpenGLCtrl
+Var InstallOpenGL
 
 Function octaveOptionsPage 
 
@@ -410,6 +412,12 @@ Function octaveOptionsPage
 
   \${NSD_CreateDropList} 100u 70u 100u 80u ""
   Pop \$InstallBlasLibCtrl
+
+  \${NSD_CreateLabel} 0 90u 110u 12u "OpenGL implementation:"
+  Pop \$0
+
+  \${NSD_CreateDropList} 100u 110u 100u 80u ""
+  Pop \$InstallOpenGLCtrl
 EOF
    # add option to install libopenblas if we have the dll present
    if [ -e $OCTAVE_SOURCE/$OCTAVE_SUBDIR/bin/libopenblas.dll ]; then
@@ -424,6 +432,11 @@ EOF
   cat >> $OUTFILE << EOF
   \${NSD_CB_SelectString} \$InstallBlasLibCtrl "$DEFAULT_BLAS"
 
+  ; add option for opengl
+  \${NSD_CB_AddString} \$InstallOpenGLCtrl "System OpenGL"
+  \${NSD_CB_AddString} \$InstallOpenGLCtrl "Software OpenGL"
+  \${NSD_CB_SelectString} \$InstallOpenGLCtrl "Software OpenGL"
+
   !insertmacro MUI_HEADER_TEXT "Install Options" "Choose options for installing"
   nsDialogs::Show  
   Pop \$0
@@ -433,6 +446,7 @@ Function octaveOptionsLeave
   \${NSD_GetState} \$InstallShortcutsCtrl \$InstallShortcuts
   \${NSD_GetState} \$RegisterOctaveFileTypeCtrl \$RegisterOctaveFileType
   \${DropList_GetCurSel} \$InstallBlasLibCtrl \$InstallBlasLib
+  \${DropList_GetCurSel} \$InstallOpenGLCtrl \$InstallOpenGL
 FunctionEnd
 
 ######################################################################
@@ -567,6 +581,7 @@ Function .onInit
   StrCpy \$InstallShortcuts \${BST_CHECKED}
   StrCpy \$RegisterOctaveFileType  \${BST_CHECKED}
   StrCpy \$InstallBlasLib 0
+  StrCpy \$InstallOpenGL 1
 
   ; process command line options
   \${GetParameters} \$R0
@@ -777,6 +792,13 @@ have_ver_str:
     CopyFiles /SILENT "\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\libopenblas.dll" "\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\libblas.dll"
   \${EndIf}
 
+  ; OpenGL set up
+  \${If} \$InstallOpenGL == 0
+    ; use system opengl - move opengl to backup
+    CopyFiles /SILENT "\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\opengl32.dll" "\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\opengl32.bak"
+    Delete "\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\opengl32.dll" 
+  \${EndIf}
+ 
 SectionEnd
 
 Section "FileTypeRego"
