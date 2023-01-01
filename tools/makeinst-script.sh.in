@@ -435,7 +435,7 @@ EOF
   ; add option for opengl
   \${NSD_CB_AddString} \$InstallOpenGLCtrl "System OpenGL"
   \${NSD_CB_AddString} \$InstallOpenGLCtrl "Software OpenGL"
-  \${NSD_CB_SelectString} \$InstallOpenGLCtrl "Software OpenGL"
+  \${NSD_CB_SelectString} \$InstallOpenGLCtrl "System OpenGL"
 
   !insertmacro MUI_HEADER_TEXT "Install Options" "Choose options for installing"
   nsDialogs::Show  
@@ -581,7 +581,7 @@ Function .onInit
   StrCpy \$InstallShortcuts \${BST_CHECKED}
   StrCpy \$RegisterOctaveFileType  \${BST_CHECKED}
   StrCpy \$InstallBlasLib 0
-  StrCpy \$InstallOpenGL 1
+  StrCpy \$InstallOpenGL 0
 
   ; process command line options
   \${GetParameters} \$R0
