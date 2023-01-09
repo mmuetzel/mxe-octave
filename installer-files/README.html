@@ -33,17 +33,9 @@ that doesn't contain spaces.</p>
 the default installation location is inside
 <code>%LOCALAPPDATA%\Programs\GNU Octave</code>.</p>
 
-<h2>BLAS Library Selection</h2>
-<p>During the installation, a default BLAS library was selected. The installer
-contains two BLAS implementations,
-the <a href="http://www.netlib.org/blas/">NetLib reference BLAS</a>
-and <a href="http://www.openblas.net/">OpenBLAS</a>.</p>
-<p>The used implementation can be changed after installation with the "BLAS
-Switcher" in the Start menu.</p>
-
-<h2>Included Octave Forge Packages</h2>
+<h2>Included Octave Packages</h2>
 <p>A <a href="https://wiki.octave.org/Octave_for_Microsoft_Windows#Packages">
-number of Octave-Forge packages</a> has been included with Octave for Windows.
+number of Octave packages</a> has been included with Octave for Windows.
 However, the packages must be loaded in order to use them.</p>
 <p>
 <ul>
@@ -53,8 +45,31 @@ However, the packages must be loaded in order to use them.</p>
 <code>pkg load PACKAGENAME</code> command.</li>
 </ul>
 </p>
-<p>Other packages are available from
-<a href="https://octave.sourceforge.io/">Octave-Forge</a>.</p>
+<p>More packages are available from
+<a href="https://packages.octave.org/">Octave Packages</a>.</p>
+
+<h2>BLAS Library Selection</h2>
+<p>During the installation, a default BLAS library was selected. The installer
+contains two BLAS implementations,
+the <a href="http://www.netlib.org/blas/">NetLib reference BLAS</a>
+and <a href="http://www.openblas.net/">OpenBLAS</a>.</p>
+<p>The implementation by OpenBLAS tries to use the CPU features available on the
+system. That means that it might perform faster than the reference
+implementation. On the other hand, using it might result in higher round-off
+errors.</p>
+<p>The used implementation can be changed after installation with the "BLAS
+Switcher" in the Start menu.</p>
+
+<h2>OpenGL Renderer Selection</h2>
+<p>During installation, an OpenGL renderer was selected. Octave for Windows
+includes a software OpenGL renderer (llvmpipe by
+<a href="https://www.mesa3d.org/">Mesa 3D</a>). That renderer can be used if the
+OpenGL renderer drivers installed on the system aren't working as expected.</p>
+<p>Note that the OpenGL renderer installed on the system might be hardware
+accelerated. That means it might perform much faster than the software OpenGL
+renderer.</p>
+<p>The OpenGL renderer used by Octave can be changed after installation with the
+"OpenGL Switcher" in the Start menu.</p>
 
 <h2>General information for Octave on Windows</h2>
 <p>Octave is developed primarily on GNU/Linux. The programs and wrapper scripts
