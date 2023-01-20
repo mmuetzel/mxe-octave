@@ -4,8 +4,8 @@
 PKG             := src-msys2-libreadline
 $(PKG)_NAME     := readline
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.2.001-1
-$(PKG)_CHECKSUM := 3e0255936341f2a9610f979c6f7669258863905f
+$(PKG)_VERSION  := 8.2.001-3
+$(PKG)_CHECKSUM := 76fc4896b9c2572696139d458e895574e781fc56
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

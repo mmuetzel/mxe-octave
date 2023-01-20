@@ -4,9 +4,9 @@
 PKG             := msys2-mpfr
 $(PKG)_NAME     := mpfr
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.1.1.p1-1
-$(PKG)_x86_64_CS := a73f3a28b826c1297e681bf3ebc55f420aaba607
-$(PKG)_i686_CS  := d9f8d7f367701fd2a02a43705c89327c521de379
+$(PKG)_VERSION  := 4.2.0-2
+$(PKG)_x86_64_CS := a14e908cef8722aa800b1390be7ccd83483c137f
+$(PKG)_i686_CS  := dd413836de633d05d3bde3e692bb237468ed338d
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   :=
