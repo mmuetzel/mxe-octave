@@ -34,11 +34,11 @@
 
 PKG             := release-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.3.0
-$(PKG)_CHECKSUM := 9f691d0c7e2dc62339d0939bcc0f9dbbd9fdc0b0
+$(PKG)_VERSION  := 8.0.90
+$(PKG)_CHECKSUM := 59ee3a34a0b0258172bfe08ad9d1ed88e71320cf
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.lz
-$(PKG)_URL      := ftp://ftp.gnu.org/gnu/octave/$($(PKG)_FILE)
+$(PKG)_URL      := ftp://alpha.gnu.org/gnu/octave/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
@@ -133,9 +133,9 @@ else
 endif
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
-  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes ax_blas_integer_size=8 octave_cv_sizeof_fortran_integer=8
+  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=8 octave_cv_sizeof_fortran_integer=8
 else
-  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := ax_blas_f77_func_ok=yes ax_blas_integer_size=4 octave_cv_sizeof_fortran_integer=4
+  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=4 octave_cv_sizeof_fortran_integer=4
 endif
 
 ifeq ($(MXE_SYSTEM),mingw)
