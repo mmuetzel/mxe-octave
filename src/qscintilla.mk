@@ -3,8 +3,8 @@
 
 PKG             := qscintilla
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.13.3
-$(PKG)_CHECKSUM := 336c069d56dc9573ac2c68fd5690b2dffe02daaa
+$(PKG)_VERSION  := 2.13.4
+$(PKG)_CHECKSUM := d4c47ee905074e2d7559c5340336dc1b6650c4e6
 $(PKG)_SUBDIR   := QScintilla_src-$($(PKG)_VERSION)
 $(PKG)_FILE     := QScintilla_src-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.riverbankcomputing.com/static/Downloads/QScintilla/$($(PKG)_VERSION)/$($(PKG)_FILE)
