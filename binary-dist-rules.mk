@@ -114,7 +114,13 @@ octave-launch-firsttime: installer-files/octave-launch-firsttime.exe
 installer-files/octave-launch-firsttime.exe: $(TOP_DIR)/installer-files/octave-launch.c installer-files/octave-launch.res | installer-files/.dirstamp
 	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
 
-installer-files/octave-launch.res: $(TOP_DIR)/installer-files/octave-launch.rc | installer-files/.dirstamp
+installer-files/octave-logo.ico: $(TOP_DIR)/installer-files/octave-logo.ico | installer-files/.dirstamp
+	cp -a $< $@
+
+installer-files/octave-launch.rc: $(TOP_DIR)/installer-files/octave-launch.rc.in | installer-files/octave-logo.ico installer-files/.dirstamp
+	$(SED) $< -e 's/@PRODUCT_VERSION@/$($(OCTAVE_TARGET)_VERSION)/' -e "s/@PRODUCT_VERSION_COMMA@/$(shell echo $($(OCTAVE_TARGET)_VERSION).0 | $(SED) 's|\.|,|g')/" > $@
+
+installer-files/octave-launch.res: installer-files/octave-launch.rc | installer-files/.dirstamp
 	$(MXE_WINDRES) $< -o $@ -O coff
 endif
 
