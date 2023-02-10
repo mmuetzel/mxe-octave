@@ -1127,7 +1127,7 @@ INSTALL_FILES_1 := \
   octave-firsttime.vbs \
   octave-hdr.bmp \
   octave-launch.c \
-  octave-launch.rc \
+  octave-launch.rc.in \
   octave-logo.ico \
   octave-no-short-path.patch \
   post-install.bat \

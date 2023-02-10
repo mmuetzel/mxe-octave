@@ -1004,6 +1004,7 @@ clean:
 	rm -f installer-files/octave-launch.exe \
 	  installer-files/octave-launch-firsttime.exe \
 	  installer-files/octave-launch.res \
+	  installer-files/octave-launch.rc \
 	  installer-files/.dirstamp
 
 .PHONY: realclean
