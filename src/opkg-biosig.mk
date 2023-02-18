@@ -3,11 +3,11 @@
 
 PKG             := opkg-biosig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.4.3
-$(PKG)_CHECKSUM := 525dd4eeadff706b5d4803c458acc2c27a85b194
+$(PKG)_VERSION  := 2.5.0
+$(PKG)_CHECKSUM := a9db5db6dd1b8f38ea4f279bc32769247911b9db
 $(PKG)_SUBDIR   := biosig4octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).src.tar.gz
-$(PKG)_URL      := https://pub.ist.ac.at/~schloegl/biosig/prereleases/$($(PKG)_FILE)
+$(PKG)_URL      := https://sourceforge.net/projects/biosig/files/Biosig%20for%20Octave/$($(PKG)_FILE)
 $(PKG)_DEPS     := libbiosig
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
