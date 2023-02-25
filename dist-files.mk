@@ -121,7 +121,6 @@ SRC_FILES_1 := \
   gd.mk \
   gdal-2-ucrt.patch \
   gdal.mk \
-  gdb-1-readline-8.2.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
