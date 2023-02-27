@@ -4,8 +4,8 @@
 PKG             := src-msys2-pacman
 $(PKG)_NAME     := pacman
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.0.1-30
-$(PKG)_CHECKSUM := db88a0fb738424906acfc06043ead8d0fe25bebd
+$(PKG)_VERSION  := 6.0.1-32
+$(PKG)_CHECKSUM := 0cd61cae11dccdd02cf52bf8726a7649fa20745a
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
