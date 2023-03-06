@@ -32,5 +32,5 @@ define $(PKG)_BUILD
 	$($(PKG)_CONFIGURE_OPTIONS)
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install
+    $(MAKE) -C '$(1)' -j 1 $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS) DESTDIR=$(3) install
 endef
