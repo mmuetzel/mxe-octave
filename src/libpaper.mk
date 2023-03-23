@@ -3,8 +3,8 @@
 
 PKG             := libpaper
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.1.28
-$(PKG)_CHECKSUM := c6583fbdaebe091d11d81c4e59514e58996f22ba
+$(PKG)_VERSION  := 1.1.29
+$(PKG)_CHECKSUM := 2152e07102931b0488a53b4fcad921aa02c5034b
 $(PKG)_SUBDIR   := libpaper-$($(PKG)_VERSION)
 $(PKG)_FILE     := libpaper_$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://ftp.debian.org/debian/pool/main/libp/$(PKG)/$($(PKG)_FILE)
