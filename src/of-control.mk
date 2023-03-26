@@ -3,12 +3,13 @@
 
 PKG             := of-control
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.5.0
-$(PKG)_CHECKSUM := a3bca75189c2d26a8883cd051d5857f3c35b3237
+$(PKG)_VERSION  := 3.5.1
+$(PKG)_CHECKSUM := 01d092e5a2ee3f66c9596380d5c5454c931f0f21
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := control-$($(PKG)_VERSION)
 $(PKG)_FILE     := control-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+#$(PKG)_URL      := https://github.com/gnu-octave/pkg-control/archive/refs/tags/control-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/gnu-octave/pkg-control/releases/download/control-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +17,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,gnu-octave,pkg-control,control-)
 endef
 
 define $(PKG)_BUILD
