@@ -3,8 +3,8 @@
 
 PKG             := of-symbolic
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0.1
-$(PKG)_CHECKSUM := 62442ab7a5919edc3cc4f084236a2ab12a24d130
+$(PKG)_VERSION  := 3.1.1
+$(PKG)_CHECKSUM := 94fa9ce4ce1222c0cffa10366c538898f0cf4e25
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := octsympy-$($(PKG)_VERSION)
 $(PKG)_FILE     := symbolic-$($(PKG)_VERSION).tar.gz
