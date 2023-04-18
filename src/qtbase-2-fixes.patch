@@ -1,0 +1,35 @@
+diff -ur qtbase-everywhere-src-5.15.9.new/src/plugins/platforms/windows/qwindowsglcontext.cpp qtbase-everywhere-src-5.15.9/src/plugins/platforms/windows/qwindowsglcontext.cpp
+--- qtbase-everywhere-src-5.15.9.new/src/plugins/platforms/windows/qwindowsglcontext.cpp	2023-04-18 08:53:03.907016122 -0400
++++ qtbase-everywhere-src-5.15.9/src/plugins/platforms/windows/qwindowsglcontext.cpp	2023-04-18 12:05:50.420715889 -0400
+@@ -179,7 +179,7 @@
+     qCDebug(lcQpaGl) << "Qt: Using WGL and OpenGL from" << openglDll;
+ 
+     if (useSystemLib)
+-        m_lib = QSystemLibrary::load((wchar_t*)(QString::fromLatin1(openglDll).utf16()));
++        m_lib = QSystemLibrary::load((wchar_t*)(QString::fromLatin1(openglDll).utf16()), false);
+     else
+         m_lib = LoadLibraryA(openglDll.constData());
+     if (!m_lib) {
+@@ -191,7 +191,7 @@
+         // Load opengl32.dll always. GDI functions like ChoosePixelFormat do
+         // GetModuleHandle for opengl32.dll and behave differently (and call back into
+         // opengl32) when the module is present. This is fine for dummy contexts and windows.
+-        QSystemLibrary::load(L"opengl32");
++        QSystemLibrary::load(L"opengl32", false);
+     }
+ 
+     wglCreateContext = reinterpret_cast<HGLRC (WINAPI *)(HDC)>(resolve("wglCreateContext"));
+Only in qtbase-everywhere-src-5.15.9/src/plugins/platforms/windows: .qwindowsglcontext.cpp.swp
+diff -ur qtbase-everywhere-src-5.15.9.new/src/plugins/platforms/windows/qwindowsopengltester.cpp qtbase-everywhere-src-5.15.9/src/plugins/platforms/windows/qwindowsopengltester.cpp
+--- qtbase-everywhere-src-5.15.9.new/src/plugins/platforms/windows/qwindowsopengltester.cpp	2023-04-18 08:53:03.908016176 -0400
++++ qtbase-everywhere-src-5.15.9/src/plugins/platforms/windows/qwindowsopengltester.cpp	2023-04-18 12:02:48.957638686 -0400
+@@ -397,7 +397,7 @@
+ 
+     // Test #1: Load opengl32.dll and try to resolve an OpenGL 2 function.
+     // This will typically fail on systems that do not have a real OpenGL driver.
+-    lib = QSystemLibrary::load(L"opengl32");
++    lib = QSystemLibrary::load(L"opengl32", false);
+     if (lib) {
+         CreateContext = reinterpret_cast<CreateContextType>(
+             reinterpret_cast<QFunctionPointer>(::GetProcAddress(lib, "wglCreateContext")));
+Binary files qtbase-everywhere-src-5.15.9.new/src/plugins/platforms/windows/.qwindowsopengltester.cpp.swp and qtbase-everywhere-src-5.15.9/src/plugins/platforms/windows/.qwindowsopengltester.cpp.swp differ
