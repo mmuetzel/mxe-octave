@@ -3,8 +3,8 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.6.3
-$(PKG)_CHECKSUM := 2fb689ab8fd01143c06e1946581d0e6d4378c2d1
+$(PKG)_VERSION  := 3.6.4
+$(PKG)_CHECKSUM := e5a4a923c62217d1af7e20aba4240989c404092f
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
