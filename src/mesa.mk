@@ -68,4 +68,10 @@ define $(PKG)_BUILD
   if [ x$(MXE_NATIVE_BUILD) == xno ]; then \
     rm -f $(3)$(HOST_LIBDIR)/opengl32.dll.a; \
   fi
+
+  # provide s/w backup opengl
+  if [ x$(MXE_WINDOWS_BUILD) == xyes ]; then \
+      $(INSTALL) "$(3)/$(HOST_BINDIR)/opengl32.dll" "$(3)/$(HOST_BINDIR)/opengl32sw.dll"; \
+  fi
+
 endef
