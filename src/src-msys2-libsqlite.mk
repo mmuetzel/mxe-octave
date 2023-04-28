@@ -4,8 +4,8 @@
 PKG             := src-msys2-libsqlite
 $(PKG)_NAME     := sqlite
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.40.1-1
-$(PKG)_CHECKSUM := 1391f6f117e4e9151187af3da8efd120080df08a
+$(PKG)_VERSION  := 3.41.2-3
+$(PKG)_CHECKSUM := bfd6f309fecb7dd71d8194a92bbdd4db6557339b
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
