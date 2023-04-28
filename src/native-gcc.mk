@@ -3,8 +3,8 @@
 
 PKG             := native-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 12.2.0
-$(PKG)_CHECKSUM := 5dce6dc0091b8049b530d1587513a07201691760
+$(PKG)_VERSION  := 13.1.0
+$(PKG)_CHECKSUM := 13366f554858f548282b5701a0add1d19d1325ee
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
