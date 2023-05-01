@@ -3,13 +3,15 @@
 
 PKG             := proj
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.1.1
-$(PKG)_CHECKSUM := 69f11aad0b434cf7171a96889ad699817a5b8407
+$(PKG)_VERSION  := 9.2.0
+$(PKG)_CHECKSUM := d35aaacb698ba621e2f576802d184cfa2259e1d3
 $(PKG)_SUBDIR   := proj-$($(PKG)_VERSION)
 $(PKG)_FILE     := proj-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.osgeo.org/proj/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.remotesensing.org/proj/$($(PKG)_FILE)
 $(PKG)_DEPS     := curl sqlite tiff
+
+$(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://proj.org/download.html' | \
@@ -18,18 +20,14 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    if [ $(MXE_SYSTEM) = msvc ]; then \
-	mkdir '$(1)/m4'; \
-        cd '$(1)' && autoreconf -f -i -v; \
-    fi
-    cd '$(1)' && ./configure \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        --prefix='$(HOST_PREFIX)' \
-        --with-mutex \
-	&& $(CONFIGURE_POST_HOOK)
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
-    # remove header which is not installed since 4.8.0
-    rm -f '$(HOST_INCDIR)/projects.h'
-    $(MAKE) -C '$(1)' -j 1 install
+    cd '$(1)' && cmake \
+        $($(PKG)_CMAKE_FLAGS) \
+        -DBUILD_TESTING=no \
+        $(CMAKE_CCACHE_FLAGS) \
+        $(CMAKE_BUILD_SHARED_OR_STATIC) \
+        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        .
+
+    $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
+    $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
 endef
