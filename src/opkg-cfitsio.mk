@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 8676194cddbad7d39c0e3356df98a8d670b19979
 $(PKG)_SUBDIR   := octave-cfitsio-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://downloads.sourceforge.net/project/octave-cfitsio/v$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := cfitsio
+$(PKG)_DEPS     := pkg-config cfitsio
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
   $(PKG)_DEPS += $(OCTAVE_TARGET)
