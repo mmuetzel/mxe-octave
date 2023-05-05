@@ -3,8 +3,8 @@
 
 PKG             := build-zstd
 $(PKG)_IGNORE   := 
-$(PKG)_VERSION  := 1.5.2
-$(PKG)_CHECKSUM := c56c8e6d703d14029464b2a1a66164dc5cf80855
+$(PKG)_VERSION  := 1.5.5
+$(PKG)_CHECKSUM := 4479ecc74300d23391d99fbebf2fddd47aed9b28
 $(PKG)_SUBDIR   := zstd-$($(PKG)_VERSION)
 $(PKG)_FILE     := zstd-$($(PKG)_VERSION).tar.lz
 $(PKG)_URL      := https://github.com/facebook/zstd/releases/download/v$($(PKG)_VERSION)/zstd-$($(PKG)_VERSION).tar.gz
