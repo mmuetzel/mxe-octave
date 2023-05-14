@@ -3,8 +3,8 @@
 
 PKG             := of-communications
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.4
-$(PKG)_CHECKSUM := cb96debf0aaf103b8f2bd5fa29ea03d2e53ca2af
+$(PKG)_VERSION  := 1.2.6
+$(PKG)_CHECKSUM := 4f0121d01188bd7ba9add7a2572dd368c09f0394
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := communications-$($(PKG)_VERSION)
 $(PKG)_FILE     := communications-$($(PKG)_VERSION).tar.gz
