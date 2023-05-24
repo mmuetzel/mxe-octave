@@ -3,8 +3,8 @@
 
 PKG             := sundials-ida
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.4.1
-$(PKG)_CHECKSUM := ce47e85aed90ddf95bf40b70842a29d1255666d2
+$(PKG)_VERSION  := 6.5.1
+$(PKG)_CHECKSUM := 8efac29bb988c08f41ea8f06534d925922fc3b73
 $(PKG)_SUBDIR   := sundials-$($(PKG)_VERSION)
 $(PKG)_FILE     := sundials-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/LLNL/sundials/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
