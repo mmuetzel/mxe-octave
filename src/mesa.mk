@@ -26,7 +26,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
   $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(MESON_TOOLCHAIN_FILE)'
 else
   ifeq ($(USE_SYSTEM_X11_LIBS),no)
-    $(PKG)_DEPS += dri2proto glproto libdrm libxshmfence x11 xdamage xext xfixes
+    $(PKG)_DEPS += dri2proto glproto libdrm libxshmfence x11 xdamage xext xfixes xrandr
     $(PKG)_BUILD_X11_LIBS_FLAGS = -Dxlib-lease=disabled
   else
     $(PKG)_PKG_CONFIG_PATH := $(PKG_CONFIG_PATH):$(BUILD_PKG_CONFIG_PATH)
@@ -38,7 +38,6 @@ else
 
   $(PKG)_X11_FLAGS := -Dplatforms='x11' \
       -Dglx=xlib \
-      -Ddri-drivers='' \
       $($(PKG)_BUILD_X11_LIBS_FLAGS)
 endif
 

@@ -655,6 +655,7 @@ SRC_FILES_1 := \
   qwt.mk \
   qwtplot3d-1-fixes.patch \
   qwtplot3d.mk \
+  randrproto.mk \
   rapidjson-1-prettywriter.patch \
   rapidjson.mk \
   readline-0-001-upstream.patch \
@@ -813,6 +814,7 @@ SRC_FILES_1 := \
   xkbcommon.mk \
   xmlwrapp.mk \
   xproto.mk \
+  xrandr.mk \
   xrender.mk \
   xt.mk \
   xtrans.mk \
