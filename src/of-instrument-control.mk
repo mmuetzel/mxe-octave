@@ -3,13 +3,13 @@
 
 PKG             := of-instrument-control
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.8.0
-$(PKG)_CHECKSUM := c70810d7dd4379e87f891f1729b14298b442be8d
+$(PKG)_VERSION  := 0.9.0
+$(PKG)_CHECKSUM := b0f0205f0cf9e473cfb728dc1262b50f165de877
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := instrument-control-$($(PKG)_VERSION)
 $(PKG)_FILE     := instrument-control-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
-$(PKG)_DEPS     := libmodbus
+$(PKG)_DEPS     := libmodbus pkg-config
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
     $(PKG)_DEPS += $(OCTAVE_TARGET)
