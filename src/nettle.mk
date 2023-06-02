@@ -3,8 +3,8 @@
 
 PKG             := nettle
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.9
-$(PKG)_CHECKSUM := 308c81e94e2ba333fc39ea4141760a8f0cd19c37
+$(PKG)_VERSION  := 3.9.1
+$(PKG)_CHECKSUM := f129cd7b0c5aa52649957221bb93dd1feef12a2c
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.lysator.liu.se/~nisse/archive/$($(PKG)_FILE)
