@@ -11,10 +11,9 @@ $(PKG)_URL      := https://gitlab.com/libeigen/$(PKG)/-/archive/$($(PKG)_VERSION
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://eigen.tuxfamily.org/index.php?title=Main_Page#Download' | \
-    $(GREP) 'released!' | \
-    $(SED) -n 's,.*>Eigen \([0-9.]*\) released!.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- https://gitlab.com/libeigen/eigen/tags | \
+    $(SED) -n 's|.*/tags/\([0-9][^"]*\).*|\1|p' | grep -v 'rc' | $(SORT) -V | \
+    tail -1
 endef
 
 define $(PKG)_BUILD
