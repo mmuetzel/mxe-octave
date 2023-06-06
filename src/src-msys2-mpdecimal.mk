@@ -4,10 +4,10 @@
 PKG             := src-msys2-mpdecimal
 $(PKG)_NAME     := mpdecimal
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.5.0-1
-$(PKG)_CHECKSUM := 5469641967af008773a08d3532ae3303cc7162ec
+$(PKG)_VERSION  := 2.5.1-1
+$(PKG)_CHECKSUM := 05d02b03345201c885b838f5bbc1848342485291
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 

@@ -4,8 +4,8 @@
 PKG             := src-msys2-openssl
 $(PKG)_NAME     := openssl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.1.0-2
-$(PKG)_CHECKSUM := d4d2b9fed9666bd909f794a0d0c1e5e19fc033f6
+$(PKG)_VERSION  := 3.1.1-1
+$(PKG)_CHECKSUM := e74544345de5e5ed0ff31c5714e646759d909145
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

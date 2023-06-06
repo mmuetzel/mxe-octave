@@ -4,9 +4,9 @@
 PKG             := msys2-glib2
 $(PKG)_NAME     := glib2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.76.1-1
-$(PKG)_x86_64_CS := 74024678682c8b7c30c3e9774e61936e4b65622b
-$(PKG)_i686_CS  := 3d29cd304fdd6ec9c1a7261fc2a8e59b12849714
+$(PKG)_VERSION  := 2.76.3-1
+$(PKG)_x86_64_CS := ce450fb0c7e1801c86cdd0f463ebe5a3f98c68af
+$(PKG)_i686_CS  := 41ec0bd119cd5fc19b0c20e10004a96e08f349dd
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
