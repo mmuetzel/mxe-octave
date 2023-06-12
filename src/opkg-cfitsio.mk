@@ -3,11 +3,12 @@
 
 PKG             := opkg-cfitsio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.0.4
-$(PKG)_CHECKSUM := 8676194cddbad7d39c0e3356df98a8d670b19979
+$(PKG)_VERSION  := 0.0.5
+$(PKG)_CHECKSUM := 6e57ac5d1a7094f40a4628cbd1e9d07a4315a504
 $(PKG)_SUBDIR   := octave-cfitsio-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://downloads.sourceforge.net/project/octave-cfitsio/v$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/gnu-octave/octave-cfitsio/releases/download/v$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := pkg-config cfitsio
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -15,9 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- https://sourceforge.net/p/octave-cfitsio/code/ci/default/tree/ | \
-    $(SED) -n 's|.*code/ci/v\([0-9][0-9.]*\)/tree.*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-cfitsio,v)
 endef
 
 define $(PKG)_BUILD
