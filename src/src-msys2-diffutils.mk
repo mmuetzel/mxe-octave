@@ -4,8 +4,8 @@
 PKG             := src-msys2-diffutils
 $(PKG)_NAME     := diffutils
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.9-1
-$(PKG)_CHECKSUM := ce770968834e3340856b5f3c447e9446132a327f
+$(PKG)_VERSION  := 3.10-1
+$(PKG)_CHECKSUM := b938fd792dc0bcd16a65f470a09d58556d5109df
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

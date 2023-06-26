@@ -4,9 +4,9 @@
 PKG             := msys2-libassuan
 $(PKG)_NAME     := libassuan
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.5.5-2
-$(PKG)_x86_64_CS := c9379233cb5721806c90a1b1f75b725f2cac49ae
-$(PKG)_i686_CS  := 1ad3ca773a9804e0d4b76d33decffa0629174bb9
+$(PKG)_VERSION  := 2.5.6-1
+$(PKG)_x86_64_CS := dadf38e6ef3a6583e5aff601e77996c389ec2123
+$(PKG)_i686_CS  := 4b801e56a62ee2ef339dda565ff36f1728c8ba4b
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
