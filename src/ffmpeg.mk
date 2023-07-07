@@ -39,7 +39,6 @@ define $(PKG)_BUILD
         --extra-libs='-mconsole' \
         --disable-debug \
         --disable-doc \
-	--disable-programs \
         --enable-avresample \
         --enable-gpl \
         --enable-version3 \
