@@ -3,12 +3,12 @@
 
 PKG             := of-video
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.2
-$(PKG)_CHECKSUM := dc76e6ad2bb354d1d716804907a29ea1322d70e7
+$(PKG)_VERSION  := 2.1.1
+$(PKG)_CHECKSUM := cb4ee20924c4d442e082ced84b15f70ff38c977d
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := video-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/Andy1978/octave-video/releases/download/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := ffmpeg
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -22,7 +22,7 @@ $(PKG)_OPTIONS :=
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,Andy1978,octave-video,)
 endef
 
 define $(PKG)_BUILD
