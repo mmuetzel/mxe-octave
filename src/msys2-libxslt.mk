@@ -4,9 +4,9 @@
 PKG             := msys2-libxslt
 $(PKG)_NAME     := libxslt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.1.37-1
-$(PKG)_x86_64_CS := dadcd3658a505d3d48a7d01f69367ae220b09af5
-$(PKG)_i686_CS  := 3f298bb8a1f382e8d4a604f079af3adc8a60022e
+$(PKG)_VERSION  := 1.1.38-1
+$(PKG)_x86_64_CS := f3830ba5f9c5ad62a7969c28515f6e78951733e8
+$(PKG)_i686_CS  := 0cff6dd54431cc05dab084e33a4bea1e6edaa93c
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
