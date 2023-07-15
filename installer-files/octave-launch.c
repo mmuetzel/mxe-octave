@@ -398,9 +398,13 @@ int wmain (int argc, wchar_t **argv)
   /* Wait until child process exits. */
   WaitForSingleObject (pi.hProcess, INFINITE);
 
+  /* Get the exit code of the child process */
+  DWORD exit_code = 0;
+  GetExitCodeProcess (pi.hProcess, &exit_code);
+
   /* Close process and thread handles */
   CloseHandle (pi.hProcess);
   CloseHandle (pi.hThread);
 
-  return 0;
+  return exit_code;
 }
