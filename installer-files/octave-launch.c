@@ -1,7 +1,7 @@
 /*
- * Wrapper application to set octave env variables and then run octave
+ * Windows wrapper application to set Octave env variables and then run Octave.
  *
- * Copyright (C) 2020-2021 John Donoghue <john.donoghue@ieee.org>
+ * Copyright (C) 2020-2023 John Donoghue <john.donoghue@ieee.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -87,11 +87,11 @@ int wmain (int argc, wchar_t **argv)
 {
   PROCESS_INFORMATION pi;
 
-  // FIXME: There are currently have no checks to ensure that the
-  // following fixed-size buffers are sufficiently large.  MAX_PATH is
-  // 260 on Winndows by default.  But a user might have increased that
-  // limit to 32767 characters by manually changing policy settings.
-  // Maybe it would be better if we used C++ and std::string objects?
+  // FIXME: There are currently no checks to ensure that the following
+  // fixed-size buffers are sufficiently large.  MAX_PATH is 260 on
+  // Windows by default.  But a user might have increased that limit to
+  // 32767 characters by manually changing policy settings.  Maybe it
+  // would be better if we used C++ and std::string objects?
   // Note that the use of sizeof(path)-1 will fail if we switch to
   // using
   //
@@ -125,7 +125,7 @@ int wmain (int argc, wchar_t **argv)
 #else
   /* transform to short paths to work around issues with spaces in
      paths */
-  /* FIXME: This won't help on systems with de-activated short paths */
+  /* FIXME: This won't help on systems with de-activated short paths. */
   nSize = GetShortPathNameW (path, rootpath, PATH_SZ-1);
   if (nSize == 0)
     StringCchCopyW (rootpath, PATH_SZ, path);
@@ -177,7 +177,7 @@ int wmain (int argc, wchar_t **argv)
         }
     }
 
-  /* binpath is to the octave bin dir so get the parent */
+  /* binpath is to the Octave bin dir so get the parent */
   StringCchCopyW (path, PATH_SZ, binpath);
   ParentDir (path);
 
@@ -352,13 +352,16 @@ int wmain (int argc, wchar_t **argv)
     StringCchCopyW (argbuffer, ARGBUF_SZ, L"octave.exe ");
     StringCchCatW (path, PATH_SZ, L"\\octave.exe");
 
-    /* If parent process has a console, attach to it.
-       Let the function fail silently, when parent has no console
-       (e.g., when program has been started from link in start menu).
-       No console will be shown in this case. */
-    AttachConsole (ATTACH_PARENT_PROCESS);
-
-    if (! (no_gui_libs || no_gui_arg_found))
+    DWORD no_window = 0;
+    if (no_gui_libs || no_gui_arg_found)
+      {
+        /* If parent process has a console, attach to it.
+           Let the function fail silently, when parent has no console
+           (e.g., when program has been started from link in start menu).
+           No console will be shown in this case. */
+        AttachConsole (ATTACH_PARENT_PROCESS);
+      }
+    else
       {
         /* Unless --no-gui or --no-gui-libs is specified, we will use a GUI window.  */
         si.dwFlags = STARTF_USESHOWWINDOW;
@@ -369,6 +372,12 @@ int wmain (int argc, wchar_t **argv)
 
         if (! gui_arg_found)
           StringCchCatW (argbuffer, ARGBUF_SZ, L"--gui ");
+
+        /* Detach from the console to allow hiding it. */
+        FreeConsole ();
+
+        /* Suppress creating a new console when starting the GUI. */
+        no_window = CREATE_NO_WINDOW;
       }
 
     /* quote and append each arg */
@@ -385,7 +394,7 @@ int wmain (int argc, wchar_t **argv)
                                  NULL,      // Process handle not inheritable
                                  NULL,      // Thread handle not inheritable
                                  FALSE,     // Set handle inheritance to FALSE
-                                 0,         // No creation flags
+                                 no_window | CREATE_UNICODE_ENVIRONMENT,  // Creation flags
                                  NULL,      // Use parent's environment block
                                  NULL,      // Use parent's starting directory
                                  &si,       // Pointer to STARTUPINFO
