@@ -105,7 +105,7 @@ octave-launch: installer-files/octave-launch.exe
 
 ## FIXME: We aren't using VPATH?
 installer-files/octave-launch.exe: $(TOP_DIR)/installer-files/octave-launch.c installer-files/octave-launch.res | installer-files/.dirstamp
-	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
+	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -lshlwapi -municode -DUNICODE -D_UNICODE $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
 
 .PHONY: octave-launch-firsttime
 octave-launch-firsttime: installer-files/octave-launch-firsttime.exe
