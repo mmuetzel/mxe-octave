@@ -24,6 +24,11 @@ ifeq ($(TARGET),i686-w64-mingw32)
   $(PKG)_CONFIG_OPTS += --disable-optimizations
 endif
 
+# disable asm usage when native linux with system gcc
+ifeq ($(MXE_SYSTEM)$(USE_SYSTEM_GCC),gnu-linuxyes)
+  $(PKG)_CONFIG_OPTS += --disable-asm
+endif
+
 ifeq ($(MXE_NATIVE_BUILD),no)
 
 define $(PKG)_BUILD
@@ -82,7 +87,8 @@ define $(PKG)_BUILD
         --enable-libopencore-amrnb \
         --enable-libopencore-amrwb \
         --enable-libx264 \
-        --enable-libvpx
+        --enable-libvpx \
+	$($(PKG)_CONFIG_OPTS)
     $(MAKE) -C '$(1)' -j '$(JOBS)'
     $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
     rm -rf "$(3)$(HOST_PREFIX)/share/ffmpeg"
