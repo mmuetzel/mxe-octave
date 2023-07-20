@@ -3,12 +3,12 @@
 
 PKG             := of-audio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.5
-$(PKG)_CHECKSUM := c26812428fc1a8b9b3beeb555c489c48cc4305cc
+$(PKG)_VERSION  := 2.0.6
+$(PKG)_CHECKSUM := 239ac17d516630f79571278ebe57a8b92435b64f
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := audio-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/gnu-octave/octave-audio/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := rtmidi
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-audio,release-)
 endef
 
 define $(PKG)_BUILD
