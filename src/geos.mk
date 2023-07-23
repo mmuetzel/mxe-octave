@@ -3,8 +3,8 @@
 
 PKG             := geos
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.11.2
-$(PKG)_CHECKSUM := 2a13604e27c1d3146a523017ad1e6290b526230c
+$(PKG)_VERSION  := 3.12.0
+$(PKG)_CHECKSUM := ccba1c7aa90077522cad2ca9e615d24de913c010
 $(PKG)_SUBDIR   := geos-$($(PKG)_VERSION)
 $(PKG)_FILE     := geos-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://download.osgeo.org/geos/$($(PKG)_FILE)
@@ -13,7 +13,7 @@ $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://download.osgeo.org/geos/?C=M&O=A' | \
-    $(SED) -n 's,.*geos-\([0-9][^>]*\)\.tar.*,\1,p' | $(SORT) -V | \
+    $(SED) -n 's,.*geos-\([0-9][\.0-9]*\)\.tar.*,\1,p' | $(SORT) -V | \
     tail -1
 endef
 
