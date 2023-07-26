@@ -4,8 +4,8 @@
 PKG             := src-msys2-perl
 $(PKG)_NAME     := perl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.36.0-1
-$(PKG)_CHECKSUM := 02fa285847f4e266db3bb7d9a25cce09171bcfb8
+$(PKG)_VERSION  := 5.36.1-2
+$(PKG)_CHECKSUM := c09b7a8c0386e309ac30deb42cdaf3a8c91a3b0d
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
