@@ -101,12 +101,12 @@ AC_SUBST(USE_MSYS2)
 
 # Use "msvcrt" or "ucrt" on Windows
 AC_ARG_WITH([windows-msvcrt],
-  [AS_HELP_STRING([--with-windows-msvcrt=msvcrt], [select C runtime for windows distribution (default: msvcrt)])],
+  [AS_HELP_STRING([--with-windows-msvcrt=msvcrt], [select C runtime for windows distribution (default: ucrt)])],
   [case $withval in
      no) AC_MSG_ERROR([A runtime for Windows is required for --with-windows-msvcrt]) ;;
-     yes | "") HOST_MSVCRT=msvcrt ;;
+     yes | "") HOST_MSVCRT=ucrt ;;
      *) HOST_MSVCRT="$withval" ;;
-   esac], [HOST_MSVCRT=msvcrt])
+   esac], [HOST_MSVCRT=ucrt])
 AC_SUBST(HOST_MSVCRT)
 
 # try find pkg-config build paths
