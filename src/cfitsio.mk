@@ -3,8 +3,8 @@
 
 PKG             := cfitsio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.2.0
-$(PKG)_CHECKSUM := 165f0af3c9931ae5ad0dc3eb396a10711b4fdd6b
+$(PKG)_VERSION  := 4.3.0
+$(PKG)_CHECKSUM := ccacad868712821c345da3313c3c83afb8efde1e
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/$($(PKG)_FILE)
@@ -17,7 +17,7 @@ endif
 
 $(PKG)_CONFIGURE_FLAGS :=
 ifeq ($(MXE_SYSTEM),mingw)
-  $(PKG)_CONFIGURE_FLAGS += CURLCONFIG=none
+  $(PKG)_CONFIGURE_FLAGS += --disable-curl
 endif
 
 define $(PKG)_UPDATE

@@ -336,7 +336,6 @@ SRC_FILES_1 := \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
   mingw-cairo-1-ssize-t-defined.patch \
-  mingw-cfitsio-1-fixes.patch \
   mingw-epstool-1-fixes.patch \
   mingw-glpk-1-fixes.patch \
   mingw-graphicsmagick-1-dcraw.patch \
