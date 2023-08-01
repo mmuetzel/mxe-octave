@@ -979,6 +979,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-libtasn1.mk \
   msys2-libunistring.mk \
   msys2-libutil-linux.mk \
+  msys2-libxcrypt.mk \
   msys2-libxml2.mk \
   msys2-libxslt.mk \
   msys2-make.mk \
@@ -1052,6 +1053,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-libtasn1.mk \
   src-msys2-libunistring.mk \
   src-msys2-libutil-linux.mk \
+  src-msys2-libxcrypt.mk \
   src-msys2-libxml2.mk \
   src-msys2-libxslt.mk \
   src-msys2-make.mk \
