@@ -3,8 +3,8 @@
 
 PKG             := build-texinfo
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.8
-$(PKG)_CHECKSUM := 37f5ff5f748fb11bcbd57b82f3fdb5c365e82d61
+$(PKG)_VERSION  := 7.0.3
+$(PKG)_CHECKSUM := d9c7fb736aeb8965b12c32d24e1006e5ce6965f1
 $(PKG)_SUBDIR   := texinfo-$($(PKG)_VERSION)
 $(PKG)_FILE     := texinfo-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/texinfo/$($(PKG)_FILE)
