@@ -3,12 +3,12 @@
 
 PKG             := of-zeromq
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.5.5
-$(PKG)_CHECKSUM := b40a03bab8b7d207618c369fe1f2ce85b06a2170
+$(PKG)_VERSION  := 1.5.6
+$(PKG)_CHECKSUM := 79cb00e73b84c5a9a5ba6088842df31a645ea1f4
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := zeromq-$($(PKG)_VERSION)
 $(PKG)_FILE     := zeromq-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/gnu-octave/octave-zeromq/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := zeromq
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-zeromq,release-)
 endef
 
 define $(PKG)_BUILD
