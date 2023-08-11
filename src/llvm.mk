@@ -11,10 +11,7 @@ $(PKG)_URL      := https://github.com/llvm/llvm-project/releases/download/llvmor
 $(PKG)_DEPS     := build-cmake build-ninja build-python
 
 define $(PKG)_UPDATE
-    wget -q -O- 'http://releases.llvm.org/download.html?' | \
-    grep 'Download LLVM' | \
-    $(SED) -n 's,.*LLVM \([0-9][^<]*\).*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,llvm,llvm-project,llvmorg-)
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
