@@ -22,7 +22,7 @@ define $(PKG)_BUILD
        $(SED) -i 's,EXPORTS,,' '$(1)/win32/xmingw32/libtheoraenc-all.def'; \
    fi
 
-    cd '$(1)' && ./configure \
+    cd '$(1)' && HAVE_DOXYGEN=false ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
