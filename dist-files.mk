@@ -825,6 +825,7 @@ SRC_FILES_1 := \
   zeromq.mk \
   zlib-1-win32-static.patch \
   zlib.mk \
+  zstd.mk \
   zziplib-1-fix-fnmatch.patch \
   zziplib.mk
 
