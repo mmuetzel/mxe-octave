@@ -1,12 +1,8 @@
-# This file is part of MXE.
-# See index.html for further information.
-
-PKG             := qt5
+PKG             := qt6
 $(PKG)_VERSION   = $(qtbase_VERSION)
 $(PKG)_DEPS     := $(patsubst $(TOP_DIR)/src/%.mk,%,\
-                        $(shell grep -l 'qtbase_VERSION' \
-                                $(TOP_DIR)/src/qt[^6]*.mk \
-                                --exclude '$(TOP_DIR)/src/qt5.mk'))
+                        $(shell grep -l 'qt6-qtbase_VERSION' \
+                                $(TOP_DIR)/src/qt6-*.mk))
 $(PKG)_FILE      =
 $(PKG)_URL       =
 $(PKG)_CHECKSUM := #No checksum

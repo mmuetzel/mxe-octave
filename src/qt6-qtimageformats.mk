@@ -1,0 +1,21 @@
+# This file is part of MXE.
+# See index.html for further information.
+
+PKG             := qt6-qtimageformats
+$(PKG)_IGNORE   :=
+$(PKG)_VERSION   = $(qt6-qtbase_VERSION)
+$(PKG)_CHECKSUM := dc3a5c32f2a6f3185bddae39e7799c08bf4221df
+$(PKG)_SUBDIR    = $(subst qtbase,qtimageformats,$(qt6-qtbase_SUBDIR))
+$(PKG)_FILE      = $(subst qtbase,qtimageformats,$(qt6-qtbase_FILE))
+$(PKG)_URL       = $(subst qtbase,qtimageformats,$(qt6-qtbase_URL))
+$(PKG)_DEPS     := jasper libmng qt6-qtbase tiff
+
+define $(PKG)_UPDATE
+    echo $(qt6-qtbase_VERSION)
+endef
+
+define $(PKG)_BUILD
+    cd '$(1)' && '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6'
+    cmake --build $(1) -j '$(JOBS)'
+    cmake --install $(1)
+endef

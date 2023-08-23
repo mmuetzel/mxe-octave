@@ -10,10 +10,14 @@ $(PKG)_FILE     := QScintilla_src-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.riverbankcomputing.com/static/Downloads/QScintilla/$($(PKG)_VERSION)/$($(PKG)_FILE)
 
 
-ifeq ($(ENABLE_QT5),yes)
-      $(PKG)_DEPS     := qt5
-else
+ifeq ($(ENABLE_QT),4)
       $(PKG)_DEPS     := qt
+endif
+ifeq ($(ENABLE_QT),5)
+      $(PKG)_DEPS     := qt5
+endif
+ifeq ($(ENABLE_QT),6)
+      $(PKG)_DEPS     := qt6
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -30,10 +34,14 @@ endef
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
   ifeq ($(MXE_SYSTEM),mingw)
-    ifeq ($(ENABLE_QT5),yes)
-       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
-    else
+    ifeq ($(ENABLE_QT),4)
        $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/mkspecs/win32-g++'
+    endif
+    ifeq ($(ENABLE_QT),5)
+       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
+    endif
+    ifeq ($(ENABLE_QT),6)
+       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/qt6/mkspecs/win32-g++'
     endif
   endif
   ifeq ($(MXE_SYSTEM),msvc)
@@ -43,13 +51,15 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
 endif
 
 define $(PKG)_BUILD
+    if [ "$(MXE_NATIVE_BUILD)" = "no" ]; then \
+      '$(MXE_QMAKE)' -set CROSS_COMPILE $(MXE_TOOL_PREFIX); \
+    fi
     cd '$(1)/src' && \
-      '$(MXE_QMAKE)' -makefile \
+      '$(MXE_QMAKE)' -makefile  \
         $($(PKG)_QMAKE_SPEC_OPTION) \
         QMAKE_UIC='$(MXE_UIC)' \
         QMAKE_MOC='$(MXE_MOC)' \
-        QMAKE_LFLAGS=$(MXE_LDFLAGS) \
-        QMAKE_CXXFLAGS='-std=c++11'
+        QMAKE_LFLAGS=$(MXE_LDFLAGS)
 
     if [ $(MXE_SYSTEM) = msvc ]; then \
         mkdir -p '$(3)' && \
@@ -64,8 +74,10 @@ define $(PKG)_BUILD
 
     if [ $(MXE_SYSTEM) = mingw ]; then \
       $(INSTALL) -d '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
-      if [ $(ENABLE_QT5) = yes ]; then \
+      if [ "$(ENABLE_QT)" = "5" ]; then \
         mv '$($(PKG)_INSTALL_ROOT)$(HOST_PREFIX)/qt5/lib/qscintilla2_qt5.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
+      elif [ "$(ENABLE_QT)" = "6" ]; then \
+        mv '$($(PKG)_INSTALL_ROOT)$(HOST_PREFIX)/qt6/lib/qscintilla2_qt6.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
       else \
         mv '$($(PKG)_INSTALL_ROOT)$(HOST_LIBDIR)/qscintilla2_qt4.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)/'; \
       fi; \
@@ -79,5 +91,5 @@ define $(PKG)_BUILD
         $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll' '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/bin/'; \
         rm -f '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll'; \
     fi
-
 endef
+

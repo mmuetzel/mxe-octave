@@ -74,8 +74,8 @@ USE_SYSTEM_OCTAVE := @USE_SYSTEM_OCTAVE@
 # create and install devel tools (default no)
 ENABLE_DEVEL_TOOLS := @ENABLE_DEVEL_TOOLS@
 
-# use qt5 instead of qt4
-ENABLE_QT5 := @ENABLE_QT5@
+# which qt
+ENABLE_QT := @ENABLE_QT@
 
 # Set to "yes" to use msys2
 USE_MSYS2 := @USE_MSYS2@
@@ -447,12 +447,16 @@ else
     MXE_WINDRES := true
   endif
   MXE_PKG_CONFIG := '$(BUILD_TOOLS_PREFIX)/bin/pkg-config'
-  ifeq ($(ENABLE_QT5),yes)
-    MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt5'
-  else
+  ifeq ($(ENABLE_QT),4)
     MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake'
   endif
-
+  ifeq ($(ENABLE_QT),5)
+    MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt5'
+  endif
+  ifeq ($(ENABLE_QT),6)
+    MXE_QMAKE6 := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt6'
+    MXE_QMAKE := '$(HOST_PREFIX)/qt6/bin/qmake'
+  endif
   MXE_MOC := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)moc'
   MXE_UIC := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)uic'
   MXE_LRELEASE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)lrelease'

@@ -360,15 +360,18 @@ AC_ARG_ENABLE([devel-tools],
    esac], [ENABLE_DEVEL_TOOLS=no])
 AC_SUBST(ENABLE_DEVEL_TOOLS)
 
-AC_ARG_ENABLE([qt5],
-  [AS_HELP_STRING([--disable-qt5],
-    [Build GNU Octave using Qt 4 instead of the default Qt 5 (default: enable, i.e. use Qt5)])],
+AC_ARG_ENABLE([qt],
+  [AS_HELP_STRING([--enable-qt=VER],
+    [Build GNU Octave using a spacified Qt version])],
   [case "$enableval" in
-     no) ENABLE_QT5=no ;;
-     yes) ENABLE_QT5=yes ;;
-     *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt5]) ;;
-   esac], [ENABLE_QT5=yes])
-AC_SUBST(ENABLE_QT5)
+     no) ENABLE_QT=5 ;;
+     yes) ENABLE_QT=5 ;;
+     4) ENABLE_QT=4 ;;
+     5) ENABLE_QT=5 ;;
+     6) ENABLE_QT=6 ;;
+     *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt]) ;;
+   esac], [ENABLE_QT=5])
+AC_SUBST(ENABLE_QT)
 
 # install documentation of build dependency packages (or not to save space)
 AC_ARG_ENABLE([dep-docs],

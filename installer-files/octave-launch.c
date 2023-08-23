@@ -189,11 +189,11 @@ int wmain (int argc, wchar_t **argv)
 #endif
 
   /* qt paths
-   * either %OCT_HOME%\qt5\plugins
+   * either %OCT_HOME%\qtX\plugins
    * or %OCT_HOME\plugins
    */
   nSize = lstrlenW (path);
-  StringCchCatW (path, PATH_SZ, L"\\qt5\\plugins");
+  StringCchPrintfW (&path[nSize], PATH_SZ-nSize, L"\\qt%d\\plugins", QTVERSION);
   SetEnvironmentVariableW (L"QT_PLUGIN_PATH", path);
 
   path[nSize] = L'\0';

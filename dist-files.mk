@@ -150,6 +150,7 @@ SRC_FILES_1 := \
   glu.mk \
   gmp.mk \
   gnuplot-1-fixes.patch \
+  gnuplot-2-qt6.patch \
   gnuplot.mk \
   gnutls-1-fixes.patch \
   gnutls-test.c \
@@ -649,6 +650,15 @@ SRC_FILES_1 := \
   qttranslations.mk \
   qttools-1.patch \
   qttools.mk \
+  qt6.mk \
+  qt6-qt5compat.mk \
+  qt6-qtbase-1-fixes.patch \
+  qt6-qtbase.mk \
+  qt6-qtimageformats-1-fixes.patch \
+  qt6-qtimageformats.mk \
+  qt6-qtsvg.mk \
+  qt6-qttranslations.mk \
+  qt6-qttools.mk \
   qwt-1-fixes.patch \
   qwt.mk \
   qwtplot3d-1-fixes.patch \

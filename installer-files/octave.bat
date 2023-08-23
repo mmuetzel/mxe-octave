@@ -26,7 +26,7 @@ IF EXIST "%ROOT_PATH%mingw64\bin\octave.bat" (
  
 Rem   Set up PATH.  Make sure the octave bin dir comes first.
 
-set PATH=%OCT_HOME%qt5\bin;%OCT_HOME%bin;%MSYSPATH%bin;%PATH%
+set PATH=%OCT_HOME%bin;%MSYSPATH%bin;%PATH%
 
 Rem   Set up any environment vars we may need.
 
@@ -35,8 +35,12 @@ set GNUTERM=wxt
 set GS=gs.exe
 
 Rem QT_PLUGIN_PATH must be set to avoid segfault (bug #53419).
-IF EXIST "%OCT_HOME%\qt5\bin\" (
+IF EXIST "%OCT_HOME%\qt6\bin\" (
+  set QT_PLUGIN_PATH=%OCT_HOME%\qt6\plugins
+  set PATH=%OCT_HOME%qt6\bin;%PATH%
+) ELSE IF EXIST "%OCT_HOME%\qt5\bin\" (
   set QT_PLUGIN_PATH=%OCT_HOME%\qt5\plugins
+  set PATH=%OCT_HOME%qt5\bin;%PATH%
 ) ELSE (
   set QT_PLUGIN_PATH=%OCT_HOME%\plugins
 )
