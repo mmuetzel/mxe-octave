@@ -30,6 +30,7 @@ define $(PKG)_BUILD
         --with-gnu-ld \
         --with-gnu-as \
         --disable-nls \
+	--without-zstd \
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-werror
     $(MAKE) -C '$(1)' -j '$(JOBS)'
