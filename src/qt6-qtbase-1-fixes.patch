@@ -47,3 +47,51 @@ index 1111111..2222222 100644
  qt_internal_extend_target(QNLMNIPlugin CONDITION WIN32 AND MSVC AND NOT CLANG
      LIBRARIES
          runtimeobject
+diff -ur qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/minimal/qminimalintegration.cpp qtbase-everywhere-src-6.5.2/src/plugins/platforms/minimal/qminimalintegration.cpp
+--- qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/minimal/qminimalintegration.cpp	2023-08-24 09:11:53.760448450 -0400
++++ qtbase-everywhere-src-6.5.2/src/plugins/platforms/minimal/qminimalintegration.cpp	2023-08-24 09:34:11.612449868 -0400
+@@ -125,7 +125,11 @@
+ 
+         if (!m_fontDatabase) {
+ #if QT_CONFIG(fontconfig)
++#  ifdef Q_OS_WIN
++            m_fontDatabase = new QFreeTypeFontDatabase;
++#  else
+             m_fontDatabase = new QGenericUnixFontDatabase;
++#  endif
+ #else
+             m_fontDatabase = QPlatformIntegration::fontDatabase();
+ #endif
+diff -ur qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/windows/qwindowsglcontext.cpp qtbase-everywhere-src-6.5.2/src/plugins/platforms/windows/qwindowsglcontext.cpp
+--- qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/windows/qwindowsglcontext.cpp	2023-08-24 09:11:53.769448973 -0400
++++ qtbase-everywhere-src-6.5.2/src/plugins/platforms/windows/qwindowsglcontext.cpp	2023-08-24 09:17:12.428980606 -0400
+@@ -142,7 +142,7 @@
+     qCDebug(lcQpaGl) << "Qt: Using WGL and OpenGL from" << openglDll;
+ 
+     if (useSystemLib)
+-        m_lib = QSystemLibrary::load((wchar_t*)(QString::fromLatin1(openglDll).utf16()));
++        m_lib = QSystemLibrary::load((wchar_t*)(QString::fromLatin1(openglDll).utf16()), false);
+     else
+         m_lib = LoadLibraryA(openglDll.constData());
+     if (!m_lib) {
+@@ -154,7 +154,7 @@
+         // Load opengl32.dll always. GDI functions like ChoosePixelFormat do
+         // GetModuleHandle for opengl32.dll and behave differently (and call back into
+         // opengl32) when the module is present. This is fine for dummy contexts and windows.
+-        QSystemLibrary::load(L"opengl32");
++        QSystemLibrary::load(L"opengl32", false);
+     }
+ 
+     wglCreateContext = reinterpret_cast<HGLRC (WINAPI *)(HDC)>(resolve("wglCreateContext"));
+diff -ur qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/windows/qwindowsopengltester.cpp qtbase-everywhere-src-6.5.2/src/plugins/platforms/windows/qwindowsopengltester.cpp
+--- qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/windows/qwindowsopengltester.cpp	2023-08-24 09:11:53.770449031 -0400
++++ qtbase-everywhere-src-6.5.2/src/plugins/platforms/windows/qwindowsopengltester.cpp	2023-08-24 09:18:13.593537630 -0400
+@@ -317,7 +317,7 @@
+ 
+     // Test #1: Load opengl32.dll and try to resolve an OpenGL 2 function.
+     // This will typically fail on systems that do not have a real OpenGL driver.
+-    lib = QSystemLibrary::load(L"opengl32");
++    lib = QSystemLibrary::load(L"opengl32", false);
+     if (lib) {
+         CreateContext = reinterpret_cast<CreateContextType>(
+             reinterpret_cast<QFunctionPointer>(::GetProcAddress(lib, "wglCreateContext")));
