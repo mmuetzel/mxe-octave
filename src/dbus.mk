@@ -33,6 +33,7 @@ define $(PKG)_BUILD
         -DDBUS_ENABLE_QTHELP_DOCS=OFF \
         -DDBUS_ENABLE_XML_DOCS=OFF \
         -DDBUS_GCOV_ENABLED=OFF \
+        -DDBUS_ENABLE_PKGCONFIG=ON \
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
@@ -41,4 +42,5 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
     $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
     rm '$(3)$(HOST_BINDIR)/'*.exe
+    rm -rf '$(3)$(HOST_LIBDIR)/cmake/DBus1'
 endef
