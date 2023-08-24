@@ -127,7 +127,7 @@ int wmain (int argc, wchar_t **argv)
      paths */
   /* FIXME: This won't help on systems with de-activated short paths. */
   nSize = GetShortPathNameW (path, rootpath, PATH_SZ-1);
-  if (nSize == 0)
+  if (nSize == 0 || PathFileExistsW(rootpath) == FALSE)
     StringCchCopyW (rootpath, PATH_SZ, path);
 #endif
 
