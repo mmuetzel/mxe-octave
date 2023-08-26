@@ -3,8 +3,8 @@
 
 PKG             := dbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.15.8
-$(PKG)_CHECKSUM := 73538c86a0b3da9a1c054383543da652eeea122e
+$(PKG)_VERSION  := 1.15.6
+$(PKG)_CHECKSUM := 7256744ea329b8640df9ce2fc4792256f4f5c6c9
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(PKG).freedesktop.org/releases/$(PKG)/$($(PKG)_FILE)
@@ -21,26 +21,22 @@ define $(PKG)_UPDATE
     tail -1
 endef
 
-$(PKG)_CMAKE_FLAGS :=
-
 define $(PKG)_BUILD
-    cd '$(1)' && cmake \
-        $($(PKG)_CMAKE_FLAGS) \
-        -DDBUS_BUILD_TESTS=OFF \
-        -DDBUS_DISABLE_ASSERT=ON \
-        -DDBUS_ENABLE_VERBOSE_MODE=OFF \
-        -DDBUS_ENABLE_DOXYGEN_DOCS=OFF \
-        -DDBUS_ENABLE_QTHELP_DOCS=OFF \
-        -DDBUS_ENABLE_XML_DOCS=OFF \
-        -DDBUS_GCOV_ENABLED=OFF \
-        -DDBUS_ENABLE_PKGCONFIG=ON \
-        $(CMAKE_CCACHE_FLAGS) \
-        $(CMAKE_BUILD_SHARED_OR_STATIC) \
-        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-        .
+    cd '$(1)' && ./configure \
+        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
+        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
+        $(ENABLE_SHARED_OR_STATIC) \
+        --prefix='$(HOST_PREFIX)' \
+        --disable-tests \
+        --disable-verbose-mode \
+        --disable-asserts \
+        --disable-maintainer-mode \
+        --disable-silent-rules \
+        --disable-launchd \
+        --disable-doxygen-docs \
+        --disable-xml-docs \
+        CFLAGS='-DPROCESS_QUERY_LIMITED_INFORMATION=0x1000' \
+	&& $(CONFIGURE_POST_HOOK)
 
-    $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
-    $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
-    rm '$(3)$(HOST_BINDIR)/'*.exe
-    rm -rf '$(3)$(HOST_LIBDIR)/cmake/DBus1'
+    $(MAKE) -C '$(1)' -j '$(JOBS)' install $(MXE_DISABLE_DOCS) $($(PKG)_DISABLE_PROGS) DESTDIR='$(3)'
 endef
