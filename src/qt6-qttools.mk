@@ -18,6 +18,8 @@ define $(PKG)_BUILD
     # native tools
     mkdir '$(1).native' && cd '$(1).native' && \
        '$(BUILD_TOOLS_PREFIX)/qt6/bin/qt-cmake' -S '$(1)' -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
+       -DFEATURE_clang=OFF \
+       -DFEATURE_clangcpp=OFF \
        -DFEATURE_linguist=ON \
        -DFEATURE_designer=OFF
 
