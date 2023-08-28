@@ -34,7 +34,11 @@ define $(PKG)_BUILD
     fi
 
     mkdir '$(1).build' && cd '$(1).build' && \
-       '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -DQT_BUILD_TOOLS_WHEN_CROSSCOMPILING=ON -S '$(1)' -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' 
+       '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -S '$(1)' -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' \
+       -DFEATURE_clang=OFF \
+       -DFEATURE_clangcpp=OFF \
+       -DQT_BUILD_TOOLS_WHEN_CROSSCOMPILING=ON
+
 
     # not built for some reason. make dummy so install won't fail
     touch '$(1).build/bin/qhelpgenerator.exe'
