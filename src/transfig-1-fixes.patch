@@ -95,3 +95,42 @@ diff -ur fig2dev-3.2.8b.orig/fig2dev/dev/readpics.c fig2dev-3.2.8b/fig2dev/dev/r
  void
  init_stream(struct xfig_stream *restrict xf_stream)
  {
+diff -ur fig2dev-3.2.9.orig/fig2dev/dev/genbitmaps.c fig2dev-3.2.9/fig2dev/dev/genbitmaps.c
+--- fig2dev-3.2.9.orig/fig2dev/dev/genbitmaps.c	2023-08-28 14:23:23.409382069 -0400
++++ fig2dev-3.2.9/fig2dev/dev/genbitmaps.c	2023-08-28 14:28:00.897893044 -0400
+@@ -36,7 +36,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <signal.h>
++#if ! defined (__WIN32__) || defined (__CYGWIN__)
+ #include <sys/wait.h>
++#endif
+ 
+ #include "bool.h"
+ #include "fig2dev.h"	/* includes bool.h and object.h */
+diff -ur fig2dev-3.2.9.orig/fig2dev/dev/readeps.c fig2dev-3.2.9/fig2dev/dev/readeps.c
+--- fig2dev-3.2.9.orig/fig2dev/dev/readeps.c	2023-08-28 14:29:52.787550642 -0400
++++ fig2dev-3.2.9/fig2dev/dev/readeps.c	2023-08-28 14:30:41.593454664 -0400
+@@ -29,7 +29,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <math.h>
++#if !defined (__WIN32__) || defined (__CYGWIN__)
+ #include <sys/wait.h>
++#endif
+ 
+ #include "fig2dev.h"	/* includes bool.h and object.h */
+ //#include "object.h"
+diff -ur fig2dev-3.2.9.orig/fig2dev/dev/readpics.c fig2dev-3.2.9/fig2dev/dev/readpics.c
+--- fig2dev-3.2.9.orig/fig2dev/dev/readpics.c	2023-08-28 14:31:39.776916666 -0400
++++ fig2dev-3.2.9/fig2dev/dev/readpics.c	2023-08-28 14:32:25.565641164 -0400
+@@ -31,7 +31,9 @@
+ #include <string.h>
+ #include <unistd.h>
+ #include <sys/stat.h>
++#if !defined (__WIN32__) || defined (__CYGWIN__)
+ #include <sys/wait.h>
++#endif
+ 
+ #include "messages.h"
+ #include "xtmpfile.h"

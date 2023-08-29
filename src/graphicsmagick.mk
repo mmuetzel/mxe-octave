@@ -9,6 +9,9 @@ $(PKG)_SUBDIR   := GraphicsMagick-$($(PKG)_VERSION)
 $(PKG)_FILE     := GraphicsMagick-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib bzip2 libjbig jpeg jasper lcms libpng tiff freetype libxml2
+ifeq ($(MXE_SYSTEM),mingw)
+    $(PKG)_DEPS += transfig
+endif
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS += pthreads libtool
 endif
