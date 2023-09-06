@@ -1,5 +1,5 @@
 PKG             := qt6
-$(PKG)_VERSION   = $(qtbase_VERSION)
+$(PKG)_VERSION   = $(qt6-qtbase_VERSION)
 $(PKG)_DEPS     := $(patsubst $(TOP_DIR)/src/%.mk,%,\
                         $(shell grep -l 'qt6-qtbase_VERSION' \
                                 $(TOP_DIR)/src/qt6-*.mk))
