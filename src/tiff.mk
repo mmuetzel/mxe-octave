@@ -3,8 +3,8 @@
 
 PKG             := tiff
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.5.1
-$(PKG)_CHECKSUM := 0c0e6e64b8894600af577e249feb1ae832dffff8
+$(PKG)_VERSION  := 4.6.0
+$(PKG)_CHECKSUM := 5eda840cc24e1c74c6a9d92faa86a0851f7de7d5
 $(PKG)_SUBDIR   := tiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := tiff-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.osgeo.org/libtiff/$($(PKG)_FILE)
