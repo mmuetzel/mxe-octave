@@ -4,9 +4,9 @@
 PKG             := msys2-gzip
 $(PKG)_NAME     := gzip
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.12-2
-$(PKG)_x86_64_CS := c16f31dca96194bbc09690116ed0f5a21abc0843
-$(PKG)_i686_CS  := 1c48e95a75392edb9604fe1190cc2225b318c4c6
+$(PKG)_VERSION  := 1.13-1
+$(PKG)_x86_64_CS := 3665e6d001de2ce2060b5109078edad3e2f9dfb4
+$(PKG)_i686_CS  := 55d2221d7833d5ed7d4ff4f47865e7d443b11e38
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

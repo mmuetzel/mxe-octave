@@ -4,9 +4,9 @@
 PKG             := msys2-libintl
 $(PKG)_NAME     := libintl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.22-1
-$(PKG)_x86_64_CS := 330e514723c0e6548c35cf897e2477b4347c232b
-$(PKG)_i686_CS  := 3035d5c4c591842573e4a04a43b61a8d5e0227dc
+$(PKG)_VERSION  := 0.22-2
+$(PKG)_x86_64_CS := deaca766080a35776b564135d79b5268e1e35bb9
+$(PKG)_i686_CS  := ef7f068dbfb96b21eb04f582c9a8cca3917195bb
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

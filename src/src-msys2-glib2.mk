@@ -4,8 +4,8 @@
 PKG             := src-msys2-glib2
 $(PKG)_NAME     := glib2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.76.4-1
-$(PKG)_CHECKSUM := d6d1f3fff782e8822b81acf545d804baa4b54a1a
+$(PKG)_VERSION  := 2.76.5-1
+$(PKG)_CHECKSUM := 63907edd3f12a890bf40cd10974da522058c2f01
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

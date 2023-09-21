@@ -4,9 +4,11 @@
 PKG             := msys2-grep
 $(PKG)_NAME     := grep
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.6-1
-$(PKG)_x86_64_CS := e0a4116c894bd01f41cb28de064127108ddf3aff
-$(PKG)_i686_CS  := 6ad5a97ac3f224fddbc5636f4b69c0650a2f7635
+$(PKG)_x86_64_VER := 1~3.0-6
+$(PKG)_i686_VER  := 1.3.0-6
+$(PKG)_VERSION  := $($(PKG)_$(MSYS2_ARCH)_VER)
+$(PKG)_x86_64_CS := 8b42f9ed05eb7e30ee60cd02b4c98b3c2a7da688
+$(PKG)_i686_CS  := 5cb218607654f8f6dc82e17e0c52a650b753bfbf
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

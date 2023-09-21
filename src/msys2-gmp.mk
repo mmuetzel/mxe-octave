@@ -4,9 +4,9 @@
 PKG             := msys2-gmp
 $(PKG)_NAME     := gmp
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.2.1-2
-$(PKG)_x86_64_CS := 3583590c69c3116f1415b54ee47ed75391a40669
-$(PKG)_i686_CS  := d3c7d4b6a00d284b3e84773dcbf08d88ed860fa2
+$(PKG)_VERSION  := 6.3.0-1
+$(PKG)_x86_64_CS := b2daaea7c3ea62d02f430ecf5c99b9ca3e8e9083
+$(PKG)_i686_CS  := 193dfbf00c8158d1af2139ca91d958d12d5b62f2
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   :=
