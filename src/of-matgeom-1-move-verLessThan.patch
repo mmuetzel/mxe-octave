@@ -1,0 +1,53 @@
+From c0de561fee4b5fc2efd6dae79ec5ae2c78761ac6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Markus=20M=C3=BCtzel?= <markus.muetzel@gmx.de>
+Date: Sun, 17 Sep 2023 17:10:19 +0200
+Subject: [PATCH] Add dummy verLessThan only to path for older Octave versions.
+
+---
+ .../inst/__matgeom_package_register__.m       | 19 ++++++++-----------
+ .../inst/{ => before-octave-6}/verLessThan.m  |  0
+ 2 files changed, 8 insertions(+), 11 deletions(-)
+ rename inst/{ => before-octave-6}/verLessThan.m (100%)
+
+diff --git a/inst/__matgeom_package_register__.m b/inst/__matgeom_package_register__.m
+index 1258759..afe9d62 100644
+--- a/inst/__matgeom_package_register__.m
++++ b/inst/__matgeom_package_register__.m
+@@ -33,22 +33,19 @@ function subdir_paths = __matgeom_package_register__ (loading = 0)
+ 
+   if (loading > 0)
+ 
+-    ## Disable dummy verLessThan.m
+-    if compare_versions (version, '6.0.0', '>=')
+-      ## Check if this package still has varLessThan
+-      pkgverchecker = fullfile (base_pkg_path, 'verLessThan.');
+-      if exist ([pkgverchecker, 'm'], 'file')
+-        warning ('Octave:deprecated-function', 
+-            'Permanently renaming verLessThan.m since it is already present');
+-        ## The change is permanent and done only once
+-        ## Means that if testing in older version of Octave, needs re-install
+-        rename([pkgverchecker, 'm'], [pkgverchecker, 'deprecated']);
+-      endif
++    if compare_versions (version, '6.0.0', '<')
++      ## Add path to dummy verLessThan.m only for older versions of Octave
++      addpath (fullfile (base_pkg_path, "before-octave-6"));
+     endif
+ 
+     addpath (subdir_paths{:});
+ 
+   elseif (loading < 0)
++    if compare_versions (version, '6.0.0', '<')
++      ## Path to dummy verLessThan.m only added for older versions of Octave
++      rmpath (fullfile (base_pkg_path, "before-octave-6"));
++    endif
++
+     rmpath (subdir_paths{:});
+   endif
+ 
+diff --git a/inst/verLessThan.m b/inst/before-octave-6/verLessThan.m
+similarity index 100%
+rename from inst/verLessThan.m
+rename to inst/before-octave-6/verLessThan.m
+-- 
+2.38.0.windows.1
+
