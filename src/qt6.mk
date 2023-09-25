@@ -12,3 +12,7 @@ define $(PKG)_UPDATE
     echo $($(PKG)_VERSION)
 endef
 
+ifeq ($(MXE_WINDOWS_BUILD),yes)
+    # qt6-qt5compat is only required for the POSIX terminal widget
+    $(PKG)_DEPS := $(filter-out qt6-qt5compat,$($(PKG)_DEPS))
+endif
