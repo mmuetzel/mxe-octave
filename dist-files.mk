@@ -505,6 +505,7 @@ SRC_FILES_1 := \
   of-ltfat-2-LDFLAGS.patch \
   of-ltfat-3-no-cxx11.patch \
   of-ltfat.mk \
+  of-matgeom-1-move-verLessThan.patch \
   of-matgeom.mk \
   of-mapping.mk \
   of-miscellaneous.mk \
