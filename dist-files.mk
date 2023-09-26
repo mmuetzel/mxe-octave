@@ -736,8 +736,6 @@ SRC_FILES_1 := \
   src-msys-zlib.mk \
   stable-octave-1-gnulib.patch \
   stable-octave.mk \
-  suitesparse-1-fixes.patch \
-  suitesparse-2-metis.patch \
   suitesparse.mk \
   sundials-ida.mk \
   t4k_common.mk \

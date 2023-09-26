@@ -90,20 +90,6 @@ diff -ur glpk-4.65.orig/src/Makefile.am glpk-4.65/src/Makefile.am
 +simplex/spydual.c
  
  ## eof ##
-diff -ur glpk-4.65.orig/src/draft/glpmat.c glpk-4.65/src/draft/glpmat.c
---- glpk-4.65.orig/src/draft/glpmat.c	2019-02-20 15:21:37.117944413 -0500
-+++ glpk-4.65/src/draft/glpmat.c	2019-02-20 15:22:58.407893375 -0500
-@@ -25,8 +25,8 @@
- #include "env.h"
- #include "glpmat.h"
- #include "qmd.h"
--#include "amd.h"
--#include "colamd.h"
-+#include <suitesparse/amd.h>
-+#include <suitesparse/colamd.h>
- 
- /*----------------------------------------------------------------------
- -- check_fvs - check sparse vector in full-vector storage format.
 diff -ur glpk-4.65.orig/src/env/stdc.c glpk-4.65/src/env/stdc.c
 --- glpk-4.65.orig/src/env/stdc.c	2019-02-20 15:29:18.821040444 -0500
 +++ glpk-4.65/src/env/stdc.c	2019-02-20 15:40:06.948676811 -0500
