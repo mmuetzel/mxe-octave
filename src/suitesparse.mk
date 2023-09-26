@@ -7,9 +7,9 @@ $(PKG)_CHECKSUM := cb79ed80422b1808b4a5aba27f5878ef84c82f56
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := blas lapack
+$(PKG)_DEPS     := blas lapack mpfr
 ifeq ($(USE_SYSTEM_GCC),no)
-  $(PKG)_DEPS += libgomp mpfr
+  $(PKG)_DEPS += libgomp
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
