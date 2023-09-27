@@ -9,7 +9,7 @@ $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/mpfr/$($(PKG)_FILE)
 $(PKG)_URL_2    := https://www.mpfr.org/mpfr-$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-gcc gmp
+$(PKG)_DEPS     := gmp
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://www.mpfr.org/mpfr-current/' | \
