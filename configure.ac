@@ -362,15 +362,15 @@ AC_SUBST(ENABLE_DEVEL_TOOLS)
 
 AC_ARG_ENABLE([qt],
   [AS_HELP_STRING([--enable-qt=VER],
-    [Build GNU Octave using a spacified Qt version])],
+    [Build GNU Octave using a specified Qt version])],
   [case "$enableval" in
-     no) ENABLE_QT=5 ;;
-     yes) ENABLE_QT=5 ;;
+     no) ENABLE_QT=6 ;;
+     yes) ENABLE_QT=6 ;;
      4) ENABLE_QT=4 ;;
      5) ENABLE_QT=5 ;;
      6) ENABLE_QT=6 ;;
      *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt]) ;;
-   esac], [ENABLE_QT=5])
+   esac], [ENABLE_QT=6])
 AC_SUBST(ENABLE_QT)
 
 # install documentation of build dependency packages (or not to save space)
