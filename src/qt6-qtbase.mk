@@ -73,7 +73,6 @@ define $(PKG)_BUILD
     if [ "$(MXE_NATIVE_BUILD)" = "no" ]; then \
       mkdir '$(1).native'; \
       cmake -S '$(1)' -B '$(1).native' \
-        -G Ninja \
         -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_NATIVE_TOOLCHAIN_FILE)' \
         -DQT_BUILD_{TESTS,EXAMPLES,DOCS}=OFF \
@@ -87,7 +86,6 @@ define $(PKG)_BUILD
     mkdir '$(1).build'
     $($(PKG)_CONFIGURE_ENV) \
     'cmake' -S '$(1)' -B '$(1).build' \
-        -G Ninja \
         $(CMAKE_CCACHE_FLAGS) \
         -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
@@ -106,7 +104,7 @@ define $(PKG)_BUILD
         -DFEATURE_pkg_config=ON \
         -DFEATURE_system_zlib=ON \
         -DFEATURE_use_gold_linker_alias=OFF \
-	$($(PKG)_CMAKE_OPTS)
+        $($(PKG)_CMAKE_OPTS)
 
     'cmake' --build '$(1).build' -j '$(JOBS)'
     'cmake' --install '$(1).build'
