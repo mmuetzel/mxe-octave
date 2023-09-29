@@ -658,6 +658,7 @@ SRC_FILES_1 := \
   qt6-qtimageformats.mk \
   qt6-qtsvg.mk \
   qt6-qttranslations.mk \
+  qt6-qttools-1-libclang.patch \
   qt6-qttools.mk \
   qwt-1-fixes.patch \
   qwt.mk \
