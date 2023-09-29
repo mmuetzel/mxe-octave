@@ -76,9 +76,9 @@ define $(PKG)_BUILD
         -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_NATIVE_TOOLCHAIN_FILE)' \
         -DQT_BUILD_{TESTS,EXAMPLES,DOCS}=OFF \
-        -DFEATURE_pkg_config=OFF \
         -DBUILD_WITH_PCH=OFF \
-        -DFEATURE_{eventfd,glib,gui,icu,openssl,zstd,thread,pcre2,sql,xml,testlib,backtrace}=OFF; \
+        -DFEATURE_pcre2=ON \
+        -DFEATURE_{pkg_config,eventfd,glib,gui,icu,openssl,zstd,thread,system_pcre2,sql,xml,testlib,backtrace}=OFF; \
       cmake --build '$(1).native' -j '$(JOBS)'; \
       cmake --install '$(1).native'; \
     fi
