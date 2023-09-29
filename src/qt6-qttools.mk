@@ -16,37 +16,41 @@ endef
 
 define $(PKG)_BUILD
     # native tools
-    mkdir '$(1).native' && cd '$(1).native' && \
-       '$(BUILD_TOOLS_PREFIX)/qt6/bin/qt-cmake' -S '$(1)' -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
+    mkdir '$(1).tools' && cd '$(1).tools' && \
+     '$(BUILD_TOOLS_PREFIX)/qt6/bin/qt-cmake' -S '$(1)' \
+       -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
        -DFEATURE_clang=OFF \
        -DFEATURE_clangcpp=OFF \
        -DFEATURE_linguist=ON \
        -DFEATURE_designer=OFF
 
-    cmake --build $(1).native -j '$(JOBS)'
-    cmake --install '$(1).native'
+    cmake --build $(1).tools -j '$(JOBS)'
+    cmake --install '$(1).tools'
 
     if [ "$(MXE_NATIVE_BUILD)" = "no" ]; then \
-        ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/lconvert' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'lconvert; \
-        ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/lrelease' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'lrelease; \
-        echo -e "#!/bin/sh\necho $$0 $$*" > '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qhelpgenerator && chmod a+rx '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qhelpgenerator; \
-        echo -e "#!/bin/sh\necho $$0 $$*" > '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qcollectiongenerator && chmod a+rx '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qcollectiongenerator; \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/lconvert' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'lconvert; \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/lrelease' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'lrelease; \
+      echo -e "#!/bin/sh\necho $$0 $$*" > '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qhelpgenerator && chmod a+rx '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qhelpgenerator; \
+      echo -e "#!/bin/sh\necho $$0 $$*" > '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qcollectiongenerator && chmod a+rx '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qcollectiongenerator; \
     fi
 
     mkdir '$(1).build' && cd '$(1).build' && \
-       '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -S '$(1)' -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' \
-       -DFEATURE_clang=OFF \
-       -DFEATURE_clangcpp=OFF \
-       -DQT_FORCE_BUILD_TOOLS=ON
+      '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -S '$(1)' \
+        -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' \
+        -DFEATURE_clang=OFF \
+        -DFEATURE_clangcpp=OFF \
+        -DQT_FORCE_BUILD_TOOLS=ON
 
 
     # not built for some reason. make dummy so install won't fail
-    touch '$(1).build/bin/qhelpgenerator.exe'
+    if [ "$(MXE_WINDOWS_BUILD)" = yes ]; then \
+      touch '$(1).build/bin/qhelpgenerator.exe'; \
+    fi
 
     cmake --build $(1).build -j '$(JOBS)'
     cmake --install '$(1).build'
 
-    if [ $(MXE_WINDOWS_BUILD) = yes ]; then \
+    if [ "$(MXE_WINDOWS_BUILD)" = yes ]; then \
       $(INSTALL) -d '$(HOST_BINDIR)'; \
       cp '$(HOST_PREFIX)'/qt6/bin/Qt6UiTools.dll '$(HOST_BINDIR)'/Qt6UiTools.dll; \
       cp '$(HOST_PREFIX)'/qt6/bin/Qt6Help.dll '$(HOST_BINDIR)'/Qt6Help.dll; \

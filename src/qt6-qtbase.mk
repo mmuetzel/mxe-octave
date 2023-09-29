@@ -27,6 +27,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
   $(PKG)_CMAKE_OPTS += \
     -DFEATURE_sql_mysql=OFF \
     -DFEATURE_sql_odbc=ON \
+    -DFEATURE_opengl_dynamic=ON \
     -DFEATURE_sql_psql=ON \
     -DFEATURE_sql_sqlite=ON \
     -DFEATURE_system_sqlite=ON
@@ -98,7 +99,6 @@ define $(PKG)_BUILD
         -DFEATURE_system_freetype=ON \
         -DFEATURE_glib=OFF \
         -DFEATURE_system_harfbuzz=OFF \
-        -DFEATURE_opengl_dynamic=ON \
         -DFEATURE_openssl=OFF \
         -DFEATURE_system_pcre2=ON \
         -DFEATURE_pkg_config=ON \
@@ -109,7 +109,7 @@ define $(PKG)_BUILD
     'cmake' --build '$(1).build' -j '$(JOBS)'
     'cmake' --install '$(1).build'
 
-    if [ $(MXE_WINDOWS_BUILD) = yes ]; then \
+    if [ "$(MXE_WINDOWS_BUILD)" = yes ]; then \
       $(INSTALL) -d '$(HOST_BINDIR)'; \
       cp '$(HOST_PREFIX)'/qt6/bin/Qt6Concurrent.dll '$(HOST_BINDIR)'/Qt6Concurrent.dll; \
       cp '$(HOST_PREFIX)'/qt6/bin/Qt6Core.dll '$(HOST_BINDIR)'/Qt6Core.dll; \
@@ -125,9 +125,11 @@ define $(PKG)_BUILD
     fi
 
     if [ "$(MXE_NATIVE_BUILD)" = "no" ]; then \
-        ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/qmake6' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qmake-qt6; \
-        ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/libexec/moc' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'moc; \
-        ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/libexec/uic' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'uic; \
-        ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/libexec/rcc' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'rcc; \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/qmake6' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'qmake-qt6; \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/libexec/moc' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'moc; \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/libexec/uic' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'uic; \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/libexec/rcc' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)'rcc; \
+    else \
+      ln -sf '$(BUILD_TOOLS_PREFIX)/qt6/bin/qt-cmake' '$(HOST_PREFIX)/qt6/bin/qt-cmake-private'; \
     fi
 endef
