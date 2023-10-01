@@ -393,7 +393,6 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
     MXE_STRIP := true
     MXE_WINDRES := windres
     MXE_PKG_CONFIG := pkg-config
-    MXE_QMAKE := qmake
     # Although the Fortran compiler is internally gfortran, we still
     # want to make it look like non-GNU compiler, otherwise libtool is
     # not playing nicely and trips over different variable values for
@@ -420,13 +419,21 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
       MXE_WINDRES := true
     endif
     MXE_PKG_CONFIG := pkg-config
-    MXE_QMAKE := qmake
   endif
 
-  MXE_MOC := $(HOST_BINDIR)/moc
-  MXE_UIC := $(HOST_BINDIR)/uic
-  MXE_LRELEASE := $(HOST_BINDIR)/lrelease
-  MXE_RCC := $(HOST_BINDIR)/rcc
+  ifeq ($(ENABLE_QT),6)
+    MXE_QMAKE := $(HOST_PREFIX)/qt6/bin/qmake
+    MXE_MOC := $(HOST_PREFIX)/qt6/libexec/moc
+    MXE_UIC := $(HOST_PREFIX)/qt6/libexec/uic
+    MXE_LRELEASE := $(HOST_PREFIX)/qt6/bin/lrelease
+    MXE_RCC := $(HOST_PREFIX)/qt6/libexec/rcc
+  else
+    MXE_QMAKE := qmake
+    MXE_MOC := $(HOST_BINDIR)/moc
+    MXE_UIC := $(HOST_BINDIR)/uic
+    MXE_LRELEASE := $(HOST_BINDIR)/lrelease
+    MXE_RCC := $(HOST_BINDIR)/rcc
+  endif
 
   MXE_MKOCTFILE := $(HOST_BINDIR)/mkoctfile
   MXE_OCTAVECONFIG := $(HOST_BINDIR)/octave-config
