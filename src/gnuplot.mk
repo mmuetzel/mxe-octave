@@ -102,11 +102,33 @@ define $(PKG)_BUILD
         env -u MAKE -u MAKEFLAGS nmake DESTDIR=$(shell (cd '$(HOST_PREFIX)' && pwd -W) | sed -e 's#/#\\\\#g') && \
         env -u MAKE -u MAKEFLAGS nmake DESTDIR=$(shell (cd '$(3)$(HOST_PREFIX)' && pwd -W) | sed -e 's#/#\\\\#g') install
 endef
+
 else
+
+## If we allow the system Qt libraries to be used, then these
+## won't make sense.
+$(PKG)_QT_CONFIGURE_OPTIONS := \
+  MOC=$(MXE_MOC) \
+  UIC=$(MXE_UIC) \
+  RCC=$(MXE_RCC) \
+  LRELEASE=$(MXE_LRELEASE)
+
+ifeq ($(ENABLE_QT),5)
+  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt5
+endif
+ifeq ($(ENABLE_QT),6)
+  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt6
+endif
+
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
+    cd '$(1)' && autoreconf -fi && PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
+    ./configure \
       $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv \
-      --without-lua --prefix='$(HOST_PREFIX)'
+      --without-lua \
+      $($(PKG)_QT_CONFIGURE_OPTIONS) \
+      --prefix='$(HOST_PREFIX)'
     make -C '$(1)' -j '$(JOBS)' install DESTDIR='$(3)'
 endef
 endif

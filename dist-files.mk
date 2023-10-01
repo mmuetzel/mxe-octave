@@ -151,6 +151,7 @@ SRC_FILES_1 := \
   gmp.mk \
   gnuplot-1-fixes.patch \
   gnuplot-2-qt6.patch \
+  gnuplot-3-qt6-native.patch \
   gnuplot.mk \
   gnutls-1-fixes.patch \
   gnutls-test.c \
