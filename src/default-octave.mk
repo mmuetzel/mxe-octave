@@ -93,6 +93,9 @@ ifeq ($(ENABLE_QT),6)
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_QTDIR := $(HOST_PREFIX)/qt6
   $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt6"
+  ifeq ($(MXE_NATIVE_BUILD),yes)
+    $(PKG)_QT_CONFIGURE_OPTIONS += QTPATHS6="$(HOST_PREFIX)/qt6/bin/qtpaths6"
+  endif
 endif
 
 ifneq ($(ENABLE_DOCS),yes)
