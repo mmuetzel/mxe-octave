@@ -1146,12 +1146,17 @@ define build-cmake-toolchain-file
        echo 'set(MSVC 1)'; \
      fi; \
      echo 'set(CMAKE_BUILD_TYPE Release)'; \
-     if [ $(MXE_SYSTEM) = msvc ]; then \
+     if [ "$(MXE_NATIVE_BUILD)" = yes ]; then \
+       echo 'set(CMAKE_FIND_ROOT_PATH $(HOST_PREFIX);/usr)'; \
+       echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)'; \
+     else \
+       if [ $(MXE_SYSTEM) = msvc ]; then \
          echo 'set(CMAKE_FIND_ROOT_PATH $(HOST_PREFIX_NATIVE))'; \
          echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)'; \
-     else \
+       else \
          echo 'set(CMAKE_FIND_ROOT_PATH $(HOST_PREFIX))'; \
          echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)'; \
+       fi; \
      fi; \
      echo 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)'; \
      echo 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)'; \
