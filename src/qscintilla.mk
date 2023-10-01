@@ -20,12 +20,6 @@ ifeq ($(ENABLE_QT),6)
       $(PKG)_DEPS     := qt6
 endif
 
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-      $(PKG)_INSTALL_ROOT :=
-else
-      $(PKG)_INSTALL_ROOT := $(3)
-endif
-
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://www.riverbankcomputing.com/software/qscintilla/download' | \
         $(SED) -n 's,.*QScintilla_src-\([0-9][^>]*\)\.zip.*,\1,p' | \
@@ -59,7 +53,8 @@ define $(PKG)_BUILD
         $($(PKG)_QMAKE_SPEC_OPTION) \
         QMAKE_UIC='$(MXE_UIC)' \
         QMAKE_MOC='$(MXE_MOC)' \
-        QMAKE_LFLAGS=$(MXE_LDFLAGS)
+        QMAKE_LFLAGS=$(MXE_LDFLAGS) \
+        QT_MAJOR_VERSION=$(ENABLE_QT)
 
     if [ $(MXE_SYSTEM) = msvc ]; then \
         mkdir -p '$(3)' && \
@@ -69,17 +64,17 @@ define $(PKG)_BUILD
             INSTALL_ROOT=`cd $(3) && pwd -W | sed -e 's,^[a-zA-Z]:,,' -e 's,/,\\\\,g'` install; \
     else \
         $(MAKE) -C '$(1)/src' -j '$(JOBS)' && \
-        $(MAKE) -C '$(1)/src' -j 1 install INSTALL_ROOT='$($(PKG)_INSTALL_ROOT)'; \
+        $(MAKE) -C '$(1)/src' -j 1 install INSTALL_ROOT='$(3)'; \
     fi
 
     if [ $(MXE_SYSTEM) = mingw ]; then \
-      $(INSTALL) -d '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
+      $(INSTALL) -d '$(3)$(HOST_BINDIR)'; \
       if [ "$(ENABLE_QT)" = "5" ]; then \
-        mv '$($(PKG)_INSTALL_ROOT)$(HOST_PREFIX)/qt5/lib/qscintilla2_qt5.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
+        mv '$(3)$(HOST_PREFIX)/qt5/lib/qscintilla2_qt5.dll' '$(3)$(HOST_BINDIR)'; \
       elif [ "$(ENABLE_QT)" = "6" ]; then \
-        mv '$($(PKG)_INSTALL_ROOT)$(HOST_PREFIX)/qt6/lib/qscintilla2_qt6.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
+        mv '$(3)$(HOST_PREFIX)/qt6/lib/qscintilla2_qt6.dll' '$(3)$(HOST_BINDIR)'; \
       else \
-        mv '$($(PKG)_INSTALL_ROOT)$(HOST_LIBDIR)/qscintilla2_qt4.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)/'; \
+        mv '$(3)$(HOST_LIBDIR)/qscintilla2_qt4.dll' '$(3)$(HOST_BINDIR)/'; \
       fi; \
     fi
 
@@ -87,9 +82,9 @@ define $(PKG)_BUILD
     # DESTDIR usage (or equivalent), the real Win32 directory hierarchy
     # is recreated under DESTDIR, not the MSYS hierarchy.
     if [ $(MXE_SYSTEM) = msvc ]; then \
-        $(INSTALL) -d '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/bin'; \
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll' '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/bin/'; \
-        rm -f '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll'; \
+        $(INSTALL) -d '$(3)$(CMAKE_HOST_PREFIX)/bin'; \
+        $(INSTALL) -m755 '$(3)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll' '$(3)$(CMAKE_HOST_PREFIX)/bin/'; \
+        rm -f '$(3)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll'; \
     fi
 endef
 
