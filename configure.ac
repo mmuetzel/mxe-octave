@@ -360,17 +360,24 @@ AC_ARG_ENABLE([devel-tools],
    esac], [ENABLE_DEVEL_TOOLS=no])
 AC_SUBST(ENABLE_DEVEL_TOOLS)
 
+# FIXME: Adjust this condition when Octave 9 is on the stable branch or released.
+if test "$ENABLE_OCTAVE" = "default-"; then
+  default_qt=6
+else
+  default_qt=5
+fi
+
 AC_ARG_ENABLE([qt],
   [AS_HELP_STRING([--enable-qt=VER],
     [Build GNU Octave using a specified Qt version])],
   [case "$enableval" in
-     no) ENABLE_QT=6 ;;
-     yes) ENABLE_QT=6 ;;
+     no) ENABLE_QT=$default_qt ;;
+     yes) ENABLE_QT=$default_qt ;;
      4) ENABLE_QT=4 ;;
      5) ENABLE_QT=5 ;;
      6) ENABLE_QT=6 ;;
      *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt]) ;;
-   esac], [ENABLE_QT=6])
+   esac], [ENABLE_QT=$default_qt])
 AC_SUBST(ENABLE_QT)
 
 # install documentation of build dependency packages (or not to save space)
