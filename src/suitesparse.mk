@@ -54,7 +54,7 @@ $(PKG)_MAKE_OPTS = \
     CMAKE_OPTIONS='-DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" \
                    -DCOMPACT=ON -DNFORTRAN=ON \
                    -DBLA_VENDOR="Generic" -DBLAS_LIBRARIES="-lblas -lgfortran" -DLAPACK_LIBRARIES="-llapack" \
-                   -DENABLE_CUDA=OFF \
+                   -DENABLE_CUDA=OFF -DCMAKE_INSTALL_LIBDIR=lib \
                    $($(PKG)_CMAKE_CROSS_FLAGS) \
                    $(CMAKE_CCACHE_FLAGS) $(CMAKE_BUILD_SHARED_OR_STATIC)'
 
