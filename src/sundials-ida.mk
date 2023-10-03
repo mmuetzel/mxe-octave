@@ -20,11 +20,7 @@ endef
 ifeq ($(MXE_WINDOWS_BUILD),yes)
     $(PKG)_SUITESPARSECONFIG_LIBRARY := $(HOST_LIBDIR)/libsuitesparseconfig.dll.a
 else
-  ifeq ($(MXE_USE_LIB64_DIRECTORY),yes)
-    $(PKG)_SUITESPARSECONFIG_LIBRARY := $(HOST_LIB64DIR)/libsuitesparseconfig.so
-  else
     $(PKG)_SUITESPARSECONFIG_LIBRARY := $(HOST_LIBDIR)/libsuitesparseconfig.so
-  endif
 endif
 
 # Keep "sunindextype" in sync with LAPACK (bug #58795)
