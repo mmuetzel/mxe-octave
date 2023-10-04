@@ -1178,6 +1178,7 @@ define build-cmake-toolchain-file
      else \
          echo 'set(CMAKE_INSTALL_PREFIX $(HOST_PREFIX) CACHE PATH "Installation Prefix")'; \
      fi; \
+     echo 'set(CMAKE_INSTALL_LIBDIR "lib")'; \
      echo 'set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug|Release|RelWithDebInfo|MinSizeRel")') \
      > '$(CMAKE_TOOLCHAIN_FILE)'
 endef
@@ -1195,6 +1196,8 @@ define build-native-cmake-toolchain-file
      echo 'set(CMAKE_CXX_COMPILER $(CXX))'; \
      echo 'set(CMAKE_Fortran_COMPILER $(F77))'; \
      echo 'set(CMAKE_RC_COMPILER $(WINDRES))'; \
+     echo 'set(CMAKE_INSTALL_PREFIX $(HOST_PREFIX_NATIVE) CACHE PATH "Installation Prefix")'; \
+     echo 'set(CMAKE_INSTALL_LIBDIR "lib")'; \
      echo 'set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug|Release|RelWithDebInfo|MinSizeRel")') \
     > '$(CMAKE_NATIVE_TOOLCHAIN_FILE)'
 endef
