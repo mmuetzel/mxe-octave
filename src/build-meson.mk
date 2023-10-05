@@ -48,7 +48,10 @@ define $(PKG)_BUILD
       echo "strip = '$(shell echo $(MXE_STRIP) | $(SED) "s/'//g")'"; \
     fi; \
     echo "pkgconfig = '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)pkg-config'"; \
-    echo "llvm-config = '$(HOST_BINDIR)/$(MXE_TOOL_PREFIX)llvm-config'";\
+    echo "llvm-config = '$(HOST_BINDIR)/$(MXE_TOOL_PREFIX)llvm-config'"; \
+    echo ""; \
+    echo "[paths]"; \
+    echo "libdir = 'lib'"; \
     if [ x$(MXE_NATIVE_BUILD) = xno ]; then \
       echo ""; \
       echo "[host_machine]"; \
