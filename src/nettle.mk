@@ -24,9 +24,9 @@ define $(PKG)_BUILD
     cd '$(1)' && ./configure \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-	CCAS=gcc \
-	--disable-shared \
-	--disable-documentation \
+        CCAS=gcc \
+        --disable-shared \
+        --disable-documentation \
         --prefix='$(HOST_PREFIX)'
 
     $(MAKE) -C '$(1)' -j '$(JOBS)' getopt.o getopt1.o
@@ -50,8 +50,9 @@ define $(PKG)_BUILD
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
-	--disable-documentation \
-        --prefix='$(HOST_PREFIX)'
+        --disable-documentation \
+        --prefix='$(HOST_PREFIX)' \
+        --libdir='$(HOST_PREFIX)/lib'
     $(MAKE) -C '$(1)' -j '$(JOBS)' SUBDIRS=
     $(MAKE) -C '$(1)' -j 1 SUBDIRS= install DESTDIR='$(3)'
 endef
