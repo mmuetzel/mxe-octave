@@ -24,6 +24,7 @@ define $(PKG)_BUILD
     $($(PKG)_CMAKE_FLAGS) \
     $(CMAKE_CCACHE_FLAGS) \
     -DCMAKE_INSTALL_PREFIX='$(3)$(BUILD_TOOLS_PREFIX)' \
+    -DCMAKE_INSTALL_LIBDIR='lib' \
     -DBUILD_TESTING=Off
 
   cmake --build '$(1)/.build' -j '$(JOBS)'
