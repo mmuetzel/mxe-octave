@@ -10,9 +10,11 @@ $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/texinfo/$($(PKG)_FILE)
 $(PKG)_DEPS     := # libgnurx
 
-ifeq ($(MXE_SYSTEM),mingw)
-    $(PKG)_DEPS += pcre
-    $(PKG)_LIBS += LIBS='-lpcre -lpcreposix -lpthread'
+ifeq ($(MXE_NATIVE_BUILD),yes)
+  ifeq ($(USE_MSYS2),no)
+    $(PKG)_DEPS += pcre2
+    $(PKG)_LIBS += LDFLAGS="`PKG_CONFIG_PATH="$(HOST_LIBDIR)/pkgconfig" $(MXE_PKG_CONFIG) --libs libpcre2-8`"
+  endif
 endif
 
 define $(PKG)_UPDATE
