@@ -23,14 +23,8 @@ define $(PKG)_UPDATE
 endef
 
 
-$(PKG)_CPPFLAGS := -DNTIMER
-
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
-  ifeq ($(MXE_WINDOWS_BUILD),yes)
-    $(PKG)_CPPFLAGS += -DLONGBLAS='long long'
-  else
-    $(PKG)_CPPFLAGS += -DLONGBLAS='long'
-  endif
+  $(PKG)_CMAKE_FLAGS += -DALLOW_64BIT_BLAS=ON
 endif
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
@@ -44,24 +38,18 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
 endif
 
 $(PKG)_MAKE_OPTS = \
-    CPPFLAGS="$($(PKG)_CPPFLAGS)" \
     FFLAGS='$(MXE_FFLAGS)' \
     CFLAGS='$(MXE_CFLAGS)' \
     CXXFLAGS='$(MXE_CXXFLAGS)' \
     AR='$(MXE_AR)' \
     RANLIB='$(MXE_RANLIB)' \
-    CHOLMOD_CONFIG='-DNPARTITION' \
     CMAKE_OPTIONS='-DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" \
                    -DCOMPACT=ON -DNFORTRAN=ON \
                    -DBLA_VENDOR="Generic" -DBLAS_LIBRARIES="-lblas -lgfortran" -DLAPACK_LIBRARIES="-llapack" \
                    -DENABLE_CUDA=OFF \
+                   $($(PKG)_CMAKE_FLAGS) \
                    $($(PKG)_CMAKE_CROSS_FLAGS) \
                    $(CMAKE_CCACHE_FLAGS) $(CMAKE_BUILD_SHARED_OR_STATIC)'
-
-ifeq ($(MXE_WINDOWS_BUILD),yes)
-    $(PKG)_MAKE_OPTS += \
-        UNAME=Windows
-endif
 
 define $(PKG)_BUILD
     # build all
