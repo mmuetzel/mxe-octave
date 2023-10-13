@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := suitesparse
-$(PKG)_VERSION  := 7.2.0
-$(PKG)_CHECKSUM := cb79ed80422b1808b4a5aba27f5878ef84c82f56
+$(PKG)_VERSION  := 7.2.1
+$(PKG)_CHECKSUM := b14f590ffbc4c50962bbfb45fa4ffb130743bd4e
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
@@ -27,14 +27,8 @@ ifeq ($(ENABLE_FORTRAN_INT64),yes)
   $(PKG)_CMAKE_FLAGS += -DALLOW_64BIT_BLAS=ON
 endif
 
-ifneq ($(MXE_NATIVE_BUILD),yes)
-  ifeq ($(MXE_WINDOWS_BUILD),yes)
-    # The corresponding test (in GraphBLAS) succeeds on Windows (MinGW-w64).
-    $(PKG)_CMAKE_CROSS_FLAGS += -DHAVE_GETENV_HOME=ON
-  else
-    # Use fallback for other targets.
-    $(PKG)_CMAKE_CROSS_FLAGS += -DHAVE_GETENV_HOME=OFF
-  endif
+ifneq ($(BUILD_STATIC),yes)
+  $(PKG)_CMAKE_FLAGS += -DNSTATIC=ON
 endif
 
 $(PKG)_MAKE_OPTS = \
@@ -44,11 +38,10 @@ $(PKG)_MAKE_OPTS = \
     AR='$(MXE_AR)' \
     RANLIB='$(MXE_RANLIB)' \
     CMAKE_OPTIONS='-DCMAKE_TOOLCHAIN_FILE="$(CMAKE_TOOLCHAIN_FILE)" \
-                   -DCOMPACT=ON -DNFORTRAN=ON \
+                   -DCOMPACT=ON -DNOPENMP=ON \
                    -DBLA_VENDOR="Generic" -DBLAS_LIBRARIES="-lblas -lgfortran" -DLAPACK_LIBRARIES="-llapack" \
                    -DENABLE_CUDA=OFF \
                    $($(PKG)_CMAKE_FLAGS) \
-                   $($(PKG)_CMAKE_CROSS_FLAGS) \
                    $(CMAKE_CCACHE_FLAGS) $(CMAKE_BUILD_SHARED_OR_STATIC)'
 
 define $(PKG)_BUILD
