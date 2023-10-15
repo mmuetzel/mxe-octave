@@ -3,8 +3,8 @@
 
 PKG             := sqlite
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3430100
-$(PKG)_CHECKSUM := 194f57642f191939a16399208a10b5e0a827b916
+$(PKG)_VERSION  := 3430200
+$(PKG)_CHECKSUM := cf9fbab967e3d924c7d6fc5b8e4a23a81d067fa5
 $(PKG)_SUBDIR   := $(PKG)-autoconf-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-autoconf-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.sqlite.org/2023/$($(PKG)_FILE)
