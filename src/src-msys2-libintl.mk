@@ -4,8 +4,8 @@
 PKG             := src-msys2-libintl
 $(PKG)_NAME     := gettext
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.22-2
-$(PKG)_CHECKSUM := 00854be190ff5c3a6b8c8b9914478b758787acbc
+$(PKG)_VERSION  := 0.22.3-1
+$(PKG)_CHECKSUM := 2861b9bc26af40001c53df9a4966f4e9501456ac
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
