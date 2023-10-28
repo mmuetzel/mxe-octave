@@ -351,7 +351,6 @@ SRC_FILES_1 := \
   mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
   mingw-utils-1-portability-fix.patch \
   mingw-w64.mk \
-  mingw-zeromq-1-fixes.patch \
   mingwrt.mk \
   mman-win32-1-include_name_change.patch \
   mman-win32.mk \
@@ -827,7 +826,6 @@ SRC_FILES_1 := \
   xz.mk \
   yasm.mk \
   zenity.mk \
-  zeromq-1.patch \
   zeromq.mk \
   zlib-1-win32-static.patch \
   zlib.mk \
