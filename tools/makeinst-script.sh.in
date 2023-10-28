@@ -164,6 +164,7 @@ Page custom octaveOptionsPage octaveOptionsLeave
 
 !insertmacro MUI_PAGE_INSTFILES
 
+!define MUI_PAGE_CUSTOMFUNCTION_SHOW CheckConsole
 !define MUI_FINISHPAGE_RUN "\$WINDIR\\explorer.exe"
 !define MUI_FINISHPAGE_RUN_PARAMETERS "\$INSTDIR\\\${MAIN_APP_EXE}"
 !define MUI_FINISHPAGE_SHOWREADME "\$INSTDIR\\README.html"
@@ -1124,6 +1125,30 @@ space_end:
 
 inst_end:
 
+FunctionEnd
+
+; Function to check Console Settings and show a warn
+Function CheckConsole
+  Push \$R0
+  Push \$R1
+
+  ClearErrors
+
+  ReadRegStr \$R1 HKCU "Console\\%%Startup" "DelegationConsole"
+  IfErrors ignore_console 0
+
+  StrCmp \$R1 "" ignore_console 0
+  # already set for console host
+  StrCmp \$R1 "{B23D10C0-E52E-411E-9D5B-C09FDF709C7D}" ignore_console 0
+
+  # display message
+  MessageBox MB_ICONEXCLAMATION|MB_YESNO|MB_DEFBUTTON2 "Using Octave with the Windows Terminal app could lead to issues with the command window. Please, set the default to the “Windows Console Host”.$\r$\n$\r$\nWould you like to get instructions on how to change the default console?" /SD IDNO IDNO ignore_console
+
+  ExecShell open "https://devblogs.microsoft.com/commandline/windows-terminal-as-your-default-command-line-experience/"
+
+ignore_console:
+  Pop \$R1
+  Pop \$R0
 FunctionEnd
 
 ; Function to check Java Runtime Environment
