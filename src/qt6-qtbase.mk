@@ -11,7 +11,7 @@ $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
-$(PKG)_DEPS     := dbus double-conversion freetds freetype $($(PKG)_FONTCONFIG) icu4c jpeg libjbig libpng libproxy pcre2 postgresql sqlite zlib zstd
+$(PKG)_DEPS     := build-ninja dbus double-conversion freetds freetype $($(PKG)_FONTCONFIG) icu4c jpeg libjbig libpng libproxy pcre2 postgresql sqlite zlib zstd
 
 $(PKG)_CMAKE_OPTS :=
 $(PKG)_CONFIGURE_ENV :=
@@ -72,8 +72,7 @@ $(PKG)_CONFIGURE_ENV += \
 
 define $(PKG)_BUILD
     if [ "$(MXE_NATIVE_BUILD)" = "no" ]; then \
-      mkdir '$(1).native'; \
-      cmake -S '$(1)' -B '$(1).native' \
+      cmake -GNinja -S '$(1)' -B '$(1).native' \
         -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_NATIVE_TOOLCHAIN_FILE)' \
         -DQT_BUILD_{TESTS,EXAMPLES,DOCS}=OFF \
@@ -84,9 +83,8 @@ define $(PKG)_BUILD
       cmake --install '$(1).native'; \
     fi
 
-    mkdir '$(1).build'
     $($(PKG)_CONFIGURE_ENV) \
-    'cmake' -S '$(1)' -B '$(1).build' \
+    'cmake' -GNinja -S '$(1)' -B '$(1).build' \
         $(CMAKE_CCACHE_FLAGS) \
         -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \

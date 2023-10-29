@@ -15,10 +15,9 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-  mkdir '$(1).build'
-  cd '$(1)' && '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' \
+  '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' \
     -S '$(1)' -B '$(1).build' \
     -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6'
-  cmake --build $(1).build -j '$(JOBS)'
-  cmake --install $(1).build
+  cmake --build '$(1).build' -j '$(JOBS)'
+  cmake --install '$(1).build'
 endef

@@ -15,9 +15,11 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6'
-    cmake --build $(1) -j '$(JOBS)'
-    cmake --install $(1)
+    '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' \
+      -S '$(1)' -B '$(1).build' \
+      -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6'
+    cmake --build '$(1).build' -j '$(JOBS)'
+    cmake --install '$(1).build'
     if [ $(MXE_WINDOWS_BUILD) = yes ]; then \
       $(INSTALL) -d '$(HOST_BINDIR)'; \
       cp '$(HOST_PREFIX)'/qt6/bin/Qt6Svg.dll '$(HOST_BINDIR)'/Qt6Svg.dll; \
