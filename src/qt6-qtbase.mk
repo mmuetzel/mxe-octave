@@ -78,7 +78,7 @@ define $(PKG)_BUILD
         -DQT_BUILD_{TESTS,EXAMPLES,DOCS}=OFF \
         -DBUILD_WITH_PCH=OFF \
         -DFEATURE_pcre2=ON \
-        -DFEATURE_{pkg_config,eventfd,glib,gui,icu,openssl,zstd,thread,system_pcre2,sql,xml,testlib,backtrace}=OFF; \
+        -DFEATURE_{pkg_config,eventfd,glib,gui,icu,openssl,zstd,system_pcre2,sql,xml,testlib,backtrace}=OFF; \
       cmake --build '$(1).native' -j '$(JOBS)'; \
       cmake --install '$(1).native'; \
     fi
