@@ -3,8 +3,8 @@
 
 PKG             := mpfr
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.1.1
-$(PKG)_CHECKSUM := 2355e921d6c97c898cfe7a57dd7e72725f1fded4
+$(PKG)_VERSION  := 4.2.1
+$(PKG)_CHECKSUM := 31ffb4244cb469e2b4937cce1f50150300971dfb
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/mpfr/$($(PKG)_FILE)
