@@ -3,8 +3,8 @@
 
 PKG             := faad2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.11.0
-$(PKG)_CHECKSUM := 12f71ad790c2307a6833715fee22bd805a4992b3
+$(PKG)_VERSION  := 2.11.1
+$(PKG)_CHECKSUM := 72fed60d3970c35322294ca0f4527f01677aa696
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/knik0/$(PKG)/archive/refs/tags/$($(PKG)_VERSION).tar.gz
