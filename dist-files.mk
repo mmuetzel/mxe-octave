@@ -314,7 +314,6 @@ SRC_FILES_1 := \
   libvpx.mk \
   libwebp.mk \
   libxml++.mk \
-  libxml2-1-fixes.patch \
   libxml2.mk \
   libxshmfence.mk \
   libxslt.mk \
