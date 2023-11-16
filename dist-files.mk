@@ -130,7 +130,6 @@ SRC_FILES_1 := \
   gdk-pixbuf.mk \
   geos-test.c \
   geos.mk \
-  gettext-1.patch \
   gettext.mk \
   ghostscript-1-fixes.patch \
   ghostscript.mk \
