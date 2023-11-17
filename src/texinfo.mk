@@ -3,8 +3,8 @@
 
 PKG             := texinfo
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.0.3
-$(PKG)_CHECKSUM := d9c7fb736aeb8965b12c32d24e1006e5ce6965f1
+$(PKG)_VERSION  := 7.1
+$(PKG)_CHECKSUM := cb7bbf4c7b08eada5d44cce0d50a6e4258256b95
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/texinfo/$($(PKG)_FILE)
@@ -15,6 +15,8 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
     $(PKG)_DEPS += pcre2
     $(PKG)_LIBS += LDFLAGS="`PKG_CONFIG_PATH="$(HOST_LIBDIR)/pkgconfig" $(MXE_PKG_CONFIG) --libs libpcre2-8`"
   endif
+else
+  $(PKG)_CONFIGURE_OPTIONS := texinfo_cv_sys_iconv_converts_euc_cn=no
 endif
 
 define $(PKG)_UPDATE
@@ -32,6 +34,7 @@ else
   define $(PKG)_BUILD
     mkdir '$(1).build'
     cd '$(1).build' && '$(1)/configure' \
+        $($(PKG)_CONFIGURE_OPTIONS) \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' $($(PKG)_LIBS)
