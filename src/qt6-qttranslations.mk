@@ -3,7 +3,7 @@
 PKG             := qt6-qttranslations
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION   = $(qt6-qtbase_VERSION)
-$(PKG)_CHECKSUM := 27e3e7062c932c46e134d9ee4d71b2307bb3bf0f
+$(PKG)_CHECKSUM := 13f6c1812485336bdee301b81dc89b51637a6dd9
 $(PKG)_SUBDIR    = $(subst qtbase,qttranslations,$(qt6-qtbase_SUBDIR))
 $(PKG)_FILE      = $(subst qtbase,qttranslations,$(qt6-qtbase_FILE))
 $(PKG)_URL       = $(subst qtbase,qttranslations,$(qt6-qtbase_URL))
