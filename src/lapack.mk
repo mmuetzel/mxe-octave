@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := lapack
-$(PKG)_VERSION  := 3.11.0
-$(PKG)_CHECKSUM := 5ce88a2b3df11d132b43442cab6a385f85a9f667
+$(PKG)_VERSION  := 3.12.0
+$(PKG)_CHECKSUM := 3661a879f31b517f43db2b94a1f2831da3235138
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/Reference-LAPACK/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
@@ -24,6 +24,8 @@ else
         $(PKG)_BLAS_LIBS := -lblas
     endif
 endif
+# since we are providing the built blas that should have the required functions in it
+$(PKG)_BLAS_CONFIG_OPTS += -DBLAS_FOUND=1
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
     $(PKG)_DEFAULT_INTEGER_8_FLAG := -fdefault-integer-8
