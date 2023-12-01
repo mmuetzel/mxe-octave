@@ -661,7 +661,13 @@ SRC_FILES_1 := \
   randrproto.mk \
   rapidjson-1-prettywriter.patch \
   rapidjson.mk \
-  readline-0-001-upstream.patch \
+  readline-0-001-fix-crash-when-readline-is-star.patch \
+  readline-0-002-avoid-possible-crash-when-tryin.patch \
+  readline-0-003-fix-typo-when-specifying-readli.patch \
+  readline-0-004-fix-compilation-on-systems-that.patch \
+  readline-0-005-fix-for-callback-signal-handlin.patch \
+  readline-0-006-fix-for-callback-signal-handlin.patch \
+  readline-0-007-display-newline-if-readline-is-.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \
