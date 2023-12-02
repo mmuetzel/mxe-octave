@@ -43,6 +43,6 @@ ifeq ($(ENABLE_FORTRAN_INT64),yes)
 endif
 
 define $(PKG)_BUILD
-    $(MAKE) -C '$(1)' -j '$(JOBS)' $($(PKG)_MAKE_OPTS)  
+    $(MAKE) -C '$(1)' -j '$(JOBS)' MAKE_NB_JOBS=$(JOBS) $($(PKG)_MAKE_OPTS)  
     $(MAKE) -C '$(1)' -j 1 $($(PKG)_MAKE_OPTS) install
 endef
