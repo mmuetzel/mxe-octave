@@ -3,8 +3,8 @@
 
 PKG             := glib
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.78.1
-$(PKG)_CHECKSUM := eb732d27f90512231c14b88e4ee80543a643dff3
+$(PKG)_VERSION  := 2.78.3
+$(PKG)_CHECKSUM := bda8e37cb9b016d359cbf58046d31a1f40f4170b
 $(PKG)_SUBDIR   := glib-$($(PKG)_VERSION)
 $(PKG)_FILE     := glib-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://ftp.gnome.org/pub/gnome/sources/glib/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
