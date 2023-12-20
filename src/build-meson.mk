@@ -3,8 +3,8 @@
 
 PKG             := build-meson
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.62.1
-$(PKG)_CHECKSUM := 4ba6f57629e5f38ea7b82e6edcd2baa2ab9c1edb
+$(PKG)_VERSION  := 1.2.2
+$(PKG)_CHECKSUM := 93f44be8b00b7a9cb57973e271e6cbf6fff5c098
 $(PKG)_SUBDIR   := meson-$($(PKG)_VERSION)
 $(PKG)_FILE     := meson-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/mesonbuild/meson/archive/$($(PKG)_VERSION).tar.gz
@@ -48,7 +48,13 @@ define $(PKG)_BUILD
       echo "strip = '$(shell echo $(MXE_STRIP) | $(SED) "s/'//g")'"; \
     fi; \
     echo "pkgconfig = '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)pkg-config'"; \
-    echo "llvm-config = '$(HOST_BINDIR)/$(MXE_TOOL_PREFIX)llvm-config'";\
+    echo "llvm-config = '$(HOST_BINDIR)/$(MXE_TOOL_PREFIX)llvm-config'"; \
+    if [ x$(MXE_SYSTEM) = xmingw ]; then \
+      echo "windres = '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)windres'"; \
+    fi; \
+    echo ""; \
+    echo "[paths]"; \
+    echo "libdir = 'lib'"; \
     if [ x$(MXE_NATIVE_BUILD) = xno ]; then \
       echo ""; \
       echo "[host_machine]"; \

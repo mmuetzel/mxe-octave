@@ -3,8 +3,8 @@
 
 PKG             := build-binutils
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.39
-$(PKG)_CHECKSUM := f17653e7b1d1fa5242a408919845da23e8cc5141
+$(PKG)_VERSION  := 2.40
+$(PKG)_CHECKSUM := fee4fbef9d632afc1988dd631d7f75d4394b7f8d
 $(PKG)_SUBDIR   := binutils-$($(PKG)_VERSION)
 $(PKG)_FILE     := binutils-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/binutils/$($(PKG)_FILE)

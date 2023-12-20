@@ -3,23 +3,21 @@
 
 PKG             := qscintilla
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.13.3
-$(PKG)_CHECKSUM := 336c069d56dc9573ac2c68fd5690b2dffe02daaa
+$(PKG)_VERSION  := 2.14.1
+$(PKG)_CHECKSUM := 433cc4cb7da65c25a11ea3efbc5a7db31c6d7e3c
 $(PKG)_SUBDIR   := QScintilla_src-$($(PKG)_VERSION)
 $(PKG)_FILE     := QScintilla_src-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.riverbankcomputing.com/static/Downloads/QScintilla/$($(PKG)_VERSION)/$($(PKG)_FILE)
 
 
-ifeq ($(ENABLE_QT5),yes)
-      $(PKG)_DEPS     := qt5
-else
+ifeq ($(ENABLE_QT),4)
       $(PKG)_DEPS     := qt
 endif
-
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-      $(PKG)_INSTALL_ROOT :=
-else
-      $(PKG)_INSTALL_ROOT := $(3)
+ifeq ($(ENABLE_QT),5)
+      $(PKG)_DEPS     := qt5
+endif
+ifeq ($(ENABLE_QT),6)
+      $(PKG)_DEPS     := qt6
 endif
 
 define $(PKG)_UPDATE
@@ -30,10 +28,14 @@ endef
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
   ifeq ($(MXE_SYSTEM),mingw)
-    ifeq ($(ENABLE_QT5),yes)
-       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
-    else
+    ifeq ($(ENABLE_QT),4)
        $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/mkspecs/win32-g++'
+    endif
+    ifeq ($(ENABLE_QT),5)
+       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
+    endif
+    ifeq ($(ENABLE_QT),6)
+       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/qt6/mkspecs/win32-g++'
     endif
   endif
   ifeq ($(MXE_SYSTEM),msvc)
@@ -43,13 +45,16 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
 endif
 
 define $(PKG)_BUILD
+    if [ "$(MXE_NATIVE_BUILD)" = "no" ]; then \
+      '$(MXE_QMAKE)' -set CROSS_COMPILE $(MXE_TOOL_PREFIX); \
+    fi
     cd '$(1)/src' && \
-      '$(MXE_QMAKE)' -makefile \
+      '$(MXE_QMAKE)' -makefile  \
         $($(PKG)_QMAKE_SPEC_OPTION) \
         QMAKE_UIC='$(MXE_UIC)' \
         QMAKE_MOC='$(MXE_MOC)' \
         QMAKE_LFLAGS=$(MXE_LDFLAGS) \
-        QMAKE_CXXFLAGS='-std=c++11'
+        QT_MAJOR_VERSION=$(ENABLE_QT)
 
     if [ $(MXE_SYSTEM) = msvc ]; then \
         mkdir -p '$(3)' && \
@@ -59,15 +64,17 @@ define $(PKG)_BUILD
             INSTALL_ROOT=`cd $(3) && pwd -W | sed -e 's,^[a-zA-Z]:,,' -e 's,/,\\\\,g'` install; \
     else \
         $(MAKE) -C '$(1)/src' -j '$(JOBS)' && \
-        $(MAKE) -C '$(1)/src' -j 1 install INSTALL_ROOT='$($(PKG)_INSTALL_ROOT)'; \
+        $(MAKE) -C '$(1)/src' -j 1 install INSTALL_ROOT='$(3)'; \
     fi
 
     if [ $(MXE_SYSTEM) = mingw ]; then \
-      $(INSTALL) -d '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
-      if [ $(ENABLE_QT5) = yes ]; then \
-        mv '$($(PKG)_INSTALL_ROOT)$(HOST_PREFIX)/qt5/lib/qscintilla2_qt5.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)'; \
+      $(INSTALL) -d '$(3)$(HOST_BINDIR)'; \
+      if [ "$(ENABLE_QT)" = "5" ]; then \
+        mv '$(3)$(HOST_PREFIX)/qt5/lib/qscintilla2_qt5.dll' '$(3)$(HOST_BINDIR)'; \
+      elif [ "$(ENABLE_QT)" = "6" ]; then \
+        mv '$(3)$(HOST_PREFIX)/qt6/lib/qscintilla2_qt6.dll' '$(3)$(HOST_BINDIR)'; \
       else \
-        mv '$($(PKG)_INSTALL_ROOT)$(HOST_LIBDIR)/qscintilla2_qt4.dll' '$($(PKG)_INSTALL_ROOT)$(HOST_BINDIR)/'; \
+        mv '$(3)$(HOST_LIBDIR)/qscintilla2_qt4.dll' '$(3)$(HOST_BINDIR)/'; \
       fi; \
     fi
 
@@ -75,9 +82,9 @@ define $(PKG)_BUILD
     # DESTDIR usage (or equivalent), the real Win32 directory hierarchy
     # is recreated under DESTDIR, not the MSYS hierarchy.
     if [ $(MXE_SYSTEM) = msvc ]; then \
-        $(INSTALL) -d '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/bin'; \
-        $(INSTALL) -m755 '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll' '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/bin/'; \
-        rm -f '$($(PKG)_INSTALL_ROOT)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll'; \
+        $(INSTALL) -d '$(3)$(CMAKE_HOST_PREFIX)/bin'; \
+        $(INSTALL) -m755 '$(3)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll' '$(3)$(CMAKE_HOST_PREFIX)/bin/'; \
+        rm -f '$(3)$(CMAKE_HOST_PREFIX)/lib/$(LIBRARY_PREFIX)qscintilla2$(LIBRARY_SUFFIX).dll'; \
     fi
-
 endef
+

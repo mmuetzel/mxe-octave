@@ -7,11 +7,11 @@ $(PKG)_VERSION  := 1.8.78
 $(PKG)_CHECKSUM := 8c2ab938c2dad8067c29b0aa93efc6389f0e7076
 $(PKG)_SUBDIR   := qdbm-$($(PKG)_VERSION)
 $(PKG)_FILE     := qdbm-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://fallabs.com/qdbm/qdbm-1.8.78.tar.gz
+$(PKG)_URL      := https://dbmx.net/qdbm/qdbm-1.8.78.tar.gz
 $(PKG)_DEPS     := bzip2 libiconv lzo zlib
 
 define $(PKG)_UPDATE
-    wget -q -O- 'http://fallabs.com/qdbm/' | \
+    wget -q -O- 'https://dbmx.net/qdbm/' | \
     grep 'qdbm-' | \
     $(SED) -n 's,.*qdbm-\([0-9][^>]*\)\.tar.*,\1,p' | \
     head -1

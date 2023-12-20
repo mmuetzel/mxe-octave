@@ -3,8 +3,8 @@
 
 PKG             := dbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.15.2
-$(PKG)_CHECKSUM := 5cb3f74b408f97e91247a8e82366a60028bf2ecb
+$(PKG)_VERSION  := 1.15.6
+$(PKG)_CHECKSUM := 7256744ea329b8640df9ce2fc4792256f4f5c6c9
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(PKG).freedesktop.org/releases/$(PKG)/$($(PKG)_FILE)
@@ -37,5 +37,6 @@ define $(PKG)_BUILD
         --disable-xml-docs \
         CFLAGS='-DPROCESS_QUERY_LIMITED_INFORMATION=0x1000' \
 	&& $(CONFIGURE_POST_HOOK)
+
     $(MAKE) -C '$(1)' -j '$(JOBS)' install $(MXE_DISABLE_DOCS) $($(PKG)_DISABLE_PROGS) DESTDIR='$(3)'
 endef

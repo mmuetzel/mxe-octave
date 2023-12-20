@@ -4,9 +4,9 @@
 PKG             := msys2-p11-kit
 $(PKG)_NAME     := p11-kit
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.24.1-4
-$(PKG)_x86_64_CS := f9b76f58892531c02213c46fdcbf8811dfca27fe
-$(PKG)_i686_CS  := e2032ad8f4512186f535a88c64a89c1f1584b040
+$(PKG)_VERSION  := 0.25.3-1
+$(PKG)_x86_64_CS := 3a071f7f99bdf64c7d66678af8fdf03bd8daba52
+$(PKG)_i686_CS  := 0d2585c4e5070dd304387ab5bd0fae861278fedd
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

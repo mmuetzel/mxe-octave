@@ -4,9 +4,9 @@
 PKG             := msys2-libutil-linux
 $(PKG)_NAME     := libutil-linux
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.35.2-3
-$(PKG)_x86_64_CS := e06ae1176e28f1675c441def8c437075aa082f80
-$(PKG)_i686_CS  := bc0df067583d2afa5cd10d9b1c7a364b133b4222
+$(PKG)_VERSION  := 2.35.2-4
+$(PKG)_x86_64_CS := 8092c4b5aaaca97043c284afaf83b20c0b4e81b0
+$(PKG)_i686_CS  := 37dc84cd3a3bd0bbead8657768512c8cc94a5644
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

@@ -3,8 +3,8 @@
 
 PKG             := openblas
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.3.21
-$(PKG)_CHECKSUM := b052d196ad694b29302e074b3eb8cc66745f6e2f
+$(PKG)_VERSION  := 0.3.25
+$(PKG)_CHECKSUM := 79f2828dff06e24ecec7277f3d3da5e7b196ff53
 $(PKG)_SUBDIR   := OpenBLAS-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/xianyi/OpenBLAS/archive/v$($(PKG)_VERSION).tar.gz
@@ -43,6 +43,6 @@ ifeq ($(ENABLE_FORTRAN_INT64),yes)
 endif
 
 define $(PKG)_BUILD
-    $(MAKE) -C '$(1)' -j '$(JOBS)' $($(PKG)_MAKE_OPTS)  
+    $(MAKE) -C '$(1)' -j '$(JOBS)' MAKE_NB_JOBS=$(JOBS) $($(PKG)_MAKE_OPTS)  
     $(MAKE) -C '$(1)' -j 1 $($(PKG)_MAKE_OPTS) install
 endef

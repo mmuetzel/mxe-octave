@@ -3,8 +3,8 @@
 
 PKG             := mpg123
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.31.1
-$(PKG)_CHECKSUM := ef0e6eb48a13d901ab8b3a7a4526dc5476720da7
+$(PKG)_VERSION  := 1.32.3
+$(PKG)_CHECKSUM := 3a94848a620db7917c757cb21e261c711e44618f
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/mpg123/$(PKG)/$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -32,5 +32,5 @@ define $(PKG)_BUILD
 	$($(PKG)_CONFIGURE_OPTIONS)
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install
+    $(MAKE) -C '$(1)' -j 1 $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS) DESTDIR=$(3) install
 endef

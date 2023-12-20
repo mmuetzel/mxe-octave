@@ -3,18 +3,17 @@
 
 PKG             := libntlm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3
-$(PKG)_CHECKSUM := 5dd798d5fb9a75656225052aa88ceb9befbbd4a0
+$(PKG)_VERSION  := 1.6
+$(PKG)_CHECKSUM := d6f9b69f154d82d0f9a49e9686b79fc03f21c3c6
 $(PKG)_SUBDIR   := libntlm-$($(PKG)_VERSION)
 $(PKG)_FILE     := libntlm-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://www.nongnu.org/libntlm/releases/$($(PKG)_FILE)
+$(PKG)_URL      := https://download.savannah.nongnu.org/releases/libntlm/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://git.savannah.gnu.org/gitweb/?p=libntlm.git;a=tags' | \
-    grep '<a class="list subject"' | \
-    $(SED) -n 's,.*<a[^>]*>\([0-9][^<]*\)<.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://download.savannah.nongnu.org/releases/libntlm/'  | \
+    $(SED) -n 's,.*libntlm-\([0-9]\+\)\(\.[0-9]\+\)*\..*,\1\2,p' |\
+    tail -1
 endef
 
 define $(PKG)_BUILD

@@ -60,7 +60,10 @@ If wshShell.ExpandEnvironmentStrings("%HOME%") = "%HOME%" Then
 End If
 
 ' set Qt plugin directory and path 
-If objFSO.FolderExists(OctavePath & "\qt5\bin") Then
+If objFSO.FolderExists(OctavePath & "\qt6\bin") Then
+  wshSystemEnv("PATH") = OctavePath & "\qt6\bin;" & wshSystemEnv("PATH")
+  wshSystemEnv("QT_PLUGIN_PATH") = OctavePath & "\qt6\plugins"
+ElseIf objFSO.FolderExists(OctavePath & "\qt5\bin") Then
   wshSystemEnv("PATH") = OctavePath & "\qt5\bin;" & wshSystemEnv("PATH")
   wshSystemEnv("QT_PLUGIN_PATH") = OctavePath & "\qt5\plugins"
 Else

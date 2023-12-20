@@ -3,12 +3,15 @@
 
 PKG             := graphicsmagick
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.39
-$(PKG)_CHECKSUM := 03f85f866d2a6e1466518bd85f4460f3ab328886
+$(PKG)_VERSION  := 1.3.42
+$(PKG)_CHECKSUM := a48ec3fa59d9ca0915e1e6f78fd8bda55e9e0c6f
 $(PKG)_SUBDIR   := GraphicsMagick-$($(PKG)_VERSION)
 $(PKG)_FILE     := GraphicsMagick-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib bzip2 libjbig jpeg jasper lcms libpng tiff freetype libxml2
+ifeq ($(MXE_SYSTEM),mingw)
+    $(PKG)_DEPS += transfig
+endif
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS += pthreads libtool
 endif

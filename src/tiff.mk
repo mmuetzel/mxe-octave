@@ -3,8 +3,8 @@
 
 PKG             := tiff
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.5.0
-$(PKG)_CHECKSUM := c799eb7161b6495042223d4dee0d2b3bdb12660c
+$(PKG)_VERSION  := 4.6.0
+$(PKG)_CHECKSUM := 5eda840cc24e1c74c6a9d92faa86a0851f7de7d5
 $(PKG)_SUBDIR   := tiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := tiff-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://download.osgeo.org/libtiff/$($(PKG)_FILE)
@@ -27,6 +27,7 @@ define $(PKG)_BUILD
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
         --enable-jbig \
+	--disable-docs \
         --disable-libdeflate \
         --without-x && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) DESTDIR='$(3)'

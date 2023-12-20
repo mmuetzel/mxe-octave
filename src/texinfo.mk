@@ -3,22 +3,27 @@
 
 PKG             := texinfo
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.8
-$(PKG)_CHECKSUM := 37f5ff5f748fb11bcbd57b82f3fdb5c365e82d61
+$(PKG)_VERSION  := 7.1
+$(PKG)_CHECKSUM := cb7bbf4c7b08eada5d44cce0d50a6e4258256b95
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/texinfo/$($(PKG)_FILE)
 $(PKG)_DEPS     := # libgnurx
 
-ifeq ($(MXE_SYSTEM),mingw)
-    $(PKG)_DEPS += pcre
-    $(PKG)_LIBS += LIBS='-lpcre -lpcreposix -lpthread'
+ifeq ($(MXE_NATIVE_BUILD),yes)
+  ifeq ($(USE_MSYS2),no)
+    $(PKG)_DEPS += pcre2
+    $(PKG)_LIBS += LDFLAGS="`PKG_CONFIG_PATH="$(HOST_LIBDIR)/pkgconfig" $(MXE_PKG_CONFIG) --libs libpcre2-8`"
+  endif
+else
+  $(PKG)_CONFIGURE_OPTIONS := texinfo_cv_sys_iconv_converts_euc_cn=no
 endif
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://ftp.gnu.org/gnu/$(PKG)/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="$(PKG)-\([0-9][^"]*\)\.tar.*,\1,p' | \
-    head -1
+    $(SORT) -V | \
+    tail -1
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
@@ -29,6 +34,7 @@ else
   define $(PKG)_BUILD
     mkdir '$(1).build'
     cd '$(1).build' && '$(1)/configure' \
+        $($(PKG)_CONFIGURE_OPTIONS) \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' $($(PKG)_LIBS)

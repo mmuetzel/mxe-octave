@@ -5,7 +5,7 @@ PKG             := qt5
 $(PKG)_VERSION   = $(qtbase_VERSION)
 $(PKG)_DEPS     := $(patsubst $(TOP_DIR)/src/%.mk,%,\
                         $(shell grep -l 'qtbase_VERSION' \
-                                $(TOP_DIR)/src/qt*.mk \
+                                $(TOP_DIR)/src/qt[^6]*.mk \
                                 --exclude '$(TOP_DIR)/src/qt5.mk'))
 $(PKG)_FILE      =
 $(PKG)_URL       =

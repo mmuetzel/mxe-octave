@@ -4,9 +4,9 @@
 PKG             := msys2-liblzma
 $(PKG)_NAME     := liblzma
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.4.0-1
-$(PKG)_x86_64_CS := 1f14b210d63a0934c8cec8f8f678715887550be7
-$(PKG)_i686_CS  := c2e689e7a738498c7bed207e592ce354d770c22c
+$(PKG)_VERSION  := 5.4.5-1
+$(PKG)_x86_64_CS := 38f7152e23023b73a4965f50d0977b682eae59cc
+$(PKG)_i686_CS  := 58f75f92442056d083f2b3a3030ce014b2df6d21
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

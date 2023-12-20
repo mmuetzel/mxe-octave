@@ -74,8 +74,8 @@ USE_SYSTEM_OCTAVE := @USE_SYSTEM_OCTAVE@
 # create and install devel tools (default no)
 ENABLE_DEVEL_TOOLS := @ENABLE_DEVEL_TOOLS@
 
-# use qt5 instead of qt4
-ENABLE_QT5 := @ENABLE_QT5@
+# which qt
+ENABLE_QT := @ENABLE_QT@
 
 # Set to "yes" to use msys2
 USE_MSYS2 := @USE_MSYS2@
@@ -393,7 +393,6 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
     MXE_STRIP := true
     MXE_WINDRES := windres
     MXE_PKG_CONFIG := pkg-config
-    MXE_QMAKE := qmake
     # Although the Fortran compiler is internally gfortran, we still
     # want to make it look like non-GNU compiler, otherwise libtool is
     # not playing nicely and trips over different variable values for
@@ -420,13 +419,21 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
       MXE_WINDRES := true
     endif
     MXE_PKG_CONFIG := pkg-config
-    MXE_QMAKE := qmake
   endif
 
-  MXE_MOC := $(HOST_BINDIR)/moc
-  MXE_UIC := $(HOST_BINDIR)/uic
-  MXE_LRELEASE := $(HOST_BINDIR)/lrelease
-  MXE_RCC := $(HOST_BINDIR)/rcc
+  ifeq ($(ENABLE_QT),6)
+    MXE_QMAKE := $(HOST_PREFIX)/qt6/bin/qmake
+    MXE_MOC := $(HOST_PREFIX)/qt6/libexec/moc
+    MXE_UIC := $(HOST_PREFIX)/qt6/libexec/uic
+    MXE_LRELEASE := $(HOST_PREFIX)/qt6/bin/lrelease
+    MXE_RCC := $(HOST_PREFIX)/qt6/libexec/rcc
+  else
+    MXE_QMAKE := qmake
+    MXE_MOC := $(HOST_BINDIR)/moc
+    MXE_UIC := $(HOST_BINDIR)/uic
+    MXE_LRELEASE := $(HOST_BINDIR)/lrelease
+    MXE_RCC := $(HOST_BINDIR)/rcc
+  endif
 
   MXE_MKOCTFILE := $(HOST_BINDIR)/mkoctfile
   MXE_OCTAVECONFIG := $(HOST_BINDIR)/octave-config
@@ -447,12 +454,16 @@ else
     MXE_WINDRES := true
   endif
   MXE_PKG_CONFIG := '$(BUILD_TOOLS_PREFIX)/bin/pkg-config'
-  ifeq ($(ENABLE_QT5),yes)
-    MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt5'
-  else
+  ifeq ($(ENABLE_QT),4)
     MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake'
   endif
-
+  ifeq ($(ENABLE_QT),5)
+    MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt5'
+  endif
+  ifeq ($(ENABLE_QT),6)
+    MXE_QMAKE6 := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt6'
+    MXE_QMAKE := '$(HOST_PREFIX)/qt6/bin/qmake'
+  endif
   MXE_MOC := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)moc'
   MXE_UIC := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)uic'
   MXE_LRELEASE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)lrelease'
@@ -1004,6 +1015,7 @@ clean:
 	rm -f installer-files/octave-launch.exe \
 	  installer-files/octave-launch-firsttime.exe \
 	  installer-files/octave-launch.res \
+	  installer-files/octave-launch.rc \
 	  installer-files/.dirstamp
 
 .PHONY: realclean
@@ -1141,12 +1153,17 @@ define build-cmake-toolchain-file
        echo 'set(MSVC 1)'; \
      fi; \
      echo 'set(CMAKE_BUILD_TYPE Release)'; \
-     if [ $(MXE_SYSTEM) = msvc ]; then \
+     if [ "$(MXE_NATIVE_BUILD)" = yes ]; then \
+       echo 'set(CMAKE_FIND_ROOT_PATH $(HOST_PREFIX);/usr)'; \
+       echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)'; \
+     else \
+       if [ $(MXE_SYSTEM) = msvc ]; then \
          echo 'set(CMAKE_FIND_ROOT_PATH $(HOST_PREFIX_NATIVE))'; \
          echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH)'; \
-     else \
+       else \
          echo 'set(CMAKE_FIND_ROOT_PATH $(HOST_PREFIX))'; \
          echo 'set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)'; \
+       fi; \
      fi; \
      echo 'set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)'; \
      echo 'set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)'; \
@@ -1161,6 +1178,7 @@ define build-cmake-toolchain-file
      else \
          echo 'set(CMAKE_INSTALL_PREFIX $(HOST_PREFIX) CACHE PATH "Installation Prefix")'; \
      fi; \
+     echo 'set(CMAKE_INSTALL_LIBDIR "lib")'; \
      echo 'set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug|Release|RelWithDebInfo|MinSizeRel")') \
      > '$(CMAKE_TOOLCHAIN_FILE)'
 endef
@@ -1178,6 +1196,8 @@ define build-native-cmake-toolchain-file
      echo 'set(CMAKE_CXX_COMPILER $(CXX))'; \
      echo 'set(CMAKE_Fortran_COMPILER $(F77))'; \
      echo 'set(CMAKE_RC_COMPILER $(WINDRES))'; \
+     echo 'set(CMAKE_INSTALL_PREFIX $(HOST_PREFIX_NATIVE) CACHE PATH "Installation Prefix")'; \
+     echo 'set(CMAKE_INSTALL_LIBDIR "lib")'; \
      echo 'set(CMAKE_BUILD_TYPE Release CACHE STRING "Debug|Release|RelWithDebInfo|MinSizeRel")') \
     > '$(CMAKE_NATIVE_TOOLCHAIN_FILE)'
 endef

@@ -4,8 +4,8 @@
 PKG             := src-msys2-libgcrypt
 $(PKG)_NAME     := libgcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.10.1-5
-$(PKG)_CHECKSUM := 8bcc3d372a608b90b85946685511fdb9ffb6cb7b
+$(PKG)_VERSION  := 1.10.3-1
+$(PKG)_CHECKSUM := f24b12a32c638339aacbc630d6d3a91f959d9633
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

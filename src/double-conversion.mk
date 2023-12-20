@@ -3,8 +3,8 @@
 
 PKG             := double-conversion
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.1
-$(PKG)_CHECKSUM := 1739208c8ca88a6073e738a96ebde73ec9bdebe7
+$(PKG)_VERSION  := 3.3.0
+$(PKG)_CHECKSUM := 31bbee2c38287a71901e818010dd9427567e6c1f
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/google/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz

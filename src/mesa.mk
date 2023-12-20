@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 22.3.2
-$(PKG)_CHECKSUM := 3074a9fba66f4d3788384721c0089f93d5afa1b3
+$(PKG)_VERSION  := 23.3.1
+$(PKG)_CHECKSUM := 982c4db0c3019386db98c73d5330fee8575eaed0
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/$($(PKG)_FILE)
@@ -26,7 +26,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
   $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(MESON_TOOLCHAIN_FILE)'
 else
   ifeq ($(USE_SYSTEM_X11_LIBS),no)
-    $(PKG)_DEPS += dri2proto glproto libdrm libxshmfence x11 xdamage xext xfixes
+    $(PKG)_DEPS += dri2proto glproto libdrm libxshmfence x11 xdamage xext xfixes xrandr
     $(PKG)_BUILD_X11_LIBS_FLAGS = -Dxlib-lease=disabled
   else
     $(PKG)_PKG_CONFIG_PATH := $(PKG_CONFIG_PATH):$(BUILD_PKG_CONFIG_PATH)
@@ -38,7 +38,6 @@ else
 
   $(PKG)_X11_FLAGS := -Dplatforms='x11' \
       -Dglx=xlib \
-      -Ddri-drivers='' \
       $($(PKG)_BUILD_X11_LIBS_FLAGS)
 endif
 
@@ -68,4 +67,10 @@ define $(PKG)_BUILD
   if [ x$(MXE_NATIVE_BUILD) == xno ]; then \
     rm -f $(3)$(HOST_LIBDIR)/opengl32.dll.a; \
   fi
+
+  # provide s/w backup opengl
+  if [ x$(MXE_WINDOWS_BUILD) == xyes ]; then \
+      $(INSTALL) "$(3)/$(HOST_BINDIR)/opengl32.dll" "$(3)/$(HOST_BINDIR)/opengl32sw.dll"; \
+  fi
+
 endef

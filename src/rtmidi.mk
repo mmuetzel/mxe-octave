@@ -3,8 +3,8 @@
 
 PKG             := rtmidi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.0.0
-$(PKG)_CHECKSUM := e208da4f468b44ab64d0e842e703f5a2e312d03e
+$(PKG)_VERSION  := 6.0.0
+$(PKG)_CHECKSUM := baca7e388062ec406cbcfe3ea7a2697541428a1e
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/thestk/$(PKG)/archive/$($(PKG)_VERSION).tar.gz

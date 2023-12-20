@@ -23,6 +23,8 @@ define $(PKG)_BUILD
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
 	--disable-selective-werror \
+	--disable-docs \
+	--disable-devel-docs \
         && $(CONFIGURE_POST_HOOK)
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'

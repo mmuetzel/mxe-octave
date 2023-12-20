@@ -12,7 +12,7 @@
 ##   --enable-octave=release
 ##   --enable-binary-packages
 ##   --enable-devel-tools
-##   --enable-qt5
+##   --enable-qt=5
 ##   --disable-system-opengl
 ##
 ## and one of the following
@@ -44,10 +44,14 @@ ifeq ($(USE_SYSTEM_FONTCONFIG),no)
 endif
 $(PKG)_DEPS     := blas arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
 
-ifeq ($(ENABLE_QT5),yes)
-    $(PKG)_DEPS += qt5
-else
+ifeq ($(ENABLE_QT),4)
     $(PKG)_DEPS += qt
+endif
+ifeq ($(ENABLE_QT),5)
+    $(PKG)_DEPS += qt5
+endif
+ifeq ($(ENABLE_QT),6)
+    $(PKG)_DEPS += qt6
 endif
 
 ifeq ($(USE_SYSTEM_OPENGL),no)
@@ -95,17 +99,23 @@ $(PKG)_QT_CONFIGURE_OPTIONS := \
   RCC_QTVER=$(MXE_RCC) \
   LRELEASE_QTVER=$(MXE_LRELEASE)
 
-ifeq ($(ENABLE_QT5),yes)
-  #$(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
-  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
-  $(PKG)_QTDIR := $(HOST_PREFIX)/qt5
-  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt5"
-else
+ifeq ($(ENABLE_QT),4)
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_QTDIR := $(HOST_PREFIX)
   $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt4"
 endif
-
+ifeq ($(ENABLE_QT),5)
+  #$(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_QTDIR := $(HOST_PREFIX)/qt5
+  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt5"
+endif
+ifeq ($(ENABLE_QT),6)
+  #$(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_QTDIR := $(HOST_PREFIX)/qt6
+  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt6"
+endif
 
 ifneq ($(ENABLE_DOCS),yes)
   $(PKG)_ENABLE_DOCS_CONFIGURE_OPTIONS := --disable-docs

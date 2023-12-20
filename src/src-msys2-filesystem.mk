@@ -4,8 +4,8 @@
 PKG             := src-msys2-filesystem
 $(PKG)_NAME     := filesystem
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2022.01-7
-$(PKG)_CHECKSUM := 0ec7a7227e5e258c5268820cef07818fc5baf8d9
+$(PKG)_VERSION  := 2023.02.07-1
+$(PKG)_CHECKSUM := db3fbd128e070ffc73ce0e64aaf94fdf664120a9
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

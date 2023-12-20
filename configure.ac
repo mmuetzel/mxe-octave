@@ -101,12 +101,12 @@ AC_SUBST(USE_MSYS2)
 
 # Use "msvcrt" or "ucrt" on Windows
 AC_ARG_WITH([windows-msvcrt],
-  [AS_HELP_STRING([--with-windows-msvcrt=msvcrt], [select C runtime for windows distribution (default: msvcrt)])],
+  [AS_HELP_STRING([--with-windows-msvcrt=msvcrt], [select C runtime for windows distribution (default: ucrt)])],
   [case $withval in
      no) AC_MSG_ERROR([A runtime for Windows is required for --with-windows-msvcrt]) ;;
-     yes | "") HOST_MSVCRT=msvcrt ;;
+     yes | "") HOST_MSVCRT=ucrt ;;
      *) HOST_MSVCRT="$withval" ;;
-   esac], [HOST_MSVCRT=msvcrt])
+   esac], [HOST_MSVCRT=ucrt])
 AC_SUBST(HOST_MSVCRT)
 
 # try find pkg-config build paths
@@ -360,15 +360,25 @@ AC_ARG_ENABLE([devel-tools],
    esac], [ENABLE_DEVEL_TOOLS=no])
 AC_SUBST(ENABLE_DEVEL_TOOLS)
 
-AC_ARG_ENABLE([qt5],
-  [AS_HELP_STRING([--disable-qt5],
-    [Build GNU Octave using Qt 4 instead of the default Qt 5 (default: enable, i.e. use Qt5)])],
+# FIXME: Adjust this condition for the release candidate of Octave 9.
+if test "$ENABLE_OCTAVE" = "release-"; then
+  default_qt=5
+else
+  default_qt=6
+fi
+
+AC_ARG_ENABLE([qt],
+  [AS_HELP_STRING([--enable-qt=VER],
+    [Build GNU Octave using a specified Qt version])],
   [case "$enableval" in
-     no) ENABLE_QT5=no ;;
-     yes) ENABLE_QT5=yes ;;
-     *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt5]) ;;
-   esac], [ENABLE_QT5=yes])
-AC_SUBST(ENABLE_QT5)
+     no) ENABLE_QT=$default_qt ;;
+     yes) ENABLE_QT=$default_qt ;;
+     4) ENABLE_QT=4 ;;
+     5) ENABLE_QT=5 ;;
+     6) ENABLE_QT=6 ;;
+     *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt]) ;;
+   esac], [ENABLE_QT=$default_qt])
+AC_SUBST(ENABLE_QT)
 
 # install documentation of build dependency packages (or not to save space)
 AC_ARG_ENABLE([dep-docs],

@@ -119,9 +119,7 @@ SRC_FILES_1 := \
   gd-1-libpng15.patch \
   gd-test.c \
   gd.mk \
-  gdal-2-ucrt.patch \
   gdal.mk \
-  gdb-1-readline-8.2.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
@@ -132,7 +130,6 @@ SRC_FILES_1 := \
   gdk-pixbuf.mk \
   geos-test.c \
   geos.mk \
-  gettext-1.patch \
   gettext.mk \
   ghostscript-1-fixes.patch \
   ghostscript.mk \
@@ -142,8 +139,6 @@ SRC_FILES_1 := \
   gl2ps.mk \
   glew-test.c \
   glew.mk \
-  glib-1-fixes.patch \
-  glib-2-fixes.patch \
   glib.mk \
   glibmm.mk \
   glpk-1-fixes.patch \
@@ -152,6 +147,8 @@ SRC_FILES_1 := \
   glu.mk \
   gmp.mk \
   gnuplot-1-fixes.patch \
+  gnuplot-2-qt6.patch \
+  gnuplot-3-qt6-native.patch \
   gnuplot.mk \
   gnutls-1-fixes.patch \
   gnutls-test.c \
@@ -316,7 +313,6 @@ SRC_FILES_1 := \
   libvpx.mk \
   libwebp.mk \
   libxml++.mk \
-  libxml2-1-fixes.patch \
   libxml2.mk \
   libxshmfence.mk \
   libxslt.mk \
@@ -338,7 +334,6 @@ SRC_FILES_1 := \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
   mingw-cairo-1-ssize-t-defined.patch \
-  mingw-cfitsio-1-fixes.patch \
   mingw-epstool-1-fixes.patch \
   mingw-glpk-1-fixes.patch \
   mingw-graphicsmagick-1-dcraw.patch \
@@ -353,9 +348,7 @@ SRC_FILES_1 := \
   mingw-texinfo-1-fixes.patch \
   mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
   mingw-utils-1-portability-fix.patch \
-  mingw-w64-complex-inverse-trig.patch \
   mingw-w64.mk \
-  mingw-zeromq-1-fixes.patch \
   mingwrt.mk \
   mman-win32-1-include_name_change.patch \
   mman-win32.mk \
@@ -452,7 +445,6 @@ SRC_FILES_1 := \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \
-  netcdf-1-fixes.patch \
   netcdf.mk \
   nettle-1-fixes.patch \
   nettle.mk \
@@ -566,7 +558,6 @@ SRC_FILES_1 := \
   opencore-amr.mk \
   opencsg-1-fixes.patch \
   opencsg.mk \
-  opencv-1-fixes.patch \
   opencv.mk \
   openexr.mk \
   opengl_switch.mk \
@@ -647,19 +638,36 @@ SRC_FILES_1 := \
   qt.mk \
   qt5.mk \
   qtbase-1-fixes.patch \
+  qtbase-2-fixes.patch \
   qtbase.mk \
   qtimageformats.mk \
   qtsvg.mk \
   qttranslations.mk \
   qttools-1.patch \
   qttools.mk \
+  qt6.mk \
+  qt6-qt5compat.mk \
+  qt6-qtbase-1-fixes.patch \
+  qt6-qtbase.mk \
+  qt6-qtimageformats.mk \
+  qt6-qtsvg.mk \
+  qt6-qttranslations.mk \
+  qt6-qttools-1-libclang.patch \
+  qt6-qttools.mk \
   qwt-1-fixes.patch \
   qwt.mk \
   qwtplot3d-1-fixes.patch \
   qwtplot3d.mk \
+  randrproto.mk \
   rapidjson-1-prettywriter.patch \
   rapidjson.mk \
-  readline-0-001-upstream.patch \
+  readline-0-001-fix-crash-when-readline-is-star.patch \
+  readline-0-002-avoid-possible-crash-when-tryin.patch \
+  readline-0-003-fix-typo-when-specifying-readli.patch \
+  readline-0-004-fix-compilation-on-systems-that.patch \
+  readline-0-005-fix-for-callback-signal-handlin.patch \
+  readline-0-006-fix-for-callback-signal-handlin.patch \
+  readline-0-007-display-newline-if-readline-is-.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \
@@ -729,8 +737,6 @@ SRC_FILES_1 := \
   src-msys-zlib.mk \
   stable-octave-1-gnulib.patch \
   stable-octave.mk \
-  suitesparse-1-fixes.patch \
-  suitesparse-2-metis.patch \
   suitesparse.mk \
   sundials-ida.mk \
   t4k_common.mk \
@@ -815,6 +821,7 @@ SRC_FILES_1 := \
   xkbcommon.mk \
   xmlwrapp.mk \
   xproto.mk \
+  xrandr.mk \
   xrender.mk \
   xt.mk \
   xtrans.mk \
@@ -823,10 +830,10 @@ SRC_FILES_1 := \
   xz.mk \
   yasm.mk \
   zenity.mk \
-  zeromq-1.patch \
   zeromq.mk \
   zlib-1-win32-static.patch \
   zlib.mk \
+  zstd.mk \
   zziplib-1-fix-fnmatch.patch \
   zziplib.mk
 
@@ -980,6 +987,7 @@ SRC_MSYS2_FILES_1 := \
   msys2-libtasn1.mk \
   msys2-libunistring.mk \
   msys2-libutil-linux.mk \
+  msys2-libxcrypt.mk \
   msys2-libxml2.mk \
   msys2-libxslt.mk \
   msys2-make.mk \
@@ -1053,6 +1061,7 @@ SRC_MSYS2_SRC_FILES_1 := \
   src-msys2-libtasn1.mk \
   src-msys2-libunistring.mk \
   src-msys2-libutil-linux.mk \
+  src-msys2-libxcrypt.mk \
   src-msys2-libxml2.mk \
   src-msys2-libxslt.mk \
   src-msys2-make.mk \
@@ -1127,7 +1136,7 @@ INSTALL_FILES_1 := \
   octave-firsttime.vbs \
   octave-hdr.bmp \
   octave-launch.c \
-  octave-launch.rc \
+  octave-launch.rc.in \
   octave-logo.ico \
   octave-no-short-path.patch \
   post-install.bat \

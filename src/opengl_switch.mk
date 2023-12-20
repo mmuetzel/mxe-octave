@@ -10,10 +10,14 @@ $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/lostbard/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
 
 
-ifeq ($(ENABLE_QT5),yes)
-      $(PKG)_DEPS     := qt5
-else
+ifeq ($(ENABLE_QT),4)
       $(PKG)_DEPS     := qt
+endif
+ifeq ($(ENABLE_QT),5)
+      $(PKG)_DEPS     := qt5
+endif
+ifeq ($(ENABLE_QT),6)
+      $(PKG)_DEPS     := qt6
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -26,12 +30,19 @@ define $(PKG)_UPDATE
     $(call GITHUB_PKG_UPDATE,lostbard,opengl_switch,v)
 endef
 
+$(PKG)_QMAKE_FLAGS := 
 ifneq ($(MXE_NATIVE_BUILD),yes)
   ifeq ($(MXE_SYSTEM),mingw)
-    ifeq ($(ENABLE_QT5),yes)
-       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
-    else
+    ifeq ($(ENABLE_QT),4)
        $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/mkspecs/win32-g++'
+    endif
+    ifeq ($(ENABLE_QT),5)
+       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
+       $(PKG)_QMAKE_FLAGS += QMAKE_CXXFLAGS='-std=c++11'
+    endif
+    ifeq ($(ENABLE_QT),6)
+       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/qt6/mkspecs/win32-g++'
+       $(PKG)_QMAKE_FLAGS += QMAKE_CXXFLAGS='-std=c++17'
     endif
   endif
   ifeq ($(MXE_SYSTEM),msvc)
@@ -44,16 +55,16 @@ define $(PKG)_BUILD
     cd '$(1)' && \
       '$(MXE_QMAKE)' -makefile \
         $($(PKG)_QMAKE_SPEC_OPTION) \
+	$($(PKG)_QMAKE_FLAGS) \
         QMAKE_UIC='$(MXE_UIC)' \
         QMAKE_MOC='$(MXE_MOC)' \
-        QMAKE_LFLAGS=$(MXE_LDFLAGS) \
-        QMAKE_CXXFLAGS='-std=c++11'
+        QMAKE_LFLAGS=$(MXE_LDFLAGS)
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'
     $(MAKE) -C '$(1)' -j 1 install INSTALL_ROOT='$($(PKG)_INSTALL_ROOT)'
 
     if [ $(MXE_WINDOWS_BUILD) = yes ]; then \
       $(INSTALL) -d '$(HOST_BINDIR)'; \
-      mv '$(HOST_PREFIX)/qt5/bin/opengl_switch.exe' '$(HOST_BINDIR)/opengl_switch.exe'; \
+      mv '$(HOST_PREFIX)/qt$(ENABLE_QT)/bin/opengl_switch.exe' '$(HOST_BINDIR)/opengl_switch.exe'; \
     fi
 endef

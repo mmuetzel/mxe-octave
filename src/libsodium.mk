@@ -3,8 +3,8 @@
 
 PKG             := libsodium
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.18
-$(PKG)_CHECKSUM := cd8a76b79aeb077e8d3eea478ea6241972593dfd
+$(PKG)_VERSION  := 1.0.19
+$(PKG)_CHECKSUM := d7b35afe5ae7995e3ef22605093cfadd5ce41afa
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/jedisct1/$(PKG)/archive/$($(PKG)_VERSION).tar.gz

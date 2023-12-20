@@ -21,10 +21,14 @@ if %MSYSTEM%==MSYS (
 ))
 
 Rem QT subdir path
-IF EXIST "%OCTAVE_HOME%\qt5" (
-  set QT_SUBDIR=qt5/
+IF EXIST "%OCTAVE_HOME%\qt6" (
+  set QT_SUBDIR=qt6/
 ) ELSE (
-  set QT_SUBDIR=
+  IF EXIST "%OCTAVE_HOME%\qt5" (
+    set QT_SUBDIR=qt5/
+  ) ELSE (
+    set QT_SUBDIR=
+  )
 )
 
 Rem Create qt.conf

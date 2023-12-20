@@ -3,8 +3,8 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.6.2
-$(PKG)_CHECKSUM := 6ab39f56f8214b5ee943756e82dc23377cb7a713
+$(PKG)_VERSION  := 3.8.1
+$(PKG)_CHECKSUM := d8f04868bf9d76ee23f13e7184c54d63c5d56f2c
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
@@ -15,7 +15,8 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && cmake \
+    mkdir '$(1).build'
+    cd '$(1).build' && cmake \
         $($(PKG)_CMAKE_FLAGS) \
         -DBUILD_TESTING=no \
         $(CMAKE_CCACHE_FLAGS) \
@@ -24,7 +25,6 @@ define $(PKG)_BUILD
         -DBUILD_APPS=OFF \
         -DGDAL_USE_ARMADILLO=OFF \
         -DGDAL_USE_ARROW=OFF \
-        -DGDAL_USE_GDAL_BASISU=OFF \
         -DGDAL_USE_BLOSC=OFF \
         -DGDAL_USE_BRUNSLI=OFF \
         -DGDAL_USE_CFITSIO=OFF \
@@ -78,7 +78,6 @@ define $(PKG)_BUILD
         -DGDAL_USE_PNG=ON \
         -DGDAL_USE_POPPLER=OFF \
         -DGDAL_USE_POSTGRESQL=ON \
-        -DGDAL_USE_QB3=OFF \
         -DGDAL_USE_QHULL=ON \
         -DGDAL_USE_RASTERLITE2=OFF \
         -DGDAL_USE_RDB=OFF \
@@ -95,8 +94,8 @@ define $(PKG)_BUILD
         -DBUILD_PYTHON_BINDINGS=OFF \
         -DBUILD_JAVA_BINDINGS=OFF \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-        .
+        $(1)
 
-    $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
-    $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
+    $(MAKE) -C '$(1).build' -j '$(JOBS)' VERBOSE=1
+    $(MAKE) -C '$(1).build' -j '1' VERBOSE=1 DESTDIR='$(3)' install
 endef

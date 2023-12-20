@@ -3,8 +3,8 @@
 
 PKG             := mpc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.1
-$(PKG)_CHECKSUM := 2a4919abf445c6eda4e120cd669b8733ce337227
+$(PKG)_VERSION  := 1.3.1
+$(PKG)_CHECKSUM := bac1c1fa79f5602df1e29e4684e103ad55714e02
 $(PKG)_SUBDIR   := mpc-$($(PKG)_VERSION)
 $(PKG)_FILE     := mpc-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/mpc/$($(PKG)_FILE)

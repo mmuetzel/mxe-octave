@@ -11,9 +11,7 @@ $(PKG)_URL      := https://github.com/Exiv2/exiv2/releases/download/v$($(PKG)_VE
 $(PKG)_DEPS     := gettext libiconv zlib expat
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://www.exiv2.org/download.html' | \
-    $(SED) -n 's,.*exiv2-\([0-9][^>]*\)-Source\.tar.*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,Exiv2,exiv2,v)
 endef
 
 define $(PKG)_BUILD

@@ -3,8 +3,8 @@
 
 PKG             := qtbase
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.15.8
-$(PKG)_CHECKSUM := da6b4c7b39baf3b2659ec46ef9a6ea81485fa62f
+$(PKG)_VERSION  := 5.15.11
+$(PKG)_CHECKSUM := 16ad151614f7e629149a35b199c14d436c1c5fbd
 $(PKG)_SUBDIR   := $(PKG)-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-everywhere-opensource-src-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
@@ -43,10 +43,10 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- http://download.qt-project.org/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/ | \
+    $(WGET) -q -O- http://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/ | \
     $(SED) -n 's,.*href="\(5\.[0-9]\+\.[^/]*\)/".*,\1,p' | \
     grep -iv -- '-rc' | \
-    sort |
+    sort -V |
     tail -1
 endef
 

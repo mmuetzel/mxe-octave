@@ -3,8 +3,8 @@
 
 PKG             := libxml2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.10.3
-$(PKG)_CHECKSUM := 18aa1ab0caf4ca8b092613acac992a33fa432311
+$(PKG)_VERSION  := 2.12.3
+$(PKG)_CHECKSUM := f5504a191b51def119046f8a2b70ae7fa2fe1b98
 $(PKG)_SUBDIR   := libxml2-v$($(PKG)_VERSION)
 $(PKG)_FILE     := libxml2-v$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://gitlab.gnome.org/GNOME/$(PKG)/-/archive/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -12,6 +12,10 @@ $(PKG)_DEPS     := zlib libiconv xz
 
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS := xz
+endif
+
+ifneq ($(MXE_SYSTEM),linux)
+    $(PKG)_CONFIGURE_OPTIONS := ac_cv_search_iconv=-liconv
 endif
 
 define $(PKG)_UPDATE
@@ -26,6 +30,7 @@ define $(PKG)_BUILD
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
+	$($(PKG)_CONFIGURE_OPTIONS) \
         --without-debug \
         --prefix='$(HOST_PREFIX)' \
         --with-zlib='$(HOST_PREFIX)' \

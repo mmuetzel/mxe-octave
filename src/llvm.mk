@@ -3,18 +3,15 @@
 
 PKG             := llvm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 15.0.6
-$(PKG)_CHECKSUM := 60e9a385dde9a10e6ef7009ce342a119d3432eef
+$(PKG)_VERSION  := 15.0.7
+$(PKG)_CHECKSUM := 497ca3b2010cc0e3e38bc9dc6dda19041dbd7066
 $(PKG)_SUBDIR   := llvm-$($(PKG)_VERSION).src
 $(PKG)_FILE     := llvm-$($(PKG)_VERSION).src.tar.xz
 $(PKG)_URL      := https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-cmake build-ninja build-python
 
 define $(PKG)_UPDATE
-    wget -q -O- 'http://releases.llvm.org/download.html?' | \
-    grep 'Download LLVM' | \
-    $(SED) -n 's,.*LLVM \([0-9][^<]*\).*,\1,p' | \
-    head -1
+    $(call GITHUB_PKG_UPDATE,llvm,llvm-project,llvmorg-)
 endef
 
 ifeq ($(MXE_NATIVE_BUILD),yes)

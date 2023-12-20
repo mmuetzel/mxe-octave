@@ -4,9 +4,9 @@
 PKG             := msys2-ncurses
 $(PKG)_NAME     := ncurses
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.3-3
-$(PKG)_x86_64_CS := 8cf7c2a24d38edfd707e58c58a030be9705cbe1b
-$(PKG)_i686_CS  := 47e329b3c52879e0ace48a5c2d16535dd639f59f
+$(PKG)_VERSION  := 6.4-2
+$(PKG)_x86_64_CS := 33e089e41760255f4cba49ea3d209d378c25dca9
+$(PKG)_i686_CS  := dd244a842c1d0c75e91a8023cfb0d1ebfed72bae
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

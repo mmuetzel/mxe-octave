@@ -4,9 +4,9 @@
 PKG             := msys2-bash
 $(PKG)_NAME     := bash
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.2.009-1
-$(PKG)_x86_64_CS := 4d973772dcc7729d833dd94c200ddf1dbd932431
-$(PKG)_i686_CS  := 7f55519517cc3dc0a515f835295e491bf8cc1ba2
+$(PKG)_VERSION  := 5.2.021-1
+$(PKG)_x86_64_CS := eaf69c7b9841cbc51f860ddaa4af91413c119a96
+$(PKG)_i686_CS  := a9171236425aa50d02acb932b9b87bbd5a0f6e4c
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

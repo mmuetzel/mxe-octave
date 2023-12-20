@@ -18,9 +18,15 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
     $(PKG)_EXTRAFLAGS += WXT=1 WX_CONFIG=$(MXE_TOOL_PREFIX)wx-config
 endif
 
-ifeq ($(ENABLE_QT5),yes)
+ifeq ($(ENABLE_QT),5)
   $(PKG)_DEPS     += qt5
   $(PKG)_EXTRAFLAGS += QT=1 QT_DIR="$(HOST_PREFIX)/qt5" QT_BIN_DIR="$(BUILD_TOOLS_PREFIX)/bin"
+  $(PKG)_STDVER := -std=gnu++11
+endif
+ifeq ($(ENABLE_QT),6)
+  $(PKG)_DEPS     += qt6
+  $(PKG)_EXTRAFLAGS += QT=1 QT_VERSION=6 QT_DIR="$(HOST_PREFIX)/qt6" QT_EXTRA_CXXFLAGS="-I$(HOST_PREFIX)/qt6/include/QtCore5Compat" QT_BIN_DIR="$(BUILD_TOOLS_PREFIX)/bin" QT_EXTRA_LIBS=-lQt6Core5Compat UIC=$(MXE_UIC) MOC=$(MXE_MOC) QMAKE=$(MXE_QMAKE) RCC=$(MXE_RCC)
+  $(PKG)_STDVER := -std=gnu++17
 endif
 
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
@@ -35,16 +41,16 @@ endef
 
 ifeq ($(MXE_SYSTEM),mingw)
 define $(PKG)_BUILD
-    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) -std=gnu++11' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot.exe gnuplot.exe
-    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) -std=gnu++11' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=wgnuplot.exe wgnuplot.exe
+    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot.exe gnuplot.exe
+    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=wgnuplot.exe wgnuplot.exe
 
     $(INSTALL) -d '$(3)$(HOST_BINDIR)'
     $(INSTALL) -m755 '$(1)/config/mingw/gnuplot.exe' '$(3)$(HOST_BINDIR)'
     $(INSTALL) -m755 '$(1)/config/mingw/wgnuplot.exe' '$(3)$(HOST_BINDIR)'
     $(INSTALL) -m644 '$(1)/src/win/wgnuplot.mnu' '$(3)$(HOST_BINDIR)'
 
-    if [ "$(ENABLE_QT5)" == "yes" ]; then \
-      make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) -std=gnu++11' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
+    if [ "$(ENABLE_QT)" != "4" ]; then \
+      make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
       $(INSTALL) -m755 '$(1)/config/mingw/gnuplot_qt.exe' '$(3)$(HOST_BINDIR)'; \
     fi
 
@@ -96,11 +102,33 @@ define $(PKG)_BUILD
         env -u MAKE -u MAKEFLAGS nmake DESTDIR=$(shell (cd '$(HOST_PREFIX)' && pwd -W) | sed -e 's#/#\\\\#g') && \
         env -u MAKE -u MAKEFLAGS nmake DESTDIR=$(shell (cd '$(3)$(HOST_PREFIX)' && pwd -W) | sed -e 's#/#\\\\#g') install
 endef
+
 else
+
+## If we allow the system Qt libraries to be used, then these
+## won't make sense.
+$(PKG)_QT_CONFIGURE_OPTIONS := \
+  MOC=$(MXE_MOC) \
+  UIC=$(MXE_UIC) \
+  RCC=$(MXE_RCC) \
+  LRELEASE=$(MXE_LRELEASE)
+
+ifeq ($(ENABLE_QT),5)
+  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt5
+endif
+ifeq ($(ENABLE_QT),6)
+  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+  $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt6
+endif
+
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
+    cd '$(1)' && autoreconf -fi && PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
+    ./configure \
       $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv \
-      --without-lua --prefix='$(HOST_PREFIX)'
+      --without-lua \
+      $($(PKG)_QT_CONFIGURE_OPTIONS) \
+      --prefix='$(HOST_PREFIX)'
     make -C '$(1)' -j '$(JOBS)' install DESTDIR='$(3)'
 endef
 endif
