@@ -4,10 +4,10 @@
 PKG             := src-msys2-libnpth
 $(PKG)_NAME     := npth
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.6-1
-$(PKG)_CHECKSUM := a6659dd67153f7cbf8fa726b852c655b764d6540
+$(PKG)_VERSION  := 1.6-2
+$(PKG)_CHECKSUM := 4759871d40ad35fe89889fd4ce7a771e52d91ac2
 $(PKG)_SUBDIR   := 
-$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.gz
+$(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
 
 $(PKG)_DEPS     := 
