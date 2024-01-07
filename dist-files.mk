@@ -571,6 +571,7 @@ SRC_FILES_1 := \
   opkg-biosig.mk \
   opkg-cfitsio.mk \
   opkg-mqtt.mk \
+  opkg-tablicious.mk \
   opus.mk \
   opusfile.mk \
   paho-mqtt-c-1-fixes.patch \
