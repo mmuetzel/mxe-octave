@@ -3,15 +3,15 @@
 
 PKG             := libgsasl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.2.0
-$(PKG)_CHECKSUM := 903b70ecb4eef304521add85310c2df0a7675bd1
+$(PKG)_VERSION  := 2.2.1
+$(PKG)_CHECKSUM := c238b3af05af3804808cbf734f049a06840d787c
 $(PKG)_SUBDIR   := gsasl-$($(PKG)_VERSION)
 $(PKG)_FILE     := gsasl-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://ftp.gnu.org/gnu/gsasl/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/gnu/gsasl/$($(PKG)_FILE)
 $(PKG)_DEPS     := libiconv libidn libntlm libgcrypt nettle
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://git.savannah.gnu.org/gitweb/?p=gsasl.git;a=tags' | \
+    $(WGET) -q -O- 'https://git.savannah.gnu.org/gitweb/?p=gsasl.git;a=tags' | \
     $(SED) -n 's,.*<a[^>]*>v\([0-9]*\.[0-9]*[02468]\.[^<]*\)<.*,\1,p' | \
     head -1
 endef
