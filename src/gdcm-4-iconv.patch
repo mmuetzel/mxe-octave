@@ -1,64 +1,33 @@
-diff -ur gdcm-3.0.17.orig/Utilities/gdcmext/mec_mr3_io.c gdcm-3.0.17/Utilities/gdcmext/mec_mr3_io.c
---- gdcm-3.0.17.orig/Utilities/gdcmext/mec_mr3_io.c	2022-09-05 10:44:18.058943134 -0400
-+++ gdcm-3.0.17/Utilities/gdcmext/mec_mr3_io.c	2022-09-05 11:28:44.339613356 -0400
-@@ -23,7 +23,7 @@
- #include <stdlib.h>
- #include <string.h>
- 
--#ifndef _MSC_VER
-+#if !defined(_MSC_VER) && !defined(__MINGW32__) 
- #include <iconv.h>
- #endif
- #if defined(_MSC_VER) && (_MSC_VER < 1900)
-@@ -54,7 +54,7 @@
- 
- struct app {
-   struct stream *in;
--#ifndef _MSC_VER
-+#if !defined(_MSC_VER) && !defined(__MINGW32__) 
-   iconv_t conv;
- #endif
-   void *shift_jis_buffer;
-@@ -62,7 +62,7 @@
- 
- static struct app *create_app(struct app *self, struct stream *in) {
-   self->in = in;
--#ifndef _MSC_VER
-+#if !defined(_MSC_VER) && !defined(__MINGW32__) 
-   self->conv = iconv_open("utf-8", "shift-jis");
-   assert(self->conv != (iconv_t)-1);
- #endif
-@@ -132,7 +132,7 @@
+diff -ur gdcm-3.0.23.orig/Source/MediaStorageAndFileFormat/CMakeLists.txt gdcm-3.0.23/Source/MediaStorageAndFileFormat/CMakeLists.txt
+--- gdcm-3.0.23.orig/Source/MediaStorageAndFileFormat/CMakeLists.txt	2024-01-11 07:41:56.800302334 -0500
++++ gdcm-3.0.23/Source/MediaStorageAndFileFormat/CMakeLists.txt	2024-01-11 07:49:28.533961424 -0500
+@@ -228,7 +228,7 @@
+ if(GDCM_USE_SYSTEM_JSON)
+   target_link_libraries(gdcmMSFF LINK_PRIVATE ${JSON_LIBRARIES})
+ endif()
+-if(UNIX)
++if(UNIX OR MINGW)
+   find_package(Iconv)
+   target_link_libraries(gdcmMSFF LINK_PRIVATE ${Iconv_LIBRARIES})
+ endif()
+diff -ur gdcm-3.0.23.orig/Utilities/gdcmext/mec_mr3_io.c gdcm-3.0.23/Utilities/gdcmext/mec_mr3_io.c
+--- gdcm-3.0.23.orig/Utilities/gdcmext/mec_mr3_io.c	2024-01-11 07:52:37.007305489 -0500
++++ gdcm-3.0.23/Utilities/gdcmext/mec_mr3_io.c	2024-01-11 07:54:30.411529519 -0500
+@@ -138,7 +138,7 @@
  }
  
  static void *aligned_alloc_impl(size_t alignment, size_t size) {
 -#ifdef _MSC_VER
-+#if defined(_MSC_VER) || defined(__MINGW32__) 
++#ifdef _WIN32
    return _aligned_malloc(size, alignment);
  #else
-   return aligned_alloc(alignment, size);
-@@ -352,7 +352,7 @@
-   const size_t guesstimate = len < 128 ? 128 : len * 2;
-   self->shift_jis_buffer = realloc(self->shift_jis_buffer, guesstimate);
-   char *dest_str = self->shift_jis_buffer;
--#ifndef _MSC_VER
-+#if !defined(_MSC_VER) && !defined(__MINGW32__) 
-   char *in_str = str;
-   char *out_str = dest_str;
-   size_t inbytes = len;
-@@ -831,12 +831,12 @@
+   // return aligned_alloc(alignment, size);
+@@ -843,7 +843,7 @@
      good = good && read_group(self, group, nitems, &info, &data);
    }
    // release memory:
 -#ifdef _MSC_VER
-+#if defined(_MSC_VER) || defined(__MINGW32__) 
++#ifdef _WIN32
    _aligned_free(data.buffer);
  #else
    free(data.buffer);
- #endif
--#ifndef _MSC_VER
-+#if !defined(_MSC_VER) && !defined(__MINGW32__) 
-   iconv_close(self->conv);
- #endif
-   free(self->shift_jis_buffer);
-Only in gdcm-3.0.17.orig/Utilities/gdcmext: .mec_mr3_io.c.swp
