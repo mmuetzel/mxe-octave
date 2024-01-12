@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := suitesparse
-$(PKG)_VERSION  := 7.4.0
-$(PKG)_CHECKSUM := c2709fc33b843d4830e6cedc4d4821d49ac99bc0
+$(PKG)_VERSION  := 7.5.0
+$(PKG)_CHECKSUM := a0af342c0b0b2ab696a326d01f0196744f909ea3
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
