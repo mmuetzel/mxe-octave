@@ -2,20 +2,14 @@
 # See index.html for further information.
 
 PKG             := suitesparse
-$(PKG)_VERSION  := 7.5.0
-$(PKG)_CHECKSUM := a0af342c0b0b2ab696a326d01f0196744f909ea3
+$(PKG)_VERSION  := 7.5.1
+$(PKG)_CHECKSUM := 1a2a234213fe3b9e3d494389889009227c85915f
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := blas lapack mpfr
 ifeq ($(USE_SYSTEM_GCC),no)
   $(PKG)_DEPS += libgomp
-endif
-
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-  $(PKG)_DESTDIR :=
-else
-  $(PKG)_DESTDIR := $(3)
 endif
 
 define $(PKG)_UPDATE
@@ -39,15 +33,17 @@ define $(PKG)_BUILD
         $($(PKG)_CMAKE_FLAGS) \
         $(CMAKE_CCACHE_FLAGS) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-        -DSUITESPARSE_CROSS_TOOLCHAIN_FLAGS_NATIVE="-DCMAKE_TOOLCHAIN_FILE=$(CMAKE_NATIVE_TOOLCHAIN_FILE)" \
+        -DGRAPHBLAS_CROSS_TOOLCHAIN_FLAGS_NATIVE="-DCMAKE_TOOLCHAIN_FILE=$(CMAKE_NATIVE_TOOLCHAIN_FILE)" \
         -DGRAPHBLAS_COMPACT=ON \
         -DSUITESPARSE_USE_OPENMP=OFF \
         -DBLA_VENDOR="Generic" -DBLAS_LIBRARIES="-lblas -lgfortran" -DLAPACK_LIBRARIES="-llapack" \
         -DSUITESPARSE_USE_CUDA=OFF \
+        -DSUITESPARSE_DEMOS=OFF \
+        -DBUILD_TESTING=OFF \
         $(CMAKE_CCACHE_FLAGS) $(CMAKE_BUILD_SHARED_OR_STATIC) \
         $(1)
 
-    cmake --build '$(1)/build'
+    cmake --build '$(1)/build' -j $(JOBS)
     DESTDIR='$(3)' cmake --install '$(1)/build'
 endef
 
