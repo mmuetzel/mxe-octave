@@ -1,8 +1,8 @@
 From 83de95eaba5debdf544d0ef43cf88de3bc5cd7dd Mon Sep 17 00:00:00 2001
 From: Chet Ramey <chet.ramey@case.edu>
 Date: Fri, 17 Nov 2023 16:00:59 -0500
-Subject: [PATCH 2/7] Readline-8.2 patch 2: avoid possible crash when trying to
- zero out a line buffer that's potentially not null-terminated
+Subject: [PATCH 02/10] Readline-8.2 patch 2: avoid possible crash when trying
+ to zero out a line buffer that's potentially not null-terminated
 
 ---
  display.c  | 7 ++-----
