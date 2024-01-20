@@ -3,8 +3,8 @@
 
 PKG             := libvpx
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.13.1
-$(PKG)_CHECKSUM := abde9c00ecb478e5740837f96fe8b71e2e029b03
+$(PKG)_VERSION  := 1.14.0
+$(PKG)_CHECKSUM := f767052bff9043e61d094598cf9a18f38dde8a3e
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/webmproject/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
@@ -34,7 +34,7 @@ define $(PKG)_BUILD
         --prefix='$(HOST_PREFIX)' \
         $($(PKG)_TARGET_OPTS) \
         --as=yasm \
-        --extra-cflags='-std=gnu89' \
+        --extra-cflags='-std=gnu99' \
         --disable-examples \
         --disable-install-docs
     $(MAKE) -C '$(1)' -j '$(JOBS)'
