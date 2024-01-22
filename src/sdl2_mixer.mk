@@ -3,8 +3,8 @@
 
 PKG             := sdl2_mixer
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.6.3
-$(PKG)_CHECKSUM := a6913b7684a3ab17f640a33ce56552fc8b3a6d0e
+$(PKG)_VERSION  := 2.8.0
+$(PKG)_CHECKSUM := a58c69f9d00e44833b9e00e1adb58d85759ca499
 $(PKG)_SUBDIR   := SDL2_mixer-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_mixer-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/libsdl-org/SDL_mixer/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
