@@ -571,6 +571,7 @@ SRC_FILES_1 := \
   opkg-biosig.mk \
   opkg-cfitsio.mk \
   opkg-mqtt.mk \
+  opkg-tablicious.mk \
   opus.mk \
   opusfile.mk \
   paho-mqtt-c-1-fixes.patch \
@@ -668,6 +669,9 @@ SRC_FILES_1 := \
   readline-0-005-fix-for-callback-signal-handlin.patch \
   readline-0-006-fix-for-callback-signal-handlin.patch \
   readline-0-007-display-newline-if-readline-is-.patch \
+  readline-0-008-add-missing-function-prototypes.patch \
+  readline-0-009-fix-issue-where-directory-name-.patch \
+  readline-0-010-fix-issue-where-comparing-quot.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \

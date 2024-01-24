@@ -3,8 +3,8 @@
 
 PKG             := fontconfig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.14.2
-$(PKG)_CHECKSUM := 3631a6a6ccb870d88149538cf9e6ad3fa27e056b
+$(PKG)_VERSION  := 2.15.0
+$(PKG)_CHECKSUM := b6137ee5d542c0fe5c96a7724884f2e8e212d275
 $(PKG)_SUBDIR   := fontconfig-$($(PKG)_VERSION)
 $(PKG)_FILE     := fontconfig-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://fontconfig.org/release/$($(PKG)_FILE)

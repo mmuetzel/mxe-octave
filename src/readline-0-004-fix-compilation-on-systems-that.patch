@@ -1,7 +1,7 @@
 From c59116b15d95a94a9a2dd8ce5fe08850e004411a Mon Sep 17 00:00:00 2001
 From: Chet Ramey <chet.ramey@case.edu>
 Date: Fri, 17 Nov 2023 16:02:46 -0500
-Subject: [PATCH 4/7] Readline-8.2 patch 4: fix compilation on systems that
+Subject: [PATCH 04/10] Readline-8.2 patch 4: fix compilation on systems that
  provide select or pselect but not both
 
 ---

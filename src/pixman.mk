@@ -3,13 +3,26 @@
 
 PKG             := pixman
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.42.2
-$(PKG)_CHECKSUM := 7063429f9952fd8c4fcbc887c3210b35adb6a6c7
+$(PKG)_VERSION  := 0.43.0
+$(PKG)_CHECKSUM := 71b5396aaeb15450149e455b1de0382aa5e5504d
 $(PKG)_SUBDIR   := pixman-$($(PKG)_VERSION)
 $(PKG)_FILE     := pixman-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://cairographics.org/releases/$($(PKG)_FILE)
 $(PKG)_URL_2    := http://www.x.org/archive/individual/lib/$($(PKG)_FILE)
-$(PKG)_DEPS     := libpng
+$(PKG)_DEPS     := build-meson build-ninja libpng
+
+ifeq ($(MXE_NATIVE_BUILD),no)
+  $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(HOST_PREFIX)/share/meson/cross/mxe-conf.ini'
+else
+  $(PKG)_MESON_TOOLCHAIN_FILE := --native-file '$(HOST_PREFIX)/share/meson/native/mxe-conf.ini'
+endif
+
+ifeq ($(BUILD_SHARED),yes)
+  $(PKG)_MESON_CONFIG_FLAGS += -Ddefault_library=shared
+else
+  $(PKG)_MESON_CONFIG_FLAGS += -Ddefault_library=static
+endif
+
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://cairographics.org/releases/?C=M;O=D' | \
@@ -18,11 +31,13 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        --prefix='$(HOST_PREFIX)' \
-        && $(CONFIGURE_POST_HOOK)
-    $(MAKE) -C '$(1)' -j '$(JOBS)' bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
-    $(MAKE) -C '$(1)' -j 1 install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
+  cd '$(1)' && \
+      meson $(1)/.build \
+      $($(PKG)_MESON_TOOLCHAIN_FILE) \
+      $($(PKG)_MESON_CONFIG_FLAGS) \
+      -Dprefix='$(HOST_PREFIX)' 
+
+  cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS)
+  cd '$(1)/.build' && DESTDIR=$(3) ninja -j 1 install
+
 endef

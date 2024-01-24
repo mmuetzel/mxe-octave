@@ -10,8 +10,8 @@ diff -ur glpk-4.65.orig/configure.ac glpk-4.65/configure.ac
 +AC_CHECK_LIB([amd], [amd_1])
 +AC_CHECK_LIB([colamd], [colamd])
 +
-+#CPPFLAGS="$CPPFLAGS -I/usr/include/suitesparse"
-+AC_CHECK_HEADER([suitesparse/amd.h])
++CPPFLAGS="$CPPFLAGS $(pkg-config --cflags AMD)"
++AC_CHECK_HEADER([amd.h])
 +
  AC_CONFIG_FILES(
     [src/Makefile examples/Makefile Makefile])

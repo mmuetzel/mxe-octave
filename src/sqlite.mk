@@ -3,11 +3,11 @@
 
 PKG             := sqlite
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3440200
-$(PKG)_CHECKSUM := 8398dd159f3a1fd8f1c5edf02c687512eaab69e4
+$(PKG)_VERSION  := 3450000
+$(PKG)_CHECKSUM := 09e27a5b1cfed4ca9b64de5fceedc5d8d6eb9932
 $(PKG)_SUBDIR   := $(PKG)-autoconf-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-autoconf-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://www.sqlite.org/2023/$($(PKG)_FILE)
+$(PKG)_URL      := http://www.sqlite.org/2024/$($(PKG)_FILE)
 $(PKG)_DEPS     := readline zlib
 
 ifeq ($(MXE_SYSTEM),mingw)

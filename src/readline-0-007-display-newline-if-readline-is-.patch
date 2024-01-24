@@ -1,7 +1,7 @@
 From bfe9c573a9e376323929c80b2b71c59727fab0cc Mon Sep 17 00:00:00 2001
 From: Chet Ramey <chet.ramey@case.edu>
 Date: Fri, 17 Nov 2023 16:06:49 -0500
-Subject: [PATCH 7/7] Readline-8.2 patch 7: display newline if readline is
+Subject: [PATCH 07/10] Readline-8.2 patch 7: display newline if readline is
  called without a prompt string and return is typed on a single empty line
 
 ---
