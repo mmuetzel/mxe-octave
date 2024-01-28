@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := suitesparse
-$(PKG)_VERSION  := 7.5.1
-$(PKG)_CHECKSUM := 1a2a234213fe3b9e3d494389889009227c85915f
+$(PKG)_VERSION  := 7.6.0
+$(PKG)_CHECKSUM := 765bafd9645826a7502e69d666481840604c0073
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
@@ -16,20 +16,12 @@ define $(PKG)_UPDATE
     $(call GITHUB_PKG_UPDATE,DrTimothyAldenDavis,SuiteSparse,v)
 endef
 
-
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
   $(PKG)_CMAKE_FLAGS += -DSUITESPARSE_USE_64BIT_BLAS=ON
 endif
 
-$(PKG)_MAKE_OPTS = \
-    FFLAGS='$(MXE_FFLAGS)' \
-    CFLAGS='$(MXE_CFLAGS)' \
-    CXXFLAGS='$(MXE_CXXFLAGS)' \
-    AR='$(MXE_AR)' \
-    RANLIB='$(MXE_RANLIB)'
-
 define $(PKG)_BUILD
-    cd '$(1)/build' && $($(PKG)_MAKE_OPTS) cmake \
+    cd '$(1)/build' && cmake \
         $($(PKG)_CMAKE_FLAGS) \
         $(CMAKE_CCACHE_FLAGS) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
