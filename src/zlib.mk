@@ -4,10 +4,10 @@
 PKG             := zlib
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 1.3
-$(PKG)_CHECKSUM := 3631636d7166a7f1a3209a3feca45404e6c5f54b
+$(PKG)_CHECKSUM := 04d053e4d4064a0fb8f0cbd127f0bfb5fe4eb554
 $(PKG)_SUBDIR   := zlib-$($(PKG)_VERSION)
-$(PKG)_FILE     := zlib-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := http://zlib.net/$($(PKG)_FILE)
+$(PKG)_FILE     := zlib-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://zlib.net/fossils/$($(PKG)_FILE)
 $(PKG)_URL_2    := http://$(SOURCEFORGE_MIRROR)/project/libpng/$(PKG)/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
