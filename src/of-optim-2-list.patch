@@ -1,0 +1,20 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1707334233 -3600
+#      Wed Feb 07 20:30:33 2024 +0100
+# Node ID 2254b71b9c11bba122eec621354b017a1d619f65
+# Parent  d5e565611871e3554bf5a3b808b12dac739fe1e2
+Adapt for changes in Octave 10
+
+diff -r d5e565611871 -r 2254b71b9c11 src/__max_nargin_optim__.cc
+--- a/src/__max_nargin_optim__.cc	Sun Jul 09 14:11:23 2023 +0200
++++ b/src/__max_nargin_optim__.cc	Wed Feb 07 20:30:33 2024 +0100
+@@ -71,7 +71,7 @@
+   else {
+ 
+     retval = octave_value
+-      (fcn.user_function_value ()->parameter_list ()->length ());
++      (fcn.user_function_value ()->parameter_list ()->size ());
+   }
+ 
+   return retval;
