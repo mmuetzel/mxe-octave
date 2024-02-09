@@ -4,9 +4,9 @@
 PKG             := msys2-mpdecimal
 $(PKG)_NAME     := mpdecimal
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.5.1-2
-$(PKG)_x86_64_CS := 993b22e2ee9272078a063cae2007a2a75109fe51
-$(PKG)_i686_CS  := 937d26a6c476cfd384b29a0067c8dd672ea3c4f8
+$(PKG)_VERSION  := 4.0.0-1
+$(PKG)_x86_64_CS := 4d1834ba15549fae7ac7c0dd741f8040888c65bf
+$(PKG)_i686_CS  := fd715f5bc7b8b76243ca336b135a26b5e60aa98b
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

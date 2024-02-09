@@ -4,9 +4,9 @@
 PKG             := msys2-icu
 $(PKG)_NAME     := icu
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 73.2-2
-$(PKG)_x86_64_CS := c42bb8d2f5c879d2834b7cd160f29f8054935e23
-$(PKG)_i686_CS  := 224ee1bd1a544370010ee1e0816ac24a51e2276d
+$(PKG)_VERSION  := 74.1-1
+$(PKG)_x86_64_CS := e58e91448188e0345f07e1b28e29e491d587f2ba
+$(PKG)_i686_CS  := 88f4c3aa22b8665b7abfdbc5bcc82e9c1a73afde
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 
