@@ -3,8 +3,8 @@
 
 PKG             := curl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.5.0
-$(PKG)_CHECKSUM := b0615c4accf198653e10162c475c01f3f1af9e9b
+$(PKG)_VERSION  := 8.6.0
+$(PKG)_CHECKSUM := 5ba703dee9e7dba74b5ba50674ce12b6b6a12bad
 $(PKG)_SUBDIR   := curl-$($(PKG)_VERSION)
 $(PKG)_FILE     := curl-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://curl.haxx.se/download/$($(PKG)_FILE)
@@ -32,6 +32,7 @@ define $(PKG)_BUILD
         --with-libidn2 \
         --enable-sspi \
         --enable-ipv6 \
+	--without-libpsl \
         --with-libssh2 && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' DESTDIR='$(3)' $(MXE_DISABLE_DOCS) install
 endef
