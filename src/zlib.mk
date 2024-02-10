@@ -3,8 +3,8 @@
 
 PKG             := zlib
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3
-$(PKG)_CHECKSUM := 04d053e4d4064a0fb8f0cbd127f0bfb5fe4eb554
+$(PKG)_VERSION  := 1.3.1
+$(PKG)_CHECKSUM := f535367b1a11e2f9ac3bec723fb007fbc0d189e5
 $(PKG)_SUBDIR   := zlib-$($(PKG)_VERSION)
 $(PKG)_FILE     := zlib-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://zlib.net/fossils/$($(PKG)_FILE)
