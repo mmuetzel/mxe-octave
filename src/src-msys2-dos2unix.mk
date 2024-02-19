@@ -4,8 +4,8 @@
 PKG             := src-msys2-dos2unix
 $(PKG)_NAME     := dos2unix
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.5.1-1
-$(PKG)_CHECKSUM := ee87d112ebbc5895ded18a20a96387bad3bcf6d3
+$(PKG)_VERSION  := 7.5.2-1
+$(PKG)_CHECKSUM := 02cfb45f14d668e3caa3c11941cc1d71565db5f9
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

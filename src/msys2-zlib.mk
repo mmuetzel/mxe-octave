@@ -4,9 +4,9 @@
 PKG             := msys2-zlib
 $(PKG)_NAME     := zlib
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3-1
-$(PKG)_x86_64_CS := 021390c3fb8c338358535e8a59d7cf5a60e9f291
-$(PKG)_i686_CS  := 130e436a31c1f4bb73c3056726d5679509e6a4a0
+$(PKG)_VERSION  := 1.3.1-1
+$(PKG)_x86_64_CS := ed833f1fde9bbbdc66c6513af788a6d9bd9b1820
+$(PKG)_i686_CS  := 00e452ff42b4bb410302067dbb76725c98a358ae
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

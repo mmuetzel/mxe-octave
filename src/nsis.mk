@@ -3,11 +3,11 @@
 
 PKG             := nsis
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7336-1
-$(PKG)_CHECKSUM := 1ab627713f2da6bc061601cce1427e3b5ae0f629
+$(PKG)_VERSION  := 7405-1
+$(PKG)_CHECKSUM := 676a8ec96642e36b5e091b28f08ace524f8202b3
 $(PKG)_SUBDIR   := nsis-code-$($(PKG)_VERSION)-NSIS-trunk
 $(PKG)_FILE     := nsis-code-$($(PKG)_VERSION)-NSIS-trunk.zip
-$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/nsisbi/nsisbi3.08.1/$($(PKG)_FILE)
+$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/nsisbi/nsisbi3.09.1/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-scons build-setuptools
 
 define $(PKG)_UPDATE
