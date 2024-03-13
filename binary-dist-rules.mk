@@ -115,7 +115,7 @@ installer-files/octave-launch-firsttime.exe: $(TOP_DIR)/installer-files/octave-l
 	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME -DQTVERSION=$(ENABLE_QT) $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
 
 installer-files/octave-logo.ico: $(TOP_DIR)/installer-files/octave-logo.ico | installer-files/.dirstamp
-	cp -a $< $@
+	cp $< $@
 
 installer-files/octave-launch.rc: $(TOP_DIR)/installer-files/octave-launch.rc.in | installer-files/octave-logo.ico installer-files/.dirstamp
 	$(SED) $< -e 's/@PRODUCT_VERSION@/$($(OCTAVE_TARGET)_VERSION)/' -e "s/@PRODUCT_VERSION_COMMA@/$(shell echo $($(OCTAVE_TARGET)_VERSION).0 | $(SED) 's|\.|,|g')/" > $@
