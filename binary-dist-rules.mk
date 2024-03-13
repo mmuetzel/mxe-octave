@@ -80,8 +80,13 @@ define copy-dist-files
   echo "  octave and dependencies..."
   cd $(HOST_PREFIX) \
     && tar -c $(TAR_H_OPTION) -f - . | ( cd $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH) ; tar xpf - )
-  echo "  octaverc file..."
-  cp $(TOP_DIR)/octaverc $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc
+  if [ -f "$(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc" ]; then \
+    echo "  octaverc file (appending to existing file)..."; \
+    cat $(TOP_DIR)/octaverc >> $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc; \
+  else \
+    echo "  octaverc file..."; \
+    cp $(TOP_DIR)/octaverc $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc; \
+  fi
   if [ $(ENABLE_BINARY_PACKAGES) = no ]; then \
     echo "  build_packages.m..."; \
     cp $(TOP_DIR)/build_packages.m $(OCTAVE_DIST_DIR)/src; \
