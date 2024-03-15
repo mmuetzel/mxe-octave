@@ -4,10 +4,10 @@
 PKG             := openscenegraph
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 3.2.0
-$(PKG)_CHECKSUM := c20891862b5876983d180fc4a3d3cfb2b4a3375c
+$(PKG)_CHECKSUM := 5435de08cd7f67691f6be7cfa0d36b80f04bcb34
 $(PKG)_SUBDIR   := OpenSceneGraph-$($(PKG)_VERSION)
 $(PKG)_FILE     := OpenSceneGraph-$($(PKG)_VERSION).zip
-$(PKG)_URL      := http://www.openscenegraph.org/downloads/developer_releases/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/openscenegraph/OpenSceneGraph/archive/refs/tags/$($(PKG)_FILE)
 $(PKG)_DEPS     := boost curl dcmtk ffmpeg freetype gdal giflib gta jasper jpeg libpng openal openexr poppler qt tiff xine-lib zlib
 
 ifeq ($(BUILD_SHARED),yes)
@@ -17,9 +17,8 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://www.openscenegraph.org/index.php/download-section/stable-releases' | \
-    $(SED) -n 's,.*OpenSceneGraph/tree/OpenSceneGraph-\([0-9]*\.[0-9]*[02468]\.[^<]*\)">.*,\1,p' | \
-    $(SORT) -V | \
+    $(WGET) -q -O- 'https://github.com/openscenegraph/OpenSceneGraph/tags' | \
+    $(SED) -n 's|.*releases/tag/OpenSceneGraph-\([^"]*\).*|\1|p' | $(SORT) -V | \
     tail -1
 endef
 
