@@ -11,9 +11,8 @@ $(PKG)_URL      := https://liba52.sourceforge.io/files/$(PKG)-$($(PKG)_VERSION).
 $(PKG)_DEPS     := 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://liba52.sourceforge.io/downloads.html' | \
-    $(SED) -n 's,.*files/a52dec-\([0-9][^"]*\)\.tar.*,\1,p' | \
-    head -1
+    echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
+    echo $($(PKG)_VERSION)
 endef
 
 define $(PKG)_BUILD
