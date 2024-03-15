@@ -80,8 +80,13 @@ define copy-dist-files
   echo "  octave and dependencies..."
   cd $(HOST_PREFIX) \
     && tar -c $(TAR_H_OPTION) -f - . | ( cd $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH) ; tar xpf - )
-  echo "  octaverc file..."
-  cp $(TOP_DIR)/octaverc $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc
+  if [ -f "$(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc" ]; then \
+    echo "  octaverc file (appending to existing file)..."; \
+    cat $(TOP_DIR)/octaverc >> $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc; \
+  else \
+    echo "  octaverc file..."; \
+    cp $(TOP_DIR)/octaverc $(OCTAVE_DIST_DIR)$(OCTAVE_ADD_PATH)/share/octave/site/m/startup/octaverc; \
+  fi
   if [ $(ENABLE_BINARY_PACKAGES) = no ]; then \
     echo "  build_packages.m..."; \
     cp $(TOP_DIR)/build_packages.m $(OCTAVE_DIST_DIR)/src; \
@@ -115,7 +120,7 @@ installer-files/octave-launch-firsttime.exe: $(TOP_DIR)/installer-files/octave-l
 	$(MXE_CC) $< -o $@ installer-files/octave-launch.res -Wl,--subsystem,windows -lshlwapi -municode -DUNICODE -D_UNICODE -DFIRST_TIME -DQTVERSION=$(ENABLE_QT) $(OCTAVE_LAUNCH_NO_SHORT_CPPFLAGS)
 
 installer-files/octave-logo.ico: $(TOP_DIR)/installer-files/octave-logo.ico | installer-files/.dirstamp
-	cp -a $< $@
+	cp $< $@
 
 installer-files/octave-launch.rc: $(TOP_DIR)/installer-files/octave-launch.rc.in | installer-files/octave-logo.ico installer-files/.dirstamp
 	$(SED) $< -e 's/@PRODUCT_VERSION@/$($(OCTAVE_TARGET)_VERSION)/' -e "s/@PRODUCT_VERSION_COMMA@/$(shell echo $($(OCTAVE_TARGET)_VERSION).0 | $(SED) 's|\.|,|g')/" > $@
