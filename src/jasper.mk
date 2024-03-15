@@ -3,8 +3,8 @@
 
 PKG             := jasper
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.2.1
-$(PKG)_CHECKSUM := 42949b6da8060e02b1d07b15e44fca367ed99c8e
+$(PKG)_VERSION  := 4.2.2
+$(PKG)_CHECKSUM := ab1cd5dd6fe2df4b9925aa05f98a0a34fb3c062f
 $(PKG)_SUBDIR   := jasper-version-$($(PKG)_VERSION)
 $(PKG)_FILE     := jasper-version-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/jasper-software/$(PKG)/archive/version-$($(PKG)_VERSION).tar.gz
