@@ -4,8 +4,8 @@
 PKG             := src-msys2-libxml2
 $(PKG)_NAME     := libxml2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.12.5-1
-$(PKG)_CHECKSUM := 2237717ea1e713c15ccd4710883552efba1f7f9f
+$(PKG)_VERSION  := 2.12.6-1
+$(PKG)_CHECKSUM := bff16c2f1750de913831166fa1a5ddb9aadd7fa2
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
