@@ -3,8 +3,8 @@
 
 PKG             := of-matgeom
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.3
-$(PKG)_CHECKSUM := c7f145bda1cac47d960f6a557d9c02994271991e
+$(PKG)_VERSION  := 1.2.4
+$(PKG)_CHECKSUM := 3a289f826e01b64e27383a516f5154b52d353890
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := matgeom-$($(PKG)_VERSION)
 $(PKG)_FILE     := matgeom-$($(PKG)_VERSION).tar.gz
