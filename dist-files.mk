@@ -481,7 +481,6 @@ SRC_FILES_1 := \
   of-ga.mk \
   of-general.mk \
   of-generate_html.mk \
-  of-geometry-1-cxx17.patch \
   of-geometry.mk \
   of-gsl-1-cross-fixes.patch \
   of-gsl.mk \
