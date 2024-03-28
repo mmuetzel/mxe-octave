@@ -360,12 +360,7 @@ AC_ARG_ENABLE([devel-tools],
    esac], [ENABLE_DEVEL_TOOLS=no])
 AC_SUBST(ENABLE_DEVEL_TOOLS)
 
-# FIXME: Adjust this condition for the release candidate of Octave 9.
-if test "$ENABLE_OCTAVE" = "release-"; then
-  default_qt=5
-else
-  default_qt=6
-fi
+default_qt=6
 
 AC_ARG_ENABLE([qt],
   [AS_HELP_STRING([--enable-qt=VER],
