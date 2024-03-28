@@ -546,6 +546,7 @@ SRC_FILES_1 := \
   of-tisean-3-octave-9-compat.patch \
   of-tisean.mk \
   of-tsa.mk \
+  of-video-1-cassert.patch \
   of-video.mk \
   of-windows.mk \
   of-zenity.mk \

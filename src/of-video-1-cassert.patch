@@ -1,0 +1,26 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1711649841 -3600
+#      Thu Mar 28 19:17:21 2024 +0100
+# Node ID af6f049d3bf3cbc16bb780f721b95ee1f2cf7668
+# Parent  9d9deeb848dceb16f50fe7c44795c57900230b89
+Include <cassert> in file that uses "assert".
+
+* src/cap_ffmpeg_impl_ov.hpp: The header <cassert> happened to be include via
+some headers from Octave before. That is no longer the case for Octave 10.
+Include the header directly in a file that requires it.
+
+See also: https://github.com/Andy1978/octave-video/issues/1
+
+diff -r 9d9deeb848dc -r af6f049d3bf3 src/cap_ffmpeg_impl_ov.hpp
+--- a/src/cap_ffmpeg_impl_ov.hpp	Sat Jul 08 08:28:52 2023 +0200
++++ b/src/cap_ffmpeg_impl_ov.hpp	Thu Mar 28 19:17:21 2024 +0100
+@@ -132,6 +132,8 @@
+ extern "C" {
+ #endif
+ 
++#include <cassert>
++
+ #include "ffmpeg_codecs.hpp"
+ 
+ #include <libavutil/mathematics.h>
