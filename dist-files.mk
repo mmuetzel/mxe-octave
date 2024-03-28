@@ -484,6 +484,7 @@ SRC_FILES_1 := \
   of-geometry.mk \
   of-gsl-1-cross-fixes.patch \
   of-gsl.mk \
+  of-image-1-cassert.patch \ 
   of-image.mk \
   of-instrument-control.mk \
   of-interval-1-cross-fixes.patch \
