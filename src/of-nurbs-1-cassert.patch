@@ -1,0 +1,48 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1711650467 -3600
+#      Thu Mar 28 19:27:47 2024 +0100
+# Node ID 5a45916ec64f6e822283a2b57aa491d29eee531f
+# Parent  7eb621c830ef0d8826474248fa27e2bb8bc7089e
+Include <cassert> in files that use "assert".
+
+* src/low_level_functions.cc, src/nrbsurfderiveval.cc, src/tbasisfun.cc: The
+header <cassert> happened to be include via some headers from Octave before.
+That is no longer the case for Octave 10. Include the header directly in files
+that require it.
+
+diff -r 7eb621c830ef -r 5a45916ec64f src/low_level_functions.cc
+--- a/src/low_level_functions.cc	Mon May 15 15:43:05 2023 +0200
++++ b/src/low_level_functions.cc	Thu Mar 28 19:27:47 2024 +0100
+@@ -17,6 +17,8 @@
+ */
+ 
+ 
++#include <cassert>
++
+ #include <octave/oct.h>
+ #include "low_level_functions.h"
+ #include <iostream>
+diff -r 7eb621c830ef -r 5a45916ec64f src/nrbsurfderiveval.cc
+--- a/src/nrbsurfderiveval.cc	Mon May 15 15:43:05 2023 +0200
++++ b/src/nrbsurfderiveval.cc	Thu Mar 28 19:27:47 2024 +0100
+@@ -14,6 +14,7 @@
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
++#include <cassert>
+ #include <iostream>
+ #include <octave/oct.h>
+ #include <octave/oct-map.h>
+diff -r 7eb621c830ef -r 5a45916ec64f src/tbasisfun.cc
+--- a/src/tbasisfun.cc	Mon May 15 15:43:05 2023 +0200
++++ b/src/tbasisfun.cc	Thu Mar 28 19:27:47 2024 +0100
+@@ -15,6 +15,8 @@
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
++#include <cassert>
++
+ #include <octave/oct.h>
+ #include <iostream>
+ 
