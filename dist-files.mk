@@ -461,6 +461,7 @@ SRC_FILES_1 := \
   ocaml-native.mk \
   of-actuarial.mk \
   of-audio.mk \
+  of-communications-1-cassert.patch \
   of-communications.mk \
   of-control-1-deprecated-warnings.patch \
   of-control-2-octave-9-compat.patch \

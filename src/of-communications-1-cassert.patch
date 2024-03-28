@@ -1,0 +1,23 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1711651421 -3600
+#      Thu Mar 28 19:43:41 2024 +0100
+# Node ID e76d21c920d667d1a6b2b79a32dde0a95298ad65
+# Parent  5244e636c575c927d926ee69e7d44034ac9b397f
+Include <cassert> in file that uses "assert".
+
+* src/ov-galois.cc: The header <cassert> happened to be include via some
+headers from Octave before. That is no longer the case for Octave 10. Include
+the header directly in a file that requires it.
+
+diff -r 5244e636c575 -r e76d21c920d6 src/ov-galois.cc
+--- a/src/ov-galois.cc	Mon May 22 13:13:26 2023 -0400
++++ b/src/ov-galois.cc	Thu Mar 28 19:43:41 2024 +0100
+@@ -22,6 +22,7 @@
+ #include "config.h"
+ #endif
+ 
++#include <cassert>
+ #include <iostream>
+ 
+ #include <octave/oct.h>
