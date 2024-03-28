@@ -527,6 +527,7 @@ SRC_FILES_1 := \
   of-quaternion.mk \
   of-queueing-1-octave7.patch \
   of-queueing.mk \
+  of-signal-1-cassert.patch \
   of-signal.mk \
   of-sockets.mk \
   of-sparsersb-1-dev.patch \
