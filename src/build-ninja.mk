@@ -3,8 +3,8 @@
 
 PKG             := build-ninja
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.10.2
-$(PKG)_CHECKSUM := 8d2e8c1c070c27fb9dc46b4a6345bbb1de7ccbaf
+$(PKG)_VERSION  := 1.11.1
+$(PKG)_CHECKSUM := 938723cdfc7a6f7c8f84c83b9a2cecdf1e5e1ad3
 $(PKG)_SUBDIR   := ninja-$($(PKG)_VERSION)
 $(PKG)_FILE     := ninja-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/ninja-build/ninja/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
