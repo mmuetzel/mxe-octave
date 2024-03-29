@@ -3,10 +3,10 @@
 
 PKG             := xcb-util-renderutil
 $(PKG)_IGNORE   := 
-$(PKG)_VERSION  := 0.3.9
-$(PKG)_CHECKSUM := cb533b1d039f833f070e7d6398c221a31d30d5e2
+$(PKG)_VERSION  := 0.3.10
+$(PKG)_CHECKSUM := 574653197fae818a0d70464aecff6294047ed6c5
 $(PKG)_SUBDIR   := xcb-util-renderutil-$($(PKG)_VERSION)
-$(PKG)_FILE     := xcb-util-renderutil-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := xcb-util-renderutil-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
 $(PKG)_DEPS     := xcb
 

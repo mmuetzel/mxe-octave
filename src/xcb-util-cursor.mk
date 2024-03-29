@@ -3,10 +3,10 @@
 
 PKG             := xcb-util-cursor
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.1.3
-$(PKG)_CHECKSUM := 26562eb6d4151307f7b6a53453d360ecfc0563ac
+$(PKG)_VERSION  := 0.1.4
+$(PKG)_CHECKSUM := bad1de5607d14705b131efd5486c8456fc4d7177
 $(PKG)_SUBDIR   := xcb-util-cursor-$($(PKG)_VERSION)
-$(PKG)_FILE     := xcb-util-cursor-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := xcb-util-cursor-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
 $(PKG)_DEPS     := xcb xcb-util-image xcb-util-renderutil
 

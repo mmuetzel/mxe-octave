@@ -3,10 +3,10 @@
 
 PKG             := xcb-util-keysyms
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.4.0
-$(PKG)_CHECKSUM := ff02ee8ac22c53848af50c0a6a6b00feb002c1cb
+$(PKG)_VERSION  := 0.4.1
+$(PKG)_CHECKSUM := f5408e9ca09ef225dfc602ab2ba47fa7982fb52e
 $(PKG)_SUBDIR   := xcb-util-keysyms-$($(PKG)_VERSION)
-$(PKG)_FILE     := xcb-util-keysyms-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := xcb-util-keysyms-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
 $(PKG)_DEPS     := xproto
 
