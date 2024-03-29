@@ -3,10 +3,10 @@
 
 PKG             := xcb-proto
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.13
-$(PKG)_CHECKSUM := f7fa35ab59af18cecadbe83fe705281dcfd82ffd
+$(PKG)_VERSION  := 1.15
+$(PKG)_CHECKSUM := 184fe7a385ed913f1c3dcb01bc3947d2eb88b498
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
-$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-python
 

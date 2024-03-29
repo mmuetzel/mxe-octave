@@ -3,10 +3,10 @@
 
 PKG             := xcb
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.13.1
-$(PKG)_CHECKSUM := 2ab17a1bb2a44e0a9cb0b26bcf899689ba1bbb3b
+$(PKG)_VERSION  := 1.15
+$(PKG)_CHECKSUM := 5b664321e61e6af4402795c86bd1d2a0e7b82fbc
 $(PKG)_SUBDIR   := libxcb-$($(PKG)_VERSION)
-$(PKG)_FILE     := libxcb-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := libxcb-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-python pthread-stubs util-macros xau xcb-proto
 
