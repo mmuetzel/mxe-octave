@@ -3,8 +3,8 @@
 
 PKG             := build-python
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.8.13
-$(PKG)_CHECKSUM := fb46587353f092d91caeddb07f82bb66a5115468
+$(PKG)_VERSION  := 3.11.8
+$(PKG)_CHECKSUM := a368aeed7a3325e47b55168452c356a8eb27ab50
 $(PKG)_SUBDIR   := Python-$($(PKG)_VERSION)
 $(PKG)_FILE     := Python-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.python.org/ftp/python/$($(PKG)_VERSION)/$($(PKG)_FILE)
