@@ -3,11 +3,11 @@
 
 PKG             := build-mako
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.7
-$(PKG)_CHECKSUM := bf0c1f4cdfca4dd37bc0c9f83e984a0558268b42
+$(PKG)_VERSION  := 1.3.2
+$(PKG)_CHECKSUM := 9db26e15daa51fe0138b0eab100ecc09f5e86d0a
 $(PKG)_SUBDIR   := Mako-$($(PKG)_VERSION)
 $(PKG)_FILE     := Mako-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://pypi.python.org/packages/eb/f3/67579bb486517c0d49547f9697e36582cd19dafb5df9e687ed8e22de57fa/$($(PKG)_FILE)
+$(PKG)_URL      := https://pypi.python.org/packages/d4/1b/71434d9fa9be1ac1bc6fb5f54b9d41233be2969f16be759766208f49f072/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-python build-markupsafe
 
 define $(PKG)_UPDATE
