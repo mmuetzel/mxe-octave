@@ -1,0 +1,15 @@
+diff -u OpenBLAS-0.3.27.orig/Makefile OpenBLAS-0.3.27/Makefile
+--- OpenBLAS-0.3.27.orig/Makefile	2024-04-08 12:41:16.789561544 -0400
++++ OpenBLAS-0.3.27/Makefile	2024-04-08 12:46:51.778557670 -0400
+@@ -168,10 +168,10 @@
+ 	$(MAKE) -C test all
+ endif
+ endif
++ifneq ($(NO_CBLAS), 1)
+ ifneq ($(ONLY_CBLAS), 1)
+ 	$(MAKE) -C utest all
+ endif
+-ifneq ($(NO_CBLAS), 1)
+ ifneq ($(ONLY_CBLAS), 1)
+ 	$(MAKE) -C ctest all
+ endif
