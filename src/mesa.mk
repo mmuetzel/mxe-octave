@@ -24,6 +24,7 @@ endif
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(MESON_TOOLCHAIN_FILE)'
+  $(PKG)_LLVM_FLAGS := -Dshared-llvm=disabled
 else
   ifeq ($(USE_SYSTEM_X11_LIBS),no)
     $(PKG)_DEPS += dri2proto glproto libdrm libxshmfence x11 xdamage xext xfixes xrandr
@@ -39,6 +40,8 @@ else
   $(PKG)_X11_FLAGS := -Dplatforms='x11' \
       -Dglx=xlib \
       $($(PKG)_BUILD_X11_LIBS_FLAGS)
+
+  $(PKG)_LLVM_FLAGS := -Dshared-llvm=enabled
 endif
 
 define $(PKG)_BUILD
@@ -51,7 +54,7 @@ define $(PKG)_BUILD
       -Dvulkan-drivers='' \
       -Degl=disabled \
       -Dgbm=disabled \
-      -Dshared-llvm=enabled
+      $($(PKG)_LLVM_FLAGS)
 
   cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS) install
 
