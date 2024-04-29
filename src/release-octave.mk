@@ -34,8 +34,8 @@
 
 PKG             := release-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 9.1.0
-$(PKG)_CHECKSUM := 3c736bc227d83fdb6af9891fc53f908c27d45f4f
+$(PKG)_VERSION  := 9.1.90
+$(PKG)_CHECKSUM := d78a51892d9e10c97a90e96af1da45804cbd98a5
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.lz
 $(PKG)_URL      := ftp://ftp.gnu.org/gnu/octave/$($(PKG)_FILE)
