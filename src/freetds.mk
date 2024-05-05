@@ -7,7 +7,7 @@ $(PKG)_VERSION  := 1.4.12
 $(PKG)_CHECKSUM := 7d1f5ae50a8979fbe79694ef150dc9c09771186f
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := ftp://ftp.freetds.org/pub/$(PKG)/stable/$($(PKG)_FILE)
+$(PKG)_URL      := https://www.freetds.org/files/stable/$($(PKG)_FILE)
 $(PKG)_DEPS     := libiconv gnutls
 
 $(PKG)_CONFIG_OPTS :=
@@ -16,7 +16,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'ftp://ftp.freetds.org/pub/freetds/stable/' | \
+    $(WGET) -q -O- 'https://www.freetds.org/files/stable/' | \
     $(SED) -n 's,.*freetds-\([0-9.]*\)\.tar.*,\1,p' | \
     $(SORT) -V | \
     tail -1
