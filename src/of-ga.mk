@@ -3,8 +3,8 @@
 
 PKG             := of-ga
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.10.3
-$(PKG)_CHECKSUM := 365909fd5e9f2049e6a2d70f1d0d0099fd734243
+$(PKG)_VERSION  := 0.10.4
+$(PKG)_CHECKSUM := dac7009b8e0ebb5794cb4c99ae1c87ce1fb66cc5
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := ga-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
