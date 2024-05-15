@@ -3,12 +3,12 @@
 
 PKG             := of-queueing
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.7
-$(PKG)_CHECKSUM := 4f5d6956f9ceb6b612b42aaabcbbaece1eec87fb
+$(PKG)_VERSION  := 1.2.8
+$(PKG)_CHECKSUM := 6d7677d7d0807023e58d91da6683d37f50d48b0f
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := queueing
 $(PKG)_FILE     := queueing-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/mmarzolla/queueing/releases/download/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
