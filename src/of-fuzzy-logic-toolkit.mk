@@ -3,12 +3,12 @@
 
 PKG             := of-fuzzy-logic-toolkit
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.4.6
-$(PKG)_CHECKSUM := a3ead625d0b7d1f24854b0e9e88eb83b4068169a
+$(PKG)_VERSION  := 0.5.1
+$(PKG)_CHECKSUM := b8a8ad346265a8b27844fbbd224f339301489ff1
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := fuzzy-logic-toolkit
 $(PKG)_FILE     := fuzzy-logic-toolkit-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/lmarkowsky/fuzzy-logic-toolkit/archive/refs/tags/$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := 
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,lmarkowsky,fuzzy-logic-toolkit,)
 endef
 
 define $(PKG)_BUILD
