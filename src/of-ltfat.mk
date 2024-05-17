@@ -3,12 +3,12 @@
 
 PKG             := of-ltfat
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.3.1
-$(PKG)_CHECKSUM := 2c87141b877f721e10cbb4a99dca1cb880dce8d8
+$(PKG)_VERSION  := 2.6.0
+$(PKG)_CHECKSUM := 6e9a197c073a9aa72247d39aa207f2bdc6e82655
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := ltfat
 $(PKG)_FILE     := ltfat-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/ltfat/ltfat/releases/download/v$($(PKG)_VERSION)/ltfat-$($(PKG)_VERSION)-of.tar.gz
 $(PKG)_DEPS     := portaudio
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -22,7 +22,7 @@ $(PKG)_OPTIONS :=
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,ltfat,ltfat,v)
 endef
 
 define $(PKG)_BUILD

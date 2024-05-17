@@ -1,33 +1,34 @@
-From a4a28fae940e37db61b598ed0ed887f358fbfe1f Mon Sep 17 00:00:00 2001
+From c5f12d150d8f4b9b920f6e9511d5629b81333b2b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Markus=20M=C3=BCtzel?= <markus.muetzel@gmx.de>
-Date: Sun, 28 Nov 2021 20:04:06 +0100
-Subject: [PATCH] Use LDFLAGS instead of LFLAGS (bug #61576).
+Date: Fri, 17 May 2024 19:47:39 +0200
+Subject: [PATCH] Keep original LDFLAGS.
 
-* oct/Makefile_unix: Use LDFLAGS instead of LFLAGS. The latter was misnamed and
-removed in Octave 8.  Keep setting LFLAGS for older versions of Octave (prior
-to version 7).
+* oct/Makefile_unix: Append to original LDFLAGS. Keep setting LFLAGS for older
+versions of Octave (prior to version 7).
 ---
- oct/Makefile_unix | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ oct/Makefile_unix | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/oct/Makefile_unix b/oct/Makefile_unix
-index 8f497297..20edbbc3 100644
+index de2bce8e..7b224a03 100644
 --- a/oct/Makefile_unix
 +++ b/oct/Makefile_unix
-@@ -34,9 +34,11 @@ FFTW_LIBS := $(shell $(MKOCTFILE) -p FFTW_LIBS)
+@@ -34,11 +34,11 @@ FFTW_LIBS := $(shell $(MKOCTFILE) -p FFTW_LIBS)
  endif
  
  export CXXFLAGS := $(shell $(MKOCTFILE) -p CXXFLAGS) -std=gnu++11 -Wall -DLTFAT_LARGEARRAYS $(OPTCXXFLAGS)
 -# export is necessary, otherwise LFLAGS won't have any effect
 +# export is necessary, otherwise LDFLAGS won't have any effect
  # at least on Windows and on Mac
--export LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(FLIBS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FFTW_LIBS) 
+-export LDFLAGS := -L$(shell $(MKOCTFILE) -p LIBDIR) $(FLIBS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FFTW_LIBS) 
+-undefine LFLAGS
+-unexport LFLAGS
 +export LDFLAGS := $(shell $(MKOCTFILE) -p LDFLAGS) $(FLIBS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FFTW_LIBS)
 +# also export as LFLAGS for Octave prior to version 7
 +export LFLAGS := $(shell $(MKOCTFILE) -p LFLAGS) $(FLIBS) $(LAPACK_LIBS) $(BLAS_LIBS) $(FFTW_LIBS)
  
- MKOCTFILEFLAGS = -I../libltfat/modules/libltfat/include -DNDEBUG -L../lib -lltfat
+ MKOCTFILEFLAGS = -I../src/modules/libltfat/include -DNDEBUG -L../lib -lltfat
  
 -- 
-2.34.1.windows.1
+2.44.0.windows.1
 
