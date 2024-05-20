@@ -2,11 +2,11 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 24.0.6
-$(PKG)_CHECKSUM := 3d3323b5accff522f5e28d9e042bf1c7b95c592c
+$(PKG)_VERSION  := 24.0.7
+$(PKG)_CHECKSUM := af2a772ce3ee4dd001cd7a44c3d1370d042dbfb1
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/$($(PKG)_FILE)
+$(PKG)_URL      := https://archive.mesa3d.org/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-mako build-meson build-ninja expat zlib llvm s2tc
 
 define $(PKG)_UPDATE
