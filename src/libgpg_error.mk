@@ -11,9 +11,9 @@ $(PKG)_URL      := ftp://ftp.gnupg.org/gcrypt/libgpg-error/$($(PKG)_FILE)
 $(PKG)_DEPS     := gettext libiconv
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'ftp://ftp.gnupg.org/gcrypt/libgpg-error/' | \
+    $(WGET) -q -O- 'https://gnupg.org/ftp/gcrypt/libgpg-error/' | \
     $(SED) -n 's,.*libgpg-error-\([1-9]\.[1-9][0-9][^>]*\)\.tar.*,\1,p' | \
-    tail -1
+    head -1
 endef
 
 define $(PKG)_BUILD
