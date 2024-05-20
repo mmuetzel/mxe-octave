@@ -242,7 +242,7 @@ SORT       := $(shell gsort --help >/dev/null 2>&1 && echo g)sort
 ## automatically?!?
 WGET_TOOL   = wget
 WGET_COMP  := $(shell $(WGET_TOOL) --compression=none --help >/dev/null 2>&1 && echo x--compression=none | $(SED) 's/x//')
-DEFAULT_UA := $(shell $(WGET_TOOL) --version | $(SED) -n 's,GNU \(Wget\) \([0-9.]*\).*,\1/\2,p')
+DEFAULT_UA := $(shell $(WGET_TOOL) --version | $(SED) -n 's,GNU \(Wget2\?\) \([0-9.]*\).*,\1/\2,p')
 WGET        = $(WGET_TOOL) $(WGET_COMP) --no-check-certificate \
                  --user-agent='$(or $($(1)_UA),$(DEFAULT_UA))'
 
