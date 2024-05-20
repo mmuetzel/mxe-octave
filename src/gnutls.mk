@@ -2,16 +2,16 @@
 # See index.html for further information.
 
 PKG             := gnutls
-$(PKG)_VERSION  := 3.6.16
-$(PKG)_CHECKSUM := 6ba8fb898dcf4b4046b60662ba97df835593e687
+$(PKG)_VERSION  := 3.8.5
+$(PKG)_CHECKSUM := f8ea0a9fd1db428b53182070337b111e54185c2f
 $(PKG)_SUBDIR   := gnutls-$($(PKG)_VERSION)
 $(PKG)_FILE     := gnutls-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6/$($(PKG)_FILE)
-$(PKG)_URL_2    := https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v3.6/$($(PKG)_FILE)
+$(PKG)_URL      := https://www.gnutls.org/ftp/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
 $(PKG)_DEPS     := gettext gmp libidn2 libtasn1 libunistring nettle zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- https://gnupg.org/ftp/gcrypt/gnutls/v3.6/ | \
+    $(WGET) -q -O- https://gnupg.org/ftp/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/ | \
     $(SED) -n 's,.*gnutls-\([1-9]\+\.[0-9]\+.[0-9]\+\)\..*,\1,p' | \
     $(SORT) -V | \
     tail -1
