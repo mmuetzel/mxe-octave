@@ -25,10 +25,7 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://www.cmake.org/cmake/resources/software.html' | \
-    $(SED) -n 's,.*cmake-\([0-9.]*\)\.tar.*,\1,p' | \
-    $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,Kitware,CMake,v)
 endef
 
 define $(PKG)_BUILD
