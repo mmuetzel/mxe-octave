@@ -26,7 +26,7 @@ else
     cd '$(1)/.build' && $($(PKG)_CONFIGURE_ENV) PYTHON=$(MXE_PYTHON) '$(1)/configure' \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        --prefix='$(HOST_PREFIX)' \
+        --prefix='$(HOST_PREFIX)' --disable-docs --disable-devel-docs \
         && $(CONFIGURE_POST_HOOK)
 
     $(MAKE) -C '$(1)/.build' -j '$(JOBS)' install DESTDIR='$(3)'
