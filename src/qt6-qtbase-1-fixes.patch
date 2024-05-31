@@ -8,45 +8,21 @@ Date: Mon, 14 Dec 2020 15:09:00 +1100
 Subject: [PATCH 1/2] optionally build docs
 
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 1111111..2222222 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -173,7 +173,9 @@ if(NOT QT_BUILD_STANDALONE_TESTS)
-     qt_internal_set_up_config_optimizations_like_in_qmake()
+diff -urN qtbase-everywhere-src-6.7.1/cmake/QtBaseHelpers.cmake.orig qtbase-everywhere-src-6.7.1/cmake/QtBaseHelpers.cmake
+--- qtbase-everywhere-src-6.7.1/cmake/QtBaseHelpers.cmake.orig	2024-05-08 11:42:08.000000000 +0200
++++ qtbase-everywhere-src-6.7.1/cmake/QtBaseHelpers.cmake	2024-05-31 10:01:04.920701454 +0200
+@@ -198,7 +198,9 @@
+         qt_internal_set_up_config_optimizations_like_in_qmake()
  
-     ## Setup documentation
--    add_subdirectory(doc)
-+    if(QT_BUILD_DOCS)
-+        add_subdirectory(doc)
-+    endif()
+         ## Setup documentation
+-        add_subdirectory(doc)
++        if(QT_BUILD_DOCS)
++            add_subdirectory(doc)
++        endif()
  
-     ## Visit all the directories:
-     add_subdirectory(src)
+         ## Visit all the directories:
+         add_subdirectory(src)
 
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Mark Brand <mabrand@mabrand.nl>
-Date: Mon, 3 Apr 2023 13:12:47 +0200
-Subject: [PATCH 2/2] add missing oleaut32 dependency for networklistmanager
-
-Required for symbols VariantInit and VariantClear.
-
-diff --git a/src/plugins/networkinformation/networklistmanager/CMakeLists.txt b/src/plugins/networkinformation/networklistmanager/CMakeLists.txt
-index 1111111..2222222 100644
---- a/src/plugins/networkinformation/networklistmanager/CMakeLists.txt
-+++ b/src/plugins/networkinformation/networklistmanager/CMakeLists.txt
-@@ -14,6 +14,11 @@ qt_internal_add_plugin(QNLMNIPlugin
-         Qt::NetworkPrivate
- )
- 
-+qt_internal_extend_target(QNLMNIPlugin CONDITION WIN32
-+    LIBRARIES
-+        oleaut32
-+)
-+
- qt_internal_extend_target(QNLMNIPlugin CONDITION WIN32 AND MSVC AND NOT CLANG
-     LIBRARIES
-         runtimeobject
 diff -ur qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/minimal/qminimalintegration.cpp qtbase-everywhere-src-6.5.2/src/plugins/platforms/minimal/qminimalintegration.cpp
 --- qtbase-everywhere-src-6.5.2.orig/src/plugins/platforms/minimal/qminimalintegration.cpp	2023-08-24 09:11:53.760448450 -0400
 +++ qtbase-everywhere-src-6.5.2/src/plugins/platforms/minimal/qminimalintegration.cpp	2023-08-24 09:34:11.612449868 -0400

@@ -654,6 +654,7 @@ SRC_FILES_1 := \
   qt6.mk \
   qt6-qt5compat.mk \
   qt6-qtbase-1-fixes.patch \
+  qt6-qtbase-2-6.7.0-opengl-header.patch \
   qt6-qtbase.mk \
   qt6-qtimageformats.mk \
   qt6-qtsvg.mk \
