@@ -73,7 +73,7 @@ define $(PKG)_BUILD
     if [ "x$(MXE_WINDOWS_BUILD)" == "xyes" ]; then \
       cd '$(1)/dcraw' && $(MXE_CC) -O4 -o $(3)$(HOST_PREFIX)/bin/dcraw dcraw.c \
         -Wall -Wno-unused-result -Wno-array-bounds -Wno-maybe-uninitialized \
-        -Wno-unused-but-set-variable \
+        -Wno-unused-but-set-variable -Wno-incompatible-pointer-types \
         -I$(HOST_PREFIX)/include -L$(HOST_PREFIX)/lib \
         -lm -ljasper -ljpeg -llcms2 -lws2_32 -s; \
     fi
