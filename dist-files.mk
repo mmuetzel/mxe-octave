@@ -754,6 +754,7 @@ SRC_FILES_1 := \
   taglib-1-static.patch \
   taglib.mk \
   termcap-1-fixes.patch \
+  termcap-2-GCC-14.patch \
   termcap.mk \
   texinfo.mk \
   theora.mk \
