@@ -31,7 +31,8 @@ ifeq ($(MXE_NATIVE_BUILD),no)
         --with-cross-build='$(1).native' \
         PKG_CONFIG='$(MXE_PKG_CONFIG)' \
         PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
-        CPPFLAGS='-DU_USING_ICU_NAMESPACE=0'
+        CPPFLAGS='-DU_USING_ICU_NAMESPACE=0' \
+        CXXFLAGS='-std=gnu++17 $(CXXFLAGS)'
 
     $(MAKE) -C '$(1).cross' -j '$(JOBS)' $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS)
     $(MAKE) -C '$(1).cross' -j 1 install $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
