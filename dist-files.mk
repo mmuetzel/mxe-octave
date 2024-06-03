@@ -668,6 +668,7 @@ SRC_FILES_1 := \
   qwtplot3d.mk \
   randrproto.mk \
   rapidjson-1-prettywriter.patch \
+  rapidjson-2-GCC-14.patch \
   rapidjson.mk \
   readline-0-001-fix-crash-when-readline-is-star.patch \
   readline-0-002-avoid-possible-crash-when-tryin.patch \
