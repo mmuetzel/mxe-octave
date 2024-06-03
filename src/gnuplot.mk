@@ -33,6 +33,8 @@ ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
     $(PKG)_EXTRAFLAGS += ICONV_CFLAGS='-I$(HOST_INCDIR)' ICONV_LDFLAGS='-L$(HOST_LIBDIR)'
 endif
 
+$(PKG)_CWFLAGS := -Wno-int-conversion -Wno-implicit-function-declaration
+
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://sourceforge.net/projects/gnuplot/files/gnuplot/' | \
     $(SED) -n 's,.*tr title="\([0-9][^"]*\)".*,\1,p' | \
@@ -41,8 +43,18 @@ endef
 
 ifeq ($(MXE_SYSTEM),mingw)
   define $(PKG)_BUILD
-    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot.exe gnuplot.exe
-    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=wgnuplot.exe wgnuplot.exe
+    make -C '$(1)/config/mingw' \
+      $($(PKG)_EXTRAFLAGS) \
+      CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+      CWFLAGS='$($(PKG)_CWFLAGS)' \
+      -j '$(JOBS)' \
+      TARGET=gnuplot.exe gnuplot.exe
+    make -C '$(1)/config/mingw' \
+      $($(PKG)_EXTRAFLAGS) \
+      CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+      CWFLAGS='$($(PKG)_CWFLAGS)' \
+      -j '$(JOBS)' \
+      TARGET=wgnuplot.exe wgnuplot.exe
 
     $(INSTALL) -d '$(3)$(HOST_BINDIR)'
     $(INSTALL) -m755 '$(1)/config/mingw/gnuplot.exe' '$(3)$(HOST_BINDIR)'
@@ -50,7 +62,12 @@ ifeq ($(MXE_SYSTEM),mingw)
     $(INSTALL) -m644 '$(1)/src/win/wgnuplot.mnu' '$(3)$(HOST_BINDIR)'
 
     if [ "$(ENABLE_QT)" != "4" ]; then \
-      make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
+      make -C '$(1)/config/mingw' \
+        $($(PKG)_EXTRAFLAGS) \
+        CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+        CWFLAGS='$($(PKG)_CWFLAGS)' \
+        -j '$(JOBS)' \
+        TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
       $(INSTALL) -m755 '$(1)/config/mingw/gnuplot_qt.exe' '$(3)$(HOST_BINDIR)'; \
     fi
 
@@ -125,7 +142,7 @@ else
     define $(PKG)_BUILD
       cd '$(1)' && autoreconf -fi && PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
       ./configure \
-        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv \
+        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv CFLAGS='$(CFLAGS) $($(PKG)_CWFLAGS)' \
         --without-lua \
         $($(PKG)_QT_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)'
