@@ -1,0 +1,83 @@
+Make sure that stat structure and used function match on Windows.
+Cast to correct pointer type for InterlockedCompareExchangePointer.
+
+diff -urN pkg-config-0.29.2/glib/glib/gstdio.c.orig pkg-config-0.29.2/glib/glib/gstdio.c
+--- pkg-config-0.29.2/glib/glib/gstdio.c.orig	2016-04-11 23:39:26.000000000 +0200
++++ pkg-config-0.29.2/glib/glib/gstdio.c	2024-06-03 18:17:49.016177367 +0200
+@@ -493,7 +493,11 @@
+       (!g_path_is_absolute (filename) || len > g_path_skip_root (filename) - filename))
+     wfilename[len] = '\0';
+ 
+-  retval = _wstat (wfilename, buf);
++#if defined(_WIN64)
++  retval = _wstat64 (wfilename, buf);
++#else
++  retval = _wstat32 (wfilename, buf);
++#endif
+   save_errno = errno;
+ 
+   g_free (wfilename);
+diff -urN pkg-config-0.29.2/glib/glib/gstdio.h.orig pkg-config-0.29.2/glib/glib/gstdio.h
+--- pkg-config-0.29.2/glib/glib/gstdio.h.orig	2016-04-11 23:39:26.000000000 +0200
++++ pkg-config-0.29.2/glib/glib/gstdio.h	2024-06-03 18:17:07.405540791 +0200
+@@ -27,7 +27,13 @@
+ 
+ G_BEGIN_DECLS
+ 
+-#if defined (_MSC_VER) && !defined(_WIN64)
++#if defined (G_OS_WIN32)
++
++#if defined(_WIN64)
++
++typedef struct _stat64 GStatBuf;
++
++#else
+ 
+ /* Make it clear that we mean the struct with 32-bit st_size and
+  * 32-bit st_*time fields as that is how the 32-bit GLib DLL normally
+@@ -46,6 +52,8 @@
+ 
+ typedef struct _stat32 GStatBuf;
+ 
++#endif
++
+ #else
+ 
+ typedef struct stat GStatBuf;
+diff -urN pkg-config-0.29.2/glib/glib/gthread-win32.c.orig pkg-config-0.29.2/glib/glib/gthread-win32.c
+--- pkg-config-0.29.2/glib/glib/gthread-win32.c.orig	2016-04-11 23:39:26.000000000 +0200
++++ pkg-config-0.29.2/glib/glib/gthread-win32.c	2024-06-03 18:28:07.226090971 +0200
+@@ -180,7 +180,7 @@
+   if G_UNLIKELY (mutex->p == NULL)
+     {
+       impl = g_rec_mutex_impl_new ();
+-      if (InterlockedCompareExchangePointer (&mutex->p, impl, NULL) != NULL)
++      if (InterlockedCompareExchangePointer ((void **) &mutex->p, (void *) impl, NULL) != NULL)
+         g_rec_mutex_impl_free (impl);
+       impl = mutex->p;
+     }
+@@ -367,13 +367,13 @@
+                *
+                * It can double as a sanity check...
+                */
+-              if (InterlockedCompareExchangePointer (&g_private_destructors, destructor,
++              if (InterlockedCompareExchangePointer ((void **) &g_private_destructors, (void *) destructor,
+                                                      destructor->next) != destructor->next)
+                 g_thread_abort (0, "g_private_get_impl(1)");
+             }
+ 
+           /* Ditto, due to the unlocked access on the fast path */
+-          if (InterlockedCompareExchangePointer (&key->p, impl, NULL) != NULL)
++          if (InterlockedCompareExchangePointer ((void **) &key->p, (void *) impl, NULL) != NULL)
+             g_thread_abort (0, "g_private_get_impl(2)");
+         }
+       LeaveCriticalSection (&g_private_lock);
+@@ -820,7 +820,7 @@
+       result->first = NULL;
+       result->last_ptr = &result->first;
+ 
+-      if (InterlockedCompareExchangePointer (cond, result, NULL) != NULL)
++      if (InterlockedCompareExchangePointer ((void **) cond, (void *) result, NULL) != NULL)
+         {
+           free (result);
+           result = *cond;

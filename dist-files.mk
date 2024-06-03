@@ -344,6 +344,7 @@ SRC_FILES_1 := \
   mingw-libmng-1-noundefines.patch \
   mingw-openblas-1-xerbla.patch \
   mingw-pkg-config-1-gnu-printf.patch \
+  mingw-pkg-config-2-pointer-type.patch \
   mingw-portaudio-1-pkgconfig.patch \
   mingw-s2tc-1-fixes.patch \
   mingw-texinfo-1-fixes.patch \
