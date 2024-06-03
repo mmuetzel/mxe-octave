@@ -336,6 +336,7 @@ SRC_FILES_1 := \
   mingw-blas-1-xerbla.patch \
   mingw-cairo-1-ssize-t-defined.patch \
   mingw-epstool-1-fixes.patch \
+  mingw-gdal-1-stat.patch \
   mingw-glpk-1-fixes.patch \
   mingw-graphicsmagick-1-dcraw.patch \
   mingw-hdf5-1.patch \
