@@ -29,6 +29,7 @@ SRC_FILES_1 := \
   build-flex.mk \
   build-gawk.mk \
   build-gcc-1-msgfmt.patch \
+  build-gcc-2-ice-no-omit-frame-pointer.patch \
   build-gcc.mk \
   build-gettext.mk \
   build-gperf.mk \
@@ -446,6 +447,7 @@ SRC_FILES_1 := \
   mxml-test.c \
   mxml.mk \
   native-binutils.mk \
+  native-gcc-1-ice-no-omit-frame-pointer.patch \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \

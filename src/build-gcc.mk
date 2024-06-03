@@ -3,8 +3,8 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 13.2.0
-$(PKG)_CHECKSUM := 5f95b6d042fb37d45c6cbebfc91decfbc4fb493c
+$(PKG)_VERSION  := 14.1.0
+$(PKG)_CHECKSUM := 0aec8d432b8473559942a45c12459a5db3a04618
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
