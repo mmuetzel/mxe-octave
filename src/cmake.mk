@@ -35,6 +35,7 @@ define $(PKG)_BUILD
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        -DBUILD_TESTING=OFF \
         ../$($(PKG)_SUBDIR)
     $(MAKE) -C '$(1).build' -j '$(JOBS)'
     $(MAKE) -C '$(1).build' -j 1 install DESTDIR='$(3)'
