@@ -3,8 +3,8 @@
 
 PKG             := sundials-ida
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.7.0
-$(PKG)_CHECKSUM := 3d0a5b03d88b9c49f51e784f356dc87114e8496f
+$(PKG)_VERSION  := 7.0.0
+$(PKG)_CHECKSUM := 2ed6e2597cf2c05859fcbec31dab9b0dc804636a
 $(PKG)_SUBDIR   := sundials-$($(PKG)_VERSION)
 $(PKG)_FILE     := sundials-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/LLNL/sundials/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -44,11 +44,8 @@ define $(PKG)_BUILD
         -DBUILD_KINSOL=OFF \
         -DBUILD_CPODES=OFF \
         -DEXAMPLES_ENABLE_C=OFF \
-        -DSUITESPARSECONFIG_LIBRARY=$($(PKG)_SUITESPARSECONFIG_LIBRARY) \
         -DSUNDIALS_INDEX_SIZE=$($(PKG)_INDEX_SIZE) \
-        -DKLU_ENABLE=ON \
-        -DKLU_INCLUDE_DIR=$(HOST_INCDIR)/suitesparse \
-        -DKLU_LIBRARY_DIR=$(HOST_LIBDIR) \
+        -DENABLE_KLU=ON \
         '$(1)'
     $(MAKE) -C '$(1).build' -j '$(JOBS)' install DESTDIR='$(3)' VERBOSE=1
 

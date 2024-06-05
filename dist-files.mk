@@ -755,6 +755,7 @@ SRC_FILES_1 := \
   stable-octave-1-gnulib.patch \
   stable-octave.mk \
   suitesparse.mk \
+  sundials-ida-1-avoid-pointer-cast-of-array.patch \
   sundials-ida.mk \
   t4k_common.mk \
   taglib-1-static.patch \
