@@ -341,7 +341,6 @@ SRC_FILES_1 := \
   mingw-gdal-1-stat.patch \
   mingw-glpk-1-fixes.patch \
   mingw-graphicsmagick-1-dcraw.patch \
-  mingw-hdf5-1.patch \
   mingw-lapack-1-xerbla.patch \
   mingw-libgcrypt-1-fixes.patch \
   mingw-libmng-1-noundefines.patch \
