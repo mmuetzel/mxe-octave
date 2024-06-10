@@ -3,8 +3,8 @@
 
 PKG             := fribidi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.14
-$(PKG)_CHECKSUM := cf7b9bad27ba30faf22d1b66119ab6a3da4b05a3
+$(PKG)_VERSION  := 1.0.15
+$(PKG)_CHECKSUM := b602ab591d05dd4f96dd6ff664fbe2f153cfd2a2
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://github.com/fribidi/fribidi/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
