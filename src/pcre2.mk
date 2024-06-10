@@ -3,8 +3,8 @@
 
 PKG             := pcre2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 10.43
-$(PKG)_CHECKSUM := 300aede670b6c514e7edcd0d603e586ea66f1ee6
+$(PKG)_VERSION  := 10.44
+$(PKG)_CHECKSUM := ddc37244d49d74ecae510d9d860b812e6e59611a
 $(PKG)_SUBDIR   := pcre2-$($(PKG)_VERSION)
 $(PKG)_FILE     := pcre2-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://github.com/PCRE2Project/$(PKG)/releases/download/$(PKG)-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -20,12 +20,10 @@ define $(PKG)_BUILD
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
         --enable-pcre2-16 \
-        --enable-utf \
-        --enable-unicode-properties \
-        --enable-cpp \
-        --disable-pcregrep-libz \
-        --disable-pcregrep-libbz2 \
-        --disable-pcretest-libreadline && $(CONFIGURE_POST_HOOK)
+        --enable-unicode \
+        --disable-pcre2grep-libz \
+        --disable-pcre2grep-libbz2 \
+        --disable-pcre2test-libreadline && $(CONFIGURE_POST_HOOK)
     rm -f '$(HOST_PREFIX)'/share/man/man3/pcre2-16*.3
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) DESTDIR='$(3)'
