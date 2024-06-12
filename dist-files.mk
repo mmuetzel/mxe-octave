@@ -334,6 +334,7 @@ SRC_FILES_1 := \
   matio.mk \
   mdbtools.mk \
   mesa-proto.mk \
+  mesa-1-libdrm.patch \
   mesa.mk \
   mingw-blas-1-xerbla.patch \
   mingw-cairo-1-ssize-t-defined.patch \
