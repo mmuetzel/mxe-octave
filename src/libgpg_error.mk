@@ -3,11 +3,11 @@
 
 PKG             := libgpg_error
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.49
-$(PKG)_CHECKSUM := 28668dc3f693dfd8fa6724c702559e45ab5b15c0
+$(PKG)_VERSION  := 1.50
+$(PKG)_CHECKSUM := 6790fc3d6e7bbd7576654b43971bbe15e953ccc4
 $(PKG)_SUBDIR   := libgpg-error-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgpg-error-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := ftp://ftp.gnupg.org/gcrypt/libgpg-error/$($(PKG)_FILE)
+$(PKG)_URL      := https://gnupg.org/ftp/gcrypt/libgpg-error/$($(PKG)_FILE)
 $(PKG)_DEPS     := gettext libiconv
 
 define $(PKG)_UPDATE
