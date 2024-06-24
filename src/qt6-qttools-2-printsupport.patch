@@ -1,0 +1,11 @@
+diff -ur qttools-everywhere-src-6.7.2.orig/configure.cmake qttools-everywhere-src-6.7.2/configure.cmake
+--- qttools-everywhere-src-6.7.2.orig/configure.cmake	2024-06-24 08:50:27.750061566 -0400
++++ qttools-everywhere-src-6.7.2/configure.cmake	2024-06-24 08:54:17.135666279 -0400
+@@ -76,7 +76,6 @@
+ qt_feature("linguist" PRIVATE
+     LABEL "Qt Linguist"
+     PURPOSE "Qt Linguist can be used by translator to translate text in Qt applications."
+-    CONDITION TARGET Qt::PrintSupport
+ )
+ qt_feature("pixeltool" PRIVATE
+     LABEL "pixeltool"
