@@ -3,8 +3,8 @@
 
 PKG             := sundials-ida
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.0.0
-$(PKG)_CHECKSUM := 2ed6e2597cf2c05859fcbec31dab9b0dc804636a
+$(PKG)_VERSION  := 7.1.1
+$(PKG)_CHECKSUM := 099110caa6c11aaf9404cf3846f1cc6962933e10
 $(PKG)_SUBDIR   := sundials-$($(PKG)_VERSION)
 $(PKG)_FILE     := sundials-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/LLNL/sundials/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -48,10 +48,4 @@ define $(PKG)_BUILD
         -DENABLE_KLU=ON \
         '$(1)'
     $(MAKE) -C '$(1).build' -j '$(JOBS)' install DESTDIR='$(3)' VERBOSE=1
-
-    if [ $(MXE_SYSTEM) = mingw ]; then \
-        echo "Install dlls"; \
-        $(INSTALL) -d '$(3)$(HOST_BINDIR)'; \
-        mv '$(3)$(HOST_LIBDIR)/'libsundials*.dll '$(3)$(HOST_BINDIR)/'; \
-    fi
 endef
