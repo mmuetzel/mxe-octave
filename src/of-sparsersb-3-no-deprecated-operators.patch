@@ -1,0 +1,43 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1720206819 -7200
+#      Fri Jul 05 21:13:39 2024 +0200
+# Node ID 1a6d582e428d918bcdea83f74ad75383dbfcc9cb
+# Parent  c085e34b5b13beb14bb47e525f208e7c9330edc3
+Do not use .+ or .- in self tests.
+
+These operators are deprecated since Octave 7 and have been removed in Octave 9.
+
+diff -r c085e34b5b13 -r 1a6d582e428d src/sparsersb.cc
+--- a/src/sparsersb.cc	Wed Jul 26 15:37:39 2023 +0200
++++ b/src/sparsersb.cc	Fri Jul 05 21:13:39 2024 +0200
+@@ -3393,11 +3393,11 @@
+ %! tmf_unlink = onCleanup(@() unlink(sparsersb_temporary_matrix_file));
+ %! tmr_unlink = onCleanup(@() unlink(sparsersb_temporary_render_file));
+ %!test
+-%! assert( 0==nnz(sparsersb(3,3) .- sparse(3,3)) )
+-%!test
+-%! assert( 0==nnz(sparsersb([],[],[],3,3    ) .- sparse([],[],[],3,3    )) )
+-%!test
+-%! assert( 0==nnz(sparsersb([],[],[],3,3,123) .- sparse([],[],[],3,3,321)) )
++%! assert( 0==nnz(sparsersb(3,3) - sparse(3,3)) )
++%!test
++%! assert( 0==nnz(sparsersb([],[],[],3,3    ) - sparse([],[],[],3,3    )) )
++%!test
++%! assert( 0==nnz(sparsersb([],[],[],3,3,123) - sparse([],[],[],3,3,321)) )
+ %!test
+ %! s=sparsersb([2]);
+ %! assert(s==2);
+@@ -5815,12 +5815,8 @@
+ %! disp("Many sparse-sparse matrix operators work on 'sparsersb'\n")
+ %! disp("'+' operator:")
+ %! s+d
+-%! disp("'.+' operator:")
+-%! s.+d
+ %! disp("'-' operator:")
+ %! s-d
+-%! disp("'.-' operator:")
+-%! s.-d
+ %! disp("'*' operator:")
+ %! s*d
+ %! disp("'.*' operator:")
