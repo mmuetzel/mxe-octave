@@ -3,8 +3,8 @@
 
 PKG             := of-dicom
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.6.0
-$(PKG)_CHECKSUM := 3bf0f73c49c3ecb5e24407de4e5a2d3ba49adadc
+$(PKG)_VERSION  := 0.6.1
+$(PKG)_CHECKSUM := 496db527e3a92078781e09c4cdb58bf6d70ff984
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := dicom-$($(PKG)_VERSION)
 $(PKG)_FILE     := dicom-$($(PKG)_VERSION).tar.gz
