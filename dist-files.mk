@@ -686,6 +686,9 @@ SRC_FILES_1 := \
   readline-0-008-add-missing-function-prototypes.patch \
   readline-0-009-fix-issue-where-directory-name-.patch \
   readline-0-010-fix-issue-where-comparing-quot.patch \
+  readline-0-011-readline-should-retry-the-open.patch \
+  readline-0-012-prevent-infinite-recursion-if-.patch \
+  readline-0-013-readline-can-discard-bytes-if-.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \
