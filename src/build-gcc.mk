@@ -3,12 +3,12 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 14.1.0
-$(PKG)_CHECKSUM := 0aec8d432b8473559942a45c12459a5db3a04618
+$(PKG)_VERSION  := 14.2.0
+$(PKG)_CHECKSUM := d91ecc3d20ce6298bd95f9b09cc51dc6d3c73ae3
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
-$(PKG)_URL_2    := ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://ftpmirror.gnu.org/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
 
 $(PKG)_DEPS := gcc-gmp gcc-isl gcc-mpc gcc-mpfr
 ifneq ($(MXE_NATIVE_BUILD),yes)
