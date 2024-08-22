@@ -1,7 +1,7 @@
-diff -u OpenBLAS-0.3.27.orig/Makefile OpenBLAS-0.3.27/Makefile
---- OpenBLAS-0.3.27.orig/Makefile	2024-04-08 12:41:16.789561544 -0400
-+++ OpenBLAS-0.3.27/Makefile	2024-04-08 12:46:51.778557670 -0400
-@@ -168,10 +168,10 @@
+diff -u OpenBLAS-0.3.28.orig/Makefile OpenBLAS-0.3.28/Makefile
+--- OpenBLAS-0.3.28.orig/Makefile	2024-08-22 10:02:22.341391298 -0400
++++ OpenBLAS-0.3.28/Makefile	2024-08-22 10:04:04.930467613 -0400
+@@ -172,10 +172,10 @@
  	$(MAKE) -C test all
  endif
  endif
