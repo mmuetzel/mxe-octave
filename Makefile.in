@@ -283,7 +283,7 @@ BUILD_TOOLS := $(ALL_BUILD_TOOLS)
 # to packages that need them
 BUILD_TOOLS_OPT := \
   build-libffi build-mako build-markupsafe build-meson build-nasm build-ninja \
-  build-python build-octave build-setuptools build-scons
+  build-python build-octave build-setuptools build-scons build-pyyaml
 BUILD_TOOLS := $(filter-out $(BUILD_TOOLS_OPT), $(BUILD_TOOLS))
 # Building flex for native mingw fails, so disable it.
 ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)

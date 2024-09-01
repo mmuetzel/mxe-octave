@@ -47,6 +47,7 @@ SRC_FILES_1 := \
   build-pkg-config-1-fixes.patch \
   build-pkg-config.mk \
   build-python.mk \
+  build-pyyaml.mk \
   build-scons.mk \
   build-sed.mk \
   build-setuptools.mk \

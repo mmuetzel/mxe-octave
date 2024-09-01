@@ -7,7 +7,7 @@ $(PKG)_CHECKSUM := 73d4095cd0a604026f408f211572fa84c2b83c1d
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://archive.mesa3d.org/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-mako build-meson build-ninja expat zlib llvm s2tc
+$(PKG)_DEPS     := build-mako build-meson build-ninja build-pyyaml expat zlib llvm s2tc
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- https://archive.mesa3d.org | \
