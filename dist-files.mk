@@ -61,6 +61,7 @@ SRC_FILES_1 := \
   cairo.mk \
   cairomm.mk \
   cblas.mk \
+  cfitsio-1-fixes.patch \
   cfitsio.mk \
   cgal-1-fixes.patch \
   cgal.mk \
