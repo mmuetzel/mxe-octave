@@ -16,8 +16,8 @@ diff -ur cfitsio-4.5.0.orig/drvrsmem.h cfitsio-4.5.0/drvrsmem.h
  #include <fcntl.h>
 diff -ur cfitsio-4.5.0.orig/Makefile.am cfitsio-4.5.0/Makefile.am
 --- cfitsio-4.5.0.orig/Makefile.am	2024-09-01 12:06:13.050805542 -0400
-+++ cfitsio-4.5.0/Makefile.am	2024-09-01 12:23:38.005947419 -0400
-@@ -127,7 +127,6 @@
++++ cfitsio-4.5.0/Makefile.am	2024-09-06 09:27:53.572562550 -0400
+@@ -127,14 +127,13 @@
  	fpack \
  	funpack \
  	imcopy \
@@ -25,11 +25,18 @@ diff -ur cfitsio-4.5.0.orig/Makefile.am cfitsio-4.5.0/Makefile.am
  	speed
  
  noinst_PROGRAMS = testprog
-Only in cfitsio-4.5.0: .Makefile.am.swp
+ 
+ if !NOFORTRAN
+ 
+-noinst_PROGRAMS+= testf77
++#noinst_PROGRAMS+= testf77
+ testf77_SOURCES = utilities/testf77.f
+ 
+ endif
 diff -ur cfitsio-4.5.0.orig/Makefile.in cfitsio-4.5.0/Makefile.in
 --- cfitsio-4.5.0.orig/Makefile.in	2024-09-01 12:06:13.037804744 -0400
-+++ cfitsio-4.5.0/Makefile.in	2024-09-01 12:24:03.255498787 -0400
-@@ -100,7 +100,7 @@
++++ cfitsio-4.5.0/Makefile.in	2024-09-06 09:32:05.689817727 -0400
+@@ -100,10 +100,10 @@
  @NOFORTRAN_FALSE@am__append_1 = $(F77_WRAPPERS)
  @NOGSIFTP_FALSE@am__append_2 = ${GSIFTP_SRC}
  bin_PROGRAMS = cookbook$(EXEEXT) fitscopy$(EXEEXT) fitsverify$(EXEEXT) \
@@ -37,4 +44,17 @@ diff -ur cfitsio-4.5.0.orig/Makefile.in cfitsio-4.5.0/Makefile.in
 +	fpack$(EXEEXT) funpack$(EXEEXT) imcopy$(EXEEXT) \
  	speed$(EXEEXT)
  noinst_PROGRAMS = testprog$(EXEEXT) $(am__EXEEXT_1)
- @NOFORTRAN_FALSE@am__append_3 = testf77
+-@NOFORTRAN_FALSE@am__append_3 = testf77
++#@NOFORTRAN_FALSE@am__append_3 = testf77
+ subdir = .
+ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+@@ -121,7 +121,7 @@
+ CONFIG_CLEAN_VPATH_FILES =
+ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
+ 	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(includedir)"
+-@NOFORTRAN_FALSE@am__EXEEXT_1 = testf77$(EXEEXT)
++#@NOFORTRAN_FALSE@am__EXEEXT_1 = testf77$(EXEEXT)
+ PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
+ am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+ am__vpath_adj = case $$p in \
