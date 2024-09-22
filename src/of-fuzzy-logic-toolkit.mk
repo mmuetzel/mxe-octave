@@ -3,8 +3,8 @@
 
 PKG             := of-fuzzy-logic-toolkit
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.6.0
-$(PKG)_CHECKSUM := 7410ae0d6b4bd2a606ec0407d104e2c69c2d0c0d
+$(PKG)_VERSION  := 0.6.1
+$(PKG)_CHECKSUM := f07eefdf15b64ac9c0cf28e54e5b4502c878fc34
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := fuzzy-logic-toolkit-$($(PKG)_VERSION)
 $(PKG)_FILE     := fuzzy-logic-toolkit-$($(PKG)_VERSION).tar.gz
