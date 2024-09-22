@@ -3,15 +3,15 @@
 
 PKG             := build-texinfo
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.1
-$(PKG)_CHECKSUM := cb7bbf4c7b08eada5d44cce0d50a6e4258256b95
+$(PKG)_VERSION  := 7.1.1
+$(PKG)_CHECKSUM := a59f3d7686d18fc707fa17bf01d086caa81a2e2a
 $(PKG)_SUBDIR   := texinfo-$($(PKG)_VERSION)
 $(PKG)_FILE     := texinfo-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://ftp.gnu.org/gnu/texinfo/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/gnu/texinfo/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-perl
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://ftp.gnu.org/gnu/texinfo/?C=M;O=D' | \
+    $(WGET) -q -O- 'https://ftp.gnu.org/gnu/texinfo/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="texinfo-\([0-9\.]*\)\.tar.*,\1,p' | \
     $(SORT) -V |
     tail -1
