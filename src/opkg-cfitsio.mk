@@ -3,8 +3,8 @@
 
 PKG             := opkg-cfitsio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.0.6
-$(PKG)_CHECKSUM := 00726153ac022ea514579c6ba6029c035f32f627
+$(PKG)_VERSION  := 0.0.7
+$(PKG)_CHECKSUM := 34dacaa650da3bbe956b16fe934a242a23610dd8
 $(PKG)_SUBDIR   := octave-cfitsio-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://downloads.sourceforge.net/project/octave-cfitsio/v$($(PKG)_VERSION)/$($(PKG)_FILE)
