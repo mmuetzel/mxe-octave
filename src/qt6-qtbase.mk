@@ -3,8 +3,8 @@
 
 PKG             := qt6-qtbase
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.7.2
-$(PKG)_CHECKSUM := 82c7350a64dd29e467199bcc21ab789ed7b63007
+$(PKG)_VERSION  := 6.7.3
+$(PKG)_CHECKSUM := a089eed9cc8bf8c52b62bf4653a162ebae03599e
 $(PKG)_SUBDIR   := qtbase-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := qtbase-everywhere-src-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
