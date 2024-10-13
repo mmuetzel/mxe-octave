@@ -50,7 +50,7 @@ define $(PKG)_BUILD
       $($(PKG)_MESON_TOOLCHAIN_FILE) \
       -Dprefix='$(HOST_PREFIX)' \
       $($(PKG)_X11_FLAGS) \
-      -Dgallium-drivers=swrast \
+      -Dgallium-drivers='softpipe,llvmpipe' \
       -Dvulkan-drivers='' \
       -Degl=disabled \
       -Dgbm=disabled \
