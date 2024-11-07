@@ -4,9 +4,9 @@
 PKG             := msys2-ca-certificates
 $(PKG)_NAME     := ca-certificates
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 20240203-1
-$(PKG)_x86_64_CS := 239f3b17fb9d47ea8dbe6366f90430f8ca4b4245
-$(PKG)_i686_CS  := d121f24ac818f61fa40899331089380882902f29
+$(PKG)_VERSION  := 20240203-2
+$(PKG)_x86_64_CS := 079fe41c097818e31612d60d4ade22e5d66af75d
+$(PKG)_i686_CS  := 11e097002c3f943c603c97f2cfe242b8b6d84425
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

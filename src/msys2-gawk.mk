@@ -4,9 +4,9 @@
 PKG             := msys2-gawk
 $(PKG)_NAME     := gawk
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.3.0-1
-$(PKG)_x86_64_CS := 7c5e9c6c9723f106f88e32791219f97838923902
-$(PKG)_i686_CS  := bcdab258f152bb5459ebb747a96d3ed4b50ce1eb
+$(PKG)_VERSION  := 5.3.1-1
+$(PKG)_x86_64_CS := 518411c977b5d17acef8648e103632f0c5c1b47d
+$(PKG)_i686_CS  := 23605ccc188fac08c5750a6adf6d1f37aece0199
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

@@ -4,8 +4,8 @@
 PKG             := src-msys2-keyring
 $(PKG)_NAME     := msys2-keyring
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1~20231013-1
-$(PKG)_CHECKSUM := 3dedd5fd9d227f931506c8111fd388cee156f7ac
+$(PKG)_VERSION  := 1~20241007-1
+$(PKG)_CHECKSUM := a22ed09f5f537544ed063cf8713ffaa0159be31a
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

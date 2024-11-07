@@ -4,8 +4,8 @@
 PKG             := src-msys2-ca-certificates
 $(PKG)_NAME     := ca-certificates
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 20240203-1
-$(PKG)_CHECKSUM := 1ed57461c50f1fb714b7336c660cbd30afd113da
+$(PKG)_VERSION  := 20240203-2
+$(PKG)_CHECKSUM := 674c3b67f1652840541df3cccdb48070037bee7a
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

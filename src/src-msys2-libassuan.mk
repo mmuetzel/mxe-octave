@@ -4,8 +4,8 @@
 PKG             := src-msys2-libassuan
 $(PKG)_NAME     := libassuan
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.5.6-1
-$(PKG)_CHECKSUM := f349530c6ace9c29edc8a58dd9c2714d583ce000
+$(PKG)_VERSION  := 2.5.7-1
+$(PKG)_CHECKSUM := 7592c7dab32bd8b1a5cd20e6c24650072a5e144b
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

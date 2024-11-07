@@ -4,8 +4,8 @@
 PKG             := src-msys2-libexpat
 $(PKG)_NAME     := expat
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.6.2-1
-$(PKG)_CHECKSUM := 5feb68e086afcf087acd2769688e978230a6f6c6
+$(PKG)_VERSION  := 2.6.3-1
+$(PKG)_CHECKSUM := 20ec07385fe38489f9084afb0bdfc41fe72b7263
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
