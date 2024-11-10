@@ -3,8 +3,8 @@
 
 PKG             := expat
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.6.3
-$(PKG)_CHECKSUM := b8d803318bd39464aa20a481448fd3106d278aad
+$(PKG)_VERSION  := 2.6.4
+$(PKG)_CHECKSUM := 93082742ac825a8d399ab8f94c41d9f246c6d8bc
 $(PKG)_SUBDIR   := expat-$($(PKG)_VERSION)
 $(PKG)_FILE     := expat-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/expat/expat/$($(PKG)_VERSION)/$($(PKG)_FILE)
