@@ -18,7 +18,7 @@ define $(PKG)_UPDATE
 endef
 
 $(PKG)_WINDOWS_CONFIGURE_OPTIONS := \
-   CPPFLAGS='-D_WIN32_WINNT=0x0600' --disable-rpath 
+  CPPFLAGS=--disable-rpath
 
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_CONFIGURE_OPTIONS := $($(PKG)_WINDOWS_CONFIGURE_OPTIONS)
@@ -32,7 +32,7 @@ define $(PKG)_BUILD
     # If an autoconf script calls GTK_DOC_CHECK, newer versions of autoreconf
     # try to call `gtkdocize --copy`, which would require an extra dependency
     # on `gtk-doc`, even if documentation is disabled at configure time.
-    cd '$(1)' && GTKDOCIZE=echo autoreconf -fi 
+    cd '$(1)' && GTKDOCIZE=echo autoreconf -fi
     cd '$(1)/.build' && ../configure \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
