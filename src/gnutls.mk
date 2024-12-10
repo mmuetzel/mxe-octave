@@ -18,7 +18,7 @@ define $(PKG)_UPDATE
 endef
 
 $(PKG)_WINDOWS_CONFIGURE_OPTIONS := \
-  CPPFLAGS=--disable-rpath
+  --disable-rpath
 
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_CONFIGURE_OPTIONS := $($(PKG)_WINDOWS_CONFIGURE_OPTIONS)
