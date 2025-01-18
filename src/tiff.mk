@@ -14,9 +14,9 @@ ifneq ($(MXE_SYSTEM),msvc)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://simplesystems.org/libtiff/' | \
-    $(SED) -n 's,.*>v\([0-9][^<]*\)<.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://download.osgeo.org/libtiff/' | \
+    $(SED) -n 's,.*href="tiff-\([0-9][0-9\.]*\)\.tar\.gz".*,\1,p' | \
+    $(SORT) -V | tail -1
 endef
 
 define $(PKG)_BUILD
