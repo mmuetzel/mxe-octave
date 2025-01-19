@@ -4,9 +4,9 @@
 PKG             := msys2-libiconv
 $(PKG)_NAME     := libiconv
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.17-1
-$(PKG)_x86_64_CS := 36f85ae203224ad4746c6ebb6c07e8b397db2aff
-$(PKG)_i686_CS  := da2069f8c0e4e330634d0807219583377a1cd53f
+$(PKG)_VERSION  := 1.18-1
+$(PKG)_x86_64_CS := ee1ec0a31afdfe26045fbb4d33543b4f37ec9fab
+$(PKG)_i686_CS  := 0b02fbf1db453a542cac67304951696df5150836
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

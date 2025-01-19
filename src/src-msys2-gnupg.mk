@@ -4,8 +4,8 @@
 PKG             := src-msys2-gnupg
 $(PKG)_NAME     := gnupg
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.4.5-1
-$(PKG)_CHECKSUM := 06563157dcbc151b5952bb13b950de18f2e7dc0d
+$(PKG)_VERSION  := 2.4.7-1
+$(PKG)_CHECKSUM := efa25fdf2c1b3ced3ed1cb852470338d5f5f42df
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

@@ -4,8 +4,8 @@
 PKG             := src-msys2-libnettle
 $(PKG)_NAME     := nettle
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.10-1
-$(PKG)_CHECKSUM := 82b8c7397988b3c9f8f631319013f156209382ea
+$(PKG)_VERSION  := 3.10.1-1
+$(PKG)_CHECKSUM := 8324efd54f5a7483c8d0a91ec681d419339c37ba
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
