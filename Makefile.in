@@ -566,7 +566,7 @@ OCTAVE_OTHER_PACKAGES := $(addprefix opkg-,biosig cfitsio mqtt tablicious)
 OCTAVE_FORGE_DEPS:= $(sort $(foreach p,$(addprefix $(TOP_DIR)/src/,$(addsuffix .mk,$(OCTAVE_FORGE_PACKAGES))),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
 OCTAVE_OTHER_PKG_DEPS:= $(sort $(foreach p,$(addprefix $(TOP_DIR)/src/,$(addsuffix .mk,$(OCTAVE_OTHER_PACKAGES))),$(shell $(SED) -n 's/.*_DEPS.*:=\(.*\)/\1/p' $p)))
 
-BLAS_PACKAGES := blas
+BLAS_PACKAGES :=
 ifeq ($(ENABLE_OPENBLAS),yes)
   BLAS_PACKAGES += openblas
 endif

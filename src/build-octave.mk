@@ -26,7 +26,7 @@ $(PKG)_DEPS     := $(OCTAVE_TARGET)
 
 ## The following dependencies and some native build tools are necessary
 ## on the build system:
-# $(PKG)_DEPS     := blas lapack pcre
+# $(PKG)_DEPS     := lapack pcre
 
 define $(PKG)_UPDATE
     echo 'Warning: Updates are disabled for package build-octave.' >&2;

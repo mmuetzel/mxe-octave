@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := c7af215aaa6ab377521ba317eccf6859165ebefb
 $(PKG)_SUBDIR   := ITSOL_2
 $(PKG)_FILE     := ITSOL_2.tar.gz
 $(PKG)_URL      := http://www-users.cs.umn.edu/~saad/software/ITSOL/itsol.php
-$(PKG)_DEPS     := blas
+$(PKG)_DEPS     := lapack
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
   $(PKG)_DEFAULT_INTEGER_8_FLAG := -fdefault-integer-8

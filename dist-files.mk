@@ -14,7 +14,6 @@ SRC_FILES_1 := \
   aubio-1-fix-pkg-config.patch \
   aubio.mk \
   bfd.mk \
-  blas.mk \
   blas_switch.mk \
   boost-1-intrinsics-fix.patch \
   boost-2-winerror.patch \
@@ -336,7 +335,6 @@ SRC_FILES_1 := \
   mdbtools.mk \
   mesa-proto.mk \
   mesa.mk \
-  mingw-blas-1-xerbla.patch \
   mingw-cairo-1-ssize-t-defined.patch \
   mingw-epstool-1-fixes.patch \
   mingw-glpk-1-fixes.patch \
