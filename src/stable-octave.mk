@@ -5,15 +5,15 @@
 ## the stable branch of the Octave hg archive.  The $(PKG)_URL is
 ## intentionally set to an invalid value.  You must create a tar.lz
 ## file from the stable branch of the Octave hg archive separately
-## and place it in the directory where mxe-octave package sources
-## are found.
+## and place it in the directory where mxe-octave package sources are
+## found.
 
 ## We omit the package checksum so that we don't have to update it
 ## each time the tarball changes.
 
 PKG             := stable-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 9.4.1
+$(PKG)_VERSION  := 10.0.1
 $(PKG)_CHECKSUM := ## No checksum
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.lz
@@ -21,7 +21,7 @@ $(PKG)_URL      := http://not.a.valid.url/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
-$(PKG)_DEPS     := blas arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
+$(PKG)_DEPS     := blas arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre2 portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
 
 ifeq ($(ENABLE_QT),4)
     $(PKG)_DEPS += qt
@@ -90,10 +90,12 @@ ifeq ($(ENABLE_QT),5)
   $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt5"
 endif
 ifeq ($(ENABLE_QT),6)
-  #$(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_QTDIR := $(HOST_PREFIX)/qt6
   $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt6"
+  ifeq ($(MXE_NATIVE_BUILD),yes)
+    $(PKG)_QT_CONFIGURE_OPTIONS += QTPATHS6="$(HOST_PREFIX)/qt6/bin/qtpaths6"
+  endif
 endif
 
 ifneq ($(ENABLE_DOCS),yes)
@@ -167,10 +169,6 @@ endif
 
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_EXTRA_CONFIGURE_OPTIONS += --with-x=no
-endif
-
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-  $(PKG)_EXTRA_CONFIGURE_OPTIONS += ac_cv_search_tputs=-ltermcap
 endif
 
 # if want binary packages and are cross compiling, then we need cross tools enabled
