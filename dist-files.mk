@@ -462,8 +462,6 @@ SRC_FILES_1 := \
   of-actuarial.mk \
   of-audio.mk \
   of-communications.mk \
-  of-control-1-deprecated-warnings.patch \
-  of-control-2-octave-9-compat.patch \
   of-control.mk \
   of-data-smoothing.mk \
   of-database-1-verror.patch \
