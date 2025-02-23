@@ -3,8 +3,8 @@
 
 PKG             := xz
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.4.6
-$(PKG)_CHECKSUM := 9bdeacb7ae00b353b4fb5414ea48cc44f52c2439
+$(PKG)_VERSION  := 5.6.3
+$(PKG)_CHECKSUM := 1478dd581c363ab0ba465d95e892da83ab1ea82d
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://github.com/tukaani-project/xz/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)

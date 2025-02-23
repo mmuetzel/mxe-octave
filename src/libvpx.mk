@@ -3,8 +3,8 @@
 
 PKG             := libvpx
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.14.0
-$(PKG)_CHECKSUM := f767052bff9043e61d094598cf9a18f38dde8a3e
+$(PKG)_VERSION  := 1.15.0
+$(PKG)_CHECKSUM := d0b4923dc95ff95c1b16a5536f8e0ab7441e4b5f
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/webmproject/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz

@@ -2,12 +2,12 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 24.0.1
-$(PKG)_CHECKSUM := fa205e0f97ce693e206b0e0a9685aef4f0b4d6f4
+$(PKG)_VERSION  := 24.3.3
+$(PKG)_CHECKSUM := a32042df02c128c95742a0eaa6abb1753c9b64e3
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.freedesktop.org/pub/mesa/$($(PKG)_FILE)
-$(PKG)_DEPS     := build-mako build-meson build-ninja expat zlib llvm s2tc
+$(PKG)_URL      := https://archive.mesa3d.org/$($(PKG)_FILE)
+$(PKG)_DEPS     := build-mako build-meson build-ninja build-pyyaml expat zlib llvm s2tc
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- https://archive.mesa3d.org | \
@@ -24,6 +24,7 @@ endif
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
   $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(MESON_TOOLCHAIN_FILE)'
+  $(PKG)_LLVM_FLAGS := -Dshared-llvm=disabled
 else
   ifeq ($(USE_SYSTEM_X11_LIBS),no)
     $(PKG)_DEPS += dri2proto glproto libdrm libxshmfence x11 xdamage xext xfixes xrandr
@@ -39,6 +40,8 @@ else
   $(PKG)_X11_FLAGS := -Dplatforms='x11' \
       -Dglx=xlib \
       $($(PKG)_BUILD_X11_LIBS_FLAGS)
+
+  $(PKG)_LLVM_FLAGS := -Dshared-llvm=enabled
 endif
 
 define $(PKG)_BUILD
@@ -47,11 +50,11 @@ define $(PKG)_BUILD
       $($(PKG)_MESON_TOOLCHAIN_FILE) \
       -Dprefix='$(HOST_PREFIX)' \
       $($(PKG)_X11_FLAGS) \
-      -Dgallium-drivers=swrast \
+      -Dgallium-drivers='softpipe,llvmpipe' \
       -Dvulkan-drivers='' \
       -Degl=disabled \
       -Dgbm=disabled \
-      -Dshared-llvm=enabled
+      $($(PKG)_LLVM_FLAGS)
 
   cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS) install
 

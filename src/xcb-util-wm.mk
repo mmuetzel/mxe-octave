@@ -3,10 +3,10 @@
 
 PKG             := xcb-util-wm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.4.1
-$(PKG)_CHECKSUM := 7006c52b961c123355320bfc30477cdf90c8bbb7
+$(PKG)_VERSION  := 0.4.2
+$(PKG)_CHECKSUM := ac46ab2e00980524175dae9f14542f35fdade782
 $(PKG)_SUBDIR   := xcb-util-wm-$($(PKG)_VERSION)
-$(PKG)_FILE     := xcb-util-wm-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := xcb-util-wm-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://www.x.org/archive/individual/xcb/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 

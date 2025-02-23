@@ -1,7 +1,7 @@
 PKG             := icu4c
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 74.2
-$(PKG)_CHECKSUM := 20639a7bde8ab717ed15a888ce0620311c004727
+$(PKG)_VERSION  := 76.1
+$(PKG)_CHECKSUM := fc2787889e0ed54f021477e4fe65bb56cc93de04
 $(PKG)_SUBDIR   := icu-release-$(subst .,-,$($(PKG)_VERSION))/icu4c
 $(PKG)_FILE     := $(PKG)-$(subst .,-,$($(PKG)_VERSION)).tar.gz
 $(PKG)_URL      := https://github.com/unicode-org/icu/archive/refs/tags/release-$(subst .,-,$($(PKG)_VERSION)).tar.gz
@@ -31,7 +31,8 @@ ifeq ($(MXE_NATIVE_BUILD),no)
         --with-cross-build='$(1).native' \
         PKG_CONFIG='$(MXE_PKG_CONFIG)' \
         PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
-        CPPFLAGS='-DU_USING_ICU_NAMESPACE=0'
+        CPPFLAGS='-DU_USING_ICU_NAMESPACE=0' \
+        CXXFLAGS='-std=gnu++17 $(CXXFLAGS)'
 
     $(MAKE) -C '$(1).cross' -j '$(JOBS)' $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS)
     $(MAKE) -C '$(1).cross' -j 1 install $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS) DESTDIR='$(3)'

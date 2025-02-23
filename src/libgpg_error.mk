@@ -3,17 +3,17 @@
 
 PKG             := libgpg_error
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.47
-$(PKG)_CHECKSUM := 94668233fd7bd8e7c0ec5e363134cd53c575da60
+$(PKG)_VERSION  := 1.51
+$(PKG)_CHECKSUM := 0a9386ff70a5d1f771771bf0b8db2b956e292f13
 $(PKG)_SUBDIR   := libgpg-error-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgpg-error-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := ftp://ftp.gnupg.org/gcrypt/libgpg-error/$($(PKG)_FILE)
+$(PKG)_URL      := https://gnupg.org/ftp/gcrypt/libgpg-error/$($(PKG)_FILE)
 $(PKG)_DEPS     := gettext libiconv
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'ftp://ftp.gnupg.org/gcrypt/libgpg-error/' | \
+    $(WGET) -q -O- 'https://gnupg.org/ftp/gcrypt/libgpg-error/' | \
     $(SED) -n 's,.*libgpg-error-\([1-9]\.[1-9][0-9][^>]*\)\.tar.*,\1,p' | \
-    tail -1
+    head -1
 endef
 
 define $(PKG)_BUILD

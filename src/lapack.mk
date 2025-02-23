@@ -2,78 +2,39 @@
 # See index.html for further information.
 
 PKG             := lapack
-$(PKG)_VERSION  := 3.12.0
-$(PKG)_CHECKSUM := 3661a879f31b517f43db2b94a1f2831da3235138
+$(PKG)_VERSION  := 3.12.1
+$(PKG)_CHECKSUM := f9d49090a80aa864f0af1b9aae27b6c726ef153b
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/Reference-LAPACK/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := blas
-
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-    $(PKG)_BLAS_CONFIG_OPTS := -DBLAS_LIBRARIES="$(HOST_BINDIR)/libblas.dll $(HOST_BINDIR)/libxerbla.dll"
-else
-    ifeq ($(MXE_WINDOWS_BUILD),yes)
-        $(PKG)_BLAS_CONFIG_OPTS := \
-            -DBLAS_LIBRARIES="-L$(HOST_PREFIX)/lib -lblas -lxerbla" \
-            -DBLAS_LINKER_FLAGS="-L$(HOST_PREFIX)/lib -lblas -lxerbla"
-        $(PKG)_BLAS_LIBS := -lblas -lxerbla
-    else
-        $(PKG)_BLAS_CONFIG_OPTS := \
-            -DBLAS_LIBRARIES="-L$(HOST_PREFIX)/lib -lblas" \
-            -DBLAS_LINKER_FLAGS="-L$(HOST_PREFIX)/lib -lblas"
-        $(PKG)_BLAS_LIBS := -lblas
-    endif
-endif
-# since we are providing the built blas that should have the required functions in it
-$(PKG)_BLAS_CONFIG_OPTS += -DBLAS_FOUND=1
+$(PKG)_DEPS     :=
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
-    $(PKG)_DEFAULT_INTEGER_8_FLAG := -fdefault-integer-8
+  $(PKG)_DEFAULT_INTEGER_8_FLAG := -fdefault-integer-8
 endif
 
 define $(PKG)_UPDATE
-    $(call GITHUB_PKG_UPDATE,Reference-LAPACK,lapack,v)
+  $(call GITHUB_PKG_UPDATE,Reference-LAPACK,lapack,v)
 endef
 
-ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
-    define $(PKG)_BUILD
-        cd '$(1)' && \
-            cp INSTALL/make.inc.gfortran make.inc && \
-            sed -i -e 's/\(FC[ ]*\)=.*/\1= $(MXE_F77)/' \
-                   -e 's/\(CC[ ]*\)=.*/\1= $(MXE_CC)/' \
-                   -e 's/\(CFLAGS[ ]*\)=.*/\1= -O2/' make.inc
+define $(PKG)_BUILD
+  mkdir '$(1)/build'
+  cd '$(1)/build' && cmake \
+    $(CMAKE_CCACHE_FLAGS) \
+    $(CMAKE_BUILD_SHARED_OR_STATIC) \
+    -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+    -DCMAKE_AR='$(shell which $(MXE_AR))' \
+    -DCMAKE_RANLIB='$(shell which $(MXE_RANLIB))' \
+    -DCMAKE_Fortran_FLAGS='$($(PKG)_DEFAULT_INTEGER_8_FLAG)' \
+    -DBUILD_DEPRECATED=ON \
+    -DBUILD_INDEX64_EXT_API=OFF \
+    -DBUILD_TESTING=OFF \
+    $($(PKG)_BLAS_CONFIG_OPTS) \
+    $(1)
 
-        $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1 lapacklib
+  cmake --build '$(1)/build'
+  DESTDIR='$(3)' cmake --install '$(1)/build'
+  
+  # FIXME: Make the pkg-config files relocatable.
+endef
 
-        if [ $(BUILD_SHARED) = yes ]; then \
-            $(MAKE_SHARED_FROM_STATIC) --ar '$(MXE_AR)' --ld '$(MXE_F77)' '$(1)/liblapack.a' --install '$(INSTALL)' --libdir '$(HOST_LIBDIR)' --bindir '$(HOST_BINDIR)' $($(PKG)_BLAS_LIBS); \
-        fi
-
-        $(INSTALL) -d '$(HOST_LIBDIR)/pkgconfig' 
-        $(SED) -e 's/@LAPACK_VERSION@/$($(PKG)_VERSION)/' \
-               -e 's,@prefix@,$(HOST_PREFIX),' \
-               -e 's,@libdir@,$${prefix}/lib,' '$(1)/lapack.pc.in' > '$(1)/lapack.pc'
-        $(INSTALL) '$(1)/lapack.pc' '$(HOST_LIBDIR)/pkgconfig/'
-
-    endef
-else
-    define $(PKG)_BUILD
-        mkdir '$(1)/build'
-        cd '$(1)/build' && cmake \
-            $(CMAKE_CCACHE_FLAGS) \
-            $(CMAKE_BUILD_SHARED_OR_STATIC) \
-            -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-            -DCMAKE_AR='$(shell which $(MXE_AR))' \
-            -DCMAKE_RANLIB='$(shell which $(MXE_RANLIB))' \
-            -DCMAKE_Fortran_FLAGS='$($(PKG)_DEFAULT_INTEGER_8_FLAG)' \
-            -DBUILD_DEPRECATED=ON \
-            -DBUILD_TESTING=OFF \
-            -DTEST_FORTRAN_COMPILER=OFF \
-            -DBUILD_SHARED_LIBS=$(if $(findstring yes,$(BUILD_SHARED)),ON,OFF) \
-            $($(PKG)_BLAS_CONFIG_OPTS) \
-            $(1)
-
-        cmake --build '$(1)/build'
-        DESTDIR='$(3)' cmake --install '$(1)/build'
-    endef
-endif

@@ -2,12 +2,12 @@
 # See index.html for further information.
 
 PKG             := suitesparse
-$(PKG)_VERSION  := 7.6.0
-$(PKG)_CHECKSUM := 765bafd9645826a7502e69d666481840604c0073
+$(PKG)_VERSION  := 7.8.3
+$(PKG)_CHECKSUM := 68950a0a2e5384f27b3c17b28347ba94ac2fa10e
 $(PKG)_SUBDIR   := SuiteSparse-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := blas lapack mpfr
+$(PKG)_DEPS     := lapack mpfr
 ifeq ($(USE_SYSTEM_GCC),no)
   $(PKG)_DEPS += libgomp
 endif

@@ -3,8 +3,8 @@
 
 PKG             := graphicsmagick
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.42
-$(PKG)_CHECKSUM := a48ec3fa59d9ca0915e1e6f78fd8bda55e9e0c6f
+$(PKG)_VERSION  := 1.3.45
+$(PKG)_CHECKSUM := 2c3c133f1e1f792e63003f37f1b0a77794f7b572
 $(PKG)_SUBDIR   := GraphicsMagick-$($(PKG)_VERSION)
 $(PKG)_FILE     := GraphicsMagick-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG)/$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -73,7 +73,7 @@ define $(PKG)_BUILD
     if [ "x$(MXE_WINDOWS_BUILD)" == "xyes" ]; then \
       cd '$(1)/dcraw' && $(MXE_CC) -O4 -o $(3)$(HOST_PREFIX)/bin/dcraw dcraw.c \
         -Wall -Wno-unused-result -Wno-array-bounds -Wno-maybe-uninitialized \
-        -Wno-unused-but-set-variable \
+        -Wno-unused-but-set-variable -Wno-incompatible-pointer-types \
         -I$(HOST_PREFIX)/include -L$(HOST_PREFIX)/lib \
         -lm -ljasper -ljpeg -llcms2 -lws2_32 -s; \
     fi

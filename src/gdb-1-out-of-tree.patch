@@ -1,0 +1,71 @@
+From: Andrew Burgess <aburgess@redhat.com>
+Date: Tue, 21 Jan 2025 13:06:18 +0000 (+0000)
+Subject: bfd/doc: use abs_srcdir when creating symlinks
+X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=95db53e5a03dacef594430f28281748f3111c1f6;hp=4cbf39144c78ec78a6924466993b6788ae8d1511
+
+bfd/doc: use abs_srcdir when creating symlinks
+
+After commit:
+
+  commit bd32be01c997f686ab0b53f0640eaa0aeb61fbd3
+  Date:   Fri Dec 3 00:23:20 2021 -0500
+
+      bfd: merge doc subdir up a level
+
+And the follow-up commit:
+
+  commit 98b1464bdf6306a8ab4614b5e9f76cdb2dd00b33
+  Date:   Wed Oct 2 22:58:08 2024 +0300
+
+      bfd: fix unnecessary bfd.info regen
+
+There is still a problem building the bfd docs from a release tar
+file.
+
+As the release tar file contains the pre-generated .texi files we
+expect the bfd/doc build stage to symlink to the pre-existing .texi
+files in the source tree.
+
+However, this is still not working as expected if $(srcdir) is
+relative.  The problem is this line in REGEN_TEXI:
+
+    test -e $$texi || test ! -f $(srcdir)/$$texi || $(LN_S) $(srcdir)/$$texi $$texi; \
+
+This is executed from the build/bfd/ directory, so if $(srcdir) is
+relative, then this will get you from the bfd/ directory in the build
+tree to the corresponding bfd/ directory in the src tree.  However,
+the symlink is created in the bfd/doc/ build directory.  The relative
+path will then fail to take you to the bfd/ directory in the src
+tree.
+
+Fix this by using $(abs_srcdir) when creating the symlink.
+
+Approved-By: Nick Clifton <nickc@redhat.com>
+---
+
+diff --git a/bfd/Makefile.in b/bfd/Makefile.in
+index aec3717485a..ee674a36c5b 100644
+--- a/bfd/Makefile.in
++++ b/bfd/Makefile.in
+@@ -1318,7 +1318,7 @@ REGEN_TEXI = \
+ 	$(MKDOC) -f $(srcdir)/doc/doc.str < $< > $@.tmp; \
+ 	texi=$@; \
+ 	texi=$${texi%.stamp}.texi; \
+-	test -e $$texi || test ! -f $(srcdir)/$$texi || $(LN_S) $(srcdir)/$$texi $$texi; \
++	test -e $$texi || test ! -f $(srcdir)/$$texi || $(LN_S) $(abs_srcdir)/$$texi $$texi; \
+ 	$(SHELL) $(srcdir)/../move-if-change $@.tmp $$texi; \
+ 	touch $@; \
+ 	)
+diff --git a/bfd/doc/local.mk b/bfd/doc/local.mk
+index 97d658b5a48..9b75402387c 100644
+--- a/bfd/doc/local.mk
++++ b/bfd/doc/local.mk
+@@ -101,7 +101,7 @@ REGEN_TEXI = \
+ 	$(MKDOC) -f $(srcdir)/%D%/doc.str < $< > $@.tmp; \
+ 	texi=$@; \
+ 	texi=$${texi%.stamp}.texi; \
+-	test -e $$texi || test ! -f $(srcdir)/$$texi || $(LN_S) $(srcdir)/$$texi $$texi; \
++	test -e $$texi || test ! -f $(srcdir)/$$texi || $(LN_S) $(abs_srcdir)/$$texi $$texi; \
+ 	$(SHELL) $(srcdir)/../move-if-change $@.tmp $$texi; \
+ 	touch $@; \
+ 	)

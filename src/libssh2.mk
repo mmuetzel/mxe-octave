@@ -3,8 +3,8 @@
 
 PKG             := libssh2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.11.0
-$(PKG)_CHECKSUM := fbdb4751a4bc93e895e9c3426f7f80b437d250fe
+$(PKG)_VERSION  := 1.11.1
+$(PKG)_CHECKSUM := 61c721696f08bf91d23dd59b766bac65e9a78b04
 $(PKG)_SUBDIR   := libssh2-$($(PKG)_VERSION)
 $(PKG)_FILE     := libssh2-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.libssh2.org/download/$($(PKG)_FILE)

@@ -3,11 +3,11 @@
 
 PKG             := libgcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.10.3
-$(PKG)_CHECKSUM := 359e1d01ad2eb9cd2db964ea96ef3712d0c2c649
+$(PKG)_VERSION  := 1.11.0
+$(PKG)_CHECKSUM := dd2c68e0685bb99249efeeb06046fae15b5214ba
 $(PKG)_SUBDIR   := libgcrypt-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgcrypt-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := ftp://ftp.gnupg.org/gcrypt/libgcrypt/$($(PKG)_FILE)
+$(PKG)_URL      := https://gnupg.org/ftp/gcrypt/libgcrypt/$($(PKG)_FILE)
 $(PKG)_DEPS     := libgpg_error zlib
 
 define $(PKG)_UPDATE

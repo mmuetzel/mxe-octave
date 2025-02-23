@@ -11,7 +11,11 @@ $(PKG)_URL      := http://ftp.gnu.org/gnu/readline/$($(PKG)_FILE)
 
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_TERMCAP_LIB := termcap
-  $(PKG)_CONFIGURE_OPTIONS := --without-curses
+  # Setting -Wno-implicit-function-declaration works around a build error
+  # because there is no function "alarm" on Windows. This should actually be
+  # fixed by implementing Windows versions of "set_alarm" and "reset_alarm" in
+  # input.c. But it seems to work without these functions.
+  $(PKG)_CONFIGURE_OPTIONS := --without-curses CFLAGS='$(CFLAGS) -Wno-implicit-function-declaration'
 else
   $(PKG)_TERMCAP_LIB := ncurses
   ifeq ($(MXE_NATIVE_BUILD),yes)

@@ -3,21 +3,20 @@
 
 PKG             := tiff
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.6.0
-$(PKG)_CHECKSUM := 5eda840cc24e1c74c6a9d92faa86a0851f7de7d5
+$(PKG)_VERSION  := 4.7.0
+$(PKG)_CHECKSUM := c32bc600f82bb8a09b83ce59a0abbee7f3dc2603
 $(PKG)_SUBDIR   := tiff-$($(PKG)_VERSION)
 $(PKG)_FILE     := tiff-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://download.osgeo.org/libtiff/$($(PKG)_FILE)
-$(PKG)_URL_2    := ftp://ftp.remotesensing.org/libtiff/$($(PKG)_FILE)
+$(PKG)_URL      := https://download.osgeo.org/libtiff/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib libjbig jpeg libwebp
 ifneq ($(MXE_SYSTEM),msvc)
     $(PKG)_DEPS += xz
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://simplesystems.org/libtiff/' | \
-    $(SED) -n 's,.*>v\([0-9][^<]*\)<.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- 'https://download.osgeo.org/libtiff/' | \
+    $(SED) -n 's,.*href="tiff-\([0-9][0-9\.]*\)\.tar\.gz".*,\1,p' | \
+    $(SORT) -V | tail -1
 endef
 
 define $(PKG)_BUILD

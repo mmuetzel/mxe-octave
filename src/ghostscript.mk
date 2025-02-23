@@ -37,6 +37,7 @@ define $(PKG)_BUILD
     cd '$(1)' && autoreconf -f -i
     mkdir '$(1)/.build'
     cd '$(1)/.build' && $(1)/configure \
+        CFLAGS='$(CFLAGS) -Wno-int-conversion' \
         CPPFLAGS='$(CPPFLAGS) -DHAVE_SYS_TIMES_H=0' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $($(PKG)_CONFIGURE_FLAGS) \

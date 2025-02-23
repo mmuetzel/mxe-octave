@@ -34,7 +34,7 @@ def verify_directory(dirname):
 def get_description(descfile):
   with open(descfile, 'rt', encoding='latin-1') as f:
     lines = f.read().splitlines()
-    pat_match = re.compile("(?P<name>[-\w]+):\s*(?P<value>\w.*)")
+    pat_match = re.compile("(?P<name>[-\\w]+):\\s*(?P<value>\\w.*)")
     lineval = ""
     d={}
     for l in lines:
@@ -143,7 +143,7 @@ def create_pkgadddel (env, packdir, nm):
     for f in cc_files + cpp_files + cxx_files:
       for a in extract_pkg(f, '^//* *' + nm + ': *(.*)$'):
         archfid.write("%s\n" % str(a))
-      for a in extract_pkg(f, '^/\** *' + nm + ': *(.*) *\*/$'):
+      for a in extract_pkg(f, '^/\\** *' + nm + ': *(.*) *\\*/$'):
         archfid.write("%s\n" % a)
 
   # add PKG_XXX from packdir if exists
@@ -389,7 +389,7 @@ def install_pkg(pkg, env):
 
 def fix_depends(deps):
   deplist = [s.strip() for s in deps.split(",") if len(s.strip()) > 0]
-  deppat = re.compile('\s*(?P<name>[-\w]+)\s*(\(\s*(?P<op>[<>=]+)\s*(?P<ver>\d+\.\d+(\.\d+)*)\s*\))*\s*')
+  deppat = re.compile('\\s*(?P<name>[-\\w]+)\\s*(\\(\\s*(?P<op>[<>=]+)\\s*(?P<ver>\\d+\\.\\d+(\\.\\d+)*)\\s*\\))*\\s*')
   deps = []
   for d in deplist:
     e = deppat.match(d)

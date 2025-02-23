@@ -1,0 +1,26 @@
+Declare functions getdelim, getline in compilation units before they are used.
+
+diff -urN biosig-2.6.0/biosig4c++/win32/getline.c.orig biosig-2.6.0/biosig4c++/win32/getline.c
+--- biosig-2.6.0/biosig4c++/win32/getline.c.orig	2024-02-19 07:33:48.000000000 +0100
++++ biosig-2.6.0/biosig4c++/win32/getline.c	2024-06-03 21:06:29.705428073 +0200
+@@ -20,6 +20,8 @@
+ 
+ #include <stdio.h>
+ 
++ssize_t getdelim (char **lineptr, size_t *n, int delimiter, FILE *fp);
++
+ ssize_t
+ getline (char **lineptr, size_t *n, FILE *stream)
+ {
+diff -urN biosig-2.6.0/biosig4c++/t210/sopen_abf_read.c.orig biosig-2.6.0/biosig4c++/t210/sopen_abf_read.c
+--- biosig-2.6.0/biosig4c++/t210/sopen_abf_read.c.orig	2024-02-19 07:33:48.000000000 +0100
++++ biosig-2.6.0/biosig4c++/t210/sopen_abf_read.c	2024-06-03 21:12:05.512725985 +0200
+@@ -34,6 +34,8 @@
+ #include "axon_structs.h"	// ABF2
+ #include "abfheadr.h"		// ABF1
+ 
++ssize_t getline (char **lineptr, size_t *n, FILE *stream);
++
+ #define min(a,b)        (((a) < (b)) ? (a) : (b))
+ #define max(a,b)        (((a) > (b)) ? (a) : (b))
+ 

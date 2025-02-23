@@ -1,10 +1,58 @@
-diff -ur lapack-3.8.0.orig/SRC/CMakeLists.txt lapack-3.8.0/SRC/CMakeLists.txt
---- lapack-3.8.0.orig/SRC/CMakeLists.txt	2018-11-07 11:53:43.333467954 -0500
-+++ lapack-3.8.0/SRC/CMakeLists.txt	2018-11-07 11:55:33.212104761 -0500
-@@ -37,7 +37,7 @@
+The XERBLA subroutine as in the reference implementation of BLAS stops the
+execution of the calling process.
+We do not want that behavior in Octave. To be able to replace that function by
+our own implementation in Octave, move the XERBLA subroutine to a separate
+library.
+
+diff -urN lapack-3.12.1/CMakeLists.txt.orig lapack-3.12.1/CMakeLists.txt
+--- lapack-3.12.1/CMakeLists.txt.orig	2024-12-03 12:39:11.000000000 +0100
++++ lapack-3.12.1/CMakeLists.txt	2025-01-21 19:02:36.211454829 +0100
+@@ -466,7 +466,7 @@
+ # --------------------------------------------------
+ 
+ if(NOT BLAS_FOUND)
+-  set(ALL_TARGETS ${ALL_TARGETS} ${BLASLIB})
++  set(ALL_TARGETS ${ALL_TARGETS} ${BLASLIB} xerbla)
+ endif()
+ 
+ if(NOT LATESTLAPACK_FOUND)
+diff -urN lapack-3.12.1/BLAS/SRC/CMakeLists.txt.orig lapack-3.12.1/BLAS/SRC/CMakeLists.txt
+--- lapack-3.12.1/BLAS/SRC/CMakeLists.txt.orig	2024-12-03 12:39:11.000000000 +0100
++++ lapack-3.12.1/BLAS/SRC/CMakeLists.txt	2025-01-21 18:51:45.180084894 +0100
+@@ -58,7 +58,7 @@
+ #---------------------------------------------------------------------
+ #  Auxiliary routines needed by both the Level 2 and Level 3 BLAS
+ #---------------------------------------------------------------------
+-set(ALLBLAS lsame.f xerbla.f xerbla_array.f)
++set(ALLBLAS lsame.f xerbla_array.f)
+ 
+ #---------------------------------------------------------
+ #  Level 2 BLAS
+@@ -156,6 +156,17 @@
+   )
+ lapack_install_library(${BLASLIB})
+ 
++add_library(xerbla xerbla.f)
++
++set_target_properties(
++  xerbla PROPERTIES
++  VERSION ${LAPACK_VERSION}
++  SOVERSION ${LAPACK_MAJOR_VERSION}
++  POSITION_INDEPENDENT_CODE ON
++  )
++lapack_install_library(xerbla)
++target_link_libraries(${BLASLIB} PUBLIC xerbla)
++
+ if( TEST_FORTRAN_COMPILER )
+   add_dependencies( ${BLASLIB} run_test_zcomplexabs run_test_zcomplexdiv run_test_zcomplexmult run_test_zminMax )
+ endif()
+diff -urN lapack-3.12.1/SRC/CMakeLists.txt.orig lapack-3.12.1/SRC/CMakeLists.txt
+--- lapack-3.12.1/SRC/CMakeLists.txt.orig	2025-01-21 18:09:05.196615666 +0100
++++ lapack-3.12.1/SRC/CMakeLists.txt	2025-01-21 18:12:23.025305937 +0100
+@@ -40,7 +40,7 @@
  
  set(ALLAUX ilaenv.f ilaenv2stage.f ieeeck.f lsamen.f iparmq.f iparam2stage.F
-    ilaprec.f ilatrans.f ilauplo.f iladiag.f chla_transtype.f la_xisnan.F90
+    ilaprec.f ilatrans.f ilauplo.f iladiag.f chla_transtype.f
 -   ../INSTALL/ilaver.f ../INSTALL/lsame.f xerbla.f xerbla_array.f
 +   ../INSTALL/ilaver.f ../INSTALL/lsame.f xerbla_array.f
     ../INSTALL/slamch.f)

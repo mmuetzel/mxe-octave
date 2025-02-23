@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := f7403b646ace20f4a2b080b4933a1e9152fac526
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := qrupdate-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://sourceforge.net/projects/qrupdate/files/$($(PKG)_FILE)
-$(PKG)_DEPS     := blas lapack
+$(PKG)_DEPS     := lapack
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
   $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := FFLAGS="-g -O2 -fdefault-integer-8"

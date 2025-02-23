@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 914fad8c40d478f27dc258ba802b89a16fc76310
 $(PKG)_SUBDIR   := $(PKG)-ng-$($(PKG)_VERSION)
 $(PKG)_FILE     := arpack-ng_$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/opencollab/arpack-ng/archive/$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := blas lapack
+$(PKG)_DEPS     := lapack
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
   $(PKG)_CONFIGURE_ENV := LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)

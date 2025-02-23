@@ -4,9 +4,9 @@
 PKG             := msys2-libunistring
 $(PKG)_NAME     := libunistring
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.1-2
-$(PKG)_x86_64_CS := 750d6841c79630421a773d47d0d730eea4ad4ab4
-$(PKG)_i686_CS  := b96427e9edde5e7057e515816f590a6f1b318e1b
+$(PKG)_VERSION  := 1.2-1
+$(PKG)_x86_64_CS := e51111c029eb6fe5656f77697eb07911c6d6f952
+$(PKG)_i686_CS  := 856f2146ee9e7cb0d3c0347ecd422ce74c87737f
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

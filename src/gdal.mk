@@ -3,8 +3,8 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.8.3
-$(PKG)_CHECKSUM := a1b09525759a0a94b9e28159b8a142ba9702c832
+$(PKG)_VERSION  := 3.10.1
+$(PKG)_CHECKSUM := f855fd8e1a0baaf914f166fe6d5d1f22d9ada2c1
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
@@ -21,6 +21,7 @@ define $(PKG)_BUILD
         -DBUILD_TESTING=no \
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
+        -DCMAKE_DISABLE_FIND_PACKAGE_Doxygen=ON \
         -DIconv_IS_BUILT_IN=OFF \
         -DBUILD_APPS=OFF \
         -DGDAL_USE_ARMADILLO=OFF \

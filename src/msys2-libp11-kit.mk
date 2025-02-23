@@ -4,9 +4,9 @@
 PKG             := msys2-libp11-kit
 $(PKG)_NAME     := libp11-kit
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.25.3-1
-$(PKG)_x86_64_CS := 7ece0d846ee2c8d70c68dd77e476d9b4b0e1b1e1
-$(PKG)_i686_CS  := 7b6b9c17cd0a0aa6cf0b23e394d05cc1c618869d
+$(PKG)_VERSION  := 0.25.5-2
+$(PKG)_x86_64_CS := e3d7e5655fad0f36dc16228471acbdafd3fbd56c
+$(PKG)_i686_CS  := b0942be66a18abb4162bed9347b4a09fa991c81d
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

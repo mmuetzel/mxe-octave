@@ -2,23 +2,23 @@
 # See index.html for further information.
 
 PKG             := gnutls
-$(PKG)_VERSION  := 3.6.16
-$(PKG)_CHECKSUM := 6ba8fb898dcf4b4046b60662ba97df835593e687
+$(PKG)_VERSION  := 3.8.8
+$(PKG)_CHECKSUM := facf87b8e4ae9234f34753b4ee6cd3e66078f0bf
 $(PKG)_SUBDIR   := gnutls-$($(PKG)_VERSION)
 $(PKG)_FILE     := gnutls-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.gnutls.org/gcrypt/gnutls/v3.6/$($(PKG)_FILE)
-$(PKG)_URL_2    := https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v3.6/$($(PKG)_FILE)
+$(PKG)_URL      := https://www.gnutls.org/ftp/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
 $(PKG)_DEPS     := gettext gmp libidn2 libtasn1 libunistring nettle zlib
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- https://gnupg.org/ftp/gcrypt/gnutls/v3.6/ | \
+    $(WGET) -q -O- https://gnupg.org/ftp/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/ | \
     $(SED) -n 's,.*gnutls-\([1-9]\+\.[0-9]\+.[0-9]\+\)\..*,\1,p' | \
     $(SORT) -V | \
     tail -1
 endef
 
 $(PKG)_WINDOWS_CONFIGURE_OPTIONS := \
-   CPPFLAGS='-D_WIN32_WINNT=0x0600' --disable-rpath 
+  --disable-rpath
 
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_CONFIGURE_OPTIONS := $($(PKG)_WINDOWS_CONFIGURE_OPTIONS)
@@ -32,7 +32,7 @@ define $(PKG)_BUILD
     # If an autoconf script calls GTK_DOC_CHECK, newer versions of autoreconf
     # try to call `gtkdocize --copy`, which would require an extra dependency
     # on `gtk-doc`, even if documentation is disabled at configure time.
-    cd '$(1)' && GTKDOCIZE=echo autoreconf -fi 
+    cd '$(1)' && GTKDOCIZE=echo autoreconf -fi
     cd '$(1)/.build' && ../configure \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \

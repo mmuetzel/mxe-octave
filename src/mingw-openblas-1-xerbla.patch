@@ -1,6 +1,6 @@
-diff -ur OpenBLAS-0.3.21.orig/driver/others/Makefile OpenBLAS-0.3.21/driver/others/Makefile
---- OpenBLAS-0.3.21.orig/driver/others/Makefile	2022-08-09 12:41:33.461142658 -0400
-+++ OpenBLAS-0.3.21/driver/others/Makefile	2022-08-09 12:45:19.718440230 -0400
+diff -ur OpenBLAS-0.3.28.orig/driver/others/Makefile OpenBLAS-0.3.28/driver/others/Makefile
+--- OpenBLAS-0.3.28.orig/driver/others/Makefile	2024-08-22 10:02:22.360392424 -0400
++++ OpenBLAS-0.3.28/driver/others/Makefile	2024-08-22 10:09:45.328618931 -0400
 @@ -1,7 +1,7 @@
  TOPDIR	= ../..
  include ../../Makefile.system
@@ -10,7 +10,7 @@ diff -ur OpenBLAS-0.3.21.orig/driver/others/Makefile OpenBLAS-0.3.21/driver/othe
  
  #COMMONOBJS	+= slamch.$(SUFFIX) slamc3.$(SUFFIX) dlamch.$(SUFFIX)  dlamc3.$(SUFFIX)
  
-@@ -92,33 +92,30 @@
+@@ -96,24 +96,24 @@
  
  ifeq ($(DYNAMIC_ARCH), 1)
  ifeq ($(ARCH),arm64)
@@ -33,11 +33,16 @@ diff -ur OpenBLAS-0.3.21.orig/driver/others/Makefile OpenBLAS-0.3.21/driver/othe
 -HPLOBJS = memory.$(SUFFIX) xerbla.$(SUFFIX) dynamic_loongarch64.$(SUFFIX)
 +HPLOBJS = memory.$(SUFFIX) dynamic_loongarch64.$(SUFFIX)
  else
+ ifeq ($(ARCH),riscv64)
+-HPLOBJS = memory.$(SUFFIX) xerbla.$(SUFFIX) dynamic_riscv64.$(SUFFIX) detect_riscv64.$(SUFFIX)
++HPLOBJS = memory.$(SUFFIX) dynamic_riscv64.$(SUFFIX) detect_riscv64.$(SUFFIX)
+ else
 -HPLOBJS = memory.$(SUFFIX) xerbla.$(SUFFIX) dynamic.$(SUFFIX)
 +HPLOBJS = memory.$(SUFFIX) dynamic.$(SUFFIX)
  endif
  endif
  endif
+@@ -121,12 +121,9 @@
  endif
  endif
  else
@@ -51,9 +56,9 @@ diff -ur OpenBLAS-0.3.21.orig/driver/others/Makefile OpenBLAS-0.3.21/driver/othe
  dynamic.$(SUFFIX) : dynamic.c
  	$(CC) $(CFLAGS) -c $< -o $(@F)
  
-@@ -206,9 +203,6 @@
- mulx.$(SUFFIX) : $(ARCH)/mulx.c
- 	$(CC) $(CFLAGS) -c -DXDOUBLE -UCOMPLEX $< -o $(@F)
+@@ -220,9 +217,6 @@
+ detect_riscv64.$(SUFFIX): detect_riscv64.c
+ 	$(CC) $(CFLAGS) -c -march=rv64imafdcv $< -o $(@F)
  
 -xerbla.$(PSUFFIX) : xerbla.c
 -	$(CC) $(PFLAGS) -c $< -o $(@F)

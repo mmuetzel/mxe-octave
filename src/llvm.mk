@@ -3,8 +3,8 @@
 
 PKG             := llvm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 15.0.7
-$(PKG)_CHECKSUM := 497ca3b2010cc0e3e38bc9dc6dda19041dbd7066
+$(PKG)_VERSION  := 19.1.7
+$(PKG)_CHECKSUM := a3fe674659932187ca1e252f2daf547a8fbb7411
 $(PKG)_SUBDIR   := llvm-$($(PKG)_VERSION).src
 $(PKG)_FILE     := llvm-$($(PKG)_VERSION).src.tar.xz
 $(PKG)_URL      := https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -60,10 +60,12 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
 else
   ifeq ($(ENABLE_WINDOWS_64),yes)
     $(PKG)_SYSDEP_CMAKE_OPTIONS += \
-      -DLLVM_DEFAULT_TARGET_TRIPLE='x86_64-pc-win32'
+      -DLLVM_DEFAULT_TARGET_TRIPLE='x86_64-w64-windows-gnu' \
+      -DLLVM_HOST_TRIPLE='x86_64-w64-windows-gnu'
   else
     $(PKG)_SYSDEP_CMAKE_OPTIONS += \
-      -DLLVM_DEFAULT_TARGET_TRIPLE='x86-pc-win32'
+      -DLLVM_DEFAULT_TARGET_TRIPLE='i686-w64-windows-gnu' \
+      -DLLVM_HOST_TRIPLE='i686-w64-windows-gnu'
   endif
   ifeq ($(USE_CCACHE),yes)
     $(PKG)_CCACHE_OPTIONS += \
@@ -91,8 +93,8 @@ else
       $(CMAKE_CCACHE_FLAGS) \
       -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
       -DLLVM_BUILD_TOOLS=OFF \
-      -DLLVM_BUILD_LLVM_DYLIB=ON \
-      -DLLVM_LINK_LLVM_DYLIB=ON \
+      -DLLVM_BUILD_LLVM_DYLIB=OFF \
+      -DLLVM_LINK_LLVM_DYLIB=OFF \
       -DLLVM_VERSION_SUFFIX= \
       -DLLVM_TARGETS_TO_BUILD='X86' \
       $($(PKG)_SYSDEP_CMAKE_OPTIONS) \
@@ -118,9 +120,6 @@ else
 
     cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS) llvm-config
     cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS) install
-
-    # create symlink for shared library so that llvm-config can find it
-    cd '$(3)/$(HOST_BINDIR)' && ln -s libLLVM-$(word 1,$(subst ., ,$($(PKG)_VERSION))).dll LLVM-$(word 1,$(subst ., ,$($(PKG)_VERSION))).dll
 
     # install native llvm-config in HOST_BINDIR because it won't find the libs otherwise
     $(INSTALL) -d '$(HOST_BINDIR)'

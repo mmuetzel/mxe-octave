@@ -4,9 +4,9 @@
 PKG             := msys2-less
 $(PKG)_NAME     := less
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 643-1
-$(PKG)_x86_64_CS := aa790979562ba16337d63b260008add67f81f691
-$(PKG)_i686_CS  := caa711ea7a5d77836f525198842623e45e54aecc
+$(PKG)_VERSION  := 668-1
+$(PKG)_x86_64_CS := 55e48ca60db737978d2def4ebd97b1cc38b2ba47
+$(PKG)_i686_CS  := 59b13d9c921e10681fcca58dc24b01fc36d36988
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

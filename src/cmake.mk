@@ -3,8 +3,8 @@
 
 PKG             := cmake
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.23.3
-$(PKG)_CHECKSUM := 99a7d4586f1a411cd30dfa57438300390396402c
+$(PKG)_VERSION  := 3.30.5
+$(PKG)_CHECKSUM := bab4725b65d45b3c86e7f1413b265b2d498b1abf
 $(PKG)_SUBDIR   := cmake-$($(PKG)_VERSION)
 $(PKG)_FILE     := cmake-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.cmake.org/files/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
@@ -25,10 +25,7 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://www.cmake.org/cmake/resources/software.html' | \
-    $(SED) -n 's,.*cmake-\([0-9.]*\)\.tar.*,\1,p' | \
-    $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,Kitware,CMake,v)
 endef
 
 define $(PKG)_BUILD
@@ -38,6 +35,7 @@ define $(PKG)_BUILD
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        -DBUILD_TESTING=OFF \
         ../$($(PKG)_SUBDIR)
     $(MAKE) -C '$(1).build' -j '$(JOBS)'
     $(MAKE) -C '$(1).build' -j 1 install DESTDIR='$(3)'

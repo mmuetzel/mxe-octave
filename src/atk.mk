@@ -11,10 +11,10 @@ $(PKG)_URL      := http://ftp.gnome.org/pub/gnome/sources/atk/$(call SHORT_PKG_V
 $(PKG)_DEPS     := glib gettext
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- https://github.com/GNOME/atk/tags | \
-    $(SED) -n 's|.*releases/tag/ATK_\([^"]*\).*|\1|p' | \
-    $(SED) 's,_,.,g' | $(SORT) -V | \
-    tail -1
+    $(WGET) -q -O- 'https://gitlab.gnome.org/GNOME/atk/tags' | \
+    $(SED) -n "s,.*<a [^>]\+>ATK_\([0-9]\+_[0-9_]\+\)<.*,\1,p" | \
+    $(SED) "s,_,.,g;" | \
+    head -1
 endef
 
 define $(PKG)_BUILD

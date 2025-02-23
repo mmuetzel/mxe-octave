@@ -14,7 +14,6 @@ SRC_FILES_1 := \
   aubio-1-fix-pkg-config.patch \
   aubio.mk \
   bfd.mk \
-  blas.mk \
   blas_switch.mk \
   boost-1-intrinsics-fix.patch \
   boost-2-winerror.patch \
@@ -47,6 +46,7 @@ SRC_FILES_1 := \
   build-pkg-config-1-fixes.patch \
   build-pkg-config.mk \
   build-python.mk \
+  build-pyyaml.mk \
   build-scons.mk \
   build-sed.mk \
   build-setuptools.mk \
@@ -61,6 +61,7 @@ SRC_FILES_1 := \
   cairo.mk \
   cairomm.mk \
   cblas.mk \
+  cfitsio-1-fixes.patch \
   cfitsio.mk \
   cgal-1-fixes.patch \
   cgal.mk \
@@ -120,6 +121,7 @@ SRC_FILES_1 := \
   gd-test.c \
   gd.mk \
   gdal.mk \
+  gdb-1-out-of-tree.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
@@ -132,6 +134,7 @@ SRC_FILES_1 := \
   geos.mk \
   gettext.mk \
   ghostscript-1-fixes.patch \
+  ghostscript-2-GCC-14.patch \
   ghostscript.mk \
   giflib.mk \
   gl2ps-1-configure.patch \
@@ -222,6 +225,7 @@ SRC_FILES_1 := \
   libass.mk \
   libb64.mk \
   libbiosig-1-gcc11.patch \
+  libbiosig-2-missing-declarations.patch \
   libbiosig.mk \
   libcdio.mk \
   libcroco.mk \
@@ -332,17 +336,16 @@ SRC_FILES_1 := \
   mdbtools.mk \
   mesa-proto.mk \
   mesa.mk \
-  mingw-blas-1-xerbla.patch \
   mingw-cairo-1-ssize-t-defined.patch \
   mingw-epstool-1-fixes.patch \
   mingw-glpk-1-fixes.patch \
   mingw-graphicsmagick-1-dcraw.patch \
-  mingw-hdf5-1.patch \
   mingw-lapack-1-xerbla.patch \
   mingw-libgcrypt-1-fixes.patch \
   mingw-libmng-1-noundefines.patch \
   mingw-openblas-1-xerbla.patch \
   mingw-pkg-config-1-gnu-printf.patch \
+  mingw-pkg-config-2-pointer-type.patch \
   mingw-portaudio-1-pkgconfig.patch \
   mingw-s2tc-1-fixes.patch \
   mingw-texinfo-1-fixes.patch \
@@ -554,6 +557,7 @@ SRC_FILES_1 := \
   openal-1-fixes.patch \
   openal-test.c \
   openal.mk \
+  openblas-1-no-utest.patch \
   openblas.mk \
   opencore-amr.mk \
   opencsg-1-fixes.patch \
@@ -574,7 +578,6 @@ SRC_FILES_1 := \
   opkg-tablicious.mk \
   opus.mk \
   opusfile.mk \
-  paho-mqtt-c-1-fixes.patch \
   paho-mqtt-c.mk \
   pango-1-fixes.patch \
   pango.mk \
@@ -649,6 +652,7 @@ SRC_FILES_1 := \
   qt6.mk \
   qt6-qt5compat.mk \
   qt6-qtbase-1-fixes.patch \
+  qt6-qtbase-2-6.7.0-opengl-header.patch \
   qt6-qtbase.mk \
   qt6-qtimageformats.mk \
   qt6-qtsvg.mk \
@@ -661,6 +665,7 @@ SRC_FILES_1 := \
   qwtplot3d.mk \
   randrproto.mk \
   rapidjson-1-prettywriter.patch \
+  rapidjson-2-GCC-14.patch \
   rapidjson.mk \
   readline-0-001-fix-crash-when-readline-is-star.patch \
   readline-0-002-avoid-possible-crash-when-tryin.patch \
@@ -672,6 +677,9 @@ SRC_FILES_1 := \
   readline-0-008-add-missing-function-prototypes.patch \
   readline-0-009-fix-issue-where-directory-name-.patch \
   readline-0-010-fix-issue-where-comparing-quot.patch \
+  readline-0-011-readline-should-retry-the-open.patch \
+  readline-0-012-prevent-infinite-recursion-if-.patch \
+  readline-0-013-readline-can-discard-bytes-if-.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \
@@ -747,6 +755,7 @@ SRC_FILES_1 := \
   taglib-1-static.patch \
   taglib.mk \
   termcap-1-fixes.patch \
+  termcap-2-GCC-14.patch \
   termcap.mk \
   texinfo.mk \
   theora.mk \

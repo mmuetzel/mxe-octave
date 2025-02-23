@@ -4,9 +4,9 @@
 PKG             := msys2-wget
 $(PKG)_NAME     := wget
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.21.4-1
-$(PKG)_x86_64_CS := 932458ed5f5646ad9df3151ca107748c8d4a35af
-$(PKG)_i686_CS  := 67502dc3a867b9a2113cb53c313ca6bd6ffa26da
+$(PKG)_VERSION  := 1.25.0-1
+$(PKG)_x86_64_CS := 27871cf048f2ab744e3959fcf2548e72567bdf84
+$(PKG)_i686_CS  := 2e321a52cfc592f076c85407f64c16fd6024c316
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

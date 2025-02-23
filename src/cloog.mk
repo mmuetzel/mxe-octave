@@ -12,7 +12,7 @@ $(PKG)_DEPS     := build-gcc gmp isl
 
 # stick to tested versions from gcc
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'ftp://gcc.gnu.org/pub/gcc/infrastructure/' | \
+    $(WGET) -q -O- 'https://gcc.gnu.org/pub/gcc/infrastructure/' | \
     $(SED) -n 's,.*cloog-\([0-9][^>]*\)\.tar.*,\1,p' | \
     $(SORT) -V |
     tail -1

@@ -3,8 +3,8 @@
 
 PKG             := paho-mqtt-c
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.13
-$(PKG)_CHECKSUM := 97aef4fea0cf821660977ca898303a38ad92336f
+$(PKG)_VERSION  := 1.3.14
+$(PKG)_CHECKSUM := 6c80a9e512dc4b9d5a2d5affbdcff299ee141cc5
 $(PKG)_SUBDIR   := paho.mqtt.c-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/eclipse/paho.mqtt.c/archive/refs/tags/v$($(PKG)_VERSION).tar.gz

@@ -16,6 +16,10 @@ Note: requires Qt6 compatibility module Core5Compat
 
 ./configure --with-qt=qt4  is still accepted but I no longer have
 the Qt4 libraries installed to confirm that it works.
+
+
+Adapted by MXE Octave for newer versions of Qt6 which seem to have
+a different dependency between modules.
 ---
  configure.ac                     | 53 ++++++++++++++++++++++----------
  src/qtterminal/qt_conversion.cpp |  9 ++++++
@@ -43,7 +47,7 @@ index 3f98c46d0..ca09c31d2 100644
    if test "x${with_qt}" != "xqt4"; then
 -    PKG_CHECK_MODULES_NOFAIL(QT, [Qt5Core Qt5Gui Qt5Network Qt5Svg Qt5PrintSupport])
 +    AC_MSG_CHECKING([Checking for Qt6 support libraries])
-+    PKG_CHECK_MODULES_NOFAIL(QT, [Qt6Core Qt6Gui Qt6Network Qt6Svg Qt6PrintSupport Qt6Core5Compat])
++    PKG_CHECK_MODULES_NOFAIL(QT, [Qt6Core Qt6Gui Qt6Network Qt6Svg Qt6Widgets Qt6PrintSupport Qt6Core5Compat])
      if test $pkg_failed = no; then
 -      try_qt4=no
 -      QT5LOC=`$PKG_CONFIG --variable=host_bins Qt5Core`

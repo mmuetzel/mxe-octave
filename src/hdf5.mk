@@ -3,8 +3,8 @@
 
 PKG             := hdf5
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.12.1
-$(PKG)_CHECKSUM := 665eed49a004f96f852887bb2b232dd7d3d8d8a0
+$(PKG)_VERSION  := 1.14.3
+$(PKG)_CHECKSUM := c7f4e1f6150547504171c7210352379b96e10d5e
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://support.hdfgroup.org/ftp/HDF5/releases/$(PKG)-$(call SHORT_PKG_VERSION,$(PKG))/$(PKG)-$($(PKG)_VERSION)/src/$($(PKG)_FILE)
@@ -18,7 +18,6 @@ endef
 ifeq ($(MXE_SYSTEM),mingw)
     ifneq ($(MXE_NATIVE_BUILD),yes)
         $(PKG)_CROSS_CONFIG_OPTIONS := \
-            -DHDF5_USE_PREGEN=ON \
             -DHAVE_IOEO_EXITCODE=0 \
             -DH5_LDOUBLE_TO_LONG_SPECIAL_RUN=1 \
             -DH5_LDOUBLE_TO_LONG_SPECIAL_RUN__TRYRUN_OUTPUT="" \
@@ -30,40 +29,12 @@ ifeq ($(MXE_SYSTEM),mingw)
             -DH5_LLONG_TO_LDOUBLE_CORRECT_RUN__TRYRUN_OUTPUT="" \
             -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN=1 \
             -DH5_DISABLE_SOME_LDOUBLE_CONV_RUN__TRYRUN_OUTPUT="" \
-            -DH5_NO_ALIGNMENT_RESTRICTIONS_RUN=0 \
-            -DH5_NO_ALIGNMENT_RESTRICTIONS_RUN__TRYRUN_OUTPUT="" \
-            -DH5_PRINTF_LL_TEST_RUN=0 \
-            -DH5_PRINTF_LL_TEST_RUN__TRYRUN_OUTPUT="" \
-            -DTEST_LFS_WORKS_RUN=0
+            -DH5_HAVE_ASPRINTF=OFF \
+            -DH5_HAVE_VASPRINTF=OFF
     endif
 endif
 
 define $(PKG)_BUILD
-    if test x$(MXE_SYSTEM) = xmingw; then \
-        mkdir '$(1)/pregen'; \
-        mkdir '$(1)/pregen/shared'; \
-        case '$(TARGET)' in \
-            x86_64-w64-mingw32) \
-                cp '$(1)/src/H5Tinit.c.mingw64' '$(1)/pregen/H5Tinit.c' & \
-                cp '$(1)/src/H5Tinit.c.mingw64' '$(1)/pregen/shared/H5Tinit.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw64' '$(1)/pregen/H5lib_settings.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw64' '$(1)/pregen/shared/H5lib_settings.c' \
-            ;; \
-            i686-w64-mingw32) \
-                cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/H5Tinit.c' & \
-                cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/shared/H5Tinit.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/H5lib_settings.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/shared/H5lib_settings.c' \
-            ;; \
-            i686-pc-mingw32) \
-                cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/H5Tinit.c' & \
-                cp '$(1)/src/H5Tinit.c.mingw32' '$(1)/pregen/shared/H5Tinit.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/H5lib_settings.c' & \
-                cp '$(1)/src/H5lib_settings.c.mingw32' '$(1)/pregen/shared/H5lib_settings.c' \
-            ;; \
-        esac; \
-    fi
-
     mkdir '$(1)/.build'
 
     cd '$(1)/.build' && cmake .. -G Ninja \
@@ -83,8 +54,7 @@ define $(PKG)_BUILD
         -DHDF5_ENABLE_SZIP_ENCODING=OFF \
         -DHDF5_BUILD_DOC=OFF \
         -DBUILD_TESTING=OFF \
-        $($(PKG)_CROSS_CONFIG_OPTIONS) \
-        -DHDF5_USE_PREGEN_DIR='$(1)/pregen'
+        $($(PKG)_CROSS_CONFIG_OPTIONS)
 
     cmake --build '$(1)/.build' -j '$(JOBS)' 
     DESTDIR='$(3)' cmake --install '$(1)/.build'

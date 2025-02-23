@@ -1,0 +1,18 @@
+Include (platform-specific) header that declares "write".
+
+diff -urN termcap-1.3.1/tparam.c.orig termcap-1.3.1/tparam.c
+--- termcap-1.3.1/tparam.c.orig	2002-02-25 18:37:24.000000000 +0100
++++ termcap-1.3.1/tparam.c	2024-06-03 15:38:58.024613027 +0200
+@@ -21,6 +21,12 @@
+ #include <config.h>
+ #endif
+ 
++#if defined(_WIN32)
++#include <io.h>
++#else
++#include <unistd.h>
++#endif
++
+ #ifdef emacs
+ #include "lisp.h"		/* for xmalloc */
+ #else

@@ -3,11 +3,11 @@
 
 PKG             := build-setuptools
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 56.2.0
-$(PKG)_CHECKSUM := 93a2efe727c901cd140fad483b5e05d5f8117ec2
+$(PKG)_VERSION  := 69.2.0
+$(PKG)_CHECKSUM := aebbbea52c78c80628559decae0cff7046a7f91d
 $(PKG)_SUBDIR   := setuptools-$($(PKG)_VERSION)
 $(PKG)_FILE     := setuptools-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://files.pythonhosted.org/packages/fc/0a/b486efab52f8ad03c3eca0c998dd3deafba0c39b29e0c49c68a7152c8b2d/$($(PKG)_FILE)
+$(PKG)_URL      := https://files.pythonhosted.org/packages/4d/5b/dc575711b6b8f2f866131a40d053e30e962e633b332acf7cd2c24843d83d/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-python
 
 define $(PKG)_UPDATE

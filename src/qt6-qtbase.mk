@@ -3,8 +3,8 @@
 
 PKG             := qt6-qtbase
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.6.2
-$(PKG)_CHECKSUM := d25ebd9f030548484dbe7999f297b91b1e4346be
+$(PKG)_VERSION  := 6.7.3
+$(PKG)_CHECKSUM := a089eed9cc8bf8c52b62bf4653a162ebae03599e
 $(PKG)_SUBDIR   := qtbase-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := qtbase-everywhere-src-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
@@ -78,7 +78,7 @@ define $(PKG)_BUILD
         -DQT_BUILD_{TESTS,EXAMPLES,DOCS}=OFF \
         -DBUILD_WITH_PCH=OFF \
         -DFEATURE_pcre2=ON \
-        -DFEATURE_{pkg_config,eventfd,glib,gui,icu,openssl,zstd,system_pcre2,sql,xml,testlib,backtrace}=OFF; \
+        -DFEATURE_{pkg_config,glib,gui,icu,openssl,zstd,system_pcre2,sql,xml,testlib,backtrace}=OFF; \
       cmake --build '$(1).native' -j '$(JOBS)'; \
       cmake --install '$(1).native'; \
     fi

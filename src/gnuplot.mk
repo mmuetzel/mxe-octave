@@ -33,6 +33,8 @@ ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
     $(PKG)_EXTRAFLAGS += ICONV_CFLAGS='-I$(HOST_INCDIR)' ICONV_LDFLAGS='-L$(HOST_LIBDIR)'
 endif
 
+$(PKG)_CWFLAGS := -Wno-int-conversion -Wno-implicit-function-declaration
+
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'http://sourceforge.net/projects/gnuplot/files/gnuplot/' | \
     $(SED) -n 's,.*tr title="\([0-9][^"]*\)".*,\1,p' | \
@@ -40,9 +42,19 @@ define $(PKG)_UPDATE
 endef
 
 ifeq ($(MXE_SYSTEM),mingw)
-define $(PKG)_BUILD
-    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot.exe gnuplot.exe
-    make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=wgnuplot.exe wgnuplot.exe
+  define $(PKG)_BUILD
+    make -C '$(1)/config/mingw' \
+      $($(PKG)_EXTRAFLAGS) \
+      CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+      CWFLAGS='$($(PKG)_CWFLAGS)' \
+      -j '$(JOBS)' \
+      TARGET=gnuplot.exe gnuplot.exe
+    make -C '$(1)/config/mingw' \
+      $($(PKG)_EXTRAFLAGS) \
+      CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+      CWFLAGS='$($(PKG)_CWFLAGS)' \
+      -j '$(JOBS)' \
+      TARGET=wgnuplot.exe wgnuplot.exe
 
     $(INSTALL) -d '$(3)$(HOST_BINDIR)'
     $(INSTALL) -m755 '$(1)/config/mingw/gnuplot.exe' '$(3)$(HOST_BINDIR)'
@@ -50,7 +62,12 @@ define $(PKG)_BUILD
     $(INSTALL) -m644 '$(1)/src/win/wgnuplot.mnu' '$(3)$(HOST_BINDIR)'
 
     if [ "$(ENABLE_QT)" != "4" ]; then \
-      make -C '$(1)/config/mingw' $($(PKG)_EXTRAFLAGS) CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' -j '$(JOBS)' TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
+      make -C '$(1)/config/mingw' \
+        $($(PKG)_EXTRAFLAGS) \
+        CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+        CWFLAGS='$($(PKG)_CWFLAGS)' \
+        -j '$(JOBS)' \
+        TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
       $(INSTALL) -m755 '$(1)/config/mingw/gnuplot_qt.exe' '$(3)$(HOST_BINDIR)'; \
     fi
 
@@ -93,43 +110,43 @@ define $(PKG)_BUILD
     $(INSTALL) -m755 '$(1)/config/mingw/gnuplot.exe' '$(TOP_DIR)/gnuplot/bin/'
     $(INSTALL) -m755 '$(1)/config/mingw/wgnuplot.exe' '$(TOP_DIR)/gnuplot/bin/'
     $(INSTALL) -m644 '$(1)/src/win/wgnuplot.mnu' '$(TOP_DIR)/gnuplot/bin/'
-endef
+  endef
 else
-ifeq ($(MXE_SYSTEM),msvc)
-define $(PKG)_BUILD
-    $(INSTALL) -d '$(3)$(HOST_PREFIX)'
-    cd '$(1)/config/msvc' && \
+  ifeq ($(MXE_SYSTEM),msvc)
+    define $(PKG)_BUILD
+      $(INSTALL) -d '$(3)$(HOST_PREFIX)'
+      cd '$(1)/config/msvc' && \
         env -u MAKE -u MAKEFLAGS nmake DESTDIR=$(shell (cd '$(HOST_PREFIX)' && pwd -W) | sed -e 's#/#\\\\#g') && \
         env -u MAKE -u MAKEFLAGS nmake DESTDIR=$(shell (cd '$(3)$(HOST_PREFIX)' && pwd -W) | sed -e 's#/#\\\\#g') install
-endef
+    endef
 
-else
+  else
 
-## If we allow the system Qt libraries to be used, then these
-## won't make sense.
-$(PKG)_QT_CONFIGURE_OPTIONS := \
-  MOC=$(MXE_MOC) \
-  UIC=$(MXE_UIC) \
-  RCC=$(MXE_RCC) \
-  LRELEASE=$(MXE_LRELEASE)
+    ## If we allow the system Qt libraries to be used, then these
+    ## won't make sense.
+    $(PKG)_QT_CONFIGURE_OPTIONS := \
+      MOC=$(MXE_MOC) \
+      UIC=$(MXE_UIC) \
+      RCC=$(MXE_RCC) \
+      LRELEASE=$(MXE_LRELEASE)
 
-ifeq ($(ENABLE_QT),5)
-  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
-  $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt5
-endif
-ifeq ($(ENABLE_QT),6)
-  $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
-  $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt6
-endif
+    ifeq ($(ENABLE_QT),5)
+      $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+      $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt5
+    endif
+    ifeq ($(ENABLE_QT),6)
+      $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
+      $(PKG)_QT_CONFIGURE_OPTIONS += --with-qt=qt6
+    endif
 
-define $(PKG)_BUILD
-    cd '$(1)' && autoreconf -fi && PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
-    ./configure \
-      $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv \
-      --without-lua \
-      $($(PKG)_QT_CONFIGURE_OPTIONS) \
-      --prefix='$(HOST_PREFIX)'
-    make -C '$(1)' -j '$(JOBS)' install DESTDIR='$(3)'
-endef
-endif
+    define $(PKG)_BUILD
+      cd '$(1)' && autoreconf -fi && PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
+      ./configure \
+        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv CFLAGS='$(CFLAGS) $($(PKG)_CWFLAGS)' \
+        --without-lua \
+        $($(PKG)_QT_CONFIGURE_OPTIONS) \
+        --prefix='$(HOST_PREFIX)'
+      make -C '$(1)' -j '$(JOBS)' install DESTDIR='$(3)'
+    endef
+  endif
 endif
