@@ -5,20 +5,22 @@
 <body>
 <h1>Welcome</h1>
 <p>Thank you for installing GNU Octave!</p>
-<p>Octave 9.4 is a minor release which mainly fixes a bug that caused that new
-files might not have been detected by Octave. It should be feature and API
-compatible to Octave 9.3. The soversion of the Octave libraries have
-incremented from version 9.2 to version 9.3.</p>
-<p>Octave 9 is not feature or ABI/API compatible with Octave 8 or earlier.
-Binaries (<code>.oct</code> or <code>.mex</code> files) need to be re-built
-when upgrading from Octave 9.2 or earlier to this version.</p>
+<p>Octave 10.1 is a major release with many new features and improvements.
+Among other things, it brings updates for Matlab compatibility (notably a
+substantial overhaul of the moving window functions) and performance
+improvements for some built-in functions.</p>
+<p>Octave 10 is not feature or API compatible to Octave 9 or earlier. Binaries
+(<code>.oct</code> or <code>.mex</code> files) need to be re-built when
+upgrading from Octave 9 or earlier to this version.</p>
+<p>Starting with Octave 10, <code>.mex</code> files are linked with the new
+library <code>liboctmex.dll</code>. That means that it should no longer be
+necessary to rebuilt <code>.mex</code> files when upgrading from Octave 10 to
+newer versions in the future. That might allow package developers to more
+easily distribute <code>.mex</code> files in binary form.</p>
 <p>Octave for Windows 9.2 or newer is built with Qt6. This should improve the
 user experience on screens with DPI scaling.</p>
 <p>Binaries are no longer distributed for Windows 32-bit (or WoW64) by the
-Octave project. Please refer to other distributors if you still need them.
-32-bit Windows binaries of Octave are still available from
-<a href="https://wiki.octave.org/Octave_for_Microsoft_Windows#GNU_Octave_in_MSYS2">MSYS2</a>.
-</p>
+Octave project.</p>
 <p>Since Octave 7, the minimum required version of the Windows API is 6.1
 (Windows 7 or newer).</p>
 <p>A full list of changes can be found in the Release Notes from the News
