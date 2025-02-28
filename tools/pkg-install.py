@@ -417,7 +417,7 @@ def rebuild_pkg(env):
     pkg_dir = oct_dir + "/packages"
     arch_dir = env.prefix + "/lib/octave/packages"
 
-    pkg_list_file = oct_dir + "/octave_packages"
+    pkg_list_file = env.localapipkgdir + "/octave_packages"
 
     descs=glob.glob(pkg_dir + "/*/packinfo/DESCRIPTION")
 
@@ -595,6 +595,8 @@ def pkg (args):
   env.arch = arch + "-" + apiver
 
   env.bindir = os.popen(env.octave_config + " -p BINDIR").read().rstrip("\r\n")
+
+  env.localapipkgdir = os.popen(env.octave_config + " -p LOCALAPIPKGDIR").read().rstrip("\r\n")
 
   if env.verbose:
     print ("operation=", operation)
