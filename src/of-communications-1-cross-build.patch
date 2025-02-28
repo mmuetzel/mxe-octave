@@ -1,0 +1,43 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1740768047 -3600
+#      Fri Feb 28 19:40:47 2025 +0100
+# Node ID 1c5028a8b255895c2bebe35c7110bc9305bd1fe9
+# Parent  5b92f37c524d046780b9eec1627d741aaf215e06
+Remove (unused) dependency on installed Octave.
+
+* src/configure.ac, src/Makefile.in: Remove all references to an installed
+Octave. It is never actually used. And not requiring it simplifies
+cross-building this package.
+
+diff --git a/src/Makefile.in b/src/Makefile.in
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -1,5 +1,4 @@
+ MKOCTFILE ?= @MKOCTFILE@
+-OCTAVE    ?= @OCTAVE@
+ SED       ?= @SED@
+ 
+ HDF5_CPPFLAGS = @HDF5_CFLAGS@
+diff --git a/src/configure.ac b/src/configure.ac
+--- a/src/configure.ac
++++ b/src/configure.ac
+@@ -10,9 +10,7 @@ AH_TOP([#include "undef-ah-octave.h"])
+ AC_CONFIG_MACRO_DIRS([m4])
+ 
+ AC_ARG_VAR([MKOCTFILE], [mkoctfile compiler helper command])
+-AC_ARG_VAR([OCTAVE], [Octave interpreter command])
+ AC_CHECK_PROG([MKOCTFILE], mkoctfile, mkoctfile, [])
+-AC_CHECK_PROG([OCTAVE], octave, octave, [])
+ AC_PROG_CXX
+ AC_PROG_SED
+ 
+@@ -184,8 +182,6 @@ if test $have_hdf5 = no; then
+   AC_MSG_ERROR([hdf5 not found])
+ fi
+ 
+-comm_OCT_EVAL="$OCTAVE --norc --no-history --silent --eval"
+- 
+ comm_CXXFLAGS=`$MKOCTFILE -p ALL_CXXFLAGS`
+ 
+ AC_CACHE_CHECK([for octave_hdf5_id type],

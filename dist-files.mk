@@ -464,6 +464,7 @@ SRC_FILES_1 := \
   ocaml-native.mk \
   of-actuarial.mk \
   of-audio.mk \
+  of-communications-1-cross-build.patch \
   of-communications.mk \
   of-control.mk \
   of-data-smoothing.mk \
