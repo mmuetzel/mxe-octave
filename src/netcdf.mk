@@ -3,8 +3,8 @@
 
 PKG             := netcdf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.9.2
-$(PKG)_CHECKSUM := 0eb6fdcbd725bd53bb9e98405a2cb15f3c511ce2
+$(PKG)_VERSION  := 4.9.3
+$(PKG)_CHECKSUM := 154077e50adc53505a26b83e011ffa50280c6ec9
 $(PKG)_SUBDIR   := netcdf-c-$($(PKG)_VERSION)
 $(PKG)_FILE     := netcdf-c-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/Unidata/netcdf-c/archive/v$($(PKG)_VERSION).tar.gz
