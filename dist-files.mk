@@ -121,7 +121,6 @@ SRC_FILES_1 := \
   gd-test.c \
   gd.mk \
   gdal.mk \
-  gdb-1-out-of-tree.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
