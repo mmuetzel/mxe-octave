@@ -712,6 +712,7 @@ SRC_FILES_1 := \
   sdl_sound-test.c \
   sdl_sound.mk \
   sdl_ttf.mk \
+  sdl3.mk \
   sm.mk \
   smpeg-test.c \
   smpeg.mk \
