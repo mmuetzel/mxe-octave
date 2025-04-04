@@ -3,8 +3,8 @@
 
 PKG             := opkg-biosig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.6.0
-$(PKG)_CHECKSUM := 21fd41962e28a9ca124f8a58594441474b0cf0ff
+$(PKG)_VERSION  := 3.9.0
+$(PKG)_CHECKSUM := 89e205f21540a87096563bfb41f058c4884910af
 $(PKG)_SUBDIR   := biosig4octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).src.tar.gz
 $(PKG)_URL      := https://sourceforge.net/projects/biosig/files/Biosig%20for%20Octave/$($(PKG)_FILE)
