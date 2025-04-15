@@ -237,8 +237,11 @@ define $(PKG)_BUILD
       fi; \
     fi
 
+    # Execute the install-pdf and install-html targets separately
+    # to avoid parallel build issues.
     if [ "x$(ENABLE_DOCS)" == "xyes" ]; then \
-        $(MAKE) -C '$(1)/.build' -j '$(JOBS)' DESTDIR=$(3) install-pdf install-html; \
+        $(MAKE) -C '$(1)/.build' -j '$(JOBS)' DESTDIR=$(3) install-pdf; \
+        $(MAKE) -C '$(1)/.build' -j '$(JOBS)' DESTDIR=$(3) install-html; \
     fi
 
     # create a file with latest installed octave rev in it
