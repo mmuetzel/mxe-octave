@@ -3,8 +3,8 @@
 
 PKG             := llvm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 19.1.7
-$(PKG)_CHECKSUM := a3fe674659932187ca1e252f2daf547a8fbb7411
+$(PKG)_VERSION  := 20.1.2
+$(PKG)_CHECKSUM := 6eecf88c65c7a71894586111d23e453b3ebae183
 $(PKG)_SUBDIR   := llvm-$($(PKG)_VERSION).src
 $(PKG)_FILE     := llvm-$($(PKG)_VERSION).src.tar.xz
 $(PKG)_URL      := https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/$($(PKG)_FILE)
