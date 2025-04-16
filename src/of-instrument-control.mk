@@ -3,8 +3,8 @@
 
 PKG             := of-instrument-control
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.9.3
-$(PKG)_CHECKSUM := 99785685ca8e1be42f2be4818c9322c1ce781afd
+$(PKG)_VERSION  := 0.9.5
+$(PKG)_CHECKSUM := eaaf13b1057b9d0a446d3dd5b72018ce2d9085cc
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := instrument-control-$($(PKG)_VERSION)
 $(PKG)_FILE     := instrument-control-$($(PKG)_VERSION).tar.gz
