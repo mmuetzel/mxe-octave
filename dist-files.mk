@@ -572,6 +572,7 @@ SRC_FILES_1 := \
   opkg-biosig-1-skip-test.patch \
   opkg-biosig.mk \
   opkg-cfitsio.mk \
+  opkg-image-acquisition.mk \
   opkg-mqtt.mk \
   opkg-tablicious.mk \
   opus.mk \
