@@ -194,15 +194,6 @@ AC_ARG_ENABLE([static],
    esac], [BUILD_STATIC=no])
 AC_SUBST(BUILD_STATIC)
 
-AC_ARG_ENABLE([jit],
-  [AS_HELP_STRING([--enable-jit], [Enable Octave JIT compiler (default: disable)])],
-  [case "$enableval" in
-     no) ENABLE_JIT=no ;;
-     yes) ENABLE_JIT=yes ;;
-     *) AC_MSG_ERROR([bad value "$enableval" for --enable-jit]) ;;
-   esac], [ENABLE_JIT=no])
-AC_SUBST(ENABLE_JIT)
-
 AC_ARG_ENABLE([java],
   [AS_HELP_STRING([--disable-java], [Disable Java/Octave interface (default: enable)])],
   [case "$enableval" in

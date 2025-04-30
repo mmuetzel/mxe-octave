@@ -105,9 +105,6 @@ ENABLE_QHULL_NO_STRICT_ALIASING_FLAG := @ENABLE_QHULL_NO_STRICT_ALIASING_FLAG@
 # Attempt to build with support for Java.
 ENABLE_JAVA := @ENABLE_JAVA@
 
-# Attempt to build LLVM and enable Octave's experimental JIT compiler.
-ENABLE_JIT := @ENABLE_JIT@
-
 # Build octave docs 
 ENABLE_DOCS := @ENABLE_DOCS@
 
