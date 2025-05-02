@@ -489,7 +489,6 @@ SRC_FILES_1 := \
   of-instrument-control.mk \
   of-interval-1-cross-fixes.patch \
   of-interval.mk \
-  of-io-1-fixes.patch \
   of-io.mk \
   of-linear-algebra.mk \
   of-lssa.mk \
