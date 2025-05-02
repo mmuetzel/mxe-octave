@@ -574,6 +574,9 @@ SRC_FILES_1 := \
   opkg-cfitsio.mk \
   opkg-image-acquisition.mk \
   opkg-mqtt.mk \
+  opkg-parallel-1-Array-API.patch \
+  opkg-parallel-2-pserver-skip-test.patch \
+  opkg-parallel.mk \
   opkg-tablicious.mk \
   opus.mk \
   opusfile.mk \

@@ -1,0 +1,37 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1746181483 -7200
+#      Fri May 02 12:24:43 2025 +0200
+# Node ID be4dc8e59913d790cc4aa697a5570971611d5ab1
+# Parent  a8a0150fded4d6dbb97608cea8b9b599c627ec0a
+pserver: Run self-test only on Linux.
+
+* inst/pserver.m: Run self-test only on Linux. The octave-pserver binary is only
+built for that target (not for, e.g., Windows or macOS).
+* src/Makefile.in: Avoid triggering a documentation rebuild when applying the
+patch on top of a release tarball.
+
+diff --git a/inst/pserver.m b/inst/pserver.m
+--- a/inst/pserver.m
++++ b/inst/pserver.m
+@@ -220,7 +220,8 @@ function full_path = search_path (file)
+ 
+ endfunction
+ 
+-%!test
++%!testif ; (isunix () && ! ismac ())
++%! # run test only on Linux
+ %! pserver ();
+ %! conns = pconnect ({"localhost"});
+ %! assert (res = netcellfun (conns, @ (x, y) x * y, {1, 2, 3, 4}, {2, 3, 4, 5}), [2, 6, 12, 20]);
+diff --git a/src/Makefile.in b/src/Makefile.in
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -132,6 +132,7 @@ DEFUNDLDFILES := $(addsuffix .cc,$(basen
+ DSFILES := $(addsuffix .docstrings,$(DEFUNDLDFILES))
+ 
+ MFILES := $(wildcard *.copy_to_m) $(wildcard ../inst/*.m)
++MFILES := $(filter-out ../inst/pserver.m,$(MFILES))
+ 
+ .PHONY: all gnulib clean distclean maintainer-clean doc prebuild html
+ 
