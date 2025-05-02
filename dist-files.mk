@@ -489,7 +489,6 @@ SRC_FILES_1 := \
   of-instrument-control.mk \
   of-interval-1-cross-fixes.patch \
   of-interval.mk \
-  of-io-1-fixes.patch \
   of-io.mk \
   of-linear-algebra.mk \
   of-lssa.mk \
@@ -574,6 +573,9 @@ SRC_FILES_1 := \
   opkg-cfitsio.mk \
   opkg-image-acquisition.mk \
   opkg-mqtt.mk \
+  opkg-parallel-1-Array-API.patch \
+  opkg-parallel-2-pserver-skip-test.patch \
+  opkg-parallel.mk \
   opkg-tablicious.mk \
   opus.mk \
   opusfile.mk \

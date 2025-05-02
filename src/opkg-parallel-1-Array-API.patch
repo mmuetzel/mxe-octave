@@ -1,0 +1,23 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1746121501 -7200
+#      Thu May 01 19:45:01 2025 +0200
+# Node ID a8a0150fded4d6dbb97608cea8b9b599c627ec0a
+# Parent  8025c42f0485632d564274e1395b35cbfdeaf4fc
+Do not instantiate Array<T> template class with new type as part of Octave's API.
+
+* src/p-connection.cc: Remove OCTAVE_API from invocation of INSTANTIATE_ARRAY
+macro.
+
+diff --git a/src/p-connection.cc b/src/p-connection.cc
+--- a/src/p-connection.cc
++++ b/src/p-connection.cc
+@@ -24,7 +24,7 @@ along with this program; If not, see <ht
+ 
+ NO_INSTANTIATE_ARRAY_SORT (octave_parallel_connection *);
+ 
+-INSTANTIATE_ARRAY (octave_parallel_connection *, OCTAVE_API);
++INSTANTIATE_ARRAY (octave_parallel_connection *, );
+ 
+ // at 'p' 37 bytes must be available
+ int oct_parallel_store_unique_identifier (char *p)
