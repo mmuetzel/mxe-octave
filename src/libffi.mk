@@ -3,8 +3,8 @@
 
 PKG             := libffi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4.7
-$(PKG)_CHECKSUM := 0acc3a327d32107e47ab3ca6fdc98115de16757e
+$(PKG)_VERSION  := 3.4.8
+$(PKG)_CHECKSUM := 5aaeb77d856a2178b1b6d453f5389da67ab77e93
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/$(PKG)/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
