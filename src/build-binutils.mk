@@ -7,8 +7,8 @@ $(PKG)_VERSION  := 2.44
 $(PKG)_CHECKSUM := c8c9f5ae46ab9e3722c71821982d2c270e267748
 $(PKG)_SUBDIR   := binutils-$($(PKG)_VERSION)
 $(PKG)_FILE     := binutils-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/binutils/$($(PKG)_FILE)
-$(PKG)_URL_2    := ftp://ftp.cs.tu-berlin.de/pub/gnu/binutils/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/pub/gnu/binutils/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://ftp.cs.tu-berlin.de/pub/gnu/binutils/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
@@ -18,7 +18,7 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://ftp.gnu.org/gnu/binutils/?C=M;O=D' | \
+    $(WGET) -q -O- 'https://ftp.gnu.org/gnu/binutils/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="binutils-\([0-9][^"]*\)\.tar.*,\1,p' | \
     grep -v '^2\.1' | \
     head -1
