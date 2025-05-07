@@ -476,7 +476,6 @@ SRC_FILES_1 := \
   of-fits-2-fixes.patch \
   of-fits-3-octave-9-compat.patch \
   of-fits.mk \
-  of-fl-core-1-fixes.patch \
   of-fl-core.mk \
   of-fuzzy-logic-toolkit.mk \
   of-ga.mk \
