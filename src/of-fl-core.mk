@@ -3,10 +3,10 @@
 
 PKG             := of-fl-core
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.0
-$(PKG)_CHECKSUM := 15c22155457f2eaf3d2531cd8a652732d9b7ebce
+$(PKG)_VERSION  := 1.0.2
+$(PKG)_CHECKSUM := acd0d113afe6c8c525acf5e232e43a59f501bb58
 $(PKG)_REMOTE_SUBDIR := 
-$(PKG)_SUBDIR   := fl-core
+$(PKG)_SUBDIR   := fl-core-$($(PKG)_VERSION)
 $(PKG)_FILE     := fl-core-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/octave/$($(PKG)_FILE)?download
 $(PKG)_DEPS     := 
