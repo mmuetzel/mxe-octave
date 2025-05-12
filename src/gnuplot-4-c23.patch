@@ -1,0 +1,170 @@
+Function declarations without prototype are unsupported in C23.
+
+diff -urN gnuplot-5.2.8/src/alloc.c.orig gnuplot-5.2.8/src/alloc.c
+--- gnuplot-5.2.8/src/alloc.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/alloc.c	2025-05-12 15:01:50.765626647 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: alloc.c,v 1.17 2011/09/04 11:08:33 markisch Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: alloc.c,v 1.17 2011/09/04 11:08:33 markisch Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - alloc.c */
+diff -urN gnuplot-5.2.8/src/bitmap.c.orig gnuplot-5.2.8/src/bitmap.c
+--- gnuplot-5.2.8/src/bitmap.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/bitmap.c	2025-05-12 14:54:54.309709413 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: bitmap.c,v 1.28 2013/12/15 06:18:55 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: bitmap.c,v 1.28 2013/12/15 06:18:55 sfeam Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - bitmap.c */
+diff -urN gnuplot-5.2.8/src/breaders.c.orig gnuplot-5.2.8/src/breaders.c
+--- gnuplot-5.2.8/src/breaders.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/breaders.c	2025-05-12 14:31:48.320537700 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: breaders.c,v 1.12 2012/06/08 17:33:41 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: breaders.c,v 1.12 2012/06/08 17:33:41 sfeam Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - breaders.c */
+diff -urN gnuplot-5.2.8/src/dynarray.c.orig gnuplot-5.2.8/src/dynarray.c
+--- gnuplot-5.2.8/src/dynarray.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/dynarray.c	2025-05-12 14:31:40.680503249 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: dynarray.c,v 1.12 2015/04/23 20:10:02 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: dynarray.c,v 1.12 2015/04/23 20:10:02 sfeam Exp $"); }
+ #endif
+ 
+ /*[
+diff -urN gnuplot-5.2.8/src/fit.c.orig gnuplot-5.2.8/src/fit.c
+--- gnuplot-5.2.8/src/fit.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/fit.c	2025-05-12 15:05:00.677312000 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: fit.c,v 1.170.2.1 2017/07/22 22:07:58 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: fit.c,v 1.170.2.1 2017/07/22 22:07:58 sfeam Exp $"); }
+ #endif
+ 
+ /*  NOTICE: Change of Copyright Status
+diff -urN gnuplot-5.2.8/src/gpexecute.c.orig gnuplot-5.2.8/src/gpexecute.c
+--- gnuplot-5.2.8/src/gpexecute.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/gpexecute.c	2025-05-12 15:14:16.985642849 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: gpexecute.c,v 1.17 2010/08/31 12:57:32 mikulik Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: gpexecute.c,v 1.17 2010/08/31 12:57:32 mikulik Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - gpexecute.c */
+diff -urN gnuplot-5.2.8/src/help.c.orig gnuplot-5.2.8/src/help.c
+--- gnuplot-5.2.8/src/help.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/help.c	2025-05-12 15:03:28.786327710 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: help.c,v 1.31 2015/09/11 19:48:02 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: help.c,v 1.31 2015/09/11 19:48:02 sfeam Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - help.c */
+diff -urN gnuplot-5.2.8/src/matrix.c.orig gnuplot-5.2.8/src/matrix.c
+--- gnuplot-5.2.8/src/matrix.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/matrix.c	2025-05-12 15:06:11.116131125 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: matrix.c,v 1.13 2014/02/28 10:20:53 markisch Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: matrix.c,v 1.13 2014/02/28 10:20:53 markisch Exp $"); }
+ #endif
+ 
+ /*  NOTICE: Change of Copyright Status
+diff -urN gnuplot-5.2.8/src/scanner.c.orig gnuplot-5.2.8/src/scanner.c
+--- gnuplot-5.2.8/src/scanner.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/scanner.c	2025-05-12 14:59:00.777342098 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: scanner.c,v 1.42 2014/05/09 22:14:12 broeker Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: scanner.c,v 1.42 2014/05/09 22:14:12 broeker Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - scanner.c */
+diff -urN gnuplot-5.2.8/src/specfun.c.orig gnuplot-5.2.8/src/specfun.c
+--- gnuplot-5.2.8/src/specfun.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/specfun.c	2025-05-12 14:51:50.751327647 +0200
+@@ -3026,13 +3026,11 @@
+ extern double fabs ( double );
+ extern double exp ( double );
+ extern double sqrt ( double );
+-extern double polevl ( double, void *, int );
+-extern double p1evl ( double, void *, int );
+ extern double sin ( double );
+ extern double cos ( double );
+ #else
+ double fabs(), exp(), sqrt();
+-double polevl(), p1evl(), sin(), cos();
++double sin(), cos();
+ #endif
+ 
+ int 
+diff -urN gnuplot-5.2.8/src/standard.c.orig gnuplot-5.2.8/src/standard.c
+--- gnuplot-5.2.8/src/standard.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/standard.c	2025-05-12 15:08:15.514011666 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: standard.c,v 1.33 2015/01/20 02:10:43 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: standard.c,v 1.33 2015/01/20 02:10:43 sfeam Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - standard.c */
+diff -urN gnuplot-5.2.8/src/stdfn.c.orig gnuplot-5.2.8/src/stdfn.c
+--- gnuplot-5.2.8/src/stdfn.c.orig	2025-05-12 14:53:56.217988779 +0200
++++ gnuplot-5.2.8/src/stdfn.c	2025-05-12 14:54:15.700168663 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: stdfn.c,v 1.35 2017/02/28 06:51:28 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: stdfn.c,v 1.35 2017/02/28 06:51:28 sfeam Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - stdfn.c */
+diff -urN gnuplot-5.2.8/src/variable.c.orig gnuplot-5.2.8/src/variable.c
+--- gnuplot-5.2.8/src/variable.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/variable.c	2025-05-12 15:09:40.607410739 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: variable.c,v 1.44 2013/07/02 22:19:09 sfeam Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: variable.c,v 1.44 2013/07/02 22:19:09 sfeam Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - variable.c */
+diff -urN gnuplot-5.2.8/src/win/winmain.c.orig gnuplot-5.2.8/src/win/winmain.c
+--- gnuplot-5.2.8/src/win/winmain.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/win/winmain.c	2025-05-12 15:20:14.404718402 +0200
+@@ -271,7 +271,7 @@
+ appdata_directory(void)
+ {
+     HMODULE hShell32;
+-    FARPROC pSHGetSpecialFolderPath;
++    int (*pSHGetSpecialFolderPath)(void *, char *, int, int);
+     static char dir[MAX_PATH] = "";
+ 
+     if (dir[0])
+@@ -282,7 +282,7 @@
+     /* Make sure that SHGetSpecialFolderPath is supported. */
+     hShell32 = LoadLibrary(TEXT("shell32.dll"));
+     if (hShell32) {
+-	pSHGetSpecialFolderPath =
++	pSHGetSpecialFolderPath = (int (*)(void *, char *, int, int))
+ 	    GetProcAddress(hShell32, "SHGetSpecialFolderPathA");
+ 	if (pSHGetSpecialFolderPath)
+ 	    (*pSHGetSpecialFolderPath)(NULL, dir, CSIDL_APPDATA, FALSE);diff -urN gnuplot-5.2.8/src/win/wgnuplib.c.orig gnuplot-5.2.8/src/win/wgnuplib.c
+--- gnuplot-5.2.8/src/win/wgnuplib.c.orig	2019-11-19 22:57:18.000000000 +0100
++++ gnuplot-5.2.8/src/win/wgnuplib.c	2025-05-12 15:12:20.922993326 +0200
+@@ -1,5 +1,5 @@
+ #ifndef lint
+-static char *RCSid() { return RCSid("$Id: wgnuplib.c,v 1.12 2016/07/21 09:07:44 markisch Exp $"); }
++static char *RCSid(const char *s) { return RCSid("$Id: wgnuplib.c,v 1.12 2016/07/21 09:07:44 markisch Exp $"); }
+ #endif
+ 
+ /* GNUPLOT - win/wgnuplib.c */

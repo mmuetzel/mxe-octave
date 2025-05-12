@@ -46,13 +46,13 @@ ifeq ($(MXE_SYSTEM),mingw)
     make -C '$(1)/config/mingw' \
       $($(PKG)_EXTRAFLAGS) \
       CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
-      CWFLAGS='$($(PKG)_CWFLAGS)' \
+      CWFLAGS='$($(PKG)_CWFLAGS) -DANSIPROT' \
       -j '$(JOBS)' \
       TARGET=gnuplot.exe gnuplot.exe
     make -C '$(1)/config/mingw' \
       $($(PKG)_EXTRAFLAGS) \
       CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
-      CWFLAGS='$($(PKG)_CWFLAGS)' \
+      CWFLAGS='$($(PKG)_CWFLAGS) -DANSIPROT' \
       -j '$(JOBS)' \
       TARGET=wgnuplot.exe wgnuplot.exe
 
@@ -65,7 +65,7 @@ ifeq ($(MXE_SYSTEM),mingw)
       make -C '$(1)/config/mingw' \
         $($(PKG)_EXTRAFLAGS) \
         CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
-        CWFLAGS='$($(PKG)_CWFLAGS)' \
+        CWFLAGS='$($(PKG)_CWFLAGS) -DANSIPROT' \
         -j '$(JOBS)' \
         TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
       $(INSTALL) -m755 '$(1)/config/mingw/gnuplot_qt.exe' '$(3)$(HOST_BINDIR)'; \
@@ -142,7 +142,7 @@ else
     define $(PKG)_BUILD
       cd '$(1)' && autoreconf -fi && PKG_CONFIG_PATH=$($(PKG)_PKG_CONFIG_PATH) \
       ./configure \
-        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv CFLAGS='$(CFLAGS) $($(PKG)_CWFLAGS)' \
+        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) LIBS=-liconv CFLAGS='$(CFLAGS) $($(PKG)_CWFLAGS) -DANSIPROT' \
         --without-lua \
         $($(PKG)_QT_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)'
