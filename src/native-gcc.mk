@@ -3,8 +3,8 @@
 
 PKG             := native-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 14.2.0
-$(PKG)_CHECKSUM := d91ecc3d20ce6298bd95f9b09cc51dc6d3c73ae3
+$(PKG)_VERSION  := 15.1.0
+$(PKG)_CHECKSUM := 42017f9c1b53a345ea1214c32012609b29dba5a2
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
