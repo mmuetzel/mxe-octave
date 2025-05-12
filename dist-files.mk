@@ -602,6 +602,7 @@ SRC_FILES_1 := \
   plotmm-1-fixes.patch \
   plotmm.mk \
   plotutils-2.6-libpng-1.5.patch \
+  plotutils-2-c23-bool.patch \
   plotutils.mk \
   poco-1-fix-mno-cygwin.patch \
   poco-test.cpp \
