@@ -1,0 +1,15 @@
+`bool` is a built-in type in C23 or later.
+
+diff -urN paho.mqtt.c-1.3.14/src/MQTTPacket.h.orig paho.mqtt.c-1.3.14/src/MQTTPacket.h
+--- paho.mqtt.c-1.3.14/src/MQTTPacket.h.orig	2025-05-12 19:31:11.256258246 +0200
++++ paho.mqtt.c-1.3.14/src/MQTTPacket.h	2025-01-07 14:24:37.000000000 +0100
+@@ -28,7 +28,9 @@
+ #include "LinkedList.h"
+ #include "Clients.h"
+ 
++#if __STDC_VERSION__ < 202311L
+ typedef unsigned int bool;
++#endif
+ typedef void* (*pf)(int, unsigned char, char*, size_t);
+ 
+ #include "MQTTProperties.h"
