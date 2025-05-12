@@ -847,6 +847,7 @@ SRC_FILES_1 := \
   xrender.mk \
   xt.mk \
   xtrans.mk \
+  xvidcore-1-c23-bool.patch \
   xvidcore.mk \
   xxf86vm.mk \
   xz.mk \

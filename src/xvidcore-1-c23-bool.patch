@@ -1,0 +1,15 @@
+`bool` is a built-in type in C23.
+
+diff -urN xvidcore/src/encoder.h.orig xvidcore/src/encoder.h
+--- xvidcore/src/encoder.h.orig	2019-12-28 15:19:24.000000000 +0100
++++ xvidcore/src/encoder.h	2025-05-12 17:47:51.901087010 +0200
+@@ -42,7 +42,9 @@
+  * Types
+  ****************************************************************************/
+ 
++#if __STDC_VERSION__ < 202311L
+ typedef int bool;
++#endif
+ 
+ /*****************************************************************************
+  * Structures
