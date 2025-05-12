@@ -762,6 +762,7 @@ SRC_FILES_1 := \
   taglib.mk \
   termcap-1-fixes.patch \
   termcap-2-GCC-14.patch \
+  termcap-3-c23.patch \
   termcap.mk \
   texinfo.mk \
   theora.mk \
