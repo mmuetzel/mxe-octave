@@ -27,6 +27,7 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    cd '$(1)' && autoreconf -fi
     $(if $(filter msvc,$(MXE_SYSTEM)), \
         $(SED) -i -e '/^#ifdef _MSC_VER/$(COMMA)/^#endif/ {/^ *#define __GMP_EXTERN_INLINE .*/d}' '$(1)/gmp-h.in')
     cd '$(1)' && ./configure \

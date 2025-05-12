@@ -1,0 +1,143 @@
+# HG changeset patch
+# User Marc Glisse <marc.glisse@inria.fr>
+# Date 1692692440 -7200
+#      Tue Aug 22 10:20:40 2023 +0200
+# Node ID 510152c4ca97797218333b560aa6ccb2fda9c843
+# Parent  6ba50b389ed4311388981fd77d56d69e965f3ba1
+Some main(void).
+
+diff --git a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -802,7 +802,7 @@ dnl
+ AC_DEFUN([GMP_PROG_CC_WORKS_PART],
+ [GMP_PROG_CC_WORKS_PART_MAIN([$1],[$2],
+ [$3]
+-[int main () { return 0; }])
++[int main (void) { return 0; }])
+ ])
+ 
+ dnl  Called: GMP_PROG_CC_WORKS_PART_MAIN(CC+CFLAGS,FAIL-MESSAGE,CODE)
+@@ -870,7 +870,7 @@ AC_DEFUN([GMP_PROG_CC_WORKS_LONGLONG],
+ cat >conftest.c <<EOF
+ long long  foo;
+ long long  bar () { return foo; }
+-int main () { return 0; }
++int main (void) { return 0; }
+ EOF
+ gmp_prog_cc_works=no
+ gmp_compile="$1 -c conftest.c >&AS_MESSAGE_LOG_FD"
+@@ -912,7 +912,7 @@ AC_DEFUN([GMP_C_TEST_SIZEOF],
+ AC_MSG_CHECKING([compiler $1 has sizeof($gmp_sizeof_type)==$gmp_sizeof_want])
+ cat >conftest.c <<EOF
+ [int
+-main ()
++main (void)
+ {
+   static int test_array [1 - 2 * (long) (sizeof ($gmp_sizeof_type) != $gmp_sizeof_want)];
+   test_array[0] = 0;
+@@ -1145,7 +1145,7 @@ AC_DEFUN([GMP_GCC_NO_CPP_PRECOMP],
+   AC_MSG_CHECKING([compiler $2 $3 -no-cpp-precomp])
+   result=no
+   cat >conftest.c <<EOF
+-int main () { return 0; }
++int main (void) { return 0; }
+ EOF
+   gmp_compile="$2 $3 -no-cpp-precomp conftest.c >conftest.out 2>&1"
+   if AC_TRY_EVAL(gmp_compile); then
+@@ -1204,7 +1204,7 @@ AC_DEFUN([GMP_GCC_WA_MCPU],
+ [AC_MSG_CHECKING([assembler $1 $2])
+ result=no
+ cat >conftest.c <<EOF
+-int main () {}
++int main (void) {}
+ EOF
+ gmp_compile="$1 $2 -c conftest.c >conftest.out 2>&1"
+ if AC_TRY_EVAL(gmp_compile); then
+@@ -3271,7 +3271,7 @@ struct foo foo = {
+   -123456789.0,
+   { '\376', '\334', '\272', '\230', '\166', '\124', '\062', '\020' },
+ };
+-int main(){
++int main(void){
+   int i;
+   for (i = 0; i < 8; i++) {
+     printf ("%d %f\n", foo.before[i] + foo.after[i], foo.x);
+@@ -3711,7 +3711,7 @@ check (const char *fmt, ...)
+ }
+ 
+ int
+-main ()
++main (void)
+ {
+ $i
+ }
+@@ -3822,7 +3822,7 @@ AC_DEFUN([GMP_PROG_CC_FOR_BUILD_WORKS],
+ rm -f conftest* a.out b.out a.exe a_out.exe
+ cat >conftest.c <<EOF
+ int
+-main ()
++main (void)
+ {
+   return 0;
+ }
+@@ -3896,7 +3896,7 @@ AC_CACHE_CHECK([for build system executa
+                gmp_cv_prog_exeext_for_build,
+ [cat >conftest.c <<EOF
+ int
+-main ()
++main (void)
+ {
+   return 0;
+ }
+@@ -3967,7 +3967,7 @@ AC_CACHE_CHECK([for build system compile
+ [cat >conftest.c <<EOF
+ #include <math.h>
+ int
+-main ()
++main (void)
+ {
+   return 0;
+ }
+
+# HG changeset patch
+# User Marc Glisse <marc.glisse@inria.fr>
+# Date 1738186682 -3600
+#      Wed Jan 29 22:38:02 2025 +0100
+# Node ID 8e7bb4ae7a18b1405ea7f9cbcda450b7d920a901
+# Parent  e84c5c785bbe8ed8c3620194e50b65adfc2f5d83
+Complete function prototype in acinclude.m4 for C23 compatibility
+
+diff --git a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -609,7 +609,7 @@ GMP_PROG_CC_WORKS_PART([$1], [long long 
+ 
+ #if defined (__GNUC__) && ! defined (__cplusplus)
+ typedef unsigned long long t1;typedef t1*t2;
+-void g(){}
++void g(int,t1 const*,t1,t2,t1 const*,int){}
+ void h(){}
+ static __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
+ {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}
+
+# HG changeset patch
+# User Marc Glisse <marc.glisse@inria.fr>
+# Date 1743513946 -7200
+#      Tue Apr 01 15:25:46 2025 +0200
+# Node ID d66d66d82dbbe4f561920d28c1e1cbe6818452c7
+# Parent  1a2ad0e32507e842486c8ac9d5cdc772fd0c335e
+Add parameter names to function prototype
+
+diff --git a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -609,7 +609,7 @@ GMP_PROG_CC_WORKS_PART([$1], [long long 
+ 
+ #if defined (__GNUC__) && ! defined (__cplusplus)
+ typedef unsigned long long t1;typedef t1*t2;
+-void g(int,t1 const*,t1,t2,t1 const*,int){}
++void g(int a,t1 const*b,t1 c,t2 d,t1 const*e,int f){}
+ void h(){}
+ static __inline__ t1 e(t2 rp,t2 up,int n,t1 v0)
+ {t1 c,x,r;int i;if(v0){c=1;for(i=1;i<n;i++){x=up[i];r=x+1;rp[i]=r;}}return c;}

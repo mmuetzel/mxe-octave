@@ -147,6 +147,8 @@ SRC_FILES_1 := \
   glpk.mk \
   glproto.mk \
   glu.mk \
+  gmp-1-gcc-15.patch \
+  gmp-2-missing-main.patch \
   gmp.mk \
   gnuplot-1-fixes.patch \
   gnuplot-2-qt6.patch \
