@@ -1,0 +1,26 @@
+Add function prototype in declarations for C23 compatibility.
+
+diff -urN nettle-3.9.1/getopt.c.orig nettle-3.9.1/getopt.c
+--- nettle-3.9.1/getopt.c.orig	2023-06-01 20:40:35.000000000 +0200
++++ nettle-3.9.1/getopt.c	2025-05-12 10:11:04.798535446 +0200
+@@ -136,7 +136,7 @@
+    whose names are inconsistent.  */
+ 
+ #ifndef getenv
+-extern char *getenv ();
++extern char *getenv (const char *name);
+ #endif
+ 
+ #endif /* not __GNU_LIBRARY__ */
+diff -urN nettle-3.9.1/getopt.c.orig nettle-3.9.1/getopt.c
+--- nettle-3.9.1/getopt.h.orig	2023-06-01 20:40:35.000000000 +0200
++++ nettle-3.9.1/getopt.h	2025-05-12 10:14:36.532879339 +0200
+@@ -166,7 +166,7 @@
+ #  endif
+ # endif
+ #else /* not __GNU_LIBRARY__ */
+-extern int getopt ();
++extern int getopt (int argc, char *const *argv, const char *optstring);
+ #endif /* __GNU_LIBRARY__ */
+ 
+ #ifndef __need_getopt
