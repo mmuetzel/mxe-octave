@@ -1,0 +1,21 @@
+`bool` is a built-in type in C23 or later.
+
+diff -urN cairo-1.16.0/test/pdiff/pdiff.h.orig cairo-1.16.0/test/pdiff/pdiff.h
+--- cairo-1.16.0/test/pdiff/pdiff.h.orig	2018-08-17 03:10:53.000000000 +0200
++++ cairo-1.16.0/test/pdiff/pdiff.h	2025-05-12 13:16:08.250056491 +0200
+@@ -19,6 +19,7 @@
+ 
+ #include <cairo.h>
+ 
++#if __STDC_VERSION__ < 202311L
+ typedef int bool;
+ #ifndef true
+ #define true 1
+@@ -26,6 +27,7 @@
+ #ifndef false
+ #define false 0
+ #endif
++#endif
+ 
+ /* Image comparison metric using Yee's method (and a cairo interface)
+  * References: A Perceptual Metric for Production Testing, Hector Yee, Journal of Graphics Tools 2004

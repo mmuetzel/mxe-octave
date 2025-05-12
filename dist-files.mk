@@ -57,6 +57,7 @@ SRC_FILES_1 := \
   bzip2-1-fixes.patch \
   bzip2.mk \
   c-ares.mk \
+  cairo-1-c23-bool.patch \
   cairo-2-static-init.patch \
   cairo.mk \
   cairomm.mk \
