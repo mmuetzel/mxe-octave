@@ -1,0 +1,144 @@
+Switch from K&R syntax to ANSI C function declarations.
+Declare functions with prototype before they are used.
+
+diff -urN units-2.23/getopt.c.orig units-2.23/getopt.c
+--- units-2.23/getopt.c.orig	2014-02-19 22:28:46.000000000 +0100
++++ units-2.23/getopt.c	2025-05-12 18:14:24.729324234 +0200
+@@ -175,12 +175,10 @@
+ /* Avoid depending on library functions or files
+    whose names are inconsistent.  */
+ 
+-char *getenv ();
++char *getenv (const char *name);
+ 
+ static char *
+-my_index (str, chr)
+-     const char *str;
+-     int chr;
++my_index (const char *str, int chr)
+ {
+   while (*str)
+     {
+@@ -224,8 +222,7 @@
+    the new indices of the non-options in ARGV after they are moved.  */
+ 
+ static void
+-exchange (argv)
+-     char **argv;
++exchange (char **argv)
+ {
+   int bottom = first_nonopt;
+   int middle = last_nonopt;
+@@ -282,8 +279,7 @@
+ /* Initialize the internal data when the first call is made.  */
+ 
+ static const char *
+-_getopt_initialize (optstring)
+-     const char *optstring;
++_getopt_initialize (const char *optstring)
+ {
+   /* Start processing options with ARGV-element 1 (since ARGV-element 0
+      is the program name); the sequence of previously skipped
+@@ -372,13 +368,8 @@
+    long-named options.  */
+ 
+ int
+-_getopt_internal (argc, argv, optstring, longopts, longind, long_only)
+-     int argc;
+-     char *const *argv;
+-     const char *optstring;
+-     const struct option *longopts;
+-     int *longind;
+-     int long_only;
++_getopt_internal (int argc, char *const *argv, const char *optstring,
++                  const struct option *longopts, int *longind, int long_only)
+ {
+   optarg = NULL;
+ 
+@@ -673,10 +664,7 @@
+ }
+ 
+ int
+-getopt (argc, argv, optstring)
+-     int argc;
+-     char *const *argv;
+-     const char *optstring;
++getopt (int argc, char *const *argv, const char *optstring)
+ {
+   return _getopt_internal (argc, argv, optstring,
+ 			   (const struct option *) 0,
+@@ -692,9 +680,7 @@
+    the above definition of `getopt'.  */
+ 
+ int
+-main (argc, argv)
+-     int argc;
+-     char **argv;
++main (int argc, char **argv)
+ {
+   int c;
+   int digit_optind = 0;
+diff -urN units-2.23/getopt.h.orig units-2.23/getopt.h
+--- units-2.23/getopt.h.orig	2012-10-19 03:00:05.000000000 +0200
++++ units-2.23/getopt.h	2025-05-12 18:20:17.079815635 +0200
+@@ -101,14 +101,7 @@
+ #define optional_argument	2
+ 
+ #if defined (__STDC__) && __STDC__
+-#ifdef __GNU_LIBRARY__
+-/* Many other libraries have conflicting prototypes for getopt, with
+-   differences in the consts, in stdlib.h.  To avoid compilation
+-   errors, only prototype getopt for the GNU C library.  */
+ extern int getopt (int argc, char *const *argv, const char *shortopts);
+-#else /* not __GNU_LIBRARY__ */
+-extern int getopt ();
+-#endif /* __GNU_LIBRARY__ */
+ extern int getopt_long (int argc, char *const *argv, const char *shortopts,
+ 		        const struct option *longopts, int *longind);
+ extern int getopt_long_only (int argc, char *const *argv,
+diff -urN units-2.23/parse.y.orig units-2.23/parse.y
+--- units-2.23/parse.y.orig	2024-02-01 22:55:34.000000000 +0100
++++ units-2.23/parse.y	2025-05-12 18:27:30.389165418 +0200
+@@ -45,7 +45,6 @@
+                               if (var) destroyunit(var); \
+                               YYABORT; }
+  
+-int yylex();
+ void yyerror(struct commtype *comm, char *);
+ 
+ #define MAXMEM 100
+@@ -169,6 +168,10 @@
+   struct func *unitfunc;
+ }
+ 
++%{
++int yylex(UNITSSTYPE *lvalp, struct commtype *comm);
++%}
++
+ %token <number> REAL
+ %token <unit> UNIT
+ %token <realfunc> REALFUNC
+diff -urN units-2.24/units.c.orig units-2.24/units.c
+--- units-2.24/units.c.orig	2024-11-26 00:47:38.000000000 +0100
++++ units-2.24/units.c	2025-05-12 19:12:00.955151364 +0200
+@@ -30,7 +30,7 @@
+ 
+ #define _XOPEN_SOURCE 600
+ 
+-#if defined (_WIN32) && defined (_MSC_VER)
++#if defined (_WIN32)
+ # include <windows.h>
+ # include <winbase.h>
+ # include <wincon.h>
+diff -urN units-2.23/units.h.orig units-2.23/units.h
+--- units-2.23/units.h.orig	2023-09-23 17:08:29.000000000 +0200
++++ units-2.23/units.h	2025-05-12 18:23:31.827993834 +0200
+@@ -54,7 +54,7 @@
+ #  ifdef NO_STRCHR
+ #    define strchr(a,b) index((a),(b))
+ #  else
+-     char *strchr();
++     char *strchr(const char *str, int val);
+ #  endif
+ #endif /* !strchr */
+ 

@@ -776,6 +776,7 @@ SRC_FILES_1 := \
   transfig-1-fixes.patch \
   transfig.mk \
   tre.mk \
+  units-1-c23.patch \
   units.mk \
   util-linux.mk \
   util-macros.mk \
