@@ -1,0 +1,18 @@
+`bool` is a built-in type in C23.
+
+--- glpk-5.0/src/minisat/minisat.h.orig	2020-12-16 02:00:00.000000000 -0700
++++ glpk-5.0/src/minisat/minisat.h	2025-01-16 17:02:56.517683296 -0700
+@@ -34,11 +34,13 @@
+ /*====================================================================*/
+ /* Simple types: */
+ 
++#if __STDC_VERSION__ < 202311L
+ typedef int bool;
+ 
+ #define true  1
+ #define false 0
++#endif
+ 
+ typedef int  lit;
+ #if 0 /* by mao */
+ typedef char lbool;

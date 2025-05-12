@@ -144,6 +144,7 @@ SRC_FILES_1 := \
   glib.mk \
   glibmm.mk \
   glpk-1-fixes.patch \
+  glpk-2-c23.patch \
   glpk.mk \
   glproto.mk \
   glu.mk \
