@@ -1,0 +1,14 @@
+Add missing header for type `int16_t`.
+
+
+diff -urN gdal-3.10.3/ogr/ogrsf_frmts/cad/libopencad/dwg/r2000.cpp.orig gdal-3.10.3/ogr/ogrsf_frmts/cad/libopencad/dwg/r2000.cpp
+--- gdal-3.10.3/ogr/ogrsf_frmts/cad/libopencad/dwg/r2000.cpp.orig	2025-04-01 13:01:20.000000000 +0200
++++ gdal-3.10.3/ogr/ogrsf_frmts/cad/libopencad/dwg/r2000.cpp	2025-05-12 19:21:22.793222404 +0200
+@@ -18,6 +18,7 @@
+ #include "r2000.h"
+ 
+ #include <cassert>
++#include <cstdint>
+ #include <cstring>
+ #include <iostream>
+ #include <limits>
