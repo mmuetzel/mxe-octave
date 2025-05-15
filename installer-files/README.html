@@ -5,6 +5,9 @@
 <body>
 <h1>Welcome</h1>
 <p>Thank you for installing GNU Octave!</p>
+<p>Octave 10.2 is a minor release which mainly fixes bugs and regressions found
+since the release of version 10.1. It should be feature and API compatible to
+Octave 10.1.</p>
 <p>Octave 10.1 is a major release with many new features and improvements.
 Among other things, it brings updates for Matlab compatibility (notably a
 substantial overhaul of the moving window functions) and performance
@@ -42,9 +45,10 @@ the default installation location is inside
 <code>%LOCALAPPDATA%\Programs\GNU Octave</code>.</p>
 
 <h2>Included Octave Packages</h2>
-<p>A <a href="https://wiki.octave.org/Octave_for_Microsoft_Windows#Packages">
-number of Octave packages</a> has been included with Octave for Windows.
-However, the packages must be loaded in order to use them.</p>
+<p>More than 50
+<a href="https://wiki.octave.org/Octave_for_Microsoft_Windows#Octave_Packages">
+Octave packages</a> are included with Octave for Windows.
+However, these packages must be loaded in order to use them.</p>
 <p>
 <ul>
 <li>To list the available installed packages, use the
@@ -53,6 +57,10 @@ However, the packages must be loaded in order to use them.</p>
 <code>pkg load PACKAGENAME</code> command.</li>
 </ul>
 </p>
+<p>Some of these packages are slightly modified to run on Windows or to install
+correctly with this version of Octave. Re-installing some of these bundled
+Octave packages from the packages index with
+<code>pkg install -forge PACKAGENAME</code> might break these modifications.</p>
 <p>More packages are available from
 <a href="https://packages.octave.org/">Octave Packages</a>.</p>
 
