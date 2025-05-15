@@ -3,11 +3,11 @@
 
 PKG             := libidn
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.42
-$(PKG)_CHECKSUM := 32234b883584c190e73a8b479903ad5f4f5bd39b
+$(PKG)_VERSION  := 1.43
+$(PKG)_CHECKSUM := 80e9f28762544bf7da490ab4b1a92e725da6ce61
 $(PKG)_SUBDIR   := libidn-$($(PKG)_VERSION)
 $(PKG)_FILE     := libidn-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://ftp.gnu.org/gnu/libidn/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/gnu/libidn/$($(PKG)_FILE)
 $(PKG)_DEPS     := gettext libiconv
 
 define $(PKG)_UPDATE
