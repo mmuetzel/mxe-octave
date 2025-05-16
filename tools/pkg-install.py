@@ -315,13 +315,16 @@ def uninstall_pkg(pkg,env):
   if env.verbose:
      print ("Uninstalling " + env.pkg)
 
-  files=glob.glob(env.prefix + "/share/octave/packages/" + env.pkg + "-" + "*")
+  # The following glob patterns assume that no package name contains a dash
+  # followed by a number and that the version identifier for all packages
+  # starts with a number.
+  files=glob.glob(env.prefix + "/share/octave/packages/" + env.pkg + "-[0-9]*")
   for f in files:
     if env.verbose:
       print ("removing dir " + f)
     shutil.rmtree(f)
 
-  files=glob.glob(env.prefix + "/lib/octave/packages/" + env.pkg + "-" + "*")
+  files=glob.glob(env.prefix + "/lib/octave/packages/" + env.pkg + "-[0-9]*")
   for f in files:
     if env.verbose:
       print ("removing dir " + f)
