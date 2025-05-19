@@ -1,0 +1,99 @@
+From 397067fe4c59521cbc0895338430dec1d7f650aa Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Markus=20M=C3=BCtzel?= <markus.muetzel@gmx.de>
+Date: Fri, 9 May 2025 14:50:10 +0200
+Subject: [PATCH] Use Makefile instead of pre_install.m
+
+---
+ pre_install.m | 61 ---------------------------------------------------
+ src/Makefile  | 14 ++++++++++++
+ 2 files changed, 14 insertions(+), 61 deletions(-)
+ delete mode 100644 pre_install.m
+ create mode 100644 src/Makefile
+
+diff --git a/pre_install.m b/pre_install.m
+deleted file mode 100644
+index aa44bcd..0000000
+--- a/pre_install.m
++++ /dev/null
+@@ -1,61 +0,0 @@
+-function pre_install (in)
+-
+-  disp ('Installing package coder. It may take a while. Please wait ...')
+-
+-  basedir = fileparts(mfilename ('fullpath'));
+-  sourcedir = format_path(fullfile(basedir, 'src'));
+-
+-  cppnames = ...
+-    {
+-      'dgraph'
+-      'coder_file'
+-      'coder_symtab'
+-      'lvalue_checker'
+-      'semantic_analyser'
+-      'code_generator'
+-      'coder_runtime'
+-      'build_system'
+-      'octave2oct'
+-    };
+-
+-
+-  cpp = cellfun (@format_path, fullfile (sourcedir , strcat (cppnames, '.cpp')), 'Un', 0);
+-  obj = cellfun (@format_path, fullfile (sourcedir , strcat (cppnames, '.o')), 'Un', 0);
+-
+-  oct = format_path (fullfile (sourcedir , 'octave2oct.oct'));
+-
+-  options = { '-c', '-O2', '-g0' , ['-I' sourcedir]};
+-
+-  version_num = str2num(strsplit(version, '.'){1});
+-
+-  if version_num < 10
+-    stdflag = '-std=gnu++11';
+-  else
+-    ccnames = ...
+-      {
+-        'pt-walk'
+-      };
+-
+-    parserdir = format_path(fullfile(sourcedir, 'parse-tree'));
+-    cc  = cellfun (@format_path, fullfile (parserdir , strcat (ccnames, '.cc')), 'Un', 0);
+-    objcc = cellfun (@format_path, fullfile (sourcedir , strcat (ccnames, '.o')), 'Un', 0);
+-    cpp = [cpp; cc];
+-    obj = [obj; objcc];
+-    options = [options, {['-I' parserdir]}];
+-    stdflag = '-std=gnu++17';
+-  end
+-  
+-  options = [{stdflag}, options];
+-  
+-  for k = 1:numel (cpp)
+-    mkoctfile ( options{:}, '-o', obj{k}, cpp{k});
+-  endfor
+-
+-  mkoctfile ('-o', oct, obj {:});
+-
+-endfunction
+-
+-function retval = format_path (str)
+-  str(str == '\') = '/';
+-  retval = str;
+-endfunction
+diff --git a/src/Makefile b/src/Makefile
+new file mode 100644
+index 0000000..ed603ee
+--- /dev/null
++++ b/src/Makefile
+@@ -0,0 +1,14 @@
++all: octave2oct.oct
++
++MKOCTFILE ?= mkoctfile
++
++OBJECTS := dgraph.o coder_file.o coder_symtab.o lvalue_checker.o semantic_analyser.o code_generator.o coder_runtime.o build_system.o
++
++%.o: %.cpp %.h
++	$(MKOCTFILE) -c $<
++
++octave2oct.oct: octave2oct.cpp $(OBJECTS)
++	$(MKOCTFILE) $^ -o $@
++
++clean:
++	rm -f *.o *.oct
