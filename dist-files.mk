@@ -570,6 +570,7 @@ SRC_FILES_1 := \
   opkg-biosig-1-skip-test.patch \
   opkg-biosig.mk \
   opkg-cfitsio.mk \
+  opkg-image-acquisition-1-mkoctfile.patch \
   opkg-image-acquisition.mk \
   opkg-mqtt.mk \
   opkg-parallel-1-Array-API.patch \
