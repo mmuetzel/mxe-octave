@@ -453,6 +453,7 @@ SRC_FILES_1 := \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \
+  netcdf-1-stat.patch \
   netcdf.mk \
   nettle-1-fixes.patch \
   nettle-2-gcc-15.patch \
