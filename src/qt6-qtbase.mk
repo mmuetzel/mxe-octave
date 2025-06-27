@@ -8,10 +8,7 @@ $(PKG)_CHECKSUM := a089eed9cc8bf8c52b62bf4653a162ebae03599e
 $(PKG)_SUBDIR   := qtbase-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := qtbase-everywhere-src-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
-ifeq ($(USE_SYSTEM_FONTCONFIG),no)
-  $(PKG)_FONTCONFIG := fontconfig
-endif
-$(PKG)_DEPS     := build-ninja dbus double-conversion freetds freetype $($(PKG)_FONTCONFIG) icu4c jpeg libjbig libpng libproxy pcre2 postgresql sqlite zlib zstd
+$(PKG)_DEPS     := build-ninja dbus double-conversion freetds freetype jpeg libjbig libpng libproxy pcre2 postgresql sqlite zlib zstd
 
 $(PKG)_CMAKE_OPTS :=
 $(PKG)_CONFIGURE_ENV :=
