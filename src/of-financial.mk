@@ -3,8 +3,8 @@
 
 PKG             := of-financial
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.5.3
-$(PKG)_CHECKSUM := 79d638b4c77ce01465fe1ea677ce1b4deea38198
+$(PKG)_VERSION  := 0.5.4
+$(PKG)_CHECKSUM := efe7906cad210abd5e56ca9040c705c6a0b42aea
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := financial-$($(PKG)_VERSION)
 $(PKG)_FILE     := financial-$($(PKG)_VERSION).tar.gz

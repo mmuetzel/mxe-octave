@@ -3,8 +3,8 @@
 
 PKG             := of-octproj
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0.2
-$(PKG)_CHECKSUM := d487820de128ce67bf1f50c9b680568490317ebc
+$(PKG)_VERSION  := 3.1.0
+$(PKG)_CHECKSUM := d0698ace380293b59023a3ce9c90e4b1a4483b17
 $(PKG)_SUBDIR   := octproj-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://bitbucket.org/jgpallero/octproj/downloads/$($(PKG)_FILE)
