@@ -3,15 +3,15 @@
 
 PKG             := build-gawk
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.2.0
-$(PKG)_CHECKSUM := 91d7067d043c8a5b484650a2547643faba502aef
+$(PKG)_VERSION  := 5.3.2
+$(PKG)_CHECKSUM := f0caee7905ba1145ad227c9cce77620138b5b10b
 $(PKG)_SUBDIR   := gawk-$($(PKG)_VERSION)
 $(PKG)_FILE     := gawk-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gawk/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/gnu/gawk/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://ftp.gnu.org/gnu/gawk/?C=M;O=D' | \
+    $(WGET) -q -O- 'https://ftp.gnu.org/gnu/gawk/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="gawk-\([0-9\.]*\)\.tar.*,\1,p' | \
     $(SORT) -V | \
     tail -1
