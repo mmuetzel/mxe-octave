@@ -23,6 +23,8 @@ endif
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
     $(PKG)_CONFIGURE_FLAGS=$(CONFIGURE_LDFLAGS) $(CONFIGURE_CPPFLAGS) --with-libiconv=gnu
+else
+    $(PKG)_CONFIGURE_FLAGS="CFLAGSAUX=-std=gnu17"
 endif
 
 define $(PKG)_UPDATE
