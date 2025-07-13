@@ -3,8 +3,8 @@
 
 PKG             := build-nasm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.14.02
-$(PKG)_CHECKSUM := 7e9cb20d49ca279c72125b2701b3457c9d1609a5
+$(PKG)_VERSION  := 2.16.03
+$(PKG)_CHECKSUM := d3ceab29f8c62bdf9240032349deb594cb642863
 $(PKG)_SUBDIR   := nasm-$($(PKG)_VERSION)
 $(PKG)_FILE     := nasm-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://www.nasm.us/pub/nasm/releasebuilds/$($(PKG)_VERSION)/$($(PKG)_FILE)
