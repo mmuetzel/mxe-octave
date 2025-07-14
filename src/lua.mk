@@ -3,8 +3,8 @@
 
 PKG             := lua
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.4.7
-$(PKG)_CHECKSUM := 29b54f97dab8631f52ee21a44871622eaefbe235
+$(PKG)_VERSION  := 5.4.8
+$(PKG)_CHECKSUM := ced7c0ec99ad9d984ad3e7af5fcd2deef2b33f9f
 $(PKG)_SUBDIR   := lua-$($(PKG)_VERSION)
 $(PKG)_FILE     := lua-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.lua.org/ftp/$($(PKG)_FILE)
