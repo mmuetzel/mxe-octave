@@ -1,19 +1,29 @@
-diff -ur readline-8.1.orig/display.c readline-8.1/display.c
---- readline-8.1.orig/display.c	2020-12-19 07:41:44.122860975 -0500
-+++ readline-8.1/display.c	2020-12-19 07:52:09.009050414 -0500
+From 396e12d83804db533f1ccf1be7683827657f0603 Mon Sep 17 00:00:00 2001
+From: Michael Goffioul <michael.goffioul@gmail.com>
+Date: Thu, 18 Apr 2013 13:18:50 +0200
+Subject: [PATCH] Use Windows API for console buffer.
+
+---
+ display.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+
+diff --git a/display.c b/display.c
+index 9aa8c7b..477584c 100644
+--- a/display.c
++++ b/display.c
 @@ -59,6 +59,11 @@
  #include "rlprivate.h"
  #include "xmalloc.h"
  
 +#if defined (_WIN32)
-+#include <windows.h>
-+#define hStdout GetStdHandle(STD_OUTPUT_HANDLE)
++#  include <windows.h>
++#  define hStdout GetStdHandle(STD_OUTPUT_HANDLE)
 +#endif
 +
- #if !defined (strchr) && !defined (__STDC__)
- extern char *strchr (), *strrchr ();
- #endif /* !strchr && !__STDC__ */
-@@ -2686,6 +2691,20 @@
+ static void putc_face (int, int, char *);
+ static void puts_face (const char *, const char *, int);
+ static void norm_face (char *, int);
+@@ -2880,6 +2885,20 @@ _rl_move_cursor_relative (int new, const char *data, const char *dataf)
    int in_invisline;
    int mb_cur_max = MB_CUR_MAX;
  
@@ -34,7 +44,7 @@ diff -ur readline-8.1.orig/display.c readline-8.1/display.c
    woff = WRAP_OFFSET (_rl_last_v_pos, wrap_offset);
    cpos = _rl_last_c_pos;
  
-@@ -2832,6 +2851,20 @@
+@@ -3026,6 +3045,20 @@ _rl_move_vert (int to)
  {
    register int delta, i;
  
@@ -52,10 +62,10 @@ diff -ur readline-8.1.orig/display.c readline-8.1/display.c
 +    }
 +#endif /* !_WIN32 */
 +
-   if (_rl_last_v_pos == to || to > _rl_screenheight)
+   if (_rl_last_v_pos == to)
      return;
  
-@@ -3157,6 +3190,17 @@
+@@ -3318,6 +3351,17 @@ _rl_erase_at_end_of_line (int l)
  void
  _rl_clear_to_eol (int count)
  {
@@ -73,7 +83,7 @@ diff -ur readline-8.1.orig/display.c readline-8.1/display.c
  #ifndef __MSDOS__
    if (_rl_term_clreol)
      tputs (_rl_term_clreol, 1, _rl_output_character_function);
-@@ -3182,6 +3226,33 @@
+@@ -3343,6 +3387,33 @@ space_to_eol (int count)
  void
  _rl_clear_screen (int clrscr)
  {
