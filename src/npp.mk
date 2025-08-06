@@ -20,4 +20,6 @@ endef
 define $(PKG)_BUILD
     mkdir -p '$(NOTEPAD_BASE_DIR)'
     cd '$(1)' && tar cf - . | ( cd '$(NOTEPAD_BASE_DIR)'; tar xpf - )
+    # remove local conf file
+    rm '$(NOTEPAD_BASE_DIR)/doLocalConf.xml'
 endef
