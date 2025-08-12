@@ -3,8 +3,8 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 15.1.0
-$(PKG)_CHECKSUM := 42017f9c1b53a345ea1214c32012609b29dba5a2
+$(PKG)_VERSION  := 15.2.0
+$(PKG)_CHECKSUM := e9265c98ae18a6d952a636749d98c475ba2ca006
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -73,7 +73,7 @@ ifeq ($(MXE_SYSTEM),mingw)
       $(mingw-w64-headers_CONFIGURE_OPTS)
     $(MAKE) -C '$(1).headers' install
   endef
-  
+
   define $(PKG)_BUILD_SYSTEM_RUNTIME
     # build standalone gcc
     $(MAKE) -C '$(1).build' -j '$(JOBS)' all-gcc
@@ -142,7 +142,7 @@ define $(PKG)_CONFIGURE
         $($(PKG)_SYSDEP_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --disable-libgomp \
-	--enable-default-ssp \
+        --enable-default-ssp \
         --with-cloog='$(BUILD_TOOLS_PREFIX)' \
         --with-gmp='$(BUILD_TOOLS_PREFIX)' \
         --with-isl='$(BUILD_TOOLS_PREFIX)' \
