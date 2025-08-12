@@ -3,8 +3,8 @@
 
 PKG             := gcc-isl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.24
-$(PKG)_CHECKSUM := b0c46cc1c4fb1658def8d3c4c702a01049ea795e
+$(PKG)_VERSION  := 0.27
+$(PKG)_CHECKSUM := a307052a50643b859b7d90559ea746be972adea6
 $(PKG)_SUBDIR   := isl-$($(PKG)_VERSION)
 $(PKG)_FILE     := isl-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://libisl.sourceforge.io/$($(PKG)_FILE)
