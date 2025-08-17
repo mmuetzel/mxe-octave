@@ -623,7 +623,6 @@ SRC_FILES_1 := \
   portaudio.mk \
   postgresql-1-autoconf.patch \
   postgresql.mk \
-  proj-1-missing-header.patch \
   proj.mk \
   protobuf-test.cpp \
   protobuf.mk \
