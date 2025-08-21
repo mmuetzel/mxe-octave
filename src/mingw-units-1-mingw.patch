@@ -1,0 +1,42 @@
+diff -ur units-2.24.orig/units.c units-2.24/units.c
+--- units-2.24.orig/units.c	2025-08-16 14:39:53.640798139 -0400
++++ units-2.24/units.c	2025-08-16 14:45:12.408857778 -0400
+@@ -719,7 +719,7 @@
+     free(widestr);
+     return -1; /* invalid multibyte sequence */
+   }
+-#  if defined _WIN32 && defined _MSC_VER
++#  if defined _WIN32
+   len=wcslen(widestr);
+ #  else
+   len=wcswidth(widestr, len);
+diff -ur units-2.24.orig/units.c units-2.24/units.c
+--- units-2.24.orig/units.c	2025-08-16 14:47:37.097508936 -0400
++++ units-2.24/units.c	2025-08-16 14:49:48.768381741 -0400
+@@ -4068,7 +4068,7 @@
+ {
+    int lines = 20;      /* arbitrary but probably safe value */
+ 
+-#if defined (_WIN32) && defined (_MSC_VER)
++#if defined (_WIN32)
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+ 
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+@@ -4476,7 +4476,7 @@
+   char *progdir = NULL;
+   char *p;
+ 
+-#if defined (_WIN32) && defined (_MSC_VER)
++#if defined (_WIN32)
+   char buf[FILENAME_MAX + 1];
+ 
+   /* get the full pathname of the current executable and be done with it */
+@@ -6745,7 +6745,7 @@
+ checklocale()
+ {
+   char *temp;
+-#if defined _WIN32 && defined _MSC_VER
++#if defined _WIN32
+   /* only works in Windows Terminal */
+   if (getenv(WINDOWS_TERMINAL)) {
+       utf8mode = (GetConsoleCP() == CP_UTF8)
