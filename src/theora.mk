@@ -3,8 +3,8 @@
 
 PKG             := theora
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.1.1
-$(PKG)_CHECKSUM := 0b91be522746a29351a5ee592fd8160940059303
+$(PKG)_VERSION  := 1.2.0
+$(PKG)_CHECKSUM := 4ff09d71466d5869e5750ff84b59952c7335e693
 $(PKG)_SUBDIR   := libtheora-$($(PKG)_VERSION)
 $(PKG)_FILE     := libtheora-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://downloads.xiph.org/releases/theora/$($(PKG)_FILE)
