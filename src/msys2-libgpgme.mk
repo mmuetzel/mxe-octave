@@ -4,9 +4,9 @@
 PKG             := msys2-libgpgme
 $(PKG)_NAME     := libgpgme
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.24.1-1
-$(PKG)_x86_64_CS := 5e7b43f2f6370aa0f7c1f56fc00d63147dffe613
-$(PKG)_i686_CS  := 2e4004c204b0808dc5aec56d93e48df3a32d170d
+$(PKG)_VERSION  := 1.24.3-1
+$(PKG)_x86_64_CS := d59227ccef2050429dda6ac16059c47d9ecd3049
+$(PKG)_i686_CS  := 40e153a450b9476929367ddfc6fe12563b488c63
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

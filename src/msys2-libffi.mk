@@ -4,9 +4,9 @@
 PKG             := msys2-libffi
 $(PKG)_NAME     := libffi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4.6-1
-$(PKG)_x86_64_CS := 0a5a3b2db73f89086eb14834f6097f4d8ef14d0f
-$(PKG)_i686_CS  := 32f3e4c063d4d6b682d49fbffbf0d63b14a49393
+$(PKG)_VERSION  := 3.5.1-1
+$(PKG)_x86_64_CS := a3fb46bc72f778572d73b6c757797b204f666cbe
+$(PKG)_i686_CS  := 0b978aa4a66db8ab3854ecba5469a8a44ad27e50
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

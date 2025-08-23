@@ -4,8 +4,8 @@
 PKG             := src-msys2-libxslt
 $(PKG)_NAME     := libxslt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.1.42-1
-$(PKG)_CHECKSUM := 6cac43f51a78f6351db4e89b494d2724ebc8b4de
+$(PKG)_VERSION  := 1.1.43-2
+$(PKG)_CHECKSUM := 05bd7d26ae4531edca32c84ec50329ca4568f188
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
