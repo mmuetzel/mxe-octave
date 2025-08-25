@@ -2,8 +2,8 @@
 
 PKG             := opencv
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.6.0
-$(PKG)_CHECKSUM := 34394c7e2fc152eee1ce73e326bc19a99879c77c
+$(PKG)_VERSION  := 4.12.0
+$(PKG)_CHECKSUM := dda4c8f904f54733133b0d3df7058b304721c8a3
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/opencv/$(PKG)/archive/$($(PKG)_VERSION).tar.gz
@@ -59,6 +59,6 @@ define $(PKG)_BUILD
 
     # install
     $(MAKE) -C '$(1)/build' -j '$(JOBS)' VERBOSE=1
-    $(MAKE) -C '$(1)/build' -j 1 install VERBOSE=1
+    $(MAKE) -C '$(1)/build' -j 1 install VERBOSE=1 DESTDIR='$(3)'
 
 endef
