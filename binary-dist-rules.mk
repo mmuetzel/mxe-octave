@@ -63,6 +63,7 @@ BINARY_DIST_DEPS := \
   devel-packages \
   units \
   transfig \
+  opencv \
   $(WINDOWS_BINARY_DIST_DEPS)
 
 define delete-dist-directory
