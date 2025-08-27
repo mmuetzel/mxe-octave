@@ -75,14 +75,24 @@ wshSystemEnv("PKG_CONFIG_PATH") = OctavePath & "\lib\pkgconfig"
 
 If wshShell.ExpandEnvironmentStrings("%OPENBLAS_NUM_THREADS%") = "%OPENBLAS_NUM_THREADS%" Then
   ' Set OPENBLAS_NUM_THREADS to number of physical processor cores.
+  On Error Resume Next
   Set wshExec = wshShell.Exec("wmic CPU Get NumberOfCores")
-  If Not wshExec.Stdout.atEndOfStream then
-    ' Check that first line contains "NumberOfCores".
-    If (InStr(1, wshExec.StdOut.ReadLine(), "NumberOfCores") = 1) And (Not wshExec.Stdout.atEndOfStream) then
-      ' The next line should contain the number of cores.
-      wshSystemEnv("OPENBLAS_NUM_THREADS") = wshExec.StdOut.ReadLine()
+  If (Err.Number = 0) Then
+    If Not wshExec.Stdout.atEndOfStream Then
+      ' Check that first line contains "NumberOfCores".
+      If (InStr(1, wshExec.StdOut.ReadLine(), "NumberOfCores") = 1) And (Not wshExec.Stdout.atEndOfStream) then
+        ' The next line should contain the number of cores.
+        wshSystemEnv("OPENBLAS_NUM_THREADS") = wshExec.StdOut.ReadLine()
+      End If
+    End If
+  Else
+    ' No wmic available. Attempt to use PowerShell.
+    Set wshExec2 = wshShell.Exec("powershell -NoProfile -Command ""(Get-CimInstance Win32_Processor).NumberOfCores""")
+    If (Err.Number = 0) Then
+      wshSystemEnv("OPENBLAS_NUM_THREADS") = wshExec2.StdOut.ReadLine()
     End If
   End If
+  On Error GoTo 0
 End If
 
 ' check args to see if told to run gui or command line
