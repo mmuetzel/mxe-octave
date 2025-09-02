@@ -3,8 +3,8 @@
 
 PKG             := dbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.15.6
-$(PKG)_CHECKSUM := 7256744ea329b8640df9ce2fc4792256f4f5c6c9
+$(PKG)_VERSION  := 1.16.2
+$(PKG)_CHECKSUM := f44e9a36af548909e46aec8b29b965aeabc3bfbd
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://$(PKG).freedesktop.org/releases/$(PKG)/$($(PKG)_FILE)
@@ -15,6 +15,8 @@ ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_DISABLE_PROGS := $(MXE_DISABLE_PROGS)
 endif
 
+$(PKG)_CMAKE_FLAGS :=
+
 define $(PKG)_UPDATE
     $(WGET) -q -O- https://gitlab.freedesktop.org/dbus/dbus/-/tags | \
     $(SED) -n 's|.*/tags/dbus-\([^"]*\).*|\1|p' | grep -v 'rc' | $(SORT) -V | \
@@ -22,21 +24,22 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
-        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        --prefix='$(HOST_PREFIX)' \
-        --disable-tests \
-        --disable-verbose-mode \
-        --disable-asserts \
-        --disable-maintainer-mode \
-        --disable-silent-rules \
-        --disable-launchd \
-        --disable-doxygen-docs \
-        --disable-xml-docs \
-        CFLAGS='-DPROCESS_QUERY_LIMITED_INFORMATION=0x1000' \
-	&& $(CONFIGURE_POST_HOOK)
+    cd '$(1)' && cmake \
+        $($(PKG)_CMAKE_FLAGS) \
+        -DDBUS_ENABLE_PKGCONFIG=yes \
+        -DDBUS_BUILD_TESTS=no \
+        -DDBUS_ENABLE_VERBOSE_MODE=no \
+        -DDBUS_ENABLE_DOXYGEN_DOCS=no \
+        -DDBUS_ENABLE_XML_DOCS=no \
+        -DDBUS_ENABLE_QTHELP_DOCS=no \
+        -DDBUS_ENABLE_SYSTEMD=no \
+        -DDBUS_DISABLE_ASSERT=yes \
+        -DDBUS_SERVICE=no \
+        $(CMAKE_CCACHE_FLAGS) \
+        $(CMAKE_BUILD_SHARED_OR_STATIC) \
+        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        .
 
-    $(MAKE) -C '$(1)' -j '$(JOBS)' install $(MXE_DISABLE_DOCS) $($(PKG)_DISABLE_PROGS) DESTDIR='$(3)'
+    $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
+    $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
 endef
