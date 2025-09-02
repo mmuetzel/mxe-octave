@@ -3,8 +3,8 @@
 
 PKG             := postgresql
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 14.18
-$(PKG)_CHECKSUM := 526a265a5fb72365f4b70fa207612b0baa476b8f
+$(PKG)_VERSION  := 14.19
+$(PKG)_CHECKSUM := 0bfc9ab6d5ec97c7796c286831f3a580141a92d0
 $(PKG)_SUBDIR   := postgresql-$($(PKG)_VERSION)
 $(PKG)_FILE     := postgresql-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://ftp.postgresql.org/pub/source/v$($(PKG)_VERSION)/$($(PKG)_FILE)
