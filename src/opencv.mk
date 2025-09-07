@@ -26,6 +26,7 @@ define $(PKG)_BUILD
         --debug-output \
         -DBUILD_opencv_dnn=OFF \
         -DBUILD_opencv_java=OFF \
+        -DBUILD_opencv_world=ON \
         -DBUILD_opencv_python=OFF \
         -DWITH_QT=OFF \
         -DWITH_OPENGL=ON \
