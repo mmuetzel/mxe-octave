@@ -3,8 +3,8 @@
 
 PKG             := of-symbolic
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.1
-$(PKG)_CHECKSUM := 27e1dbca58dd845ca4751b1b47a0c4192f076b5c
+$(PKG)_VERSION  := 3.2.2
+$(PKG)_CHECKSUM := 496dd5ba38ac0eeb08bd0689b3edab5cb3779b2e
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := symbolic-$($(PKG)_VERSION)
 $(PKG)_FILE     := symbolic-$($(PKG)_VERSION).tar.gz
