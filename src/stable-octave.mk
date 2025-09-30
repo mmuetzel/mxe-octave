@@ -13,7 +13,7 @@
 
 PKG             := stable-octave
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 10.2.1
+$(PKG)_VERSION  := 10.3.1
 $(PKG)_CHECKSUM := ## No checksum
 $(PKG)_SUBDIR   := octave-$($(PKG)_VERSION)
 $(PKG)_FILE     := octave-$($(PKG)_VERSION).tar.lz
