@@ -3,8 +3,8 @@
 
 PKG             := sdl3
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.22
-$(PKG)_CHECKSUM := 091d01a3bcceff4ab8e9e18f0cdb011ac4f2d9a9
+$(PKG)_VERSION  := 3.2.24
+$(PKG)_CHECKSUM := 026aef239bdeeb629833f846d5dce35aabadaa6e
 $(PKG)_SUBDIR   := SDL3-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL3-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://www.libsdl.org/release/$($(PKG)_FILE)
