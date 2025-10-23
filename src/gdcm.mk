@@ -3,18 +3,15 @@
 
 PKG             := gdcm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0.24
-$(PKG)_CHECKSUM := cb0f79c41a0c61c1c448d1881205634fe89e3b5c
-$(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
+$(PKG)_VERSION  := 3.2.2
+$(PKG)_CHECKSUM := c2218319ea5fb97edbf329b3377203249c40ad22
+$(PKG)_SUBDIR   := GDCM-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$(PKG) 3.x/GDCM $($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/malaterre/GDCM/archive/v$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     := expat zlib build-ninja
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://sourceforge.net/projects/gdcm/files/gdcm 3.x/' | \
-    $(SED) -n 's,.*title=\"GDCM \([0-9.]*\)\".*,\1,p' | \
-    $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,malaterre,GDCM,v)
 endef
 
 ifeq ($(MXE_SYSTEM),msvc)
