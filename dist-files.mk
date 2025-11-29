@@ -455,7 +455,6 @@ SRC_FILES_1 := \
   netcdf-1-stat.patch \
   netcdf.mk \
   nettle-1-fixes.patch \
-  nettle-2-gcc-15.patch \
   nettle.mk \
   npp.mk \
   nsis-2-fixes.patch \
