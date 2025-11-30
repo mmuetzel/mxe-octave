@@ -4,8 +4,8 @@
 PKG             := src-msys2-libunistring
 $(PKG)_NAME     := libunistring
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2-1
-$(PKG)_CHECKSUM := c16b33835c07698ae9c08f8f4106fd915cc561ff
+$(PKG)_VERSION  := 1.3-1
+$(PKG)_CHECKSUM := d244c583a07f7b17984b97801159b0d085ff2507
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

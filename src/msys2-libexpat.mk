@@ -4,9 +4,9 @@
 PKG             := msys2-libexpat
 $(PKG)_NAME     := libexpat
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.7.1-1
-$(PKG)_x86_64_CS := a61789a94fe5d36b9ead73f1cc65fe4651d71b00
-$(PKG)_i686_CS  := 1822853834c52bbfb0fe0f0462a7f8cc188ca71c
+$(PKG)_VERSION  := 2.7.3-1
+$(PKG)_x86_64_CS := 4516743796cfe2c2fe4eb6999148ee50d0978cea
+$(PKG)_i686_CS  := ab8c363538e8e3f8b8d7910cdd4842399c81d6c0
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

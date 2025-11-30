@@ -4,8 +4,8 @@
 PKG             := src-msys2-less
 $(PKG)_NAME     := less
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 679-1
-$(PKG)_CHECKSUM := 51a070a1f9aea81f2602717edff7e54b593d77cf
+$(PKG)_VERSION  := 685-1
+$(PKG)_CHECKSUM := d76c2f279cfa3c21f385305cbf5b3f14a42e400f
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

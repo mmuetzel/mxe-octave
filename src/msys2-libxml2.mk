@@ -4,9 +4,9 @@
 PKG             := msys2-libxml2
 $(PKG)_NAME     := libxml2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.14.5-1
-$(PKG)_x86_64_CS := 0d2023567be216535b7299b6356838849aa455f9
-$(PKG)_i686_CS  := 2d4f403af907b90fd0560b533faa8235578ee3cc
+$(PKG)_VERSION  := 2.15.1-1
+$(PKG)_x86_64_CS := d0bb98b12e6b154f168bc1eff4d5270314cd6238
+$(PKG)_i686_CS  := 0cc79c651ea95a3dbc45e17b3c5c6b21e631ab57
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

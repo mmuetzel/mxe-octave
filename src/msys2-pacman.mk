@@ -4,8 +4,10 @@
 PKG             := msys2-pacman
 $(PKG)_NAME     := pacman
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.1.0-18
-$(PKG)_x86_64_CS := 6dffb7e03d1dff77857497472d12bd335cc6a7b9
+$(PKG)_x86_64_VER := 6.1.0-20
+$(PKG)_i686_VER  := 6.1.0-18
+$(PKG)_VERSION  := $($(PKG)_$(MSYS2_ARCH)_VER)
+$(PKG)_x86_64_CS := 0c9a942abbd11df6eeb1912c3a5df302d4a40f12
 $(PKG)_i686_CS  := e2fa556ef7b87e4ba179e31006028555a3e90a36
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)

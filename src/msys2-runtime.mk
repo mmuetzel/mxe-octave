@@ -4,8 +4,8 @@
 PKG             := msys2-runtime
 $(PKG)_NAME     := msys2-runtime
 $(PKG)_IGNORE   :=
-$(PKG)_x86_64_VERSION  := 3.6.4-1
-$(PKG)_x86_64_CS := e99d4e37170b4aa8886f64e5adc688b289233319
+$(PKG)_x86_64_VERSION  := 3.6.5-1
+$(PKG)_x86_64_CS := e3b0d55e76a027021d359e31a4f6887c43ec3e28
 $(PKG)_i686_VERSION  := 3.3.6-6
 $(PKG)_i686_CS  := 08e966d6645268a39d0c8ddb6c5549eead34afcd
 $(PKG)_VERSION  := $($(PKG)_$(MSYS2_ARCH)_VERSION)
