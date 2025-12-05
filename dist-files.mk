@@ -579,6 +579,8 @@ SRC_FILES_1 := \
   opkg-coder-1-use-Makefile.patch \
   opkg-coder-2-no-additional-double-quotes.patch \
   opkg-coder.mk \
+  opkg-datatypes-crossbuild.patch \
+  opkg-datatypes.mk \
   opkg-image-acquisition-1-mkoctfile.patch \
   opkg-image-acquisition.mk \
   opkg-mqtt.mk \
