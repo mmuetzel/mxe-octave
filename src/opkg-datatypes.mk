@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 696536124eb43bcbf4445f40155e180ff461704d
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := datatypes-release-$($(PKG)_VERSION)
 $(PKG)_FILE     := datatypes-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://github.com/pr0m1th3as/datatypes/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
+$(PKG)_URL      := https://github.com/pr0m1th3as/datatypes/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
 ifeq ($(MXE_SYSTEM),mingw)
