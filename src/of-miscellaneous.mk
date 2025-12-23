@@ -3,12 +3,12 @@
 
 PKG             := of-miscellaneous
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.1
-$(PKG)_CHECKSUM := 58a39088bcfa1a89ebe3e8aa6081b697e89e4fb3
+$(PKG)_VERSION  := 1.3.2
+$(PKG)_CHECKSUM := 2fe35226e5a5e5920b229764311667decbeaceca
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := miscellaneous-$($(PKG)_VERSION)
 $(PKG)_FILE     := miscellaneous-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/gnu-octave/octave-miscellaneous/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := of-general units
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-miscellaneous,release-)
 endef
 
 define $(PKG)_BUILD
