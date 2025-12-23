@@ -3,10 +3,10 @@
 
 PKG             := of-quaternion
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.4.0
-$(PKG)_CHECKSUM := f02927157927ec4939970fb7be72c9bef76bf4f3
+$(PKG)_VERSION  := 2.4.2
+$(PKG)_CHECKSUM := 28f3ea6f4ecc188638f0ea916ad855c79e99be20
 $(PKG)_REMOTE_SUBDIR := 
-$(PKG)_SUBDIR   := quaternion
+$(PKG)_SUBDIR   := quaternion-$($(PKG)_VERSION)
 $(PKG)_FILE     := quaternion-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
 $(PKG)_DEPS     := 
