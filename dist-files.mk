@@ -679,6 +679,8 @@ SRC_FILES_1 := \
   rapidjson-2-GCC-14.patch \
   rapidjson.mk \
   readline-0-001-fix-for-readline-event-hook.patch \
+  readline-0-002-fix-crash-if-the-calling-applic.patch \
+  readline-0-003-fix-crash-when-interrupting-rev.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \
