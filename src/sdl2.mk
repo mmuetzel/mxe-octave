@@ -31,6 +31,6 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j '$(JOBS)' SHELL=$(SHELL)
     $(MAKE) -C '$(1)' -j 1 install SHELL=$(SHELL)
     if [ "$(MXE_NATIVE_BUILD)" == "no" ]; then \
-      $(LN_SF) -sf '$(HOST_BINDIR)/sdl2-config' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_REFIX)sdl2-config'; \
+      $(LN_SF) '$(HOST_BINDIR)/sdl2-config' '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_REFIX)sdl2-config'; \
     fi
 endef
