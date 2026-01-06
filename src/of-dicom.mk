@@ -3,12 +3,12 @@
 
 PKG             := of-dicom
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.6.1
-$(PKG)_CHECKSUM := 496db527e3a92078781e09c4cdb58bf6d70ff984
+$(PKG)_VERSION  := 0.7.1
+$(PKG)_CHECKSUM := 38160dbec176f1c925d41bde0ddf5a26a8567256
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := dicom-$($(PKG)_VERSION)
 $(PKG)_FILE     := dicom-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://$(SOURCEFORGE_MIRROR)/octave/$($(PKG)_FILE)?download
+$(PKG)_URL      := https://github.com/gnu-octave/octave-dicom/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := gdcm
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -22,7 +22,7 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-dicom,release-)
 endef
 
 define $(PKG)_BUILD
