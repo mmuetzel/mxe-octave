@@ -3,12 +3,12 @@
 
 PKG             := of-signal
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.6
-$(PKG)_CHECKSUM := c4c98565daef6558da05693007f9356a38757bdd
+$(PKG)_VERSION  := 1.4.7
+$(PKG)_CHECKSUM := b10837c72f897268fba9ac9abba2fdaafe239d0d
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := signal-$($(PKG)_VERSION)
 $(PKG)_FILE     := signal-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/gnu-octave/octave-signal/releases/download/$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := of-control
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-signal,)
 endef
 
 define $(PKG)_BUILD
