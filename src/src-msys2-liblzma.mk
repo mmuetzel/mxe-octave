@@ -4,8 +4,8 @@
 PKG             := src-msys2-liblzma
 $(PKG)_NAME     := xz
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.8.1-1
-$(PKG)_CHECKSUM := 24486b1c6b5e7da55961f15d903ff02ffb0f6e9a
+$(PKG)_VERSION  := 5.8.2-1
+$(PKG)_CHECKSUM := 4220c9f957374d866b79375d03978f8db108512a
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

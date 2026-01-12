@@ -4,8 +4,8 @@
 PKG             := src-msys2-icu
 $(PKG)_NAME     := icu
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 77.1-1
-$(PKG)_CHECKSUM := a90edeed361b13c97bda51f469ef941e7e06c2cb
+$(PKG)_VERSION  := 78.1-1
+$(PKG)_CHECKSUM := b49784796ddc5669993bce4d3c2bc4968721e612
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
