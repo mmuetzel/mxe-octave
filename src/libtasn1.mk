@@ -1,8 +1,8 @@
 # This file is part of MXE. See LICENSE.md for licensing information.
 
 PKG             := libtasn1
-$(PKG)_VERSION  := 4.20.0
-$(PKG)_CHECKSUM := ef6a358e16e056476b4be121ed2fb2ce11d791ed
+$(PKG)_VERSION  := 4.21.0
+$(PKG)_CHECKSUM := 2364d792f8f1a7400ddc8d13c41f6c9b48cc53b7
 $(PKG)_SUBDIR   := libtasn1-$($(PKG)_VERSION)
 $(PKG)_FILE     := libtasn1-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/libtasn1/$($(PKG)_FILE)
