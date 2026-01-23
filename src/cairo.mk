@@ -62,7 +62,7 @@ define $(PKG)_BUILD
         --enable-ps \
         --enable-pdf \
         --enable-svg \
-	--disable-directfb \
+        --disable-directfb \
         --disable-pthread \
         $($(PKG)_EXTRA_CONFIGURE_OPTIONS) \
         PKG_CONFIG='$(MXE_PKG_CONFIG)' \

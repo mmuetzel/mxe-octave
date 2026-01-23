@@ -4,11 +4,13 @@
 PKG             := msys2-python
 $(PKG)_NAME     := python
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.12.8-1
-$(PKG)_x86_64_CS := f3d5e98c0fab5477915a4535d59b2586bf403f4c
-$(PKG)_i686_CS  := 5284418659994b7d5736b16bd0887940e1a522ac
+$(PKG)_x86_64_VERSION  := 3.12.12-3
+$(PKG)_x86_64_CS := 7dd58d649115ade734823dc8a4c00ef11cbae172
+$(PKG)_i686_VERSION  := 3.12.11-1
+$(PKG)_i686_CS  := 3f9a637dbd553d983da7763c504a52141f8041ca
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
+$(PKG)_VERSION  := $($(PKG)_$(MSYS2_ARCH)_VERSION)
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION)-$(MSYS2_ARCH).pkg.tar.zst
 $(PKG)_URL      := $(MSYS2_URL)/$($(PKG)_FILE)

@@ -27,6 +27,7 @@ define $(PKG)_BUILD
     cd '$(1)' && autoreconf -fi
     cd '$(1).build' && '$(1)/configure' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
+        CC='$(MXE_CC) -std=gnu17' \
         $(CONFIGURE_CPPFLAGS) \
         $(CONFIGURE_LDFLAGS) \
         --with-internal-glib \

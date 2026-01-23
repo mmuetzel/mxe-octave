@@ -1134,6 +1134,7 @@ FunctionEnd
 Function CheckConsole
   Push \$R0
   Push \$R1
+  Push \$R2
 
   ClearErrors
 
@@ -1144,12 +1145,30 @@ Function CheckConsole
   # already set for console host
   StrCmp \$R1 "{B23D10C0-E52E-411E-9D5B-C09FDF709C7D}" ignore_console 0
 
+  ReadRegStr \$R2 HKLM "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion" CurrentMajorVersionNumber
+  StrCmp \$R2 "" show_console_msg
+  \${If} \$R2 > 10
+    StrCpy \$R2 "26100"
+  \${ElseIf} \$R2 = 10
+    ReadRegStr  \$R0 HKLM "SOFTWARE\\Microsoft\\Windows NT\CurrentVersion" CurrentBuild
+    StrCmp \$R0 "" show_console_msg
+    StrCpy \$R2 \$R0
+  \${Else} # < 10
+    StrCpy \$R2 "26099"
+  \${EndIf}
+
+  \${If} \$R2 >= 26100
+    GoTo ignore_console
+  \${EndIf}
+
+show_console_msg:
   # display message
   MessageBox MB_ICONEXCLAMATION|MB_YESNO|MB_DEFBUTTON2 "Using Octave with the Windows Terminal app could lead to issues with the command window. Please, set the default to the “Windows Console Host”.$\r$\n$\r$\nWould you like to get instructions on how to change the default console?" /SD IDNO IDNO ignore_console
 
   ExecShell open "https://devblogs.microsoft.com/commandline/windows-terminal-as-your-default-command-line-experience/"
 
 ignore_console:
+  Pop \$R2
   Pop \$R1
   Pop \$R0
 FunctionEnd

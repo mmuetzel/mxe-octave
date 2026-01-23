@@ -73,13 +73,6 @@ ifeq ($(MXE_SYSTEM),mingw)
   endif
 endif
 
-ifeq ($(ENABLE_JIT),yes)
-  $(PKG)_DEPS += llvm
-  $(PKG)_ENABLE_JIT_CONFIGURE_OPTIONS := --enable-jit
-else
-  $(PKG)_ENABLE_JIT_CONFIGURE_OPTIONS := --disable-jit
-endif
-
 ifeq ($(ENABLE_JAVA),no)
   $(PKG)_ENABLE_JAVA_CONFIGURE_OPTIONS := --disable-java
 else
@@ -237,7 +230,6 @@ define $(PKG)_BUILD
         $($(PKG)_ENABLE_64_CONFIGURE_OPTIONS) \
         $($(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS) \
         $($(PKG)_ENABLE_JAVA_CONFIGURE_OPTIONS) \
-        $($(PKG)_ENABLE_JIT_CONFIGURE_OPTIONS) \
         $($(PKG)_ENABLE_DOCS_CONFIGURE_OPTIONS) \
         $($(PKG)_QT_CONFIGURE_OPTIONS) \
         $($(PKG)_EXTRA_CONFIGURE_OPTIONS) \

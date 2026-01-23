@@ -15,7 +15,7 @@ AC_PROG_MKDIR_P
 AC_PROG_INSTALL
 AC_PROG_CC
 AC_PROG_CPP
-AC_PROG_GCC_TRADITIONAL
+AC_PROG_CC
 
 dnl PKG_PROG_PKG_CONFIG
 dnl OCTAVE_PROG_FIND
@@ -193,15 +193,6 @@ AC_ARG_ENABLE([static],
      *) AC_MSG_ERROR([bad value "$enableval" for --enable-static]) ;;
    esac], [BUILD_STATIC=no])
 AC_SUBST(BUILD_STATIC)
-
-AC_ARG_ENABLE([jit],
-  [AS_HELP_STRING([--enable-jit], [Enable Octave JIT compiler (default: disable)])],
-  [case "$enableval" in
-     no) ENABLE_JIT=no ;;
-     yes) ENABLE_JIT=yes ;;
-     *) AC_MSG_ERROR([bad value "$enableval" for --enable-jit]) ;;
-   esac], [ENABLE_JIT=no])
-AC_SUBST(ENABLE_JIT)
 
 AC_ARG_ENABLE([java],
   [AS_HELP_STRING([--disable-java], [Disable Java/Octave interface (default: enable)])],

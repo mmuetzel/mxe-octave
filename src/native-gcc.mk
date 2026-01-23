@@ -3,8 +3,8 @@
 
 PKG             := native-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 14.2.0
-$(PKG)_CHECKSUM := d91ecc3d20ce6298bd95f9b09cc51dc6d3c73ae3
+$(PKG)_VERSION  := 15.2.0
+$(PKG)_CHECKSUM := e9265c98ae18a6d952a636749d98c475ba2ca006
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -15,7 +15,7 @@ ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_DEPS += mingw-w64
 endif
 ifneq ($(BUILD_SHARED),yes)
-$(PKG)_STATIC_FLAG := --static
+  $(PKG)_STATIC_FLAG := --static
 endif
 
 ifeq ($(MXE_SYSTEM),mingw)

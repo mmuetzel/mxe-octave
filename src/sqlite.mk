@@ -3,15 +3,20 @@
 
 PKG             := sqlite
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3480000
-$(PKG)_CHECKSUM := f9d3aa828774d0fba401cd61e2481e13f8afd629
+$(PKG)_VERSION  := 3510200
+$(PKG)_CHECKSUM := 979a87d3eab508bd939562cd57359619850bfd38
 $(PKG)_SUBDIR   := $(PKG)-autoconf-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-autoconf-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://www.sqlite.org/2025/$($(PKG)_FILE)
+$(PKG)_URL      := http://www.sqlite.org/2026/$($(PKG)_FILE)
 $(PKG)_DEPS     := readline zlib
 
 ifeq ($(MXE_SYSTEM),mingw)
 $(PKG)_DEPS     += termcap
+endif
+
+$(PKG)_CONFIGURE_OPTIONS :=
+ifeq ($(MXE_SYSTEM)$(BUILD_SHARED),mingwyes)
+    $(PKG)_CONFIGURE_OPTIONS += --out-implib
 endif
 
 define $(PKG)_UPDATE
@@ -27,14 +32,12 @@ define $(PKG)_BUILD
         --prefix='$(BUILD_TOOLS_PREFIX)' && \
       $(MAKE) -C '$(1).native' -j 1 install; \
     fi
-    if [ $(MXE_WINDOWS_BUILD) = yes ]; then \
-      $(SED) -i 's/^Cflags/#Cflags/;' '$(1)/sqlite3.pc.in'; \
-    fi
-    cd '$(1)' && autoreconf -fi && ./configure \
+    cd '$(1)' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
-        CFLAGS="-Os -DSQLITE_ENABLE_COLUMN_METADATA" \
+	$($(PKG)_CONFIGURE_OPTIONS) \
+        CFLAGS="-Os -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_RTREE=1" \
         --disable-readline
     $(MAKE) -C '$(1)' -j 1
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_DOCS) DESTDIR='$(3)'

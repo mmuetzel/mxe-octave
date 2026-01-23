@@ -11,6 +11,8 @@ $(PKG)_URL      := https://gmplib.org/download/gmp/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.cs.tu-berlin.de/pub/gnu/$(PKG)/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
+$(PKG)_CONFIGURE_FLAGS = 'CFLAGS=-std=c17'
+
 define $(PKG)_UPDATE
     echo 'Warning: Updates are temporarily disabled for package $(PKG).' >&2;
     echo $(gmp_VERSION)
@@ -19,6 +21,7 @@ endef
 define $(PKG)_BUILD
     mkdir '$(1).build'
     cd    '$(1).build' && '$(1)/configure' \
+	$($(PKG)_CONFIGURE_FLAGS) \
         --prefix='$(BUILD_TOOLS_PREFIX)' \
         --disable-shared
     $(MAKE) -C '$(1).build' -j '$(JOBS)'

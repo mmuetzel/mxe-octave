@@ -4,8 +4,10 @@
 PKG             := msys2-libxcrypt
 $(PKG)_NAME     := libxcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.4.38-1
-$(PKG)_x86_64_CS := 9bafbed1292e8a4b68e27a778cd3b63694604efe
+$(PKG)_x86_64_VER := 4.5.2-1
+$(PKG)_i686_VER  := 4.4.38-1
+$(PKG)_VERSION  := $($(PKG)_$(MSYS2_ARCH)_VER)
+$(PKG)_x86_64_CS := 8223897ac1c8c795e8097df0d03200da20e64aa7
 $(PKG)_i686_CS  := ef59472d84adb98cfb18e62aa73354fe8e38671f
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)

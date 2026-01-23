@@ -13,12 +13,6 @@ $(PKG)_DEPS     := of-signal
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
     $(PKG)_DEPS += $(OCTAVE_TARGET)
-    ifeq ($(MXE_NATIVE_BUILD),no)
-        ifeq ($(USE_SYSTEM_OCTAVE),no)
-            # Remove this when package builds without calling Octave
-            $(PKG)_DEPS += build-octave
-        endif
-    endif
 endif
 
 $(PKG)_OPTIONS := comm_cv_hdf5_cppflags='-I$(HOST_INCDIR)' comm_cv_hdf5_ldflags='-L$(HOST_LIBDIR)' comm_cv_hdf5_libs=-lhdf5

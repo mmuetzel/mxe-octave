@@ -57,6 +57,7 @@ SRC_FILES_1 := \
   bzip2-1-fixes.patch \
   bzip2.mk \
   c-ares.mk \
+  cairo-1-c23-bool.patch \
   cairo-2-static-init.patch \
   cairo.mk \
   cairomm.mk \
@@ -73,7 +74,6 @@ SRC_FILES_1 := \
   curl-test.c \
   curl.mk \
   damageproto.mk \
-  dbus-1-fixes.patch \
   dbus.mk \
   dcmtk-1-fixes.patch \
   dcmtk-2-mingw-w64.patch \
@@ -121,7 +121,6 @@ SRC_FILES_1 := \
   gd-test.c \
   gd.mk \
   gdal.mk \
-  gdb-1-out-of-tree.patch \
   gdb.mk \
   gdcm-1-nosecapi.patch \
   gdcm-2-getopt.patch \
@@ -145,13 +144,17 @@ SRC_FILES_1 := \
   glib.mk \
   glibmm.mk \
   glpk-1-fixes.patch \
+  glpk-2-c23.patch \
   glpk.mk \
   glproto.mk \
   glu.mk \
+  gmp-1-gcc-15.patch \
+  gmp-2-missing-main.patch \
   gmp.mk \
   gnuplot-1-fixes.patch \
   gnuplot-2-qt6.patch \
   gnuplot-3-qt6-native.patch \
+  gnuplot-4-c23.patch \
   gnuplot.mk \
   gnutls-1-fixes.patch \
   gnutls-test.c \
@@ -350,6 +353,7 @@ SRC_FILES_1 := \
   mingw-s2tc-1-fixes.patch \
   mingw-texinfo-1-fixes.patch \
   mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
+  mingw-units-1-mingw.patch \
   mingw-utils-1-portability-fix.patch \
   mingw-w64.mk \
   mingwrt.mk \
@@ -448,6 +452,7 @@ SRC_FILES_1 := \
   native-gcc.mk \
   ncurses-1-gcc-5-fix.patch \
   ncurses.mk \
+  netcdf-1-stat.patch \
   netcdf.mk \
   nettle-1-fixes.patch \
   nettle.mk \
@@ -464,6 +469,7 @@ SRC_FILES_1 := \
   ocaml-native.mk \
   of-actuarial.mk \
   of-audio.mk \
+  of-communications-1-cross-build.patch \
   of-communications.mk \
   of-control.mk \
   of-data-smoothing.mk \
@@ -599,6 +605,7 @@ SRC_FILES_1 := \
   plotmm-1-fixes.patch \
   plotmm.mk \
   plotutils-2.6-libpng-1.5.patch \
+  plotutils-2-c23-bool.patch \
   plotutils.mk \
   poco-1-fix-mno-cygwin.patch \
   poco-test.cpp \
@@ -671,24 +678,14 @@ SRC_FILES_1 := \
   rapidjson-1-prettywriter.patch \
   rapidjson-2-GCC-14.patch \
   rapidjson.mk \
-  readline-0-001-fix-crash-when-readline-is-star.patch \
-  readline-0-002-avoid-possible-crash-when-tryin.patch \
-  readline-0-003-fix-typo-when-specifying-readli.patch \
-  readline-0-004-fix-compilation-on-systems-that.patch \
-  readline-0-005-fix-for-callback-signal-handlin.patch \
-  readline-0-006-fix-for-callback-signal-handlin.patch \
-  readline-0-007-display-newline-if-readline-is-.patch \
-  readline-0-008-add-missing-function-prototypes.patch \
-  readline-0-009-fix-issue-where-directory-name-.patch \
-  readline-0-010-fix-issue-where-comparing-quot.patch \
-  readline-0-011-readline-should-retry-the-open.patch \
-  readline-0-012-prevent-infinite-recursion-if-.patch \
-  readline-0-013-readline-can-discard-bytes-if-.patch \
+  readline-0-001-fix-for-readline-event-hook.patch \
+  readline-0-002-fix-crash-if-the-calling-applic.patch \
+  readline-0-003-fix-crash-when-interrupting-rev.patch \
   readline-1-display.patch \
   readline-1-fixes.patch \
   readline-1-sigwinch.patch \
   readline-2-event-hook.patch \
-  readline-3-fd_set.patch \
+  readline-3-no-winsize.patch \
   readline-4-locale.patch \
   readline.mk \
   release-octave-1-gnulib.patch \
@@ -717,6 +714,7 @@ SRC_FILES_1 := \
   sdl_sound-test.c \
   sdl_sound.mk \
   sdl_ttf.mk \
+  sdl3.mk \
   sm.mk \
   smpeg-test.c \
   smpeg.mk \
@@ -760,6 +758,7 @@ SRC_FILES_1 := \
   taglib.mk \
   termcap-1-fixes.patch \
   termcap-2-GCC-14.patch \
+  termcap-3-c23.patch \
   termcap.mk \
   texinfo.mk \
   theora.mk \
@@ -770,6 +769,7 @@ SRC_FILES_1 := \
   transfig-1-fixes.patch \
   transfig.mk \
   tre.mk \
+  units-1-c23.patch \
   units.mk \
   util-linux.mk \
   util-macros.mk \
@@ -842,6 +842,7 @@ SRC_FILES_1 := \
   xrender.mk \
   xt.mk \
   xtrans.mk \
+  xvidcore-1-c23-bool.patch \
   xvidcore.mk \
   xxf86vm.mk \
   xz.mk \

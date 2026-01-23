@@ -3,8 +3,8 @@
 
 PKG             := wxwidgets
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.6
-$(PKG)_CHECKSUM := 44371dfdcc96a0e3d5e03d2d726470f645035619
+$(PKG)_VERSION  := 3.3.1
+$(PKG)_CHECKSUM := 4011a6b56f13becc9b4a672d0a082041b22f499f
 $(PKG)_SUBDIR   := wxWidgets-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.bz2
 $(PKG)_URL      := https://github.com/wxWidgets/wxWidgets/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -21,11 +21,10 @@ define $(PKG)_BUILD
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
 	$(if $(BUILD_SHARED),,--disable-shared) \
         --prefix='$(HOST_PREFIX)' \
-        --enable-compat28 \
         --enable-gui \
         --disable-stl \
         --enable-threads \
-        --enable-unicode \
+	--enable-utf8 \
         --disable-universal \
         --with-themes=all \
         --with-msw \

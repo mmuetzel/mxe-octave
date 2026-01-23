@@ -10324,13 +10324,13 @@ diff -ruN graphicsmagick_orig/dcraw/port/strnlen.c graphicsmagick/dcraw/port/str
 
 --- graphicsmagick.orig/config/delegates.mgk.in	2021-06-04 12:17:20.662689000 +0200
 +++ graphicsmagick/config/delegates.mgk.in	2021-06-04 12:34:16.975259869 +0200
-@@ -72,7 +72,7 @@
- <delegatemap>
+@@ -82,7 +82,7 @@
    <delegate decode="browse" stealth="True" command='"@BrowseDelegate@" "http://www.GraphicsMagick.org/" &'  />
    <delegate decode="cgm" command='"@CGMDecodeDelegate@" -d ps < "%i" > "%o" 2>/dev/null' />
+   <!-- The following recipe supports the original dcraw, which is no longer supported by Dave Coffin -->
 -  <delegate decode="dcraw" command='"@DCRAWDecodeDelegate@" -c -w @DcrawExtraOptions@ "%i" > "%o"' />
 +  <delegate decode="dcraw" command='"@DCRAWDecodeDelegate@" -w @DcrawExtraOptions@ -O "%o" "%i"' />
+   <!-- The following recipe supports dcraw_emu from libraw.  The critical -c option is used for something else! -->
+   <!-- <delegate decode="dcraw" command='"@DCRAWDecodeDelegate@" -Z - -w @DcrawExtraOptions@ "%i" > "%o"' /> -->
    <delegate decode="dot" command='"@DOTDecodeDelegate@" -Tps "%i" -o "%o"' />
-   <delegate decode="dvi" command='"@DVIDecodeDelegate@" -q -o "%o" "%i"' />
-   <delegate decode="edit" stealth="True" command='"@EditorDelegate@" -title "Edit Image Comment" -e vi "%o"' />
-   
+

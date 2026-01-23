@@ -3,19 +3,15 @@
 
 PKG             := readline
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 8.2
-$(PKG)_CHECKSUM := 97ad98be243a857b639c0f3da2fe7d81c6d1d36e
+$(PKG)_VERSION  := 8.3
+$(PKG)_CHECKSUM := 2c05ae9350b695f69d70b47f17f092611de2081f
 $(PKG)_SUBDIR   := readline-$($(PKG)_VERSION)
 $(PKG)_FILE     := readline-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := http://ftp.gnu.org/gnu/readline/$($(PKG)_FILE)
 
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_TERMCAP_LIB := termcap
-  # Setting -Wno-implicit-function-declaration works around a build error
-  # because there is no function "alarm" on Windows. This should actually be
-  # fixed by implementing Windows versions of "set_alarm" and "reset_alarm" in
-  # input.c. But it seems to work without these functions.
-  $(PKG)_CONFIGURE_OPTIONS := --without-curses CFLAGS='$(CFLAGS) -Wno-implicit-function-declaration'
+  $(PKG)_CONFIGURE_OPTIONS := --without-curses
 else
   $(PKG)_TERMCAP_LIB := ncurses
   ifeq ($(MXE_NATIVE_BUILD),yes)

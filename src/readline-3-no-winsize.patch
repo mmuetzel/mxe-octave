@@ -1,0 +1,25 @@
+From 96ee5f3ce51eb69823fcc911218efd2074f5ff2d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Markus=20M=C3=BCtzel?= <markus.muetzel@gmx.de>
+Date: Wed, 23 Jul 2025 13:46:15 +0200
+Subject: [PATCH] Define dummy structure that isn't defined on Windows.
+
+---
+ rlwinsize.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/rlwinsize.h b/rlwinsize.h
+index eaf7fbf..e3491ec 100644
+--- a/rlwinsize.h
++++ b/rlwinsize.h
+@@ -55,6 +55,11 @@
+ #  define tcflow(fd, action)	ioctl(fd, TCXONC, action)
+ #endif
+ 
++#if defined (__MINGW32__)
++// On Windows, define dummy struct with no fields.
++struct winsize {};
++#endif
++
+ extern int _rl_tcgetwinsize (int, struct winsize *);
+ extern void _rl_tcsetwinsize (int, struct winsize *);
+ 

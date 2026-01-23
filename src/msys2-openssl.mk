@@ -4,9 +4,9 @@
 PKG             := msys2-openssl
 $(PKG)_NAME     := openssl
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4.0-1
-$(PKG)_x86_64_CS := bc9b094995339af2cae8fcf289c810104e5e7902
-$(PKG)_i686_CS  := 9f0338e3a6a382d8430b895bf60bee65df8511d9
+$(PKG)_VERSION  := 3.6.0-1
+$(PKG)_x86_64_CS := 61ea064a7a0df8ab387d840d01a023d654ffbbcb
+$(PKG)_i686_CS  := 8c81f5b21d8714f19526a151b4420636e7fbb89d
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

@@ -1,0 +1,42 @@
+`bool` is a built-in type in C23.
+
+diff -urN plotutils-2.6/include/sys-defines.h.orig plotutils-2.6/include/sys-defines.h
+--- plotutils-2.6/include/sys-defines.h.orig	2008-07-16 02:04:04.000000000 +0200
++++ plotutils-2.6/include/sys-defines.h	2025-05-12 15:52:14.725206909 +0200
+@@ -254,6 +254,7 @@
+ /**************************************************************************/
+ 
+ #ifndef __cplusplus
++#if __STDC_VERSION__ < 202311L
+ #ifdef __STDC__
+ typedef enum { false = 0, true = 1 } bool;
+ #else  /* not __STDC__, do things the old-fashioned way */
+@@ -261,6 +262,7 @@
+ #define false 0
+ #define true 1
+ #endif /* not __STDC__ */
++#endif /* before C23 */
+ #endif /* not __cplusplus */
+ 
+ /**************************************************************************/
+diff -urN plotutils-2.6/libxmi/sys-defines.h.orig plotutils-2.6/libxmi/sys-defines.h
+--- plotutils-2.6/libxmi/sys-defines.h.orig	2005-11-27 23:14:34.000000000 +0100
++++ plotutils-2.6/libxmi/sys-defines.h	2025-05-12 15:59:43.842142096 +0200
+@@ -167,7 +167,7 @@
+ /**************************************************************************/
+ 
+ #ifndef __cplusplus
+-#ifndef HAVE_BOOL_IN_CC
++#if __STDC_VERSION__ < 202311L
+ #ifdef __STDC__
+ typedef enum { false = 0, true = 1 } bool;
+ #else  /* not __STDC__, do things the old-fashioned way */
+@@ -175,7 +175,7 @@
+ #define false 0
+ #define true 1
+ #endif
+-#endif /* not HAVE_BOOL_IN_CC */
++#endif /* before C23 */
+ #endif /* not __cplusplus */
+   
+ /**************************************************************************/

@@ -1,10 +1,10 @@
 PKG             := icu4c
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 76.1
-$(PKG)_CHECKSUM := fc2787889e0ed54f021477e4fe65bb56cc93de04
-$(PKG)_SUBDIR   := icu-release-$(subst .,-,$($(PKG)_VERSION))/icu4c
-$(PKG)_FILE     := $(PKG)-$(subst .,-,$($(PKG)_VERSION)).tar.gz
-$(PKG)_URL      := https://github.com/unicode-org/icu/archive/refs/tags/release-$(subst .,-,$($(PKG)_VERSION)).tar.gz
+$(PKG)_VERSION  := 78.2
+$(PKG)_CHECKSUM := 5b80e6bc43804ea19de1971ab67153642f5c1dd2
+$(PKG)_SUBDIR   := icu-release-$($(PKG)_VERSION)/icu4c
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/unicode-org/icu/archive/refs/tags/release-$($(PKG)_VERSION).tar.gz
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE

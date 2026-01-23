@@ -4,9 +4,9 @@
 PKG             := msys2-tar
 $(PKG)_NAME     := tar
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.35-2
-$(PKG)_x86_64_CS := 98960562822da4b6945c95b977d2fe132a588ae6
-$(PKG)_i686_CS  := e6cb21601376cc3b0be43daa0d8cdbd9f336fda6
+$(PKG)_VERSION  := 1.35-3
+$(PKG)_x86_64_CS := 332a49a0dd938482cd5d6f3fa1abf2eaa4cd47f6
+$(PKG)_i686_CS  := 07825b09b4e4274422401ec284716bcb9957d11d
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
 $(PKG)_SUBDIR   := 

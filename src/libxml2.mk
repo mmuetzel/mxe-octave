@@ -3,8 +3,8 @@
 
 PKG             := libxml2
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.13.5
-$(PKG)_CHECKSUM := dfd9c413142ac4d143af45eaef5d6f36d520823f
+$(PKG)_VERSION  := 2.15.1
+$(PKG)_CHECKSUM := 1d4e131aafd74ba974fd05961b518b9dee008b84
 $(PKG)_SUBDIR   := libxml2-v$($(PKG)_VERSION)
 $(PKG)_FILE     := libxml2-v$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://gitlab.gnome.org/GNOME/$(PKG)/-/archive/v$($(PKG)_VERSION)/$($(PKG)_FILE)

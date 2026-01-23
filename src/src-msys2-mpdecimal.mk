@@ -4,8 +4,8 @@
 PKG             := src-msys2-mpdecimal
 $(PKG)_NAME     := mpdecimal
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.0.0-1
-$(PKG)_CHECKSUM := 789de4f2080a19f2e50e4ad794de048ac53e6a7b
+$(PKG)_VERSION  := 4.0.1-1
+$(PKG)_CHECKSUM := 9c9f333f736be9bb338add13b07b05573d5a7215
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

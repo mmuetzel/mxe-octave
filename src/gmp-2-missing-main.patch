@@ -1,0 +1,25 @@
+# HG changeset patch
+# User Markus Mützel <markus.muetzel@gmx.de>
+# Date 1747035747 -7200
+#      Mon May 12 09:42:27 2025 +0200
+# Node ID 7851c905ae9b0081a2603038ecf602e3a0f46635
+# Parent  d66d66d82dbbe4f561920d28c1e1cbe6818452c7
+Add missing function main in configure test.
+
+* acinclude.m4: Compiling the test for `__builtin_alloca` fails when targeting
+Windows because of a missing function `main`. Add a minimal function `main` to
+that configuration test.
+
+diff --git a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4
++++ b/acinclude.m4
+@@ -567,7 +567,8 @@ param_init ()
+ # __builtin_alloca is not available everywhere, check it exists before
+ # seeing that it works
+ GMP_PROG_CC_WORKS_PART_TEST([$1],[__builtin_alloca availability],
+-[int k; int foo () { __builtin_alloca (k); }],
++[int k; int foo () { __builtin_alloca (k); }
++int main (void) { return 0; }],
+   [GMP_PROG_CC_WORKS_PART([$1], [alloca array],
+ [/* The following provokes an internal compiler error from Itanium HP-UX cc
+     under +O2 or higher.  We use this sort of code in mpn/generic/mul_fft.c. */

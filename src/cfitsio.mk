@@ -3,8 +3,8 @@
 
 PKG             := cfitsio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.5.0
-$(PKG)_CHECKSUM := a4fbfd2cb7f8009f6a25cd5e8da812873c421bba
+$(PKG)_VERSION  := 4.6.3
+$(PKG)_CHECKSUM := 7d32ca78e5d878457a0358bb0e1bc20699a62ac5
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/$($(PKG)_FILE)
@@ -18,10 +18,10 @@ ifeq ($(MXE_SYSTEM),mingw)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- "http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/?C=M;O=D" | \
-    grep -i '<a href="cfitsio.*tar' | \
-    $(SED) -n 's,.*cfitsio-\([0-9\.][^>]*\)\.tar.*,\1,p' | \
-    head -1
+    $(WGET) -q -O- "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/?C=M;O=D" | \
+    grep -i '<a href="cfitsio-.*tar' | \
+    $(SED) -n 's,.*cfitsio-\([0-9\.][^>]*\)\.tar.*,\1,p' | $(SORT) -V | \
+    tail -1
 endef
 
 ifeq ($(MXE_SYSTEM),msvc)

@@ -4,8 +4,8 @@
 PKG             := src-msys2-info
 $(PKG)_NAME     := texinfo
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.1.1-1
-$(PKG)_CHECKSUM := df01f3129ee8183a15a8f7971c4653b62d497830
+$(PKG)_VERSION  := 7.2-2
+$(PKG)_CHECKSUM := fad219ff6800f0c68d705157aa07a83d7bcff829
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

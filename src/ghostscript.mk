@@ -22,7 +22,9 @@ ifeq ($(MXE_NATIVE_MINGW_BUILD),yes)
 endif
 
 ifeq ($(MXE_NATIVE_BUILD),yes)
-    $(PKG)_CONFIGURE_FLAGS=$(CONFIGURE_LDFLAGS) $(CONFIGURE_CPPFLAGS)
+    $(PKG)_CONFIGURE_FLAGS=$(CONFIGURE_LDFLAGS) $(CONFIGURE_CPPFLAGS) --with-libiconv=gnu
+else
+    $(PKG)_CONFIGURE_FLAGS="CFLAGSAUX=-std=gnu17"
 endif
 
 define $(PKG)_UPDATE
@@ -37,6 +39,7 @@ define $(PKG)_BUILD
     cd '$(1)' && autoreconf -f -i
     mkdir '$(1)/.build'
     cd '$(1)/.build' && $(1)/configure \
+        CC='$(MXE_CC) -std=gnu17' \
         CFLAGS='$(CFLAGS) -Wno-int-conversion' \
         CPPFLAGS='$(CPPFLAGS) -DHAVE_SYS_TIMES_H=0' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \

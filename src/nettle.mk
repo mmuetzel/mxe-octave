@@ -3,15 +3,16 @@
 
 PKG             := nettle
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.9.1
-$(PKG)_CHECKSUM := f129cd7b0c5aa52649957221bb93dd1feef12a2c
+$(PKG)_VERSION  := 3.10.2
+$(PKG)_CHECKSUM := 7facbe118b985faab180cdcac13bebd16cc633b4
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://www.lysator.liu.se/~nisse/archive/$($(PKG)_FILE)
+$(PKG)_URL      := https://www.lysator.liu.se/~nisse/archive/$($(PKG)_FILE)
+$(PKG)_URL_2      := https://ftp.gnu.org/gnu/nettle/$($(PKG)_FILE)
 $(PKG)_DEPS     := gmp
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://www.lysator.liu.se/~nisse/archive/' | \
+    $(WGET) -q -O- 'https://www.lysator.liu.se/~nisse/archive/' | \
     $(SED) -n 's,.*nettle-\([0-9][^>]*\)\.tar.*,\1,p' | \
     grep -v 'pre' | \
     grep -v 'rc' | \

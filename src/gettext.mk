@@ -3,11 +3,11 @@
 
 PKG             := gettext
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.22.5
-$(PKG)_CHECKSUM := 1c3911796312efd8119da7a292edef305bdb71bb
+$(PKG)_VERSION  := 0.26
+$(PKG)_CHECKSUM := 303f56fa7f0acba9400b6e92afe2f9cdcf0ce8e7
 $(PKG)_SUBDIR   := gettext-$($(PKG)_VERSION)
 $(PKG)_FILE     := gettext-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gettext/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/gnu/gettext/$($(PKG)_FILE)
 $(PKG)_DEPS     := libiconv
 
 define $(PKG)_UPDATE
