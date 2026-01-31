@@ -4,7 +4,7 @@
 PKG             := qt6-qttools
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION   = $(qt6-qtbase_VERSION)
-$(PKG)_CHECKSUM := 6ff814802d972f5823a8bcaa7032dcdd16850dc7
+$(PKG)_CHECKSUM := a18433f9851de5f968a5a2b1662e05c00102c913
 $(PKG)_SUBDIR    = $(subst qtbase,qttools,$(qt6-qtbase_SUBDIR))
 $(PKG)_FILE      = $(subst qtbase,qttools,$(qt6-qtbase_FILE))
 $(PKG)_URL       = $(subst qtbase,qttools,$(qt6-qtbase_URL))
@@ -19,10 +19,8 @@ define $(PKG)_BUILD
     '$(BUILD_TOOLS_PREFIX)/qt6/bin/qt-cmake' -GNinja \
       -S '$(1)' -B '$(1).tools' \
       -DCMAKE_INSTALL_PREFIX='$(BUILD_TOOLS_PREFIX)/qt6' \
-      -DFEATURE_clang=OFF \
-      -DFEATURE_clangcpp=OFF \
-      -DFEATURE_linguist=ON \
-      -DFEATURE_designer=OFF
+      -DQT_FEATURE_linguist=ON \
+      -DQT_FEATURE_{clang,designer,qdbus}=OFF
 
     cmake --build '$(1).tools' -j '$(JOBS)'
     cmake --install '$(1).tools'
@@ -37,8 +35,7 @@ define $(PKG)_BUILD
     '$(HOST_PREFIX)/qt6/bin/qt-cmake-private' -GNinja \
       -S '$(1)' -B '$(1).build' \
       -DCMAKE_INSTALL_PREFIX='$(HOST_PREFIX)/qt6' \
-      -DFEATURE_clang=OFF \
-      -DFEATURE_clangcpp=OFF \
+      -DQT_FEATURE_clang=OFF \
       -DQT_FORCE_BUILD_TOOLS=ON
 
 
@@ -58,4 +55,3 @@ define $(PKG)_BUILD
       cp '$(HOST_PREFIX)'/qt6/bin/Qt6DesignerComponents.dll '$(HOST_BINDIR)'/Qt6DesignerComponents.dll; \
     fi
 endef
-

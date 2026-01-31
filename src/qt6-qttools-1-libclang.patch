@@ -1,15 +1,15 @@
 Don't check for libclang when building without it.
 
-diff -urN qttools-everywhere-src-6.5.2/configure.cmake qttools-everywhere-src-6.5.2/configure.cmake.orig
---- qttools-everywhere-src-6.5.2/configure.cmake.orig	2023-07-07 14:29:26.000000000 +0200
-+++ qttools-everywhere-src-6.5.2/configure.cmake	2023-09-29 10:39:40.324294579 +0200
-@@ -17,7 +17,9 @@
- # Presumably because 6.0 ClangConfig.cmake files are not good enough?
- # In any case explicitly request a minimum version of 8.x for now, otherwise
- # building with CMake will fail at compilation time.
+diff -urN qttools-everywhere-src-6.10.1/configure.cmake.orig qttools-everywhere-src-6.10.1/configure.cmake
+--- qttools-everywhere-src-6.10.1/configure.cmake.orig	2025-11-13 21:37:00.000000000 +0100
++++ qttools-everywhere-src-6.10.1/configure.cmake	2026-01-31 20:54:08.608644533 +0100
+@@ -6,7 +6,9 @@
+ 
+ #### Tests
+ 
 +if (QT_FEATURE_clang)
  qt_find_package(WrapLibClang 8 PROVIDED_TARGETS WrapLibClang::WrapLibClang)
 +endif()
- # special case end
  
  if(TARGET WrapLibClang::WrapLibClang)
+     set(TEST_libclang "ON" CACHE BOOL "Required libclang version found." FORCE)
