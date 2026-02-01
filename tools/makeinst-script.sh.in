@@ -694,7 +694,7 @@ Section "Shortcuts"
  CreateDirectory "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local"
  CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Uninstall.lnk" "\$INSTDIR\\uninstall.exe" "" "\$INSTDIR\\uninstall.exe" 0
  SetOutPath "%USERPROFILE%"
- CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (CLI).lnk" "\$INSTDIR\\octave-launch.exe" "--no-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (CLI).lnk" "\$INSTDIR\\octave-launch.exe" "--no-gui" "\$INSTDIR\\$ICON" 0 SW_SHOWNORMAL
  CreateShortCut "\$SMPROGRAMS\\GNU Octave $VERSION\$MultiUser.Local\\Octave-$VERSION\$MultiUser.Local (GUI).lnk" "\$INSTDIR\\octave-launch.exe" "--gui" "\$INSTDIR\\$ICON" 0 SW_SHOWMINIMIZED
  SetOutPath "\$INSTDIR"
 
@@ -776,7 +776,7 @@ set_ver_str:
 
 have_ver_str:
     SetOutPath "%USERPROFILE%"
-    CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "\$R0\\octave-launch.exe" "--no-gui" "\$R2" 0 SW_SHOWMINIMIZED
+    CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "\$R0\\octave-launch.exe" "--no-gui" "\$R2" 0 SW_SHOWNORMAL
     CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "\$R0\\octave-launch.exe" "--gui" "\$R2" 0 SW_SHOWMINIMIZED
 
     nsExec::Exec /TIMEOUT=30000 '"\$INSTDIR\\$OCTAVE_SUBDIR\\bin\\win7appid.exe" "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" "gnu.octave.\$R1"'
@@ -909,7 +909,7 @@ install_path:
 
  IfFileExists "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" 0 check_gui_shortcut 
  SetOutPath "%USERPROFILE%"
- CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "\$R0\\octave-launch.exe" "--no-gui" "\$R2" 0 SW_SHOWMINIMIZED
+ CreateShortCut "\$desktop\\GNU Octave\$MultiUser.Local (CLI).lnk" "\$R0\\octave-launch.exe" "--no-gui" "\$R2" 0 SW_SHOWNORMAL
 
 check_gui_shortcut:
  IfFileExists "\$desktop\\GNU Octave\$MultiUser.Local (GUI).lnk" 0 done_remove_desktop_shortcuts
