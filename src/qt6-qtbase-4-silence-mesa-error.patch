@@ -1,0 +1,28 @@
+A workaround for the matrox driver causes a (spurious) error message to be
+emitted when using the Mesa 3d driver.
+Temporarily set an environment argument to silence that error message.
+
+--- qtbase-everywhere-src-6.10.1/src/plugins/platforms/windows/qwindowsglcontext.cpp.orig	2025-11-12 11:17:57.000000000 +0100
++++ qtbase-everywhere-src-6.10.1/src/plugins/platforms/windows/qwindowsglcontext.cpp	2026-02-01 09:24:53.812258389 +0100
+@@ -1042,9 +1042,21 @@
+     // make a cheap call to opengl to force loading of DLL
+     static bool opengl32dll = false;
+     if (!opengl32dll) {
++        // Attempting to call an OpenGL function before a valid context exists
++        // causes a (spurious) error message with Mesa 3d driver.
++        // Silence that error by temporarily setting an OS environment variable.
++        bool unsetMesaDebug = false;
++        if (!qEnvironmentVariableIsSet("MESA_DEBUG")) {
++          unsetMesaDebug = true;
++          qputenv("MESA_DEBUG", "silent");
++        }
++
+         GLint params;
+         staticContext->opengl32.glGetIntegerv(GL_DEPTH_BITS, &params);
+         opengl32dll = true;
++
++        if (unsetMesaDebug)
++          qunsetenv("MESA_DEBUG");
+     }
+ 
+     // SetPixelFormat (as of Windows 7) requires a real window.

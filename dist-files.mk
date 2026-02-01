@@ -664,6 +664,7 @@ SRC_FILES_1 := \
   qt6-qtbase-1-fixes.patch \
   qt6-qtbase-2-6.7.0-opengl-header.patch \
   qt6-qtbase-3-freetype-font-fallback-dir.patch \
+  qt6-qtbase-4-silence-mesa-error.patch \
   qt6-qtbase.mk \
   qt6-qtimageformats.mk \
   qt6-qtsvg.mk \
