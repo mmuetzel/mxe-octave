@@ -50,8 +50,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
   ifeq ($(MXE_NATIVE_BUILD),no)
     WINDOWS_BINARY_DIST_DEPS += \
       native-binutils \
-      native-gcc \
-      npp
+      native-gcc
   endif
 endif
 
@@ -149,9 +148,6 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
         cd $(TOP_BUILD_DIR)/msys-extension \
           && tar -c $(TAR_H_OPTION) -f - . | ( cd $(OCTAVE_DIST_DIR) ; tar xpf - ); \
       fi
-      echo "  notepad++..."
-      cd $(TOP_BUILD_DIR) \
-          && tar -c $(TAR_H_OPTION) -f - notepad++ | ( cd $(OCTAVE_DIST_DIR) ; tar xpf - )
       echo "  README.html..."
       cp $(TOP_DIR)/installer-files/README.html $(OCTAVE_DIST_DIR)/
       echo "  refblas..."
@@ -231,7 +227,7 @@ ifeq ($(STRIP_DIST_FILES),yes)
   ifeq ($(MXE_WINDOWS_BUILD),yes)
     define strip-dist-files
       echo "stripping files..."
-      for f in `find $(OCTAVE_DIST_DIR) -name '*.dll' -o -name '*.exe' -o -name '*.oct' | $(GREP) -v "notepad++" | $(GREP) -v "msys-2.0.dll"`; do \
+      for f in `find $(OCTAVE_DIST_DIR) -name '*.dll' -o -name '*.exe' -o -name '*.oct' | $(GREP) -v "msys-2.0.dll"`; do \
         if [ "$$(head -n1 $$f | cut -c1-2)" != "#!" ]; then \
           $(MXE_STRIP) $$f; \
         fi; \
