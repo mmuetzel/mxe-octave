@@ -353,6 +353,7 @@ SRC_FILES_1 := \
   mingw-s2tc-1-fixes.patch \
   mingw-texinfo-1-fixes.patch \
   mingw-texinfo-2-makeinfo-non-ASCII-perl.patch \
+  mingw-texinfo-3-no-man-pages.patch \
   mingw-units-1-mingw.patch \
   mingw-utils-1-portability-fix.patch \
   mingw-w64.mk \

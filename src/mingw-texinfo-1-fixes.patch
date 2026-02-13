@@ -78,15 +78,18 @@ diff -ur texinfo-6.6.orig/info/session.c texinfo-6.6/info/session.c
  
 Only in texinfo-6.6/info: session.c.orig
 diff -ur texinfo-6.6.orig/tp/texi2any.pl texinfo-6.6/tp/texi2any.pl
---- texinfo-6.6.orig/tp/texi2any.pl	2019-03-08 16:34:38.490926704 -0500
-+++ texinfo-6.6/tp/texi2any.pl	2019-03-08 16:41:52.849294091 -0500
-@@ -54,7 +54,7 @@
+--- texinfo-7.2/tp/texi2any.pl.orig	2024-12-19 19:31:43.000000000 +0100
++++ texinfo-7.2/tp/texi2any.pl	2026-02-14 00:49:56.842734193 +0100
+@@ -67,9 +67,9 @@
    my $updir = File::Spec->updir();
  
    # These are substituted by the Makefile to create "texi2any".
 -  my $datadir = '@datadir@';
-+  my $datadir = '/usr/share';
-   my $package = '@PACKAGE@';
-   my $packagedir = '@pkglibdir@';
++  my $datadir = '/mingw64/share';
+   my $converter = '@CONVERTER@';
+-  my $libdir = '@libdir@';
++  my $libdir = '/mingw64/lib';
+   my $xsdir;
  
+   if ($datadir eq '@' .'datadir@'
 Only in texinfo-6.6/tp: texi2any.pl.orig

@@ -1,0 +1,15 @@
+Do not install man pages. It would require help2man on the build system (which
+MXE Octave does not build).
+
+diff -urN texinfo-7.2/Makefile.am.orig texinfo-7.2/Makefile.am
+--- texinfo-7.2/Makefile.am.orig	2024-12-19 19:31:42.000000000 +0100
++++ texinfo-7.2/Makefile.am	2026-02-14 09:36:18.987541750 +0100
+@@ -76,7 +76,7 @@
+ endif
+ endif
+   SUBDIRS += install-info po po_document tp Pod-Simple-Texinfo \
+-             texindex util doc man
++             texindex util doc
+   SUBDIRS += js
+ endif
+ 
