@@ -25,6 +25,7 @@ define $(PKG)_BUILD
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         .
 
     $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1

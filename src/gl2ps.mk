@@ -31,6 +31,7 @@ ifeq ($(MXE_SYSTEM),msvc)
             $(CMAKE_CCACHE_FLAGS) \
             $(CMAKE_BUILD_SHARED_OR_STATIC) \
             -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             -DPNG_NAMES=png16 \
             .
         cd '$(1)' && env -u MAKE -u MAKEFLAGS nmake
@@ -58,6 +59,7 @@ else
                 $(CMAKE_CCACHE_FLAGS) \
                 $(CMAKE_BUILD_SHARED_OR_STATIC) \
                 -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+                -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
                 .
             $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1 
 

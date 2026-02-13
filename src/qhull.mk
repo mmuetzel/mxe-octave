@@ -30,6 +30,7 @@ define $(PKG)_BUILD
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         -DDOC_INSTALL_DIR='$(1)' \
         ../$($(PKG)_SUBDIR)
     make -C $(1)/../.build -j $(JOBS) 
