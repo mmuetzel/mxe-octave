@@ -2,13 +2,13 @@
 # See index.html for further information.
 
 PKG             := gnutls
-$(PKG)_VERSION  := 3.8.11
-$(PKG)_CHECKSUM := 112b50f152fb4357c80f8ab0ec604a2af547f39d
+$(PKG)_VERSION  := 3.8.12
+$(PKG)_CHECKSUM := d0bc40f70507922f632658f8991328c917ce6729
 $(PKG)_SUBDIR   := gnutls-$($(PKG)_VERSION)
 $(PKG)_FILE     := gnutls-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://www.gnutls.org/ftp/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
 $(PKG)_URL_2    := https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_FILE)
-$(PKG)_DEPS     := gettext gmp libidn2 libtasn1 libunistring nettle zlib
+$(PKG)_DEPS     := gettext gmp libidn2 libtasn1 libunistring nettle zlib zstd
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- https://gnupg.org/ftp/gcrypt/gnutls/v$(call SHORT_PKG_VERSION,$(PKG))/ | \
