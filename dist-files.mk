@@ -208,6 +208,7 @@ SRC_FILES_1 := \
   itstool.mk \
   jasper-1-fixes.patch \
   jasper.mk \
+  jpeg-1-fixes.patch \
   jpeg-test.c \
   jpeg.mk \
   json-c-test.c \
