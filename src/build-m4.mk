@@ -3,8 +3,8 @@
 
 PKG             := build-m4
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.20
-$(PKG)_CHECKSUM := 025df51430845178f926b20a078f994eefaa50fd
+$(PKG)_VERSION  := 1.4.21
+$(PKG)_CHECKSUM := 15351cc9e52f8bf3bf6001b548a63cdd6504b382
 $(PKG)_SUBDIR   := m4-$($(PKG)_VERSION)
 $(PKG)_FILE     := m4-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/m4/$($(PKG)_FILE)
