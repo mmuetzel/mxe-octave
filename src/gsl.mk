@@ -27,6 +27,9 @@ define $(PKG)_BUILD
     if [ $(MXE_SYSTEM) = msvc ]; then \
         cd '$(1)' && autoreconf -i -f -v; \
     fi
+    if [ $(MXE_SYSTEM) = mingw ]; then \
+        cd '$(1)' && autoreconf -i -f -v; \
+    fi
     cd '$(1)' && ./configure \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --enable-maintainer-mode \
