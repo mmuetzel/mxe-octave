@@ -132,8 +132,6 @@ SRC_FILES_1 := \
   geos-test.c \
   geos.mk \
   gettext.mk \
-  ghostscript-1-fixes.patch \
-  ghostscript-2-GCC-14.patch \
   ghostscript.mk \
   giflib.mk \
   gl2ps-1-configure.patch \
