@@ -574,8 +574,6 @@ SRC_FILES_1 := \
   opkg-biosig-1-skip-test.patch \
   opkg-biosig.mk \
   opkg-cfitsio.mk \
-  opkg-coder-1-use-Makefile.patch \
-  opkg-coder-2-no-additional-double-quotes.patch \
   opkg-coder.mk \
   opkg-datatypes.mk \
   opkg-image-acquisition-1-mkoctfile.patch \
