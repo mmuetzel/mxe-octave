@@ -7,11 +7,11 @@ $(PKG)_VERSION  := 1.0.0
 $(PKG)_CHECKSUM := cc936a440084f159cc46dab9018f1353f8bee80a
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://liboauth.sourceforge.net/pool/$($(PKG)_FILE)
+$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/$(PKG)/$($(PKG)_FILE)
 $(PKG)_DEPS     := curl openssl
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://liboauth.sourceforge.net/' | \
+    $(WGET) -q -O- 'https://sourceforge.net/projects/liboauth/files/' | \
     $(SED) -n 's,.*liboauth-\([0-9][^>]*\)\.tar.*,\1,p' | \
     head -1
 endef
