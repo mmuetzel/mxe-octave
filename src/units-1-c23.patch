@@ -1,9 +1,6 @@
-Switch from K&R syntax to ANSI C function declarations.
-Declare functions with prototype before they are used.
-
-diff -urN units-2.23/getopt.c.orig units-2.23/getopt.c
---- units-2.23/getopt.c.orig	2014-02-19 22:28:46.000000000 +0100
-+++ units-2.23/getopt.c	2025-05-12 18:14:24.729324234 +0200
+diff -ur units-2.25.orig/getopt.c units-2.25/getopt.c
+--- units-2.25.orig/getopt.c	2026-02-16 13:45:43.399739764 -0500
++++ units-2.25/getopt.c	2026-02-16 13:49:37.180894143 -0500
 @@ -175,12 +175,10 @@
  /* Avoid depending on library functions or files
     whose names are inconsistent.  */
@@ -51,7 +48,7 @@ diff -urN units-2.23/getopt.c.orig units-2.23/getopt.c
 -     int *longind;
 -     int long_only;
 +_getopt_internal (int argc, char *const *argv, const char *optstring,
-+                  const struct option *longopts, int *longind, int long_only)
++		const struct option *longopts, int *longind, int long_only)
  {
    optarg = NULL;
  
@@ -78,9 +75,9 @@ diff -urN units-2.23/getopt.c.orig units-2.23/getopt.c
  {
    int c;
    int digit_optind = 0;
-diff -urN units-2.23/getopt.h.orig units-2.23/getopt.h
---- units-2.23/getopt.h.orig	2012-10-19 03:00:05.000000000 +0200
-+++ units-2.23/getopt.h	2025-05-12 18:20:17.079815635 +0200
+diff -ur units-2.25.orig/getopt.h units-2.25/getopt.h
+--- units-2.25.orig/getopt.h	2026-02-16 13:45:43.396847397 -0500
++++ units-2.25/getopt.h	2026-02-16 14:01:06.281087353 -0500
 @@ -101,14 +101,7 @@
  #define optional_argument	2
  
@@ -96,31 +93,9 @@ diff -urN units-2.23/getopt.h.orig units-2.23/getopt.h
  extern int getopt_long (int argc, char *const *argv, const char *shortopts,
  		        const struct option *longopts, int *longind);
  extern int getopt_long_only (int argc, char *const *argv,
-diff -urN units-2.23/parse.y.orig units-2.23/parse.y
---- units-2.23/parse.y.orig	2024-02-01 22:55:34.000000000 +0100
-+++ units-2.23/parse.y	2025-05-12 18:27:30.389165418 +0200
-@@ -45,7 +45,6 @@
-                               if (var) destroyunit(var); \
-                               YYABORT; }
-  
--int yylex();
- void yyerror(struct commtype *comm, char *);
- 
- #define MAXMEM 100
-@@ -169,6 +168,10 @@
-   struct func *unitfunc;
- }
- 
-+%{
-+int yylex(UNITSSTYPE *lvalp, struct commtype *comm);
-+%}
-+
- %token <number> REAL
- %token <unit> UNIT
- %token <realfunc> REALFUNC
-diff -urN units-2.24/units.c.orig units-2.24/units.c
---- units-2.24/units.c.orig	2024-11-26 00:47:38.000000000 +0100
-+++ units-2.24/units.c	2025-05-12 19:12:00.955151364 +0200
+diff -ur units-2.25.orig/units.c units-2.25/units.c
+--- units-2.25.orig/units.c	2026-02-16 13:45:43.399739764 -0500
++++ units-2.25/units.c	2026-02-16 13:56:13.634635119 -0500
 @@ -30,7 +30,7 @@
  
  #define _XOPEN_SOURCE 600
@@ -130,15 +105,3 @@ diff -urN units-2.24/units.c.orig units-2.24/units.c
  # include <windows.h>
  # include <winbase.h>
  # include <wincon.h>
-diff -urN units-2.23/units.h.orig units-2.23/units.h
---- units-2.23/units.h.orig	2023-09-23 17:08:29.000000000 +0200
-+++ units-2.23/units.h	2025-05-12 18:23:31.827993834 +0200
-@@ -54,7 +54,7 @@
- #  ifdef NO_STRCHR
- #    define strchr(a,b) index((a),(b))
- #  else
--     char *strchr();
-+     char *strchr(const char *str, int val);
- #  endif
- #endif /* !strchr */
- 
