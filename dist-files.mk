@@ -19,6 +19,7 @@ SRC_FILES_1 := \
   boost-2-winerror.patch \
   boost-test.cpp \
   boost.mk \
+  build-autoconf-1-keep-lmingwex-and-lmoldname.patch \
   build-autoconf.mk \
   build-automake.mk \
   build-binutils.mk \
