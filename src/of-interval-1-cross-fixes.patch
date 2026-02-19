@@ -1,21 +1,30 @@
-diff -ur interval-3.2.2.orig/src/Makefile interval-3.2.2/src/Makefile
---- interval-3.2.2.orig/src/Makefile	2026-02-18 08:11:16.692120074 -0500
-+++ interval-3.2.2/src/Makefile	2026-02-18 08:12:30.774523975 -0500
-@@ -33,6 +33,8 @@
+# HG changeset patch
+# User Oliver Heimlich <oheim@posteo.de>
+# Date 1771485063 -3600
+#      Thu Feb 19 08:11:03 2026 +0100
+# Node ID 6b3e6bced1656c475fe5604962800ded094fb8dd
+# Parent  59bfcf975bdaf2e448d54b1223139bd9b41d92b8
+Configure correct host for cross compilation of crlibm
+
+diff --git a/src/Makefile b/src/Makefile
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -33,6 +33,9 @@ ifneq ($(SSE2_MACRO_DEF),)
  CONF_FLAG_SSE2 ?=--enable-sse2
  endif
  
-+CRLIBM_CONFIG_FLAGS ?=
++## For cross-compilation
++HOST ?=$(shell $(MKOCTFILE) -p CANONICAL_HOST_TYPE)
 +
  .PHONY: all
  all: $(OBJ)
  
-@@ -55,7 +57,7 @@
+@@ -55,7 +58,7 @@ crlibm_function.o: crlibm_function.cc
  $(BUNDLED_CRLIBM_DIR)/crlibm_private.o: $(BUNDLED_CRLIBM_DIR)/crlibm_config.h
  	$(MAKE) -C $(BUNDLED_CRLIBM_DIR) CFLAGS+="$(shell $(MKOCTFILE) -p CPICFLAG) -Wno-div-by-zero -Wno-unused-variable -Wno-unused-but-set-variable"
  $(BUNDLED_CRLIBM_DIR)/crlibm_config.h:
 -	(cd $(BUNDLED_CRLIBM_DIR) && ./configure --disable-dependency-tracking $(CONF_FLAG_SSE2))
-+	(cd $(BUNDLED_CRLIBM_DIR) && ./configure --disable-dependency-tracking $(CONF_FLAG_SSE2) $(CRLIBM_CONFIG_FLAGS))
++	(cd $(BUNDLED_CRLIBM_DIR) && ./configure --host=$(HOST) --disable-dependency-tracking $(CONF_FLAG_SSE2))
  
  ## GNU MPFR api oct-files
- mpfr_matrix_mul_d.oct mpfr_matrix_sqr_d.oct : mpfr_%.oct: mpfr_%.cc mpfr_commons.h compatibility/octave.h compatibility/mpfr.h
+ mpfr_matrix_mul_d.oct mpfr_matrix_sqr_d.oct : mpfr_%.oct: mpfr_%.cc mpfr_commons.h compatibility/mpfr.h
