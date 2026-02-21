@@ -3,8 +3,8 @@
 
 PKG             := qt6-qtbase
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 6.10.1
-$(PKG)_CHECKSUM := 8a1f031f80f0b83871c48e9d1864313619ecd204
+$(PKG)_VERSION  := 6.10.2
+$(PKG)_CHECKSUM := ae971fd0648e3e0683be8a4c3032c25149d431dc
 $(PKG)_SUBDIR   := qtbase-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := qtbase-everywhere-src-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://download.qt.io/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
@@ -47,7 +47,7 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- http://download.qt-project.org/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/ | \
+    $(WGET) -q -O- https://download.qt-project.org/official_releases/qt/$(call SHORT_PKG_VERSION,$(PKG))/ | \
     $(SED) -n 's,.*href="\(6\.[0-9]\+\.[^/]*\)/".*,\1,p' | \
     grep -iv -- '-rc' | \
     sort |
