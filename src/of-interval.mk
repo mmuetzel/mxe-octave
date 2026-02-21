@@ -18,16 +18,10 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
     $(PKG)_DEPS += $(OCTAVE_TARGET)
 endif
 
-ifeq ($(MXE_NATIVE_BUILD),no)
-$(PKG)_OPTIONS := CRLIBM_CONFIG_FLAGS='--host=$(TARGET)'
-else
-$(PKG)_OPTIONS := 
-endif
-
 define $(PKG)_UPDATE
     $(OCTAVE_FORGE_PKG_UPDATE)
 endef
 
 define $(PKG)_BUILD
-    $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),$($(PKG)_OPTIONS))
+    $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3))
 endef
