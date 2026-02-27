@@ -3,8 +3,8 @@
 
 PKG             := libntlm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.7
-$(PKG)_CHECKSUM := fb9dcff61221e3ff503ec7133aafa1458df60c63
+$(PKG)_VERSION  := 1.8
+$(PKG)_CHECKSUM := 09737c94ec5f724ed0b2602188a9afa216d8aa89
 $(PKG)_SUBDIR   := libntlm-$($(PKG)_VERSION)
 $(PKG)_FILE     := libntlm-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://download.savannah.nongnu.org/releases/libntlm/$($(PKG)_FILE)
