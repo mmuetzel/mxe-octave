@@ -3,8 +3,8 @@
 
 PKG             := opkg-tablicious
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 0.4.6
-$(PKG)_CHECKSUM := c2acb1cb1d53ad367238a48a23c7bf8e461c6ec2
+$(PKG)_VERSION  := 0.4.7
+$(PKG)_CHECKSUM := d46f92fc7aedfde5259f2e41010c9fe18e621b32
 $(PKG)_SUBDIR   := tablicious-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/apjanke/octave-tablicious/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
