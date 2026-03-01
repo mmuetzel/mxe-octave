@@ -4,10 +4,10 @@
 PKG             := msys2-keyring
 $(PKG)_NAME     := msys2-keyring
 $(PKG)_IGNORE   :=
-$(PKG)_x86_64_VER := 1~20251012-1
+$(PKG)_x86_64_VER := 1~20260214-1
 $(PKG)_i686_VER  := 1.20241007-1
 $(PKG)_VERSION  := $($(PKG)_$(MSYS2_ARCH)_VER)
-$(PKG)_x86_64_CS := 04517c40c0f043152f7e717a75789e722fad1359
+$(PKG)_x86_64_CS := a0bbc80c4931ed4c7a16f9346375030364ed4b74
 $(PKG)_i686_CS  := 5eb43798219d13d9f2db23d7f21422257465dd0b
 $(PKG)_CS       := $($(PKG)_$(MSYS2_ARCH)_CS)
 $(PKG)_CHECKSUM := $($(PKG)_CS)
