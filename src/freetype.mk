@@ -3,8 +3,8 @@
 
 PKG             := freetype
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.14.1
-$(PKG)_CHECKSUM := 20f7a9a3e2996aab82b0648e82d49a78e8813bab
+$(PKG)_VERSION  := 2.14.2
+$(PKG)_CHECKSUM := 28200b8f8df5a524f476bdacb20f05da1c33280c
 $(PKG)_SUBDIR   := freetype-$($(PKG)_VERSION)
 $(PKG)_FILE     := freetype-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/freetype/freetype2/$($(PKG)_VERSION)/$($(PKG)_FILE)
