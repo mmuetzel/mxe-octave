@@ -1,0 +1,12 @@
+diff -ur sqlite-autoconf-3520000.orig/shell.c sqlite-autoconf-3520000/shell.c
+--- sqlite-autoconf-3520000.orig/shell.c	2026-03-07 13:45:06.669545148 -0500
++++ sqlite-autoconf-3520000/shell.c	2026-03-07 13:47:15.480686641 -0500
+@@ -36188,7 +36188,7 @@
+ ** UTF8, then invoke the traditional main() entry point which is
+ ** renamed using a #define to utf8_main() .
+ */
+-#if defined(_WIN32) && !defined(main)
++#if defined(_WIN32) && !defined(__MINGW32__) && !defined(main)
+ #  define main utf8_main                 /* Rename entry point to utf_main() */
+ int SQLITE_CDECL utf8_main(int,char**);  /* Forward declaration */  
+ int SQLITE_CDECL wmain(int argc, wchar_t **wargv){

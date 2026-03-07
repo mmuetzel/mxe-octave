@@ -720,6 +720,7 @@ SRC_FILES_1 := \
   sox-test.c \
   sox.mk \
   speex.mk \
+  sqlite-1-fixes.patch \
   sqlite.mk \
   src-msys-bash.mk \
   src-msys-coreutils.mk \
