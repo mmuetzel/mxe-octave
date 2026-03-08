@@ -10,24 +10,3 @@ diff -ur gdcm-3.0.23.orig/Source/MediaStorageAndFileFormat/CMakeLists.txt gdcm-3
    find_package(Iconv)
    target_link_libraries(gdcmMSFF LINK_PRIVATE ${Iconv_LIBRARIES})
  endif()
-diff -ur gdcm-3.0.23.orig/Utilities/gdcmext/mec_mr3_io.c gdcm-3.0.23/Utilities/gdcmext/mec_mr3_io.c
---- gdcm-3.0.23.orig/Utilities/gdcmext/mec_mr3_io.c	2024-01-11 07:52:37.007305489 -0500
-+++ gdcm-3.0.23/Utilities/gdcmext/mec_mr3_io.c	2024-01-11 07:54:30.411529519 -0500
-@@ -138,7 +138,7 @@
- }
- 
- static void *aligned_alloc_impl(size_t alignment, size_t size) {
--#ifdef _MSC_VER
-+#ifdef _WIN32
-   return _aligned_malloc(size, alignment);
- #else
-   // return aligned_alloc(alignment, size);
-@@ -843,7 +843,7 @@
-     good = good && read_group(self, group, nitems, &info, &data);
-   }
-   // release memory:
--#ifdef _MSC_VER
-+#ifdef _WIN32
-   _aligned_free(data.buffer);
- #else
-   free(data.buffer);
