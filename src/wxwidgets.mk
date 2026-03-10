@@ -3,8 +3,8 @@
 
 PKG             := wxwidgets
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.3.1
-$(PKG)_CHECKSUM := 4011a6b56f13becc9b4a672d0a082041b22f499f
+$(PKG)_VERSION  := 3.3.2
+$(PKG)_CHECKSUM := 64ca276f82ccb2b1459bceb4b8fda33609461d69
 $(PKG)_SUBDIR   := wxWidgets-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.bz2
 $(PKG)_URL      := https://github.com/wxWidgets/wxWidgets/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
