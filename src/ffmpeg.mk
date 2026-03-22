@@ -3,8 +3,8 @@
 
 PKG             := ffmpeg
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.2.11
-$(PKG)_CHECKSUM := 6bebd93556c3cdb56a7524aebdb385962afbc5ba
+$(PKG)_VERSION  := 7.1.2
+$(PKG)_CHECKSUM := a11a8178fd07a38020da80af9b9ea79e5fe20e1a
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := http://www.ffmpeg.org/releases/$($(PKG)_FILE)
@@ -32,7 +32,6 @@ endif
 ifeq ($(MXE_NATIVE_BUILD),no)
 
 define $(PKG)_BUILD
-    '$(SED)' -i "s^[-]lvpx^`'$(MXE_PKG_CONFIG)' --libs-only-l vpx`^g;" $(1)/configure
     cd '$(1)' && ./configure \
         --cross-prefix='$(MXE_TOOL_PREFIX)' \
         --enable-cross-compile  \
@@ -44,12 +43,10 @@ define $(PKG)_BUILD
         --extra-libs='-mconsole' \
         --disable-debug \
         --disable-doc \
-        --enable-avresample \
         --enable-gpl \
         --enable-version3 \
         --disable-pthreads \
         --enable-w32threads \
-        --enable-avisynth \
         --enable-gnutls \
         --enable-libspeex \
         --enable-libtheora \
@@ -60,6 +57,7 @@ define $(PKG)_BUILD
         --enable-libopencore-amrwb \
         --enable-libx264 \
         --enable-libvpx \
+	--extra-ldflags="-fstack-protector"
 	$($(PKG)_CONFIG_OPTS)
     $(MAKE) -C '$(1)' -j '$(JOBS)' V=1
     $(MAKE) -C '$(1)' -j 1 install DESTDIR='$(3)'
@@ -67,7 +65,6 @@ define $(PKG)_BUILD
 endef
 else
 define $(PKG)_BUILD
-    '$(SED)' -i "s^[-]lvpx^`'$(MXE_PKG_CONFIG)' --libs-only-l vpx`^g;" $(1)/configure
     cd '$(1)' && CPPFLAGS=-I$(HOST_INCDIR) LDFLAGS=-L$(HOST_LIBDIR) ./configure \
         --prefix='$(HOST_PREFIX)' \
         $(ENABLE_SHARED_OR_STATIC) \

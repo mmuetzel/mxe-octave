@@ -91,7 +91,6 @@ SRC_FILES_1 := \
   exiv2.mk \
   expat.mk \
   faad2.mk \
-  ffmpeg-1-fixes.patch \
   ffmpeg.mk \
   fftw.mk \
   file-test.c \
