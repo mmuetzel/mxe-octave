@@ -531,6 +531,7 @@ SRC_FILES_1 := \
   of-sparsersb-2-no-cxx11.patch \
   of-sparsersb-2-tempdir.patch \
   of-sparsersb-3-no-deprecated-operators.patch \
+  of-sparsersb-4-const-qualifiers.patch \
   of-sparsersb.mk \
   of-specfun-1-deprecated.patch \
   of-specfun.mk \
