@@ -15,9 +15,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://bitbucket.org/jgpallero/octproj/downloads/?tab=tags' | \
-    $(SED) -n 's|.*>OctPROJ-\([^<]*\).*|\1|p' | $(SORT) -V | \
-    tail -1
+    $(OCTAVE_FORGE_PKG_UPDATE)
 endef
 
 define $(PKG)_BUILD

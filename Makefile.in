@@ -900,8 +900,8 @@ else
 endif
 
 define OCTAVE_FORGE_PKG_UPDATE
-    $(WGET) -q -O- 'https://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/' | \
-    $(SED) -n 's,.*title="$(subst of-,,$(PKG))-\([0-9][^"]*\).tar.gz".*,\1,p' | \
+    $(WGET) -q -O- 'https://gnu-octave.github.io/packages/$(subst of-,,$(PKG))/' | \
+    $(SED) -n 's,.*$(subst of-,,$(PKG))-\([0-9][0-9\.]*\).tar.gz".*,\1,p' | \
     head -1
 endef
 
