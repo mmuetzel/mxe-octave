@@ -1,7 +1,7 @@
 PKG             := icu4c
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 78.2
-$(PKG)_CHECKSUM := 5b80e6bc43804ea19de1971ab67153642f5c1dd2
+$(PKG)_VERSION  := 78.3
+$(PKG)_CHECKSUM := bd047df199b05cfda0fe5657caadb45e4934c8e6
 $(PKG)_SUBDIR   := icu-release-$($(PKG)_VERSION)/icu4c
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/unicode-org/icu/archive/refs/tags/release-$($(PKG)_VERSION).tar.gz
@@ -9,7 +9,7 @@ $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://github.com/unicode-org/icu/tags' | \
-    $(SED) -n 's|.*releases/tag/release-\([0-9\-]*\).*|\1|p' | \
+    $(SED) -n 's|.*releases/tag/release-\([0-9\.]*\).*|\1|p' | \
     $(SED) 's|-|\.|g' | \
     $(SORT) -V | \
     tail -1
