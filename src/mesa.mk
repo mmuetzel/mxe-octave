@@ -2,8 +2,8 @@
 # See index.html for further information.
 
 PKG             := mesa
-$(PKG)_VERSION  := 26.0.3
-$(PKG)_CHECKSUM := 24a0ca1aa8fd9a3a3e7524c6b9be2783be533fd0
+$(PKG)_VERSION  := 26.0.4
+$(PKG)_CHECKSUM := cc8c5b99486141c6a94520d2d6e6fd0d6b1e41cc
 $(PKG)_SUBDIR   := mesa-$($(PKG)_VERSION)
 $(PKG)_FILE     := mesa-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://archive.mesa3d.org/$($(PKG)_FILE)
