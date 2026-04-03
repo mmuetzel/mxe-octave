@@ -1,12 +1,13 @@
-If `llvm-config` is built as native version on the build system with a
+If `llvm-config` is build as native version on the build system with a
 cross-compile target system (i.e. as a build-tool for other project that want
 to cross-compile), expose the settings for the target of the cross-compiler.
 Also use the file naming conventions for the target of the cross-compiler.
 
-diff -ur llvm-project-22.1.2.src.orig/llvm/include/llvm/Config/llvm-config.h.cmake llvm-project-22.1.2.src/llvm/include/llvm/Config/llvm-config.h.cmake
---- llvm-project-22.1.2.src.orig/llvm/include/llvm/Config/llvm-config.h.cmake	2026-03-29 12:52:59.989316856 -0400
-+++ llvm-project-22.1.2.src/llvm/include/llvm/Config/llvm-config.h.cmake	2026-03-29 12:55:05.990122276 -0400
-@@ -66,6 +66,9 @@
+diff --git "a/include/llvm/Config/llvm-config.h.cmake" "b/include/llvm/Config/llvm-config.h.cmake"
+index 872a315..9ad3055 100644
+--- "a/include/llvm/Config/llvm-config.h.cmake"	
++++ "b/include/llvm/Config/llvm-config.h.cmake"
+@@ -65,6 +65,9 @@
  /* Define if we have the perf JIT-support library */
  #cmakedefine01 LLVM_USE_PERF
  
@@ -16,25 +17,24 @@ diff -ur llvm-project-22.1.2.src.orig/llvm/include/llvm/Config/llvm-config.h.cma
  /* Major version of the LLVM API */
  #define LLVM_VERSION_MAJOR ${LLVM_VERSION_MAJOR}
  
-diff -ur llvm-project-22.1.2.src.orig/llvm/tools/llvm-config/llvm-config.cpp llvm-project-22.1.2.src/llvm/tools/llvm-config/llvm-config.cpp
---- llvm-project-22.1.2.src.orig/llvm/tools/llvm-config/llvm-config.cpp	2026-03-29 12:53:26.588954536 -0400
-+++ llvm-project-22.1.2.src/llvm/tools/llvm-config/llvm-config.cpp	2026-03-29 13:02:08.670607121 -0400
-@@ -38,8 +38,12 @@
+diff -up "./tools/llvm-config/llvm-config.cpp.orig" "./tools/llvm-config/llvm-config.cpp"
+--- ./tools/llvm-config/llvm-config.cpp.orig	2021-06-28 18:23:38.000000000 +0200
++++ ./tools/llvm-config/llvm-config.cpp	2021-07-19 17:23:35.059439097 +0200
+@@ -36,7 +36,12 @@ using namespace llvm;
  
  // Include the build time variables we can report to the user. This is generated
  // at build time from the BuildVariables.inc.in file by the build system.
 -#include "BuildVariables.inc"
--
 +#if defined(LLVM_TARGET_IS_CROSSCOMPILE_HOST)
 +// include the .inc file with the settings for the cross-compiler
 +#  include "../../../tools/llvm-config/BuildVariables.inc"
 +#else
 +#  include "BuildVariables.inc"
 +#endif
+ 
  // Include the component table. This creates an array of struct
  // AvailableComponent entries, which record the component name, library name,
- // and required components for all of the available libraries.
-@@ -387,15 +391,17 @@
+@@ -377,15 +382,17 @@ int main(int argc, char **argv) {
        StaticPrefix, StaticDir = "lib";
    std::string DirSep = "/";
    const Triple HostTriple(Triple::normalize(LLVM_HOST_TRIPLE));
@@ -45,19 +45,19 @@ diff -ur llvm-project-22.1.2.src.orig/llvm/tools/llvm-config/llvm-config.cpp llv
      SharedVersionedExt = LLVM_DYLIB_VERSION ".dll";
 -    if (HostTriple.isOSCygMing()) {
 +    if (TargetTriple.isOSCygMing()) {
-       SharedPrefix = LLVM_SHARED_LIBRARY_PREFIX;
+       SharedPrefix = "lib";
        StaticExt = "a";
        StaticPrefix = "lib";
      } else {
        StaticExt = "lib";
 +      if (HostTriple.isOSWindows()) {
        DirSep = "\\";
-       llvm::replace(ActiveObjRoot, '/', '\\');
-       llvm::replace(ActivePrefix, '/', '\\');
-@@ -405,10 +411,11 @@
-       llvm::replace(ActiveIncludeDir, '/', '\\');
-       for (auto &Include : ActiveIncludeOptions)
-         llvm::replace(Include, '/', '\\');
+       std::replace(ActiveObjRoot.begin(), ActiveObjRoot.end(), '/', '\\');
+       std::replace(ActivePrefix.begin(), ActivePrefix.end(), '/', '\\');
+@@ -394,10 +401,11 @@ int main(int argc, char **argv) {
+       std::replace(ActiveCMakeDir.begin(), ActiveCMakeDir.end(), '/', '\\');
+       std::replace(ActiveIncludeOption.begin(), ActiveIncludeOption.end(), '/',
+                    '\\');
 +      }
      }
      SharedDir = ActiveBinDir;
@@ -67,12 +67,13 @@ diff -ur llvm-project-22.1.2.src.orig/llvm/tools/llvm-config/llvm-config.cpp llv
      SharedExt = "dylib";
      SharedVersionedExt = LLVM_DYLIB_VERSION ".dylib";
      StaticExt = "a";
-@@ -730,7 +737,7 @@
+@@ -694,7 +703,7 @@ int main(int argc, char **argv) {
          } else if (PrintLibs) {
            // On Windows, output full path to library without parameters.
            // Elsewhere, if this is a typical library name, include it using -l.
 -          if (HostTriple.isWindowsMSVCEnvironment()) {
 +          if (TargetTriple.isWindowsMSVCEnvironment()) {
-             LibFileName = GetComponentLibraryPath(Lib, Shared);
+             OS << GetComponentLibraryPath(Lib, Shared);
            } else {
-             LibFileName = "-l";
+             StringRef LibName;
+

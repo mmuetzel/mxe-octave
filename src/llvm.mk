@@ -3,10 +3,10 @@
 
 PKG             := llvm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 22.1.2
-$(PKG)_CHECKSUM := 34c4f17b6c8785d72d8b82d492b51244c8e75a39
-$(PKG)_SUBDIR   := llvm-project-$($(PKG)_VERSION).src
-$(PKG)_FILE     := llvm-project-$($(PKG)_VERSION).src.tar.xz
+$(PKG)_VERSION  := 20.1.8
+$(PKG)_CHECKSUM := ba559f7522049b2f4b6879f3a0336c989806677f
+$(PKG)_SUBDIR   := llvm-$($(PKG)_VERSION).src
+$(PKG)_FILE     := llvm-$($(PKG)_VERSION).src.tar.xz
 $(PKG)_URL      := https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-cmake build-ninja build-python
 
@@ -17,6 +17,16 @@ endef
 ifeq ($(MXE_NATIVE_BUILD),yes)
   ifeq ($(MXE_SYSTEM),gnu-linux)
     define $(PKG)_BUILD
+      # download archive with cmake files
+      if [ ! -f $(PKG_DIR)/cmake-$($(PKG)_VERSION).src.tar.xz ]; then \
+        $(WGET) -N https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/cmake-$($(PKG)_VERSION).src.tar.xz \
+          -O $(PKG_DIR)/cmake-$($(PKG)_VERSION).src.tar.xz; \
+      fi
+      # extract archive with cmake files
+      cd '$(1)/..' && \
+        xz -dc $(PKG_DIR)/cmake-$($(PKG)_VERSION).src.tar.xz | $(TAR) xf - && \
+        mv cmake-$($(PKG)_VERSION).src cmake
+
       mkdir '$(1)/.build' && cd '$(1)/.build' && cmake .. \
         -GNinja \
         $($(PKG)_CMAKE_FLAGS) \
@@ -63,11 +73,21 @@ else
   endif
 
   define $(PKG)_BUILD
+    # download archive with cmake files
+    if [ ! -f $(PKG_DIR)/cmake-$($(PKG)_VERSION).src.tar.xz ]; then \
+      $(WGET) -N https://github.com/llvm/llvm-project/releases/download/llvmorg-$($(PKG)_VERSION)/cmake-$($(PKG)_VERSION).src.tar.xz \
+        -O $(PKG_DIR)/cmake-$($(PKG)_VERSION).src.tar.xz; \
+    fi
+    # extract archive with cmake files
+    cd '$(1)/..' && \
+      xz -dc $(PKG_DIR)/cmake-$($(PKG)_VERSION).src.tar.xz | $(TAR) xf - && \
+      mv cmake-$($(PKG)_VERSION).src cmake
+
     # No way to pass this for native llvm-config when cross-compiling. Modify cmake file instead.
-    $(SED) -i 's/\(option(LLVM_INCLUDE_BENCHMARKS.*\)ON/\1OFF/' '$(1)/llvm/CMakeLists.txt'
+    $(SED) -i 's/\(option(LLVM_INCLUDE_BENCHMARKS.*\)ON/\1OFF/' '$(1)/CMakeLists.txt'
 
     mkdir '$(1)/.build'
-    cd '$(1)/.build' && 'cmake' ../llvm \
+    cd '$(1)/.build' && 'cmake' .. \
       -GNinja \
       $($(PKG)_CMAKE_FLAGS) \
       $(CMAKE_CCACHE_FLAGS) \
