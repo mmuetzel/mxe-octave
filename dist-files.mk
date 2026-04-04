@@ -335,6 +335,7 @@ SRC_FILES_1 := \
   lua.mk \
   lzo.mk \
   matio.mk \
+  mcfgthread.mk \
   mdbtools.mk \
   mesa-proto.mk \
   mesa.mk \
