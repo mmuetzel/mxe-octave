@@ -3,8 +3,8 @@
 
 PKG             := build-meson
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.4.0
-$(PKG)_CHECKSUM := bad61900278992772bc0ffeb6e8daa0c96dac3ae
+$(PKG)_VERSION  := 1.10.2
+$(PKG)_CHECKSUM := 5622ae9f597335410df05d83250bbca147736e08
 $(PKG)_SUBDIR   := meson-$($(PKG)_VERSION)
 $(PKG)_FILE     := meson-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/mesonbuild/meson/archive/$($(PKG)_VERSION).tar.gz
@@ -44,16 +44,19 @@ define $(PKG)_BUILD
         echo "cpp = '$(shell echo $(MXE_CXX) | $(SED) "s/'//g")'"; \
         echo "fortran = '$(shell echo $(MXE_F77) | $(SED) "s/'//g")'"; \
       fi; \
+      if [ x$(MXE_SYSTEM) == xmingw ]; then \
+        echo "dlltool = '$(MXE_TOOL_PREFIX)dlltool'"; \
+      fi; \
       echo "ar = '$(shell echo $(MXE_AR) | $(SED) "s/'//g")'"; \
       echo "strip = '$(shell echo $(MXE_STRIP) | $(SED) "s/'//g")'"; \
     fi; \
-    echo "pkgconfig = '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)pkg-config'"; \
+    echo "pkg-config = '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)pkg-config'"; \
     echo "llvm-config = '$(HOST_BINDIR)/$(MXE_TOOL_PREFIX)llvm-config'"; \
     if [ x$(MXE_SYSTEM) = xmingw ]; then \
       echo "windres = '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)windres'"; \
     fi; \
     echo ""; \
-    echo "[paths]"; \
+    echo "[built-in options]"; \
     echo "libdir = 'lib'"; \
     if [ x$(MXE_NATIVE_BUILD) = xno ]; then \
       echo ""; \
