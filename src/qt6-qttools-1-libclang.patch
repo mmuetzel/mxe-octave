@@ -1,14 +1,20 @@
 Don't check for libclang when building without it.
 
-diff -urN qttools-everywhere-src-6.10.1/configure.cmake.orig qttools-everywhere-src-6.10.1/configure.cmake
---- qttools-everywhere-src-6.10.1/configure.cmake.orig	2025-11-13 21:37:00.000000000 +0100
-+++ qttools-everywhere-src-6.10.1/configure.cmake	2026-01-31 20:54:08.608644533 +0100
-@@ -6,7 +6,9 @@
+diff -ur qttools-everywhere-src-6.11.0.orig/configure.cmake qttools-everywhere-src-6.11.0/configure.cmake
+--- qttools-everywhere-src-6.11.0.orig/configure.cmake	2026-03-31 14:40:44.110599117 -0400
++++ qttools-everywhere-src-6.11.0/configure.cmake	2026-03-31 14:41:31.476830012 -0400
+@@ -6,6 +6,7 @@
  
  #### Tests
  
 +if (QT_FEATURE_clang)
  qt_find_package(WrapLibClang 8 PROVIDED_TARGETS WrapLibClang::WrapLibClang)
+ qt_find_package_extend_sbom(TARGETS WrapLibClang::WrapLibClang
+     PACKAGE_VERSION "${QT_LIB_CLANG_VERSION}"
+@@ -16,6 +17,7 @@
+         "Copyright (c) 2003-2019 University of Illinois at Urbana-Champaign."
+         "Copyright (c) 2019-2025 Contributors to the LLVM Project."
+ )
 +endif()
  
  if(TARGET WrapLibClang::WrapLibClang)
