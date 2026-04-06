@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 12f96c84341be6949a7682eedc72bb41207d1ea4
 $(PKG)_SUBDIR   := curl-$($(PKG)_VERSION)
 $(PKG)_FILE     := curl-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := http://curl.haxx.se/download/$($(PKG)_FILE)
-$(PKG)_DEPS     := gnutls libgsasl libidn2 libssh2 pthreads
+$(PKG)_DEPS     := gnutls libgsasl libidn2 libssh2
 
 $(PKG)_CONFIGURE_OPTS :=
 ifeq ($(MXE_WINDOWS_BUILD),yes)
@@ -32,7 +32,7 @@ define $(PKG)_BUILD
         --with-libidn2 \
         --enable-sspi \
         --enable-ipv6 \
-	--without-libpsl \
+        --without-libpsl \
         --with-libssh2 && $(CONFIGURE_POST_HOOK)
     $(MAKE) -C '$(1)' -j '$(JOBS)' DESTDIR='$(3)' $(MXE_DISABLE_DOCS) install
 endef
