@@ -29,7 +29,7 @@ endif
 ifneq ($(TARGET),i686-w64-mingw32)
   # FIXME: Should be disabled for any i686 target (not just Windows).
   $(PKG)_CONFIG_OPTS += \
-    --enable-avx512
+    --disable-avx512
 endif
 
 define $(PKG)_UPDATE
@@ -41,6 +41,8 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
+    cd '$(1)' && autoreconf -fi
+
     if [ $(MXE_SYSTEM) = msvc ]; then \
         $(SED) -i -e 's,-lm\>,,' '$(1)/fftw.pc.in'; \
     fi
