@@ -18,12 +18,13 @@ endef
 # FIXME: Should this be defined in the top-level Makefile?
 ifeq ($(MXE_NATIVE_BUILD),no)
   MESON_TOOLCHAIN_FILE := $(HOST_PREFIX)/share/meson/cross/mxe-conf.ini
+  $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(MESON_TOOLCHAIN_FILE)'
 else
   MESON_TOOLCHAIN_FILE := $(HOST_PREFIX)/share/meson/native/mxe-conf.ini
+  $(PKG)_MESON_TOOLCHAIN_FILE := --native-file '$(MESON_TOOLCHAIN_FILE)'
 endif
 
 ifeq ($(MXE_WINDOWS_BUILD),yes)
-  $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(MESON_TOOLCHAIN_FILE)'
   $(PKG)_LLVM_FLAGS := -Dshared-llvm=disabled
 else
   ifeq ($(USE_SYSTEM_X11_LIBS),no)
@@ -32,7 +33,6 @@ else
   else
     $(PKG)_PKG_CONFIG_PATH := $(PKG_CONFIG_PATH):$(BUILD_PKG_CONFIG_PATH)
   endif
-  $(PKG)_MESON_TOOLCHAIN_FILE := --native-file '$(MESON_TOOLCHAIN_FILE)'
   $(PKG)_MESON_ENV += \
       PKG_CONFIG="$(MXE_PKG_CONFIG)" \
       PKG_CONFIG_LIBDIR=$($(PKG)_PKG_CONFIG_PATH)
@@ -45,10 +45,10 @@ else
 endif
 
 define $(PKG)_BUILD
-  cd '$(1)' && $($(PKG)_MESON_ENV) \
-      meson $(1)/.build \
+  $($(PKG)_MESON_ENV) \
+    meson setup $(1)/.build $(1) \
       $($(PKG)_MESON_TOOLCHAIN_FILE) \
-      -Dprefix='$(HOST_PREFIX)' \
+      --prefix='$(HOST_PREFIX)' \
       $($(PKG)_X11_FLAGS) \
       -Dgallium-drivers='softpipe,llvmpipe' \
       -Dvulkan-drivers='' \
@@ -56,24 +56,25 @@ define $(PKG)_BUILD
       -Dgbm=disabled \
       $($(PKG)_LLVM_FLAGS)
 
-  cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS) install
+  meson compile -C '$(1)/.build' -j $(JOBS)
+  meson install -C '$(1)/.build' --destdir '$(3)'
 
   #  install headers
   for i in EGL GLES GLES2 GLES3 KHR; do \
-      $(INSTALL) -d "$(HOST_INCDIR)/$$i"; \
-      $(INSTALL) -m 644 "$(1)/include/$$i/"* "$(HOST_INCDIR)/$$i/"; \
+    $(INSTALL) -d "$(HOST_INCDIR)/$$i"; \
+    $(INSTALL) -m 644 "$(1)/include/$$i/"* "$(HOST_INCDIR)/$$i/"; \
   done
   
-  # opengl32.dll.a shadows libopengl32.a from mingw. They export slightly
+  # opengl32.dll.a shadows libopengl32.a from mingw-w64. They export slightly
   # different symbols which causes problems for some packages. So don't install
-  # it for cross-builds.
-  if [ x$(MXE_NATIVE_BUILD) == xno ]; then \
+  # it for MinGW.
+  if [ x$(MXE_SYSTEM) == xmingw ]; then \
     rm -f $(3)$(HOST_LIBDIR)/opengl32.dll.a; \
   fi
 
   # provide s/w backup opengl
   if [ x$(MXE_WINDOWS_BUILD) == xyes ]; then \
-      $(INSTALL) "$(3)/$(HOST_BINDIR)/opengl32.dll" "$(3)/$(HOST_BINDIR)/opengl32sw.dll"; \
+    $(INSTALL) "$(3)/$(HOST_BINDIR)/opengl32.dll" "$(3)/$(HOST_BINDIR)/opengl32sw.dll"; \
   fi
 
 endef
