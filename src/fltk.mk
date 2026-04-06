@@ -10,11 +10,11 @@ $(PKG)_FILE     := $($(PKG)_SUBDIR)-source.tar.gz
 $(PKG)_URL      := http://fltk.org/pub/fltk/$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := zlib jpeg libpng
 ifeq ($(MXE_SYSTEM),mingw)
-  $(PKG)_DEPS   += pthreads uuid
+  $(PKG)_DEPS   += uuid
 else ifeq ($(MXE_SYSTEM),msvc)
   $(PKG)_DEPS   += freetype
 else
-  $(PKG)_DEPS   += pthreads freetype
+  $(PKG)_DEPS   += freetype
   ifeq ($(USE_SYSTEM_X11_LIBS),no)
     $(PKG)_DEPS += x11 xcursor xext xrender xdmcp
   endif
@@ -41,7 +41,7 @@ define $(PKG)_BUILD
 ##    $(SED) -i 's,\$$uname,MINGW,g' '$(1)/configure'
     cd '$(1)' && ./configure \
         $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
-	DSOFLAGS='-L$(HOST_LIBDIR)' \
+        DSOFLAGS='-L$(HOST_LIBDIR)' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         $(ENABLE_SHARED_OR_STATIC) \
         --prefix='$(HOST_PREFIX)' \
