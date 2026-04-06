@@ -56,6 +56,13 @@ define $(PKG)_BUILD
       -Dgbm=disabled \
       $($(PKG)_LLVM_FLAGS)
 
+  # For some reason, meson attempts to link with -lpthread also if the thread
+  # model is MCF. To work around that, remove all references to -pthread from
+  # the generated build.ninja file.
+  if [ x$(MXE_SYSTEM)$(HOST_THREADS) == xmingwmcf ]; then \
+    cd '$(1)/.build' && sed -i "s/-pthread//g" build.ninja; \
+  fi
+
   meson compile -C '$(1)/.build' -j $(JOBS)
   meson install -C '$(1)/.build' --destdir '$(3)'
 
