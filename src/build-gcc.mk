@@ -16,6 +16,9 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
 endif
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_DEPS += mingw-w64
+  ifeq ($(HOST_THREADS),mcf)
+    $(PKG)_DEPS += mcfgthread build-meson build-ninja
+  endif
 endif
 
 ifneq ($(BUILD_SHARED),yes)
@@ -31,7 +34,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     --disable-nls \
     --without-x \
     --disable-win32-registry \
-    --enable-threads=posix
+    --enable-threads=$(HOST_THREADS)
 
   ifneq ($(TARGET),x86_64-w64-mingw32)
     $(PKG)_SYSDEP_CONFIGURE_OPTIONS += \
@@ -70,7 +73,8 @@ ifeq ($(MXE_SYSTEM),mingw)
       --enable-secure-api \
       $($(PKG)_WINAPI_VERSION_FLAGS) \
       $($(PKG)_DEFAULT_MSVCRT) \
-      $(mingw-w64-headers_CONFIGURE_OPTS)
+      $(mingw-w64-headers_CONFIGURE_OPTS) \
+      --disable-dependency-tracking
     $(MAKE) -C '$(1).headers' install
   endef
 
@@ -85,19 +89,52 @@ ifeq ($(MXE_SYSTEM),mingw)
       --prefix='$(HOST_PREFIX)' \
       $(if $(filter $(TARGET), x86_64-w64-mingw32),--disable-lib32) \
       --with-sysroot='$(HOST_PREFIX)' \
-      $($(PKG)_DEFAULT_MSVCRT)
+      $($(PKG)_DEFAULT_MSVCRT) \
+      --disable-dependency-tracking
     $(MAKE) -C '$(1).crt-build' -j '$(JOBS)' || $(MAKE) -C '$(1).crt-build' -j '$(JOBS)'
     $(MAKE) -C '$(1).crt-build' -j 1 install
-
-    # build posix threads
-    mkdir '$(1).pthreads'
-    cd '$(1).pthreads' && '$(1)/$(mingw-w64_SUBDIR)/mingw-w64-libraries/winpthreads/configure' \
-      $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-      --prefix='$(HOST_PREFIX)' \
-      $(ENABLE_SHARED_OR_STATIC)
-    $(MAKE) -C '$(1).pthreads' -j '$(JOBS)' || $(MAKE) -C '$(1).pthreads' -j '$(JOBS)'
-    $(MAKE) -C '$(1).pthreads' -j 1 install
   endef
+
+  ifeq ($(HOST_THREADS),mcf)
+    ifeq ($(MXE_NATIVE_BUILD),no)
+      $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(HOST_PREFIX)/share/meson/cross/mxe-conf.ini'
+    else
+      $(PKG)_MESON_TOOLCHAIN_FILE := --native-file '$(HOST_PREFIX)/share/meson/native/mxe-conf.ini'
+    endif
+
+    ifeq ($(BUILD_SHARED),yes)
+      $(PKG)_MESON_CONFIG_FLAGS += --default-library=shared
+    else
+      $(PKG)_MESON_CONFIG_FLAGS += --default-library=static
+    endif
+
+    define $(PKG)_BUILD_SYSTEM_THREADS
+      # build MCF GThreads
+      $(call PREPARE_PKG_SOURCE,mcfgthread,$(1))
+      mkdir '$(1).mcfgthread'
+      meson setup \
+        $($(PKG)_MESON_TOOLCHAIN_FILE) \
+        $($(PKG)_MESON_CONFIG_FLAGS) \
+        --prefix='$(HOST_PREFIX)' \
+        --buildtype=plain \
+        '$(1).mcfgthread' \
+        '$(1)/$(mcfgthread_SUBDIR)'
+      meson compile -C '$(1).mcfgthread' -j $(JOBS)
+      meson install -C '$(1).mcfgthread'
+    endef
+  else
+    define $(PKG)_BUILD_SYSTEM_THREADS
+      # build posix threads
+      mkdir '$(1).pthreads'
+      cd '$(1).pthreads' && '$(1)/$(mingw-w64_SUBDIR)/mingw-w64-libraries/winpthreads/configure' \
+        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
+        --prefix='$(HOST_PREFIX)' \
+        $(ENABLE_SHARED_OR_STATIC) \
+        --disable-dependency-tracking
+      $(MAKE) -C '$(1).pthreads' -j '$(JOBS)' || $(MAKE) -C '$(1).pthreads' -j '$(JOBS)'
+      $(MAKE) -C '$(1).pthreads' -j 1 install
+    endef
+  endif
 
   define $(PKG)_POST_BUILD
     # overwrite default specs to mimic stack protector handling of glibc
@@ -160,6 +197,7 @@ define $(PKG)_BUILD
 
   # Windows only.
   $($(PKG)_BUILD_SYSTEM_RUNTIME)
+  $($(PKG)_BUILD_SYSTEM_THREADS)
 
   # Build rest of gcc.
   $(MAKE) -C '$(1).build' -j '$(JOBS)'

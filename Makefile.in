@@ -86,6 +86,9 @@ HOST_MSVCRT := @HOST_MSVCRT@
 # Set to default Windows version for MinGW
 HOST_WIN32_WINNT := @HOST_WIN32_WINNT@
 
+# Set to "mcf" or "posix"
+HOST_THREADS := @HOST_THREADS@
+
 # Should match what config.guess prints for your system.
 # If cross compiling, you must set it manually (defaults are set by configure).
 ifeq ($(MXE_NATIVE_BUILD),yes)

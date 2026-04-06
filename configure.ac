@@ -119,6 +119,16 @@ AC_ARG_WITH([windows-version],
    esac], [HOST_WIN32_WINNT=0x0601])
 AC_SUBST(HOST_WIN32_WINNT)
 
+# Use thread model "mcf" or "posix" for MinGW
+AC_ARG_WITH([threads],
+  [AS_HELP_STRING([--with-threads=mcf], [select threading model for C/C++ (default: posix)])],
+  [case $withval in
+     no) AC_MSG_ERROR([Select "posix" or "mcf" for --with-threads]) ;;
+     yes | "") HOST_THREADS=posix ;;
+     *) HOST_THREADS="$withval" ;;
+   esac], [HOST_THREADS=posix])
+AC_SUBST(HOST_THREADS)
+
 # try find pkg-config build paths
 BUILD_PKG_CONFIG_PATH=auto
 AC_ARG_WITH([build-pkg-config-path],

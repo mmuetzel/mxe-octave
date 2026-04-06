@@ -13,6 +13,9 @@ $(PKG)_URL_2    := https://ftpmirror.gnu.org/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_
 $(PKG)_DEPS := native-binutils gmp isl mpc mpfr
 ifeq ($(MXE_SYSTEM),mingw)
   $(PKG)_DEPS += mingw-w64
+  ifeq ($(HOST_THREADS),mcf)
+    $(PKG)_DEPS += mcfgthread
+  endif
 endif
 ifneq ($(BUILD_SHARED),yes)
   $(PKG)_STATIC_FLAG := --static
@@ -25,7 +28,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     --without-x \
     --disable-win32-registry \
     --with-native-system-header-dir='$(HOST_PREFIX)/include' \
-    --enable-threads=posix \
+    --enable-threads=$(HOST_THREADS) \
     --disable-multilib
 
   ifneq ($(ENABLE_WINDOWS_64),yes)

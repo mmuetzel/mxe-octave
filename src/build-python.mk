@@ -11,8 +11,12 @@ $(PKG)_URL      := http://www.python.org/ftp/python/$($(PKG)_VERSION)/$($(PKG)_F
 
 ## For now, assume that libffi is installed on the build system.
 $(PKG)_DEPS     := # build-libffi
-ifneq ($(USE_SYSTEM_GCC),yes)
-  $(PKG)_DEPS     += build-gcc
+ifneq ($(MXE_SYSTEM)$(HOST_THREADS),mingwmcf)
+  ## Need to use the system GCC when building for MinGW with MCF threading model
+  ## to break a circular dependency for the MCF GThread library.
+  ifneq ($(USE_SYSTEM_GCC),yes)
+    $(PKG)_DEPS += build-gcc
+  endif
 endif
 
 define $(PKG)_UPDATE
