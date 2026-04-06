@@ -16,12 +16,14 @@ endef
 
 define $(PKG)_BUILD
     cd '$(1)' && ./configure \
+        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
         --prefix='$(HOST_PREFIX)' \
         --disable-perf \
         --with-libsodium \
         $(ENABLE_SHARED_OR_STATIC) \
-        CXXFLAGS="-std=c++14"
+        CXX='$(MXE_CXX) -std=gnu++14' \
+        $($(PKG)_CONFIGURE_FLAGS)
 
     $(MAKE) -C '$(1)' -j '$(JOBS)'
     $(MAKE) -C '$(1)' -j 1 install $(MXE_DISABLE_PROGS) $(MXE_DISABLE_DOCS) DESTDIR='$(3)'

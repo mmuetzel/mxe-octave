@@ -109,6 +109,16 @@ AC_ARG_WITH([windows-msvcrt],
    esac], [HOST_MSVCRT=ucrt])
 AC_SUBST(HOST_MSVCRT)
 
+# Select Windows version
+AC_ARG_WITH([windows-version],
+  [AS_HELP_STRING([--with-windows-version=0x0601], [select default Windows version for MinGW (default: 0x0601, i.e., Windows 7)])],
+  [case $withval in
+     no) AC_MSG_ERROR([Select default Windows version for MinGW for --with-windows-version]) ;;
+     yes | "") HOST_WIN32_WINNT=0x0601 ;;
+     *) HOST_WIN32_WINNT="$withval" ;;
+   esac], [HOST_WIN32_WINNT=0x0601])
+AC_SUBST(HOST_WIN32_WINNT)
+
 # try find pkg-config build paths
 BUILD_PKG_CONFIG_PATH=auto
 AC_ARG_WITH([build-pkg-config-path],

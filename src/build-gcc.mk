@@ -49,7 +49,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     endef
   endif
 
-  $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
+  $(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=$(HOST_WIN32_WINNT)
 
   ifneq ($(HOST_MSVCRT),ucrt)
     $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=msvcrt

@@ -17,7 +17,7 @@ define $(PKG)_UPDATE
   tail -1
 endef
 
-$(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=0x0601
+$(PKG)_WINAPI_VERSION_FLAGS := --with-default-win32-winnt=$(HOST_WIN32_WINNT)
 
 ifneq ($(HOST_MSVCRT),msvcrt)
   $(PKG)_DEFAULT_MSVCRT := --with-default-msvcrt=ucrt

@@ -83,6 +83,9 @@ USE_MSYS2 := @USE_MSYS2@
 # Set to "ucrt" or "msvcrt"
 HOST_MSVCRT := @HOST_MSVCRT@
 
+# Set to default Windows version for MinGW
+HOST_WIN32_WINNT := @HOST_WIN32_WINNT@
+
 # Should match what config.guess prints for your system.
 # If cross compiling, you must set it manually (defaults are set by configure).
 ifeq ($(MXE_NATIVE_BUILD),yes)
@@ -345,7 +348,11 @@ ENV_PKG_CONFIG_PATH := $(PKG_CONFIG_PATH)
 
 BUILD_PKG_CONFIG_PATH ?= $(BUILD_TOOLS_PREFIX)/lib/pkgconfig:@BUILD_PKG_CONFIG_PATH@
 
-CONFIGURE_CPPFLAGS := CPPFLAGS='-I$(HOST_PREFIX)/include'
+ifeq ($(MXE_SYSTEM),mingw)
+  CONFIGURE_CPPFLAGS := CPPFLAGS='-I$(HOST_PREFIX)/include -D_WIN32_WINNT=$(HOST_WIN32_WINNT)'
+else
+  CONFIGURE_CPPFLAGS := CPPFLAGS='-I$(HOST_PREFIX)/include'
+endif
 ifeq ($(MXE_USE_LIB64_DIRECTORY),yes)
   CONFIGURE_LDFLAGS := LDFLAGS='-L$(HOST_PREFIX)/lib -L$(HOST_PREFIX)/lib64'
   PKG_CONFIG_PATH := $(HOST_PREFIX)/lib/pkgconfig:$(HOST_PREFIX)/lib64/pkgconfig
