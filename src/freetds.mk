@@ -7,7 +7,7 @@ $(PKG)_VERSION  := 1.5.16
 $(PKG)_CHECKSUM := 4537206a35e15351c612840b93e8f4d53aba6e80
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := https://www.freetds.org/files/stable/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/FreeTDS/$(PKG)/releases/download/v$($(PKG)_VERSION)/$(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_DEPS     := libiconv gnutls
 
 $(PKG)_CONFIG_OPTS :=
@@ -16,10 +16,7 @@ ifeq ($(MXE_WINDOWS_BUILD),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://www.freetds.org/files/stable/' | \
-    $(SED) -n 's,.*freetds-\([0-9.]*\)\.tar.*,\1,p' | \
-    $(SORT) -V | \
-    tail -1
+    $(call GITHUB_PKG_UPDATE,FreeTDS,freetds,v)
 endef
 
 define $(PKG)_BUILD
