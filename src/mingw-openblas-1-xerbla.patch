@@ -1,6 +1,11 @@
-diff -ur OpenBLAS-0.3.28.orig/driver/others/Makefile OpenBLAS-0.3.28/driver/others/Makefile
---- OpenBLAS-0.3.28.orig/driver/others/Makefile	2024-08-22 10:02:22.360392424 -0400
-+++ OpenBLAS-0.3.28/driver/others/Makefile	2024-08-22 10:09:45.328618931 -0400
+Octave provides a replacement for the XERBLA function. The dynamic OpenBLAS
+library should use that implementation of XERBLA (instead of its own).
+Weak symbols in dynamic libraries cannot be used on Windows for that use-case.
+Remove the implementation of the XERBLA function from the OpenBLAS library as
+a workaround.
+
+--- OpenBLAS-0.3.33/driver/others/Makefile.orig	2026-04-23 13:50:46.000000000 +0200
++++ OpenBLAS-0.3.33/driver/others/Makefile	2026-04-26 14:53:35.268438312 +0200
 @@ -1,7 +1,7 @@
  TOPDIR	= ../..
  include ../../Makefile.system
@@ -53,7 +58,7 @@ diff -ur OpenBLAS-0.3.28.orig/driver/others/Makefile OpenBLAS-0.3.28/driver/othe
 -xerbla.$(SUFFIX) : xerbla.c
 -	$(CC) $(CFLAGS) -c $< -o $(@F)
 -
- dynamic.$(SUFFIX) : dynamic.c
+ dynamic%$(SUFFIX) : dynamic%c
  	$(CC) $(CFLAGS) -c $< -o $(@F)
  
 @@ -220,9 +217,6 @@
