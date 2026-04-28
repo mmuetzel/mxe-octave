@@ -91,7 +91,6 @@ SRC_FILES_1 := \
   expat.mk \
   faad2.mk \
   ffmpeg.mk \
-  fftw-1-win32-threads.patch \
   fftw.mk \
   file-test.c \
   file.mk \
