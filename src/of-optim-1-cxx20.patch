@@ -1,0 +1,19 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+
+diff -urN optim-1.6.3/src/configure.ac.orig optim-1.6.3/src/configure.ac
+--- optim-1.6.3/src/configure.ac.orig	2026-03-08 19:29:40.000000000 +0100
++++ optim-1.6.3/src/configure.ac	2026-05-01 12:34:51.811535838 +0200
+@@ -42,6 +42,13 @@
+ 
+ # The same value of CXX as Octave was compiled with is supposed to be used.
+ CXX=${CXX:-`${MKOCTFILE} -p CXX`}
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
+ AC_PROG_CXX
+ 
+ AC_PROG_CXXCPP

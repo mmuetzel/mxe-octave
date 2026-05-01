@@ -1,0 +1,113 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+Re-order checks to make that work.
+
+diff -urN windows-1.7.0/src/configure.ac.orig windows-1.7.0/src/configure.ac
+--- windows-1.7.0/src/configure.ac.orig	2026-01-23 17:06:57.000000000 +0100
++++ windows-1.7.0/src/configure.ac	2026-05-01 13:37:41.018972977 +0200
+@@ -41,9 +41,6 @@
+ AC_CANONICAL_HOST
+ AC_CANONICAL_TARGET
+ 
+-dnl if mkoctfile doesn't work, then we need the following:
+-dnl AC_PROG_CXX
+-
+ dnl Need C compiler regardless so define it in a way that
+ dnl makes autoconf happy and we can override whatever we
+ dnl need with mkoctfile -p.
+@@ -53,29 +50,6 @@
+ AC_PROG_GREP
+ AC_PROG_SED
+ 
+-dnl Check if we are windows or not - COM only works in windows 
+-# Check for Windows
+-AC_MSG_CHECKING([for windows])
+-have_windows=no
+-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+-   #include <windows.h>
+-   #ifndef __WIN32__
+-     #error "Not windows!"
+-   #endif
+-  ]], [])],
+- [AC_MSG_RESULT([yes])
+-  have_windows=yes],
+- [AC_MSG_RESULT([no])])
+-
+-OLELIBS=
+-if test $have_windows = yes; then
+-  AC_DEFINE([USING_WINDOWS], [1], [are we a windows system])
+-  OLELIBS="-ladvapi32 -lole32 -loleaut32 -luuid"
+-  # prevent some warnings by defining this ...
+-  AC_DEFINE([_NO_SYS_GUID_OPERATOR_EQ_], [1], [Dont define guid == ops])
+-fi
+-AC_SUBST(OLELIBS)
+-
+ 
+ dnl XXX FIXME XXX need tests for -p -c -s in mkoctfile.
+ 
+@@ -90,6 +64,18 @@
+ AC_CHECK_PROG(MKOCTFILE,mkoctfile,mkoctfile)
+ test -z "$MKOCTFILE" &&	AC_MSG_WARN([no mkoctfile found on path])
+ 
++# The same value of CXX as Octave was compiled with is supposed to be used.
++CXX=`${MKOCTFILE} -p CXX`
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
++dnl if mkoctfile doesn't work, then we need the following:
++AC_PROG_CXX
++
+ AC_CHECK_PROG(OCTAVE_CONFIG,octave-config,octave-config)
+ test -z "$OCTAVE_CONFIG" && OCTAVE_CONFIG=$MKOCTFILE
+ 
+@@ -106,6 +92,30 @@
+ esac
+ fi
+ 
++dnl Check if we are windows or not - COM only works in windows 
++# Check for Windows
++AC_MSG_CHECKING([for windows])
++have_windows=no
++AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
++   #include <windows.h>
++   #ifndef __WIN32__
++     #error "Not windows!"
++   #endif
++  ]], [])],
++ [AC_MSG_RESULT([yes])
++  have_windows=yes],
++ [AC_MSG_RESULT([no])])
++
++OLELIBS=
++if test $have_windows = yes; then
++  AC_DEFINE([USING_WINDOWS], [1], [are we a windows system])
++  OLELIBS="-ladvapi32 -lole32 -loleaut32 -luuid"
++  # prevent some warnings by defining this ...
++  AC_DEFINE([_NO_SYS_GUID_OPERATOR_EQ_], [1], [Dont define guid == ops])
++fi
++AC_SUBST(OLELIBS)
++
++
+ dnl **********************************************************
+ 
+ # checks for depreciated octave symbols/functions
+@@ -113,7 +123,6 @@
+ OCTAVE_HAS_FUNCTION([winqueryreg], [], [PKGWINQUERYREGFUNC=winqueryreg])
+ AC_SUBST(PKGWINQUERYREGFUNC)
+ 
+-AC_LANG_PUSH([C++])
+ save_altsyms_CXX="$CXX"
+ save_altsyms_CXXFLAGS="$CXXFLAGS"
+ save_altsyms_LDFLAGS="$LDFLAGS"
+@@ -144,7 +153,7 @@
+     ;;
+ esac
+ 
+-CXX=`${MKOCTFILE} -p CXX`
++AC_LANG_PUSH([C++])
+ CXXFLAGS="-I$OCTINCLUDEDIR $CXXFLAGS"
+ LDFLAGS="-L$OCTLIBDIR $LDFLAGS"
+ LIBS="-loctinterp $LIBS"

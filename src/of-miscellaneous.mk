@@ -12,13 +12,14 @@ $(PKG)_URL      := https://github.com/gnu-octave/octave-miscellaneous/releases/d
 $(PKG)_DEPS     := of-general units
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
-    $(PKG)_DEPS += $(OCTAVE_TARGET)
+  $(PKG)_DEPS += $(OCTAVE_TARGET)
 endif
 
 define $(PKG)_UPDATE
-    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-miscellaneous,release-)
+  $(call GITHUB_PKG_UPDATE,gnu-octave,octave-miscellaneous,release-)
 endef
 
 define $(PKG)_BUILD
-    $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),UNITS_AVAILABLE=yes)
+  cd $(1)/src && autoreconf -fiv
+  $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),UNITS_AVAILABLE=yes)
 endef

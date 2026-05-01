@@ -1,0 +1,46 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+
+Remove `CXX11_SWITCH`. Inherit flags that choose the C++ dialect from Octave
+instead.
+
+diff -urN octave-mqtt-0.0.6/src/configure.ac.orig octave-mqtt-0.0.6/src/configure.ac
+--- octave-mqtt-0.0.6/src/configure.ac.orig	2026-05-01 13:53:38.848564943 +0200
++++ octave-mqtt-0.0.6/src/configure.ac	2026-05-01 13:53:55.758463473 +0200
+@@ -48,16 +48,18 @@
+ esac
+ fi
+ 
+-CXX=`${MKOCTFILE} -p CXX`
+-save_CXX="$CXX"
++# The same value of CXX as Octave was compiled with is supposed to be used.
++CXX=${CXX:-`${MKOCTFILE} -p CXX`}
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
+ AC_PROG_CXX
+ AC_PROG_CXXCPP
+ 
+-AX_CXX_COMPILE_STDCXX(11)
+-CXX11_SWITCH=$(echo "$CXX" | $SED "s,^$save_CXX,,")
+-AC_SUBST(CXX11_SWITCH)
+-CXX="$save_CXX"
+-
+ AC_LANG(C++)
+ 
+ # check can access std c files
+diff -urN octave-mqtt-0.0.6/src/Makefile.in.orig octave-mqtt-0.0.6/src/Makefile.in
+--- octave-mqtt-0.0.6/src/Makefile.in.orig	2025-12-29 13:14:07.000000000 +0100
++++ octave-mqtt-0.0.6/src/Makefile.in	2026-05-01 14:08:31.974240793 +0200
+@@ -2,7 +2,7 @@
+ OCTAVE_CONFIG := @OCTAVE_CONFIG@
+ GREP ?= @GREP@
+ SED ?= @SED@
+-CXXFLAGS  := @CXXFLAGS@ @CXX11_SWITCH@ @MQTT_CXXFLAGS@ @PTHREAD_CFLAGS@ @DEFS@
++CXXFLAGS  := @CXXFLAGS@ @MQTT_CXXFLAGS@ @PTHREAD_CFLAGS@ @DEFS@
+ LIBS      := @LIBS@ @MQTT_LIBS@ @PTHREAD_LIBS@
+ LDFLAGS   := @LDFLAGS@
+ 

@@ -12,19 +12,20 @@ $(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
 $(PKG)_DEPS     := of-signal
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
-    $(PKG)_DEPS += $(OCTAVE_TARGET)
+  $(PKG)_DEPS += $(OCTAVE_TARGET)
 endif
 
 $(PKG)_OPTIONS := comm_cv_hdf5_cppflags='-I$(HOST_INCDIR)' comm_cv_hdf5_ldflags='-L$(HOST_LIBDIR)' comm_cv_hdf5_libs=-lhdf5
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+  $(OCTAVE_FORGE_PKG_UPDATE)
 endef
 
 define $(PKG)_BUILD
-    cd $(1)/src && ./configure \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        PKG_CONFIG='$(MXE_PKG_CONFIG)' \
-        PKG_CONFIG_PATH='$(HOST_LIBDIR)/pkgconfig'
-    $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),$($(PKG)_OPTIONS))
+ cd $(1)/src && autoreconf -fiv
+ cd $(1)/src && ./configure \
+    $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
+    PKG_CONFIG='$(MXE_PKG_CONFIG)' \
+    PKG_CONFIG_PATH='$(HOST_LIBDIR)/pkgconfig'
+  $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),$($(PKG)_OPTIONS))
 endef

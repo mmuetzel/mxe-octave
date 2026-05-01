@@ -467,14 +467,17 @@ SRC_FILES_1 := \
   ocaml-native-1-fixes.patch \
   ocaml-native.mk \
   of-actuarial.mk \
+  of-audio-1-cxx20.patch \
   of-audio.mk \
   of-communications-1-cross-build.patch \
+  of-communications-2-cxx20.patch \
   of-communications.mk \
   of-control.mk \
   of-data-smoothing.mk \
   of-database-1-verror.patch \
   of-database.mk \
   of-dataframe.mk \
+  of-dicom-1-cxx20.patch \
   of-dicom.mk \
   of-financial.mk \
   of-fits-1-cross-fixes.patch \
@@ -484,12 +487,14 @@ SRC_FILES_1 := \
   of-fl-core.mk \
   of-fuzzy-logic-toolkit.mk \
   of-ga.mk \
+  of-general-1-cxx20.patch \
   of-general.mk \
   of-generate_html.mk \
   of-geometry.mk \
   of-gsl-1-cross-fixes.patch \
   of-gsl.mk \
   of-image.mk \
+  of-instrument-control-1-cxx20.patch \
   of-instrument-control.mk \
   of-interval-1-cross-fixes.patch \
   of-interval.mk \
@@ -503,8 +508,10 @@ SRC_FILES_1 := \
   of-matgeom-1-move-verLessThan.patch \
   of-matgeom.mk \
   of-mapping.mk \
+  of-miscalleneous-1-cxx20.patch \
   of-miscellaneous.mk \
   of-nan.mk \
+  of-netcdf-1-cxx20.patch \
   of-netcdf.mk \
   of-nurbs.mk \
   of-ocs-1-cross-fixes.patch \
@@ -520,6 +527,7 @@ SRC_FILES_1 := \
   of-odepkg-2-fixes.patch \
   of-odepkg-3-deprecated.patch \
   of-odepkg.mk \
+  of-optim-1-cxx20.patch \
   of-optim.mk \
   of-optiminterp.mk \
   of-quaternion.mk \
@@ -538,6 +546,7 @@ SRC_FILES_1 := \
   of-splines.mk \
   of-statistics.mk \
   of-stk.mk \
+  of-strings-1-cxx20.patch \
   of-strings.mk \
   of-struct.mk \
   of-symbolic.mk \
@@ -547,8 +556,10 @@ SRC_FILES_1 := \
   of-tisean.mk \
   of-tsa.mk \
   of-video.mk \
+  of-windows-1-cxx20.patch \
   of-windows.mk \
   of-zenity.mk \
+  of-zeromq-1-cxx20.patch \
   of-zeromq.mk \
   ogg.mk \
   old.mk \
@@ -570,14 +581,17 @@ SRC_FILES_1 := \
   openssl-1-fixes.patch \
   openssl.mk \
   opkg-biosig.mk \
+  opkg-cfitsio-1-cxx20.patch \
   opkg-cfitsio.mk \
   opkg-coder.mk \
   opkg-datatypes.mk \
   opkg-image-acquisition-1-mkoctfile.patch \
   opkg-image-acquisition.mk \
+  opkg-mqtt-1-cxx20.patch \
   opkg-mqtt.mk \
   opkg-parallel-1-Array-API.patch \
   opkg-parallel-2-pserver-skip-test.patch \
+  opkg-parallel-3-cxx20.patch \
   opkg-parallel.mk \
   opkg-tablicious.mk \
   opus.mk \

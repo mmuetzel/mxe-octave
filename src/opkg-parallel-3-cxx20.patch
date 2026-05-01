@@ -1,0 +1,27 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+
+diff -urN parallel-4.0.2/src/configure.ac.orig parallel-4.0.2/src/configure.ac
+--- parallel-4.0.2/src/configure.ac.orig	2023-09-09 18:01:50.000000000 +0200
++++ parallel-4.0.2/src/configure.ac	2026-05-01 13:57:28.697946819 +0200
+@@ -46,14 +46,14 @@
+ # The same value of CXX as Octave was compiled with is supposed to be
+ # used.
+ CXX=${CXX:-`${MKOCTFILE} -p CXX`}
+-# The AC_PROG_CXX macro is locally defined to a recent version which
+-# checks for C++11. If necessary, a suitable option is appended to
+-# CXX.
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
+ AC_PROG_CXX
+-# Require C++11.
+-if test "x$ac_prog_cxx_stdcxx" != "xcxx11"; then
+-  AC_MSG_ERROR([could not enforce using C++11 features])
+-fi
+ 
+ AC_PROG_CXXCPP
+ 

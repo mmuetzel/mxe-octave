@@ -1,0 +1,41 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+
+diff -urN netcdf-1.0.19/src/configure.ac.orig netcdf-1.0.19/src/configure.ac
+--- netcdf-1.0.19/src/configure.ac.orig	2026-01-03 04:55:09.000000000 +0100
++++ netcdf-1.0.19/src/configure.ac	2026-05-01 13:18:01.811588292 +0200
+@@ -40,13 +40,6 @@
+ dnl uncomment to put support files in another directory
+ dnl AC_CONFIG_AUX_DIR(admin)
+ 
+-dnl if tools we need
+-AC_PROG_AWK
+-AC_PROG_SED
+-AC_PROG_CXX
+-AC_LANG(C++)
+-
+-
+ dnl Check for mkoctfile and octave
+ AC_CHECK_PROG([MKOCTFILE],mkoctfile,mkoctfile)
+ test -z "$MKOCTFILE" &&	AC_MSG_WARN([no mkoctfile found on path])
+@@ -62,6 +55,21 @@
+ esac
+ fi
+ 
++# The same value of CXX as Octave was compiled with is supposed to be used.
++CXX=`${MKOCTFILE} -p CXX`
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
++dnl tools we need
++AC_PROG_AWK
++AC_PROG_SED
++AC_PROG_CXX
++AC_LANG(C++)
++
+ dnl **********************************************************
+ dnl checking for nc-config
+ 

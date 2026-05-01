@@ -16,9 +16,10 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-    $(call GITHUB_PKG_UPDATE,gnu-octave,octave-cfitsio,v)
+  $(call GITHUB_PKG_UPDATE,gnu-octave,octave-cfitsio,v)
 endef
 
 define $(PKG)_BUILD
+  cd $(1)/src && autoreconf -fiv
   $(OCTAVE_FORGE_PKG_BUILD)
 endef

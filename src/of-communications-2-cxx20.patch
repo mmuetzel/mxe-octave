@@ -1,0 +1,24 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+
+diff -urN communications-1.2.7/src/configure.ac.orig communications-1.2.7/src/configure.ac
+--- communications-1.2.7/src/configure.ac.orig	2026-05-01 12:27:22.891353825 +0200
++++ communications-1.2.7/src/configure.ac	2026-05-01 12:38:00.843893019 +0200
+@@ -11,7 +11,18 @@
+ 
+ AC_ARG_VAR([MKOCTFILE], [mkoctfile compiler helper command])
+ AC_CHECK_PROG([MKOCTFILE], mkoctfile, mkoctfile, [])
++
++# The same value of CXX as Octave was compiled with is supposed to be used.
++CXX=${CXX:-`${MKOCTFILE} -p CXX`}
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
+ AC_PROG_CXX
++
+ AC_PROG_SED
+ 
+ # Checks for octave depreciated symbols

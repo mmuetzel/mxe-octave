@@ -13,13 +13,14 @@ $(PKG)_URL      := https://github.com/gnu-octave/instrument-control/releases/dow
 $(PKG)_DEPS     := libmodbus pkg-config
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
-    $(PKG)_DEPS += $(OCTAVE_TARGET)
+  $(PKG)_DEPS += $(OCTAVE_TARGET)
 endif
 
 define $(PKG)_UPDATE
-    $(call GITHUB_PKG_UPDATE,gnu-octave,instrument-control,release-)
+  $(call GITHUB_PKG_UPDATE,gnu-octave,instrument-control,release-)
 endef
 
 define $(PKG)_BUILD
-    $(OCTAVE_FORGE_PKG_BUILD)
+  cd $(1)/src && autoreconf -fiv
+  $(OCTAVE_FORGE_PKG_BUILD)
 endef

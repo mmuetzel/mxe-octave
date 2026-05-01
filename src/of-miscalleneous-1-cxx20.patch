@@ -1,0 +1,36 @@
+Fix building with C++20 by skipping parts of AC_PROG_CXX.
+
+diff -urN miscellaneous-1.3.2/src/configure.ac.orig miscellaneous-1.3.2/src/configure.ac
+--- miscellaneous-1.3.2/src/configure.ac.orig	2025-12-23 14:31:56.000000000 +0100
++++ miscellaneous-1.3.2/src/configure.ac	2026-05-01 13:08:27.294385114 +0200
+@@ -23,6 +23,19 @@
+   ])
+ )
+ 
++dnl Check for mkoctfile
++AC_CHECK_PROG(MKOCTFILE,mkoctfile,mkoctfile)
++test -z "$MKOCTFILE" &&	AC_MSG_ERROR([no mkoctfile found on path])
++
++# The same value of CXX as Octave was compiled with is supposed to be used.
++CXX=`${MKOCTFILE} -p CXX`
++
++# The check for flags to enable C++11 is broken with a C++20 compiler (because
++# the type of u8"" literals changed) in autoconf before version 2.73.
++# Octave requires C++11 since version 4.2, so it is enabled by the CXX as
++# returned by mkoctfile. Skip broken check which would demote to C++11.
++ac_cv_prog_cxx_cxx11=""
++
+ AC_PROG_CXX
+ AC_LANG(C++)
+ 
+@@ -32,10 +45,6 @@
+   AC_MSG_ERROR([The program GNU Units is required to install $PACKAGE_NAME.])
+ fi
+ 
+-dnl Check for mkoctfile
+-AC_CHECK_PROG(MKOCTFILE,mkoctfile,mkoctfile)
+-test -z "$MKOCTFILE" &&	AC_MSG_ERROR([no mkoctfile found on path])
+-
+ dnl Check for octave-config
+ AC_CHECK_PROG(OCTAVE_CONFIG,octave-config,octave-config)
+ test -z "OCTAVE_CONFIG" && OCTAVE_CONFIG=$MKOCTFILE

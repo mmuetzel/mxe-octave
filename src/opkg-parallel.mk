@@ -12,13 +12,14 @@ $(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
 $(PKG)_DEPS     :=
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
-    $(PKG)_DEPS += $(OCTAVE_TARGET)
+  $(PKG)_DEPS += $(OCTAVE_TARGET)
 endif
 
 define $(PKG)_UPDATE
-    $(OCTAVE_FORGE_PKG_UPDATE)
+  $(OCTAVE_FORGE_PKG_UPDATE)
 endef
 
 define $(PKG)_BUILD
-    $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),$($(PKG)_OPTIONS))
+  cd $(1)/src && autoreconf -fiv
+  $(call OCTAVE_FORGE_PKG_BUILD,$(1),$(2),$(3),$($(PKG)_OPTIONS))
 endef
