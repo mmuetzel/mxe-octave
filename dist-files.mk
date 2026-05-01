@@ -571,6 +571,9 @@ SRC_FILES_1 := \
   opencore-amr.mk \
   opencsg-1-fixes.patch \
   opencsg.mk \
+  opencv-1-mingw-w64-cmake.patch \
+  opencv-2-generate-proper-pkg-config-file.patch \
+  opencv-3-mingw-w64-cmake-lib-path.patch \
   opencv.mk \
   openexr.mk \
   opengl_switch.mk \

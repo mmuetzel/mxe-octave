@@ -2,13 +2,12 @@
 
 PKG             := opencv
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.12.0
-$(PKG)_CHECKSUM := dda4c8f904f54733133b0d3df7058b304721c8a3
+$(PKG)_VERSION  := 4.13.0
+$(PKG)_CHECKSUM := fc2f2ce6f8f2d5a5c34435054334fa6046ae3d6d
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/opencv/$(PKG)/archive/$($(PKG)_VERSION).tar.gz
-$(PKG)_DEPS     := eigen ffmpeg jasper jpeg libpng \
-                   openblas openexr tiff xz zlib
+$(PKG)_DEPS     := eigen ffmpeg jasper jpeg libpng lapack openexr tiff xz zlib
 
 define $(PKG)_UPDATE
     $(call GITHUB_PKG_UPDATE,opencv,opencv,)
@@ -23,7 +22,6 @@ define $(PKG)_BUILD
         $(CMAKE_CCACHE_FLAGS) \
         $(CMAKE_BUILD_SHARED_OR_STATIC) \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-        --debug-output \
         -DBUILD_opencv_dnn=OFF \
         -DBUILD_opencv_java=OFF \
         -DBUILD_opencv_world=ON \
@@ -54,6 +52,11 @@ define $(PKG)_BUILD
         -DPROTOBUF_UPDATE_FILES=ON \
         -DBUILD_PNG=OFF \
         -DBUILD_OPENEXR=OFF \
+        -DOPENCV_GENERATE_PKGCONFIG=ON \
+        -DOPENCV_LAPACK_FIND_PACKAGE_ONLY=ON \
+        -DLAPACK_LIBRARIES='lapacke;lapack;cblas;blas' \
+        -DLAPACK_CBLAS_H='cblas.h' \
+        -DLAPACK_LAPACKE_H='lapacke.h' \
         -DCMAKE_VERBOSE=ON \
         -DCMAKE_CXX_STANDARD=11 \
         -DCMAKE_CXX_FLAGS='-D_WIN32_WINNT=0x0500'
