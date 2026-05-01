@@ -29,6 +29,8 @@ define $(PKG)_BUILD
     -DBUILD_DEPRECATED=ON \
     -DBUILD_INDEX64_EXT_API=OFF \
     -DBUILD_TESTING=OFF \
+    -DCBLAS=ON \
+    -DLAPACKE=ON \
     $($(PKG)_BLAS_CONFIG_OPTS) \
     $(1)
 
