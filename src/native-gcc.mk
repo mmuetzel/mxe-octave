@@ -3,8 +3,8 @@
 
 PKG             := native-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 15.2.0
-$(PKG)_CHECKSUM := e9265c98ae18a6d952a636749d98c475ba2ca006
+$(PKG)_VERSION  := 16.1.0
+$(PKG)_CHECKSUM := 1c60d17719913a13c17c283bbc3cfd2ffda5f0b0
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -29,6 +29,7 @@ ifeq ($(MXE_SYSTEM),mingw)
     --disable-win32-registry \
     --with-native-system-header-dir='$(HOST_PREFIX)/include' \
     --enable-threads=$(HOST_THREADS) \
+    --enable-tls \
     --disable-multilib
 
   ifneq ($(ENABLE_WINDOWS_64),yes)

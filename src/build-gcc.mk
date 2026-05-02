@@ -3,8 +3,8 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 15.2.0
-$(PKG)_CHECKSUM := e9265c98ae18a6d952a636749d98c475ba2ca006
+$(PKG)_VERSION  := 16.1.0
+$(PKG)_CHECKSUM := 1c60d17719913a13c17c283bbc3cfd2ffda5f0b0
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -34,7 +34,8 @@ ifeq ($(MXE_SYSTEM),mingw)
     --disable-nls \
     --without-x \
     --disable-win32-registry \
-    --enable-threads=$(HOST_THREADS)
+    --enable-threads=$(HOST_THREADS) \
+    --enable-tls
 
   ifneq ($(TARGET),x86_64-w64-mingw32)
     $(PKG)_SYSDEP_CONFIGURE_OPTIONS += \
@@ -151,7 +152,9 @@ ifneq ($(MXE_NATIVE_BUILD),yes)
     --with-as='$(BUILD_TOOLS_PREFIX)/bin/$(TARGET)-as' \
     --with-ld='$(BUILD_TOOLS_PREFIX)/bin/$(TARGET)-ld' \
     --with-nm='$(BUILD_TOOLS_PREFIX)/bin/$(TARGET)-nm' \
-    --disable-multilib  --with-host-libstdcxx="-lstdc++" --with-system-zlib
+    --disable-multilib \
+    --with-host-libstdcxx="-lstdc++" \
+    --with-system-zlib
 
   ifeq ($(ENABLE_WINDOWS_64),yes)
     $(PKG)_SYSDEP_CONFIGURE_OPTIONS += \
