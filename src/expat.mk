@@ -3,17 +3,18 @@
 
 PKG             := expat
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.7.5
-$(PKG)_CHECKSUM := 9570d856e7d1174b12b22c2a9493648af4567ab6
+$(PKG)_VERSION  := 2.8.0
+$(PKG)_CHECKSUM := 5aecdcfa1fb54b12be93a1f54c370b6f1851fe4c
 $(PKG)_SUBDIR   := expat-$($(PKG)_VERSION)
 $(PKG)_FILE     := expat-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/expat/expat/$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://github.com/libexpat/libexpat/releases/download/R_$(subst .,_,$($(PKG)_VERSION))/$($(PKG)_FILE)
 $(PKG)_DEPS     :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://sourceforge.net/projects/expat/files/expat/' | \
-    $(SED) -n 's,.*tr title="\([0-9][^"]*\)".*,\1,p' | \
-    head -1
+  $(WGET) -q -O- "https://github.com/libexpat/libexpat/releases" | \
+  $(SED) -n -n 's|.*<h2[^>]*>\([0-9][^<]*\).*|\1|p' | \
+  $(SORT) -V | \
+  tail -1
 endef
 
 define $(PKG)_BUILD
