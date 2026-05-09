@@ -3,8 +3,8 @@
 
 PKG             := cfitsio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.6.3
-$(PKG)_CHECKSUM := 7d32ca78e5d878457a0358bb0e1bc20699a62ac5
+$(PKG)_VERSION  := 4.6.4
+$(PKG)_CHECKSUM := cf3ba3f14f63ddc6d22ae88fbd226163b7547292
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/$($(PKG)_FILE)
