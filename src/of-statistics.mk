@@ -3,12 +3,12 @@
 
 PKG             := of-statistics
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.8.2
-$(PKG)_CHECKSUM := 827e9ea3776c35846898e07b12181c74c714c83c
+$(PKG)_VERSION  := 1.8.3
+$(PKG)_CHECKSUM := 832282dcf7ec0af6e5cf762e9ed816dc56f26e2d
 $(PKG)_REMOTE_SUBDIR :=
 $(PKG)_SUBDIR   := statistics-release-$($(PKG)_VERSION)
 $(PKG)_FILE     := statistics-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://github.com/gnu-octave/statistics/archive/refs/tags/release-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://github.com/gnu-octave/statistics/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_FILE)
 $(PKG)_DEPS     := opkg-datatypes
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
