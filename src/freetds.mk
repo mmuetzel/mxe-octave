@@ -3,11 +3,11 @@
 
 PKG             := freetds
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.5.16
-$(PKG)_CHECKSUM := 4537206a35e15351c612840b93e8f4d53aba6e80
+$(PKG)_VERSION  := 1.5.18
+$(PKG)_CHECKSUM := 33ef814d89d690ebc98a6af0c70287ed9f8eae82
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
-$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := https://github.com/FreeTDS/$(PKG)/releases/download/v$($(PKG)_VERSION)/$(PKG)-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://www.freetds.org/files/stable/$($(PKG)_FILE)
 $(PKG)_DEPS     := libiconv gnutls
 
 $(PKG)_CONFIG_OPTS :=
