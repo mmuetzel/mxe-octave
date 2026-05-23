@@ -594,6 +594,7 @@ SRC_FILES_1 := \
   opkg-image-acquisition.mk \
   opkg-mqtt-1-cxx20.patch \
   opkg-mqtt.mk \
+  opkg-mysql.mk \
   opkg-parallel-1-Array-API.patch \
   opkg-parallel-2-pserver-skip-test.patch \
   opkg-parallel-3-cxx20.patch \
