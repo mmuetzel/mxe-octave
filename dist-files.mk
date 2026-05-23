@@ -335,6 +335,8 @@ SRC_FILES_1 := \
   lua-test.c \
   lua.mk \
   lzo.mk \
+  mariadb-connector-c-1-fixes.patch \
+  mariadb-connector-c.mk \
   matio.mk \
   mdbtools.mk \
   mesa-proto.mk \
