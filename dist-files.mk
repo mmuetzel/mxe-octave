@@ -496,7 +496,6 @@ SRC_FILES_1 := \
   of-gsl-1-cross-fixes.patch \
   of-gsl.mk \
   of-image.mk \
-  of-instrument-control-1-cxx20.patch \
   of-instrument-control.mk \
   of-interval-1-cross-fixes.patch \
   of-interval.mk \
