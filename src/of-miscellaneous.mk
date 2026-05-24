@@ -3,8 +3,8 @@
 
 PKG             := of-miscellaneous
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.2
-$(PKG)_CHECKSUM := 2fe35226e5a5e5920b229764311667decbeaceca
+$(PKG)_VERSION  := 1.3.3
+$(PKG)_CHECKSUM := 5a63c313dced01d4ecc721f577d72eb496f4376d
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := miscellaneous-$($(PKG)_VERSION)
 $(PKG)_FILE     := miscellaneous-$($(PKG)_VERSION).tar.gz

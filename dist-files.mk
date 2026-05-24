@@ -510,7 +510,6 @@ SRC_FILES_1 := \
   of-matgeom-1-move-verLessThan.patch \
   of-matgeom.mk \
   of-mapping.mk \
-  of-miscalleneous-1-cxx20.patch \
   of-miscellaneous.mk \
   of-nan.mk \
   of-netcdf-1-cxx20.patch \
