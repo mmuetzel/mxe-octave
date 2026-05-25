@@ -511,7 +511,6 @@ SRC_FILES_1 := \
   of-mapping.mk \
   of-miscellaneous.mk \
   of-nan.mk \
-  of-netcdf-1-cxx20.patch \
   of-netcdf.mk \
   of-nurbs.mk \
   of-ocs-1-cross-fixes.patch \

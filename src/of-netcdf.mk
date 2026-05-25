@@ -3,8 +3,8 @@
 
 PKG             := of-netcdf
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.0.19
-$(PKG)_CHECKSUM := a69ebecf45f66fc67425544a9c2204019436c663
+$(PKG)_VERSION  := 1.0.20
+$(PKG)_CHECKSUM := 234effc9c65e351307f9e43b0c09b54c52b0e91a
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := netcdf-$($(PKG)_VERSION)
 $(PKG)_FILE     := netcdf-$($(PKG)_VERSION).tar.gz
