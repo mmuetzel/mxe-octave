@@ -590,7 +590,6 @@ SRC_FILES_1 := \
   opkg-datatypes.mk \
   opkg-image-acquisition-1-mkoctfile.patch \
   opkg-image-acquisition.mk \
-  opkg-mqtt-1-cxx20.patch \
   opkg-mqtt.mk \
   opkg-mysql.mk \
   opkg-parallel-1-Array-API.patch \
