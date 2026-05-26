@@ -1,0 +1,64 @@
+From 5e685d8e60e7f1c6c2ba0f27936f43e6ecb364b1 Mon Sep 17 00:00:00 2001
+From: Benjamin Cheng <benjamin.cheng@amd.com>
+Date: Fri, 8 May 2026 08:45:35 -0400
+Subject: [PATCH] draw: copy flatshaded attributes to all clipped vertices
+
+GL_FEEDBACK does not know about flatshade, unlike the rasterizer,
+so we need to provide it with the real attribs.
+
+Cc: mesa-stable
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/work_items/15304
+Signed-off-by: Benjamin Cheng <benjamin.cheng@amd.com>
+---
+ src/gallium/auxiliary/draw/draw_pipe_clip.c | 28 ++++++++++-----------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/src/gallium/auxiliary/draw/draw_pipe_clip.c b/src/gallium/auxiliary/draw/draw_pipe_clip.c
+index eb499a28decb..dbb4082baa2e 100644
+--- a/src/gallium/auxiliary/draw/draw_pipe_clip.c
++++ b/src/gallium/auxiliary/draw/draw_pipe_clip.c
+@@ -522,27 +522,27 @@ do_clip_tri(struct draw_stage *stage,
+       n = outcount;
+    }
+ 
+-   /* If constant interpolated, copy provoking vertex attrib to polygon vertex[0]
++   /* If constant interpolated, copy provoking vertex attribs to all clipped
++    * polygon vertices. Rasterizer may only need vertex[0] for flatshade, but
++    * GL_FEEDBACK will read attribs from every vertex, so they need to be
++    * initialized.
+     */
+    if (n >= 3) {
+       if (clipper->num_const_attribs) {
+-         if (stage->draw->rasterizer->flatshade_first) {
+-            if (inlist[0] != header->v[0]) {
++         for (unsigned i = 0; i < n; i++) {
++            if (inlist[i] == prov_vertex)
++               continue;
++
++            /* Duplicate the vertex from the input prim so we don't modify it */
++            if (inlist[i] == header->v[0] ||
++                inlist[i] == header->v[1] ||
++                inlist[i] == header->v[2]) {
+                assert(tmpnr < MAX_CLIPPED_VERTICES + 1);
+                if (tmpnr >= MAX_CLIPPED_VERTICES + 1)
+                   return;
+-               inlist[0] = dup_vert(stage, inlist[0], tmpnr++);
+-               copy_flat(stage, inlist[0], header->v[0]);
+-            }
+-         }
+-         else {
+-            if (inlist[0] != header->v[2]) {
+-               assert(tmpnr < MAX_CLIPPED_VERTICES + 1);
+-               if (tmpnr >= MAX_CLIPPED_VERTICES + 1)
+-                  return;
+-               inlist[0] = dup_vert(stage, inlist[0], tmpnr++);
+-               copy_flat(stage, inlist[0], header->v[2]);
++               inlist[i] = dup_vert(stage, inlist[i], tmpnr++);
+             }
++            copy_flat(stage, inlist[i], prov_vertex);
+          }
+       }
+ 
+-- 
+GitLab
+

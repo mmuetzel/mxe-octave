@@ -339,6 +339,7 @@ SRC_FILES_1 := \
   mariadb-connector-c.mk \
   matio.mk \
   mdbtools.mk \
+  mesa-1-clipped-vertices.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-cairo-1-ssize-t-defined.patch \
