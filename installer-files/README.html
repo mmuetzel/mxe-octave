@@ -5,11 +5,16 @@
 <body>
 <h1>Welcome</h1>
 <p>Thank you for installing GNU Octave!</p>
-<p>Octave 11.2 is a minor release which mainly fixes bugs and regressions found
-since the release of version 11.1. It should be feature and API compatible to
-Octave 11.1.</p>
-<p>Octave 11.1 is a major release with many new features and improvements.
-Among other things, it brings better support for <code>classdef</code> objects
+<p>Octave 11.3.0 is a minor release which mainly fixes an incorrect soversion
+of <code>liboctinterp</code> in Octave 11.2.0 which made it incompatible with
+Octave 11.1.0 when it comes to previously built <code>.oct</code> files.
+Octave 11.3.0 is API compatible with Octave 11.1.0 (but incompatible to
+Octave 11.2.0 when it comes to previously built <code>.oct</code> files).
+Otherwise, Octave 11.3.0 and Octave 11.2.0 are almost identical.  If you have
+not yet updated to Octave 11.2.0, directly update from Octave 11.1.0 to
+Octave 11.3.0 (skipping Octave 11.2.0).</p>
+<p>Octave 11.1.0 was a major release with many new features and improvements.
+Among other things, it brought better support for <code>classdef</code> objects
 and arrays, broadcasting for special matrix types (like sparse, diagonal, or
 permutation matrices), updates for Matlab compatibility (notably support for
 the <code>nanflag</code>, <code>vecdim</code> and other parameters for many
