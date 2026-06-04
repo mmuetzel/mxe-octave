@@ -25,8 +25,9 @@ endif
 
 define $(PKG)_BUILD
     mkdir -p '$(1)/build/$(TARGET)/libgomp'
-    cd       '$(1)/build/$(TARGET)/libgomp' && '$(1)/libgomp/configure' \
+    cd '$(1)/build/$(TARGET)/libgomp' && '$(1)/libgomp/configure' \
         $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
+        GFORTRAN=$(MXE_F77) \
         --target='$(TARGET)' \
         --prefix='$(HOST_PREFIX)' \
         --enable-version-specific-runtime-libs \
