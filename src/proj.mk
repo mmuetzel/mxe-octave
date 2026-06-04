@@ -21,12 +21,13 @@ endef
 
 define $(PKG)_BUILD
     cd '$(1)' && cmake \
-        $($(PKG)_CMAKE_FLAGS) \
-        -DBUILD_TESTING=no \
-        $(CMAKE_CCACHE_FLAGS) \
-        $(CMAKE_BUILD_SHARED_OR_STATIC) \
-        -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
-        .
+      $(CMAKE_CCACHE_FLAGS) \
+      $(CMAKE_BUILD_SHARED_OR_STATIC) \
+      -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
+      $($(PKG)_CMAKE_FLAGS) \
+      -DBUILD_TESTING=OFF \
+      -DNLOHMANN_JSON_ORIGIN=internal \
+      .
 
     $(MAKE) -C '$(1)' -j '$(JOBS)' VERBOSE=1
     $(MAKE) -C '$(1)' -j '1' VERBOSE=1 DESTDIR='$(3)' install
