@@ -1,7 +1,7 @@
 PKG             := libmodbus
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.1.10
-$(PKG)_CHECKSUM := f6b7a004b840ac57821bd673d655c027ccd0ee24
+$(PKG)_VERSION  := 3.1.12
+$(PKG)_CHECKSUM := 6d4d2c07fc1d9e196156505e7fb07fcb2013105f
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/stephane/$(PKG)/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
