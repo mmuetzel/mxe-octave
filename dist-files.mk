@@ -481,7 +481,6 @@ SRC_FILES_1 := \
   of-database-1-verror.patch \
   of-database.mk \
   of-dataframe.mk \
-  of-dicom-1-cxx20.patch \
   of-dicom.mk \
   of-financial.mk \
   of-fits-1-cross-fixes.patch \
