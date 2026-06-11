@@ -556,7 +556,6 @@ SRC_FILES_1 := \
   of-tisean.mk \
   of-tsa.mk \
   of-video.mk \
-  of-windows-1-cxx20.patch \
   of-windows.mk \
   of-zenity.mk \
   of-zeromq-1-cxx20.patch \
