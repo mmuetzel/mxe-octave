@@ -471,7 +471,6 @@ SRC_FILES_1 := \
   ocaml-native-1-fixes.patch \
   ocaml-native.mk \
   of-actuarial.mk \
-  of-audio-1-cxx20.patch \
   of-audio.mk \
   of-communications-1-cross-build.patch \
   of-communications-2-cxx20.patch \
