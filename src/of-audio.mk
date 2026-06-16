@@ -3,8 +3,8 @@
 
 PKG             := of-audio
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.11
-$(PKG)_CHECKSUM := a6f3714660d8880da55c4b2a559ef67019093e39
+$(PKG)_VERSION  := 2.0.12
+$(PKG)_CHECKSUM := c41e448948851b333e88f0d6dfea01d4ab5fd668
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := audio-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
