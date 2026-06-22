@@ -3,8 +3,8 @@
 
 PKG             := opkg-datatypes
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.2.4
-$(PKG)_CHECKSUM := da00f8b1da679462d9acf47eb4330a51dddf9e68
+$(PKG)_VERSION  := 1.2.5
+$(PKG)_CHECKSUM := e7ed04f880004b5317e7f56c68357e7ab33f3f0c
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := datatypes-release-$($(PKG)_VERSION)
 $(PKG)_FILE     := datatypes-$($(PKG)_VERSION).tar.gz
