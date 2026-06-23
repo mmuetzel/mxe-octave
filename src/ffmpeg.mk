@@ -7,16 +7,16 @@ $(PKG)_VERSION  := 7.1.5
 $(PKG)_CHECKSUM := ecf2cf5ba3e4c253fe43f806a47209c781a8232e
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
-$(PKG)_URL      := http://www.ffmpeg.org/releases/$($(PKG)_FILE)
-$(PKG)_URL_2    := http://launchpad.net/ffmpeg/main/$($(PKG)_VERSION)/+download/$($(PKG)_FILE)
+$(PKG)_URL      := https://www.ffmpeg.org/releases/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://launchpad.net/ffmpeg/main/$($(PKG)_VERSION)/+download/$($(PKG)_FILE)
 $(PKG)_DEPS     := bzip2 gnutls lame libvpx opencore-amr sdl2 speex theora vorbis x264 xvidcore zlib
 
 $(PKG)_CONFIG_OPTS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://www.ffmpeg.org/download.html' | \
+    $(WGET) -q -O- 'https://www.ffmpeg.org/download.html' | \
     $(SED) -n 's,.*ffmpeg-\([0-9][^>]*\)\.tar.*,\1,p' | \
-    $(GREP) "^4.2" | \
+    $(GREP) "^7.1" | \
     head -1
 endef
 
