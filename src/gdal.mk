@@ -3,8 +3,8 @@
 
 PKG             := gdal
 $(PKG)_IGNORE   :
-$(PKG)_VERSION  := 3.12.3
-$(PKG)_CHECKSUM := 997809e1a797fc5742feac2fdfe8832c64dc0b05
+$(PKG)_VERSION  := 3.13.1
+$(PKG)_CHECKSUM := df14e1d2aed38ab3ff81266f0a957f7c22b36954
 $(PKG)_SUBDIR   := gdal-$($(PKG)_VERSION)
 $(PKG)_FILE     := gdal-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/OSGeo/gdal/archive/refs/tags/v$($(PKG)_VERSION).tar.gz
@@ -94,6 +94,9 @@ define $(PKG)_BUILD
         -DGDAL_USE_ZSTD=OFF \
         -DBUILD_PYTHON_BINDINGS=OFF \
         -DBUILD_JAVA_BINDINGS=OFF \
+	-DBUILD_CSHARP_BINDINGS=OFF \
+        -DCMAKE_DISABLE_FIND_PACKAGE_Python=ON \
+        -DCMAKE_DISABLE_FIND_PACKAGE_Python3=ON \
         -DCMAKE_TOOLCHAIN_FILE='$(CMAKE_TOOLCHAIN_FILE)' \
         $(1)
 
