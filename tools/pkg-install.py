@@ -581,8 +581,8 @@ def pkg (args):
     os.environ['CXX'] = os.popen(env.mkoctfile + " -p CXX").read().rstrip("\r\n")
   if os.environ.get("AR") == None:
     os.environ['AR'] = os.popen(env.mkoctfile + " -p AR").read().rstrip("\r\n")
-  #if os.environ.get("RANLIB") == None:
-  #  os.environ['RANLIB'] = os.popen(env.mkoctfile + " -p RANLIB").read().rstrip("\r\n")
+  if os.environ.get("RANLIB") == None:
+    os.environ['RANLIB'] = os.popen(env.mkoctfile + " -p RANLIB").read().rstrip("\r\n")
   
   if os.environ.get("CONFIGURE_OPTIONS") != None:
     env.config_opts = os.environ['CONFIGURE_OPTIONS']
