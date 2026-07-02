@@ -3,10 +3,10 @@
 
 PKG             := mpc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.1
-$(PKG)_CHECKSUM := bac1c1fa79f5602df1e29e4684e103ad55714e02
+$(PKG)_VERSION  := 1.4.1
+$(PKG)_CHECKSUM := 3d9e196d973a822ae144d543c9d21023cef0870f
 $(PKG)_SUBDIR   := mpc-$($(PKG)_VERSION)
-$(PKG)_FILE     := mpc-$($(PKG)_VERSION).tar.gz
+$(PKG)_FILE     := mpc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/mpc/$($(PKG)_FILE)
 $(PKG)_DEPS     := build-gcc gmp mpfr
 
