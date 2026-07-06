@@ -3,8 +3,8 @@
 
 PKG             := gdcm
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.2.9
-$(PKG)_CHECKSUM := a307a9b17f17439e606ffd5ef3d53f3854f083d7
+$(PKG)_VERSION  := 3.2.10
+$(PKG)_CHECKSUM := 8f8d5f896a040265604d23aa09cd957ae167cf8a
 $(PKG)_SUBDIR   := GDCM-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/malaterre/GDCM/archive/v$($(PKG)_VERSION).tar.gz
