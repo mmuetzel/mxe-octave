@@ -277,7 +277,6 @@ SRC_FILES_1 := \
   libmikmod-test.c \
   libmikmod.mk \
   libmng.mk \
-  libmodbus-1-win32.patch \
   libmodbus.mk \
   libmodplug-test.c \
   libmodplug.mk \
