@@ -338,7 +338,6 @@ SRC_FILES_1 := \
   matio.mk \
   mcfgthread.mk \
   mdbtools.mk \
-  mesa-1-clipped-vertices.patch \
   mesa-proto.mk \
   mesa.mk \
   mingw-cairo-1-ssize-t-defined.patch \
