@@ -4,8 +4,8 @@
 PKG             := src-msys2-gcc-libs
 $(PKG)_NAME     := gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 15.2.0-1
-$(PKG)_CHECKSUM := ba4735e6d3a6845432d343394dd05942c12c6cc1
+$(PKG)_VERSION  := 15.3.0-1
+$(PKG)_CHECKSUM := 07a567ae4b8cd6aea216cb06e1bdc491d24a4249
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

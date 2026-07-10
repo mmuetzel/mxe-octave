@@ -4,8 +4,8 @@
 PKG             := src-msys2-zip
 $(PKG)_NAME     := zip
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.0-4
-$(PKG)_CHECKSUM := 458bd965cf13d7eb08478c64b61e5eb8b8bad694
+$(PKG)_VERSION  := 3.0-5
+$(PKG)_CHECKSUM := 1d9448d39832a256d0369c620a639ba3e7641397
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

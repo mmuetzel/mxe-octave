@@ -4,8 +4,8 @@
 PKG             := src-msys2-runtime
 $(PKG)_NAME     := msys2-runtime
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.6.5-2
-$(PKG)_CHECKSUM := 6dfe07b396fd39bab7bb3388309fabba1fa58cc4
+$(PKG)_VERSION  := 3.6.9-2
+$(PKG)_CHECKSUM := 7bfd13eba5585e314dd03a4b95f657b95396cf5e
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)

@@ -4,8 +4,8 @@
 PKG             := src-msys2-libffi
 $(PKG)_NAME     := libffi
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.5.2-1
-$(PKG)_CHECKSUM := 07ea7e7c2f244403623cc67f32d33aae4ace0e03
+$(PKG)_VERSION  := 3.6.0-1
+$(PKG)_CHECKSUM := 386d4adb1d9a0c7e71a4fb966f194e786b77e024
 $(PKG)_SUBDIR   := 
 $(PKG)_FILE     := $($(PKG)_NAME)-$($(PKG)_VERSION).src.tar.zst
 $(PKG)_URL      := $(MSYS2_SRC_URL)/$($(PKG)_FILE)
