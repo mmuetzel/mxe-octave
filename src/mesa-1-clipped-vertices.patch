@@ -1,64 +1,84 @@
-From 5e685d8e60e7f1c6c2ba0f27936f43e6ecb364b1 Mon Sep 17 00:00:00 2001
+From 04b23a9251dcce9476c8db8be211aefae59c657a Mon Sep 17 00:00:00 2001
 From: Benjamin Cheng <benjamin.cheng@amd.com>
-Date: Fri, 8 May 2026 08:45:35 -0400
-Subject: [PATCH] draw: copy flatshaded attributes to all clipped vertices
+Date: Mon, 15 Jun 2026 16:44:59 -0400
+Subject: [PATCH] mesa/st: use col0 attrib from provoking vertex for feedback
 
-GL_FEEDBACK does not know about flatshade, unlike the rasterizer,
-so we need to provide it with the real attribs.
+When clipping triangles and flatshade is enabled, the clip stage does
+not copy the col0 attribute to the new vertices. GL_FEEDBACK does not
+expect flatshaded outputs, and thus uninitialized memory is returned to
+the app.
+
+Handle it in the st_cb_feedback by copying col0 from the provoking vertex.
 
 Cc: mesa-stable
 Closes: https://gitlab.freedesktop.org/mesa/mesa/-/work_items/15304
 Signed-off-by: Benjamin Cheng <benjamin.cheng@amd.com>
+Reviewed-by: Roland Scheidegger <roland.scheidegger@broadcom.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/41441>
 ---
- src/gallium/auxiliary/draw/draw_pipe_clip.c | 28 ++++++++++-----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ src/mesa/state_tracker/st_cb_feedback.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/src/gallium/auxiliary/draw/draw_pipe_clip.c b/src/gallium/auxiliary/draw/draw_pipe_clip.c
-index eb499a28decb..dbb4082baa2e 100644
---- a/src/gallium/auxiliary/draw/draw_pipe_clip.c
-+++ b/src/gallium/auxiliary/draw/draw_pipe_clip.c
-@@ -522,27 +522,27 @@ do_clip_tri(struct draw_stage *stage,
-       n = outcount;
-    }
+diff --git a/src/mesa/state_tracker/st_cb_feedback.c b/src/mesa/state_tracker/st_cb_feedback.c
+index a69c93eaa47e..c5757eb4cb9b 100644
+--- a/src/mesa/state_tracker/st_cb_feedback.c
++++ b/src/mesa/state_tracker/st_cb_feedback.c
+@@ -84,7 +84,7 @@ feedback_stage( struct draw_stage *stage )
  
--   /* If constant interpolated, copy provoking vertex attrib to polygon vertex[0]
-+   /* If constant interpolated, copy provoking vertex attribs to all clipped
-+    * polygon vertices. Rasterizer may only need vertex[0] for flatshade, but
-+    * GL_FEEDBACK will read attribs from every vertex, so they need to be
-+    * initialized.
-     */
-    if (n >= 3) {
-       if (clipper->num_const_attribs) {
--         if (stage->draw->rasterizer->flatshade_first) {
--            if (inlist[0] != header->v[0]) {
-+         for (unsigned i = 0; i < n; i++) {
-+            if (inlist[i] == prov_vertex)
-+               continue;
+ static void
+ feedback_vertex(struct gl_context *ctx, const struct draw_context *draw,
+-                const struct vertex_header *v)
++                const struct vertex_header *v, const struct vertex_header *pv)
+ {
+    struct gl_vertex_program *stvp =
+       (struct gl_vertex_program *)ctx->VertexProgram._Current;
+@@ -107,7 +107,7 @@ feedback_vertex(struct gl_context *ctx, const struct draw_context *draw,
+ 
+    slot = stvp->result_to_output[VARYING_SLOT_COL0];
+    if (slot != 0xff)
+-      color = v->data[slot];
++      color = pv ? pv->data[slot] : v->data[slot];
+    else
+       color = ctx->Current.Attrib[VERT_ATTRIB_COLOR0];
+ 
+@@ -126,11 +126,15 @@ feedback_tri( struct draw_stage *stage, struct prim_header *prim )
+ {
+    struct feedback_stage *fs = feedback_stage(stage);
+    struct draw_context *draw = stage->draw;
++   const struct vertex_header *pv = NULL;
++   if (draw->rasterizer->flatshade)
++      pv = draw->rasterizer->flatshade_first ? prim->v[0] : prim->v[2];
 +
-+            /* Duplicate the vertex from the input prim so we don't modify it */
-+            if (inlist[i] == header->v[0] ||
-+                inlist[i] == header->v[1] ||
-+                inlist[i] == header->v[2]) {
-                assert(tmpnr < MAX_CLIPPED_VERTICES + 1);
-                if (tmpnr >= MAX_CLIPPED_VERTICES + 1)
-                   return;
--               inlist[0] = dup_vert(stage, inlist[0], tmpnr++);
--               copy_flat(stage, inlist[0], header->v[0]);
--            }
--         }
--         else {
--            if (inlist[0] != header->v[2]) {
--               assert(tmpnr < MAX_CLIPPED_VERTICES + 1);
--               if (tmpnr >= MAX_CLIPPED_VERTICES + 1)
--                  return;
--               inlist[0] = dup_vert(stage, inlist[0], tmpnr++);
--               copy_flat(stage, inlist[0], header->v[2]);
-+               inlist[i] = dup_vert(stage, inlist[i], tmpnr++);
-             }
-+            copy_flat(stage, inlist[i], prov_vertex);
-          }
-       }
+    _mesa_feedback_token(fs->ctx, (GLfloat) GL_POLYGON_TOKEN);
+    _mesa_feedback_token(fs->ctx, (GLfloat) 3); /* three vertices */
+-   feedback_vertex(fs->ctx, draw, prim->v[0]);
+-   feedback_vertex(fs->ctx, draw, prim->v[1]);
+-   feedback_vertex(fs->ctx, draw, prim->v[2]);
++   feedback_vertex(fs->ctx, draw, prim->v[0], pv);
++   feedback_vertex(fs->ctx, draw, prim->v[1], pv);
++   feedback_vertex(fs->ctx, draw, prim->v[2], pv);
+ }
+ 
+ 
+@@ -146,8 +150,8 @@ feedback_line( struct draw_stage *stage, struct prim_header *prim )
+    else {
+       _mesa_feedback_token(fs->ctx, (GLfloat) GL_LINE_TOKEN);
+    }
+-   feedback_vertex(fs->ctx, draw, prim->v[0]);
+-   feedback_vertex(fs->ctx, draw, prim->v[1]);
++   feedback_vertex(fs->ctx, draw, prim->v[0], NULL);
++   feedback_vertex(fs->ctx, draw, prim->v[1], NULL);
+ }
+ 
+ 
+@@ -157,7 +161,7 @@ feedback_point( struct draw_stage *stage, struct prim_header *prim )
+    struct feedback_stage *fs = feedback_stage(stage);
+    struct draw_context *draw = stage->draw;
+    _mesa_feedback_token(fs->ctx, (GLfloat) GL_POINT_TOKEN);
+-   feedback_vertex(fs->ctx, draw, prim->v[0]);
++   feedback_vertex(fs->ctx, draw, prim->v[0], NULL);
+ }
+ 
  
 -- 
 GitLab
-
