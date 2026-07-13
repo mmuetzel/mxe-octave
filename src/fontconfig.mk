@@ -3,39 +3,36 @@
 
 PKG             := fontconfig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.16.0
-$(PKG)_CHECKSUM := e50a4411127c36e4dc5af2c704db62b55bdb97a0
+$(PKG)_VERSION  := 2.18.2
+$(PKG)_CHECKSUM := 25788eb8e305ea2be8c674eba9cad24db93110f9
 $(PKG)_SUBDIR   := fontconfig-$($(PKG)_VERSION)
-$(PKG)_FILE     := fontconfig-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := https://fontconfig.org/release/$($(PKG)_FILE)
-$(PKG)_DEPS     := freetype expat gettext libiconv
+$(PKG)_FILE     := fontconfig-$($(PKG)_VERSION).tar.bz2
+$(PKG)_URL      := https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_DEPS     := build-meson build-ninja freetype expat gettext libiconv
 ifeq ($(MXE_WINDOWS_BUILD),no)
   $(PKG)_DEPS += util-linux
 endif
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'https://fontconfig.org/release/' | \
-    $(SED) -n 's,.*fontconfig-\([0-9][^>]*\)\.tar.*,\1,p' | \
-    tail -1
+    $(WGET) -q -O- 'https://gitlab.freedesktop.org/fontconfig/fontconfig/tags' | \
+    $(SED) -n "s,.*<a [^>]\+>v\?\([0-9]\+\.[0-9.]\+\)<.*,\1,p" | \
+    $(SORT) -Vr | \
+    head -1
 endef
 
+ifeq ($(MXE_NATIVE_BUILD),no)
+  $(PKG)_MESON_TOOLCHAIN_FILE := --cross-file '$(HOST_PREFIX)/share/meson/cross/mxe-conf.ini'
+else
+  $(PKG)_MESON_TOOLCHAIN_FILE := --native-file '$(HOST_PREFIX)/share/meson/native/mxe-conf.ini'
+endif
+
 define $(PKG)_BUILD
-    cd '$(1)' && autoreconf -fi
-    cd '$(1)' && ./configure \
-        $(CONFIGURE_CPPFLAGS) $(CONFIGURE_LDFLAGS) \
-        FREETYPE_CFLAGS='-I$(HOST_INCDIR)/freetype2' \
-        FREETYPE_LIBS='-lfreetype' \
-        $(HOST_AND_BUILD_CONFIGURE_OPTIONS) \
-        $(ENABLE_SHARED_OR_STATIC) \
-        --prefix='$(HOST_PREFIX)' \
-        --with-arch='$(TARGET)' \
-        --disable-docs \
-        --with-expat='$(HOST_PREFIX)' && $(CONFIGURE_POST_HOOK)
-
-    $(MAKE) -C '$(1)' -j '$(JOBS)' sbin_PROGRAMS= noinst_PROGRAMS=
-
-    $(MAKE) -C '$(1)' -j 1 fonts.conf
-    $(SED) -i "\|^.*<cachedir>$(HOST_PREFIX).*$$|d" $(1)/fonts.conf
-
-    $(MAKE) -C '$(1)' -j 1 install sbin_PROGRAMS= noinst_PROGRAMS= DESTDIR='$(3)/'
+    cd '$(1)' && meson $(1)/.build \
+      $($(PKG)_MESON_TOOLCHAIN_FILE) \
+      $($(PKG)_MESON_CONFIG_FLAGS) \
+      -Dprefix='$(HOST_PREFIX)'  \
+      -Dtests=disabled \
+      -Ddoc=disabled
+    cd '$(1)/.build' && DESTDIR=$(3) ninja -j $(JOBS)
+    cd '$(1)/.build' && DESTDIR=$(3) ninja -j 1 install
 endef
