@@ -3,8 +3,8 @@
 
 PKG             := wxwidgets
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.3.2
-$(PKG)_CHECKSUM := 64ca276f82ccb2b1459bceb4b8fda33609461d69
+$(PKG)_VERSION  := 3.3.3
+$(PKG)_CHECKSUM := 0f7cec37b22ec5719805849716254cbb2d943f59
 $(PKG)_SUBDIR   := wxWidgets-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.bz2
 $(PKG)_URL      := https://github.com/wxWidgets/wxWidgets/releases/download/v$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -43,7 +43,7 @@ define $(PKG)_BUILD
         --without-gnomevfs \
         --without-dmalloc \
         LIBS=" `'$(MXE_PKG_CONFIG)' --libs-only-l libtiff-4`" \
-        CXXFLAGS='-std=gnu++11' \
+        CXXFLAGS='-std=gnu++17' \
         CXXCPP='$(MXE_CXX) -E -std=gnu++11'
 
     $(MAKE) -C '$(1)' -j '$(JOBS)' $(MXE_DISABLE_DOCS) $(MXE_DISABLE_PROGS)
