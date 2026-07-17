@@ -4,8 +4,9 @@ Weak symbols in dynamic libraries cannot be used on Windows for that use-case.
 Remove the implementation of the XERBLA function from the OpenBLAS library as
 a workaround.
 
---- OpenBLAS-0.3.33/driver/others/Makefile.orig	2026-04-23 13:50:46.000000000 +0200
-+++ OpenBLAS-0.3.33/driver/others/Makefile	2026-04-26 14:53:35.268438312 +0200
+diff -ur OpenBLAS-0.3.34.orig/driver/others/Makefile OpenBLAS-0.3.34/driver/others/Makefile
+--- OpenBLAS-0.3.34.orig/driver/others/Makefile	2026-07-17 09:27:06.941068684 -0400
++++ OpenBLAS-0.3.34/driver/others/Makefile	2026-07-17 09:27:40.472978882 -0400
 @@ -1,7 +1,7 @@
  TOPDIR	= ../..
  include ../../Makefile.system
@@ -71,3 +72,27 @@ a workaround.
  parameter.$(PSUFFIX) : parameter.c ../../param.h
  	$(CC) $(PFLAGS) -c $< -o $(@F)
  
+diff -ur OpenBLAS-0.3.34.orig/exports/gensymbol OpenBLAS-0.3.34/exports/gensymbol
+--- OpenBLAS-0.3.34.orig/exports/gensymbol	2026-07-17 09:27:06.942647930 -0400
++++ OpenBLAS-0.3.34/exports/gensymbol	2026-07-17 09:40:20.142159509 -0400
+@@ -4117,8 +4117,6 @@
+                 "$symbolprefix" "$obj" "$symbolsuffix" "$obj" "$count"
+             count=`expr $count + 1`
+         done
+-        printf '\t%sopenblas_set_xerbla%s=openblas_set_xerbla  @%s\n' \
+-            "$symbolprefix" "$symbolsuffix" "$count"
+     ;;
+ 
+     win2khpl)
+diff -ur OpenBLAS-0.3.34.orig/exports/gensymbol.pl OpenBLAS-0.3.34/exports/gensymbol.pl
+--- OpenBLAS-0.3.34.orig/exports/gensymbol.pl	2026-07-17 09:27:06.942647930 -0400
++++ OpenBLAS-0.3.34/exports/gensymbol.pl	2026-07-17 09:39:17.305490248 -0400
+@@ -4058,7 +4058,7 @@
+         print "\t",$symbolprefix,$objs,$symbolsuffix,"=$objs","  \@", $count, "\n";
+         $count ++;
+     }
+-    print "\t",$symbolprefix,"openblas_set_xerbla",$symbolsuffix,"=openblas_set_xerbla  \@",$count,"\n";
++    #print "\t",$symbolprefix,"openblas_set_xerbla",$symbolsuffix,"=openblas_set_xerbla  \@",$count,"\n";
+ 
+     exit(0);
+ }
