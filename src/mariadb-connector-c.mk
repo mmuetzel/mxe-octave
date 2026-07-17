@@ -3,8 +3,8 @@
 
 PKG             := mariadb-connector-c
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4.8
-$(PKG)_CHECKSUM := 7188edf61cd393368cc011710fd3609edefd235c
+$(PKG)_VERSION  := 3.4.9
+$(PKG)_CHECKSUM := fcbe669d146057191fd2561562a9b0f0ef02d2cc
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://github.com/mariadb-corporation/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
