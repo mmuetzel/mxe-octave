@@ -74,18 +74,18 @@ $(PKG)_QT_CONFIGURE_OPTIONS := \
 ifeq ($(ENABLE_QT),4)
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_QTDIR := $(HOST_PREFIX)
-  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt4"
+  $(PKG)_QT_CONFIGURE_OPTIONS += oct_cv_lib_qscintilla="-lqscintilla2_qt4"
 endif
 ifeq ($(ENABLE_QT),5)
   #$(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_QTDIR := $(HOST_PREFIX)/qt5
-  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt5"
+  $(PKG)_QT_CONFIGURE_OPTIONS += oct_cv_lib_qscintilla="-lqscintilla2_qt5"
 endif
 ifeq ($(ENABLE_QT),6)
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt6/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_QTDIR := $(HOST_PREFIX)/qt6
-  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt6"
+  $(PKG)_QT_CONFIGURE_OPTIONS += oct_cv_lib_qscintilla="-lqscintilla2_qt6"
   ifeq ($(MXE_NATIVE_BUILD),yes)
     $(PKG)_QT_CONFIGURE_OPTIONS += QTPATHS6="$(HOST_PREFIX)/qt6/bin/qtpaths6"
   endif
@@ -117,9 +117,9 @@ else
 endif
 
 ifeq ($(ENABLE_FORTRAN_INT64),yes)
-  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=8 octave_cv_sizeof_fortran_integer=8
+  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := F77_INTEGER_8_FLAG=-fdefault-integer-8 ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=8 oct_cv_sizeof_fortran_integer=8
 else
-  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=4 octave_cv_sizeof_fortran_integer=4
+  $(PKG)_ENABLE_FORTRAN_INT64_CONFIGURE_OPTIONS := ax_blas_f77_func_ok=yes ax_cv_blas_integer_size=4 oct_cv_sizeof_fortran_integer=4
 endif
 
 ifeq ($(MXE_SYSTEM),mingw)
