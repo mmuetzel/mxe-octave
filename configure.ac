@@ -408,7 +408,7 @@ fi
 AC_SUBST(MXE_SYSTEM)
 
 # set MXE_ROOTDIR for knowing the mxe root
-MXE_ROOTDIR=`cd "$builddir"; pwd`
+MXE_ROOTDIR=`pwd`
 AC_SUBST(MXE_ROOTDIR)
 
 if test "$MXE_NATIVE_BUILD" = no; then
