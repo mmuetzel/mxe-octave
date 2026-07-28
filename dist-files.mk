@@ -555,7 +555,6 @@ SRC_FILES_1 := \
   of-video.mk \
   of-windows.mk \
   of-zenity.mk \
-  of-zeromq-1-cxx20.patch \
   of-zeromq.mk \
   ogg.mk \
   old.mk \
