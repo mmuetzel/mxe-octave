@@ -579,7 +579,6 @@ SRC_FILES_1 := \
   openssl-1-fixes.patch \
   openssl.mk \
   opkg-biosig.mk \
-  opkg-cfitsio-1-cxx20.patch \
   opkg-cfitsio.mk \
   opkg-coder.mk \
   opkg-datatypes.mk \
