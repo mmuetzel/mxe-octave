@@ -3,12 +3,12 @@
 
 PKG             := of-strings
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.3.1
-$(PKG)_CHECKSUM := 7aeb2ab18bc9623761021423f13d1ba2cbb47301
+$(PKG)_VERSION  := 1.3.2
+$(PKG)_CHECKSUM := a94a81bad30f706e0192c204e1ea427970f49364
 $(PKG)_REMOTE_SUBDIR := 
 $(PKG)_SUBDIR   := strings-$($(PKG)_VERSION)
 $(PKG)_FILE     := strings-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := '$(OCTAVE_FORGE_BASE_URL)/$($(PKG)_FILE)/download'
+$(PKG)_URL      := https://github.com/gnu-octave/octave-strings/releases/download/release-$($(PKG)_VERSION)/$($(PKG)_SUBDIR).tar.gz
 $(PKG)_DEPS     := 
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
@@ -16,7 +16,7 @@ ifeq ($(ENABLE_BINARY_PACKAGES),yes)
 endif
 
 define $(PKG)_UPDATE
-  $(OCTAVE_FORGE_PKG_UPDATE)
+  $(call GITHUB_PKG_UPDATE,gnu-octave,octave-strings,release-)
 endef
 
 define $(PKG)_BUILD

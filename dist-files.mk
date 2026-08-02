@@ -543,7 +543,6 @@ SRC_FILES_1 := \
   of-splines.mk \
   of-statistics.mk \
   of-stk.mk \
-  of-strings-1-cxx20.patch \
   of-strings.mk \
   of-struct.mk \
   of-symbolic.mk \
