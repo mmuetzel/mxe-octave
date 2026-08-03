@@ -44,11 +44,7 @@ hg-octave-dist: $(BUILD_TOOLS) update-hg-octave-repo
 
 .PHONY: update-hg-octave-repo
 update-hg-octave-repo:
-	if [ -d octave-hg-repo ]; then \
-	  cd octave-hg-repo \
-	    && hg pull && hg update $(hg-octave-branch); \
-	else \
-	  hg clone https://hg.octave.org/octave octave-hg-repo \
-	    && cd octave-hg-repo \
-	    && hg pull && hg update $(hg-octave-branch); \
+	if [ ! -d octave-hg-repo ]; then \
+	  hg clone https://hg.octave.org/octave octave-hg-repo; \
 	fi
+	cd octave-hg-repo && hg pull && hg purge && hg update --clean $(hg-octave-branch)
