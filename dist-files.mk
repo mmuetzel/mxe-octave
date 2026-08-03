@@ -543,7 +543,6 @@ SRC_FILES_1 := \
   of-splines.mk \
   of-statistics.mk \
   of-stk.mk \
-  of-strings-1-cxx20.patch \
   of-strings.mk \
   of-struct.mk \
   of-symbolic.mk \
@@ -555,7 +554,6 @@ SRC_FILES_1 := \
   of-video.mk \
   of-windows.mk \
   of-zenity.mk \
-  of-zeromq-1-cxx20.patch \
   of-zeromq.mk \
   ogg.mk \
   old.mk \
@@ -580,7 +578,6 @@ SRC_FILES_1 := \
   openssl-1-fixes.patch \
   openssl.mk \
   opkg-biosig.mk \
-  opkg-cfitsio-1-cxx20.patch \
   opkg-cfitsio.mk \
   opkg-coder.mk \
   opkg-datatypes.mk \
