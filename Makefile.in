@@ -461,9 +461,6 @@ else
     MXE_WINDRES := true
   endif
   MXE_PKG_CONFIG := '$(BUILD_TOOLS_PREFIX)/bin/pkg-config'
-  ifeq ($(ENABLE_QT),4)
-    MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake'
-  endif
   ifeq ($(ENABLE_QT),5)
     MXE_QMAKE := '$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)qmake-qt5'
   endif

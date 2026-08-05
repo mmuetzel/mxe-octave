@@ -16,14 +16,10 @@ OCTAVE_SOURCE=`basename $1`
 cd `dirname $1`
 MXEDIR=`cd ..; pwd`
 
-if [ "@ENABLE_QT@" == "4" ]; then
-  QT_SUBDIR=
+if [ "@ENABLE_QT@" == "5" ]; then
+  QT_SUBDIR=qt5/
 else
-  if [ "@ENABLE_QT@" == "5" ]; then
-    QT_SUBDIR=qt5/
-  else
-    QT_SUBDIR=qt6/
-  fi
+  QT_SUBDIR=qt6/
 fi
 
 if [ "@USE_MSYS2@" == "yes" ]; then

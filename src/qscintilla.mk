@@ -10,9 +10,6 @@ $(PKG)_FILE     := QScintilla_src-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.riverbankcomputing.com/static/Downloads/QScintilla/$($(PKG)_VERSION)/$($(PKG)_FILE)
 
 
-ifeq ($(ENABLE_QT),4)
-      $(PKG)_DEPS     := qt
-endif
 ifeq ($(ENABLE_QT),5)
       $(PKG)_DEPS     := qt5
 endif
@@ -28,9 +25,6 @@ endef
 
 ifneq ($(MXE_NATIVE_BUILD),yes)
   ifeq ($(MXE_SYSTEM),mingw)
-    ifeq ($(ENABLE_QT),4)
-       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/mkspecs/win32-g++'
-    endif
     ifeq ($(ENABLE_QT),5)
        $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
     endif

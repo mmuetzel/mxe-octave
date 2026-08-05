@@ -9,9 +9,6 @@ $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/lostbard/$(PKG)/archive/v$($(PKG)_VERSION).tar.gz
 
-ifeq ($(ENABLE_QT),4)
-      $(PKG)_DEPS     := qt
-endif
 ifeq ($(ENABLE_QT),5)
       $(PKG)_DEPS     := qt5
 endif
@@ -32,9 +29,6 @@ endef
 $(PKG)_QMAKE_FLAGS := 
 ifneq ($(MXE_NATIVE_BUILD),yes)
   ifeq ($(MXE_SYSTEM),mingw)
-    ifeq ($(ENABLE_QT),4)
-       $(PKG)_QMAKE_SPEC_OPTION := -spec '$(HOST_PREFIX)/mkspecs/win32-g++'
-    endif
     ifeq ($(ENABLE_QT),5)
        $(PKG)_QMAKE_SPEC_OPTION := -spec '$(BUILD_TOOLS_PREFIX)/mkspecs/win32-g++'
        $(PKG)_QMAKE_FLAGS += QMAKE_CXXFLAGS='-std=c++11'

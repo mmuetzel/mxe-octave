@@ -61,15 +61,13 @@ ifeq ($(MXE_SYSTEM),mingw)
     $(INSTALL) -m755 '$(1)/config/mingw/wgnuplot.exe' '$(3)$(HOST_BINDIR)'
     $(INSTALL) -m644 '$(1)/src/win/wgnuplot.mnu' '$(3)$(HOST_BINDIR)'
 
-    if [ "$(ENABLE_QT)" != "4" ]; then \
-      make -C '$(1)/config/mingw' \
-        $($(PKG)_EXTRAFLAGS) \
-        CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
-        CWFLAGS='$($(PKG)_CWFLAGS) -DANSIPROT' \
-        -j '$(JOBS)' \
-        TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
-      $(INSTALL) -m755 '$(1)/config/mingw/gnuplot_qt.exe' '$(3)$(HOST_BINDIR)'; \
-    fi
+		make -C '$(1)/config/mingw' \
+			$($(PKG)_EXTRAFLAGS) \
+			CC='$(MXE_CC)' CXX='$(MXE_CXX) $($(PKG)_STDVER)' RC='$(MXE_WINDRES)' \
+			CWFLAGS='$($(PKG)_CWFLAGS) -DANSIPROT' \
+			-j '$(JOBS)' \
+			TARGET=gnuplot_qt.exe gnuplot_qt.exe; \
+		$(INSTALL) -m755 '$(1)/config/mingw/gnuplot_qt.exe' '$(3)$(HOST_BINDIR)'; \
 
     # config files
     $(INSTALL) -d '$(3)$(HOST_PREFIX)/share'

@@ -23,9 +23,6 @@ ifeq ($(USE_SYSTEM_FONTCONFIG),no)
 endif
 $(PKG)_DEPS     := arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre2 portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
 
-ifeq ($(ENABLE_QT),4)
-    $(PKG)_DEPS += qt
-endif
 ifeq ($(ENABLE_QT),5)
     $(PKG)_DEPS += qt5
 endif
@@ -71,11 +68,6 @@ $(PKG)_QT_CONFIGURE_OPTIONS := \
   RCC_QTVER=$(MXE_RCC) \
   LRELEASE_QTVER=$(MXE_LRELEASE)
 
-ifeq ($(ENABLE_QT),4)
-  $(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
-  $(PKG)_QTDIR := $(HOST_PREFIX)
-  $(PKG)_QT_CONFIGURE_OPTIONS += octave_cv_lib_qscintilla="-lqscintilla2_qt4"
-endif
 ifeq ($(ENABLE_QT),5)
   #$(PKG)_PKG_CONFIG_PATH := "$(HOST_LIBDIR)/pkgconfig"
   $(PKG)_PKG_CONFIG_PATH := "$(HOST_PREFIX)/qt5/lib/pkgconfig:$(HOST_LIBDIR)/pkgconfig"

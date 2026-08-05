@@ -379,7 +379,6 @@ AC_ARG_ENABLE([qt],
   [case "$enableval" in
      no) ENABLE_QT=$default_qt ;;
      yes) ENABLE_QT=$default_qt ;;
-     4) ENABLE_QT=4 ;;
      5) ENABLE_QT=5 ;;
      6) ENABLE_QT=6 ;;
      *) AC_MSG_ERROR([bad value "$enableval" for --enable-qt]) ;;
