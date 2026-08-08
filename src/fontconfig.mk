@@ -3,8 +3,8 @@
 
 PKG             := fontconfig
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.18.2
-$(PKG)_CHECKSUM := 25788eb8e305ea2be8c674eba9cad24db93110f9
+$(PKG)_VERSION  := 2.18.3
+$(PKG)_CHECKSUM := 5acfb1e3440049b045db0d621deb135d2a19f98f
 $(PKG)_SUBDIR   := fontconfig-$($(PKG)_VERSION)
 $(PKG)_FILE     := fontconfig-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/$($(PKG)_VERSION)/$($(PKG)_FILE)
