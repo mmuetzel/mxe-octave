@@ -47,4 +47,7 @@ update-hg-octave-repo:
 	if [ ! -d octave-hg-repo ]; then \
 	  hg clone https://hg.octave.org/octave octave-hg-repo; \
 	fi
-	cd octave-hg-repo && hg pull && hg purge && hg update --clean $(hg-octave-branch)
+	cd octave-hg-repo && \
+	  hg pull && \
+	  rm -f `hg status --unknown --no-status` && \
+	  hg update --clean $(hg-octave-branch)
