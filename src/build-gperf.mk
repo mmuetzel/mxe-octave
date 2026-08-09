@@ -7,11 +7,11 @@ $(PKG)_VERSION  := 3.3
 $(PKG)_CHECKSUM := 0ccc217cba4e3311efb12ddd0cc23cb6a25d5d7c
 $(PKG)_SUBDIR   := gperf-$($(PKG)_VERSION)
 $(PKG)_FILE     := gperf-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/gperf/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/pub/gnu/gperf/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://ftp.gnu.org/gnu/gperf/?C=M;O=D' | \
+    $(WGET) -q -O- 'https://ftp.gnu.org/gnu/gperf/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="gperf-\([0-9\.]*\)\.tar.*,\1,p' | \
     $(SORT) -V | \
     tail -1
