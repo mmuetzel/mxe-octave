@@ -7,7 +7,7 @@ $(PKG)_VERSION  := 3.11.8
 $(PKG)_CHECKSUM := a368aeed7a3325e47b55168452c356a8eb27ab50
 $(PKG)_SUBDIR   := Python-$($(PKG)_VERSION)
 $(PKG)_FILE     := Python-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := http://www.python.org/ftp/python/$($(PKG)_VERSION)/$($(PKG)_FILE)
+$(PKG)_URL      := https://www.python.org/ftp/python/$($(PKG)_VERSION)/$($(PKG)_FILE)
 
 ## For now, assume that libffi is installed on the build system.
 $(PKG)_DEPS     := # build-libffi
