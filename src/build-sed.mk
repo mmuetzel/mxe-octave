@@ -7,11 +7,11 @@ $(PKG)_VERSION  := 4.9
 $(PKG)_CHECKSUM := 8ded1b543f1f558cbd5d7b713602f6a8ee84bde4
 $(PKG)_SUBDIR   := sed-$($(PKG)_VERSION)
 $(PKG)_FILE     := sed-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := ftp://ftp.gnu.org/pub/gnu/sed/$($(PKG)_FILE)
+$(PKG)_URL      := https://ftp.gnu.org/pub/gnu/sed/$($(PKG)_FILE)
 $(PKG)_DEPS     := 
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://ftp.gnu.org/gnu/sed/?C=M;O=D' | \
+    $(WGET) -q -O- 'https://ftp.gnu.org/gnu/sed/?C=M;O=D' | \
     $(SED) -n 's,.*<a href="sed-\([0-9\.]*\)\.tar.*,\1,p' | \
     $(SORT) -V | \
     tail -1
