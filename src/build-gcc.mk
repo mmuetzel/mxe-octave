@@ -3,8 +3,8 @@
 
 PKG             := build-gcc
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 16.1.0
-$(PKG)_CHECKSUM := 1c60d17719913a13c17c283bbc3cfd2ffda5f0b0
+$(PKG)_VERSION  := 16.2.0
+$(PKG)_CHECKSUM := 11dcee7584bdb5430fa125b6f67175bcc34db62d
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
