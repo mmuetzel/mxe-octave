@@ -1,15 +1,15 @@
 # HG changeset patch
 # User Markus Mützel <markus.muetzel@gmx.de>
-# Date 1612087592 -3600
-#      Sun Jan 31 11:06:32 2021 +0100
-# Node ID f08191da8e416c32d950679a78fe194e2753372e
-# Parent  fea266f67443b890a67f80336aee03c40d3a1faa
+# Date 1786936982 25200
+#      Sun Aug 16 20:23:02 2026 -0700
+# Node ID 9eb89d53a0433322ea8e08c12e2ba4747a948473
+# Parent  4b0d61c3377b8d26d5ec6c093625dd749d91e0bc
 Don't use short paths (bug #59923).
 
-diff -r fea266f67443 -r f08191da8e41 octave-firsttime.vbs
---- a/octave-firsttime.vbs	Sun Jan 31 10:59:32 2021 +0100
-+++ b/octave-firsttime.vbs	Sun Jan 31 11:06:32 2021 +0100
-@@ -21,11 +21,6 @@
+diff -r 4b0d61c3377b -r 9eb89d53a043 octave-firsttime.vbs
+--- a/octave-firsttime.vbs	Sat Aug 15 08:52:26 2026 -0400
++++ b/octave-firsttime.vbs	Sun Aug 16 20:23:02 2026 -0700
+@@ -33,11 +33,6 @@ If objFSO.FileExists(OctavePath & "\ming
    OctavePath = OctavePath & "\mingw32" 
  End If
  
@@ -21,7 +21,7 @@ diff -r fea266f67443 -r f08191da8e41 octave-firsttime.vbs
  ' set up path to ensure octave bin comes first
  Set wshSystemEnv = wshShell.Environment( "PROCESS" )
  if OctavePath <> MSysPath Then
-@@ -42,9 +37,6 @@
+@@ -54,9 +49,6 @@ wshSystemEnv("GS") = "gs.exe"
  
  If wshShell.ExpandEnvironmentStrings("%HOME%") = "%HOME%" Then
    Home = wshSystemEnv("USERPROFILE")
@@ -31,10 +31,10 @@ diff -r fea266f67443 -r f08191da8e41 octave-firsttime.vbs
  End If
  
  ' set Qt plugin directory and path 
-diff -r fea266f67443 -r f08191da8e41 octave.vbs
---- a/octave.vbs	Sun Jan 31 10:59:32 2021 +0100
-+++ b/octave.vbs	Sun Jan 31 11:06:32 2021 +0100
-@@ -21,11 +21,6 @@
+diff -r 4b0d61c3377b -r 9eb89d53a043 octave.vbs
+--- a/octave.vbs	Sat Aug 15 08:52:26 2026 -0400
++++ b/octave.vbs	Sun Aug 16 20:23:02 2026 -0700
+@@ -32,11 +32,6 @@ ElseIf objFSO.FileExists(OctavePath & "\
    OctavePath = OctavePath & "\mingw32" 
  End If
  
@@ -46,7 +46,7 @@ diff -r fea266f67443 -r f08191da8e41 octave.vbs
  ' set up path to ensure octave bin comes first
  Set wshSystemEnv = wshShell.Environment( "PROCESS" )
  if OctavePath <> MSysPath Then
-@@ -43,9 +38,6 @@
+@@ -54,9 +49,6 @@ wshSystemEnv("GS") = "gs.exe"
  
  If wshShell.ExpandEnvironmentStrings("%HOME%") = "%HOME%" Then
    Home = wshSystemEnv("USERPROFILE")
@@ -56,9 +56,9 @@ diff -r fea266f67443 -r f08191da8e41 octave.vbs
  End If
  
  ' set Qt plugin directory and path 
-diff -r fea266f67443 -r 64ff1a717a28 post-install.bat
---- a/post-install.bat	Sun Jan 31 10:59:32 2021 +0100
-+++ b/post-install.bat	Sun Jan 31 11:16:33 2021 +0100
+diff -r 4b0d61c3377b -r 9eb89d53a043 post-install.bat
+--- a/post-install.bat	Sat Aug 15 08:52:26 2026 -0400
++++ b/post-install.bat	Sun Aug 16 20:23:02 2026 -0700
 @@ -1,8 +1,6 @@
  @echo off
  Rem   Run on initial install /update

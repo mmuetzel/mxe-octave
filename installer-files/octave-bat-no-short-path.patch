@@ -1,15 +1,15 @@
 # HG changeset patch
 # User Markus Mützel <markus.muetzel@gmx.de>
-# Date 1612087592 -3600
-#      Sun Jan 31 11:06:32 2021 +0100
-# Node ID f08191da8e416c32d950679a78fe194e2753372e
-# Parent  fea266f67443b890a67f80336aee03c40d3a1faa
+# Date 1786936982 25200
+#      Sun Aug 16 20:23:02 2026 -0700
+# Node ID 9eb89d53a0433322ea8e08c12e2ba4747a948473
+# Parent  4b0d61c3377b8d26d5ec6c093625dd749d91e0bc
 Don't use short paths (bug #59923).
 
-diff -r fea266f67443 -r f08191da8e41 octave.bat
---- a/octave.bat	Sun Jan 31 10:59:32 2021 +0100
-+++ b/octave.bat	Sun Jan 31 11:06:32 2021 +0100
-@@ -8,9 +8,6 @@
+diff -r 4b0d61c3377b octave.bat
+--- a/octave.bat	Sat Aug 15 08:52:26 2026 -0400
++++ b/octave.bat	Sun Aug 16 20:30:03 2026 -0700
+@@ -8,9 +8,6 @@ Rem   This trick finds the location wher
  Rem   Note: the result ends with a backslash.
  set OCT_HOME=%~dp0\.\..\
  set ROOT_PATH=%~dp0\.\..\..\
@@ -19,7 +19,7 @@ diff -r fea266f67443 -r f08191da8e41 octave.bat
  
  set MSYSTEM=MSYS
  set MSYSPATH=%OCT_HOME%
-@@ -44,8 +41,6 @@
+@@ -69,8 +66,6 @@ ENDLOCAL & SET OPENBLAS_NUM_THREADS=%OPE
  Rem set home if not already set
  if "%HOME%"=="" set HOME=%USERPROFILE%
  if "%HOME%"=="" set HOME=%HOMEDRIVE%%HOMEPATH%
