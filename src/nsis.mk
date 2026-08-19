@@ -3,8 +3,8 @@
 
 PKG             := nsis
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.12.2
-$(PKG)_CHECKSUM := ceb0ff6d16782325ecefefa5f5ff4088f7f0e07e
+$(PKG)_VERSION  := 3.12.3
+$(PKG)_CHECKSUM := 0fbac7e47447537f1d6ae6c670aefe2b5b1e1190
 $(PKG)_SUBDIR   := .
 $(PKG)_FILE     := nsisbi-$($(PKG)_VERSION)-src.tar.bz2
 $(PKG)_URL      := https://$(SOURCEFORGE_MIRROR)/project/nsisbi/nsisbi$($(PKG)_VERSION)/$($(PKG)_FILE)
