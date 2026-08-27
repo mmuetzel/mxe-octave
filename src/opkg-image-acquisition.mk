@@ -22,7 +22,7 @@ else
 endif
 
 define $(PKG)_UPDATE
-    $(call GITHUB_PKG_UPDATE,Andy1978,octave-image-acquisition,v)
+    $(call GITHUB_PKG_UPDATE,Andy1978,octave-image-acquisition,image-acquisition-)
 endef
 
 define $(PKG)_BUILD
