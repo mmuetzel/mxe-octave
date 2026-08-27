@@ -908,8 +908,8 @@ else
 endif
 
 define OCTAVE_FORGE_PKG_UPDATE
-    $(WGET) -q -O- 'https://gnu-octave.github.io/packages/$(subst of-,,$(PKG))/' | \
-    $(SED) -n 's,.*$(subst of-,,$(PKG))-\([0-9][0-9\.]*\).tar.gz".*,\1,p' | \
+    $(WGET) -q -O- 'https://gnu-octave.github.io/packages/$(subst opkg-,,$(subst of-,,$(PKG)))/' | \
+    $(SED) -n 's,.*$(subst opkg-,,$(subst of-,,$(PKG)))-\([0-9][0-9\.]*\).tar.gz".*,\1,p' | \
     head -1
 endef
 
@@ -1064,7 +1064,7 @@ update:
 
 .PHONY: update-octaveforge
 update-octaveforge:
-	$(foreach PKG,$(OCTAVE_FORGE_PACKAGES),$(call UPDATE,$(PKG),$(shell $($(PKG)_UPDATE))))
+	$(foreach PKG,$(OCTAVE_FORGE_PACKAGES) $(OCTAVE_OTHER_PACKAGES),$(call UPDATE,$(PKG),$(shell $($(PKG)_UPDATE))))
 
 .PHONY: update-build-tools
 update-build-tools:
