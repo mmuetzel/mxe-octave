@@ -3,8 +3,8 @@
 
 PKG             := expat
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.8.3
-$(PKG)_CHECKSUM := 29f0d251618ffb65f973cf2538a33439ca11560a
+$(PKG)_VERSION  := 2.8.4
+$(PKG)_CHECKSUM := 2f4e344b2df9eb30fa972c99dd9ae76c774e5406
 $(PKG)_SUBDIR   := expat-$($(PKG)_VERSION)
 $(PKG)_FILE     := expat-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://github.com/libexpat/libexpat/releases/download/R_$(subst .,_,$($(PKG)_VERSION))/$($(PKG)_FILE)
