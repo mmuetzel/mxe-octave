@@ -211,7 +211,6 @@ SRC_FILES_1 := \
   json-c-test.c \
   json-c.mk \
   kbproto.mk \
-  lame-1-fixes.patch \
   lame.mk \
   lapack-test.f \
   lapack.mk \
