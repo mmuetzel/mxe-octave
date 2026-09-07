@@ -7,14 +7,14 @@ $(PKG)_VERSION  := 9.8.1
 $(PKG)_CHECKSUM := dae7e4672f9bb7d20481339fb0cde4420fd93117
 $(PKG)_SUBDIR   := proj-$($(PKG)_VERSION)
 $(PKG)_FILE     := proj-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := http://download.osgeo.org/proj/$($(PKG)_FILE)
+$(PKG)_URL      := https://download.osgeo.org/proj/$($(PKG)_FILE)
 $(PKG)_URL_2    := ftp://ftp.remotesensing.org/proj/$($(PKG)_FILE)
 $(PKG)_DEPS     := curl sqlite tiff
 
 $(PKG)_CMAKE_FLAGS :=
 
 define $(PKG)_UPDATE
-    $(WGET) -q -O- 'http://proj.org/download.html' | \
+    $(WGET) -q -O- 'https://proj.org/download.html' | \
     $(SED) -n 's,.*proj-\([0-9][^>]*\)\.tar.*,\1,p' | \
     head -1
 endef
