@@ -21,7 +21,7 @@ $(PKG)_URL      := http://not.a.valid.url/$($(PKG)_FILE)
 ifeq ($(USE_SYSTEM_FONTCONFIG),no)
   $(PKG)_FONTCONFIG := fontconfig
 endif
-$(PKG)_DEPS     := arpack curl epstool fftw fltk $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre2 portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
+$(PKG)_DEPS     := arpack curl epstool fftw $($(PKG)_FONTCONFIG) ghostscript gl2ps glpk gnuplot graphicsmagick hdf5 lapack libsndfile pcre2 portaudio pstoedit qhull qrupdate qscintilla rapidjson readline sundials-ida suitesparse texinfo zlib
 
 ifeq ($(ENABLE_QT),5)
     $(PKG)_DEPS += qt5
@@ -97,7 +97,6 @@ ifeq ($(MXE_NATIVE_BUILD),yes)
 else
   ifeq ($(MXE_SYSTEM),mingw)
     $(PKG)_CROSS_CONFIG_OPTIONS := \
-      FLTK_CONFIG='$(BUILD_TOOLS_PREFIX)/bin/$(MXE_TOOL_PREFIX)fltk-config' \
       gl_cv_func_gettimeofday_clobber=no \
       gl_cv_func_tzset_clobber=no
     ifeq ($(ENABLE_64),yes)
