@@ -8,7 +8,7 @@ $(PKG)_CHECKSUM := 1ea02bdfd8428f9d09855538bc807d538e8c645b
 $(PKG)_SUBDIR   := image-acquisition-$($(PKG)_VERSION)
 $(PKG)_FILE     := $($(PKG)_SUBDIR).tar.gz
 $(PKG)_URL      := https://github.com/Andy1978/octave-image-acquisition/releases/download/$($(PKG)_SUBDIR)/$($(PKG)_FILE)
-$(PKG)_DEPS     := 
+$(PKG)_DEPS     := fltk
 
 ifeq ($(ENABLE_BINARY_PACKAGES),yes)
   $(PKG)_DEPS += $(OCTAVE_TARGET)
