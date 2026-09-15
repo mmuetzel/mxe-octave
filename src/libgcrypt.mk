@@ -3,8 +3,8 @@
 
 PKG             := libgcrypt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.12.3
-$(PKG)_CHECKSUM := b4654d75f0e5d0850cc699f02c9b44a06367502f
+$(PKG)_VERSION  := 1.12.4
+$(PKG)_CHECKSUM := 2907251e1dc68001fcdbeb0b73c2233fdd2dd786
 $(PKG)_SUBDIR   := libgcrypt-$($(PKG)_VERSION)
 $(PKG)_FILE     := libgcrypt-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://gnupg.org/ftp/gcrypt/libgcrypt/$($(PKG)_FILE)
